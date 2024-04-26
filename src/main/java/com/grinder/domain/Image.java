@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Table(name = "image")
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Image {
 
     @Id
@@ -19,7 +21,8 @@ public class Image {
     @Column(name = "img_url", nullable = false)
     private String imgUrl;
 
-    @Column(name = "img_where")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "img_type")
     private ImgType imgType;
 
 }
