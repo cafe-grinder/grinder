@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 env:
-  S3_BUCKET_NAME: cafe-ginder
+  S3_BUCKET_NAME: cafe-grinder
   AWS_REGION: ap-northeast-2
   CODEDEPLOY_NAME: github-actions
   CODEDEPLOY_GROUP: github-actions-group
