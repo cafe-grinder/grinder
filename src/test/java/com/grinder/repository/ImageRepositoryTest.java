@@ -18,7 +18,7 @@ class ImageRepositoryTest {
     @Test
     void testSaveImage() {
         //given
-        Image img = new Image(UUID.randomUUID().toString(), "test-image-url", PROFILE);
+        Image img = Image.builder().imgId(UUID.randomUUID().toString()).imgUrl("test-image-url").imgType(PROFILE).build();
 
         //when
         Image savedImg = imageRepository.save(img);
