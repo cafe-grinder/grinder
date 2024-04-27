@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>grinder</title>
+    <link rel="stylesheet" href="/css/addMemberForm.css">
+</head>
+<body>
+<main class="main-container">
+    <article>
+        <img src="/img/logo_img.png" alt="grinder-logo">
+        <label for="email">이메일</label>
+        <div class="input-box">
+            <input type="email" id="email" placeholder="이메일을 입력해주세요">
+            <button class="btn">코드 발송</button>
+        </div>
+        <span>사용 가능한 이메일입니다.</span>
+        <div class="input-box">
+            <input type="text" placeholder="코드를 입력해주세요">
+            <button class="btn">인증 확인</button>
+        </div>
+        <label for="pw" id="pw-label">비밀번호</label>
+        <input type="password" placeholder="비밀번호를 입력해주세요" id="pw" class="input-group">
+
+        <label for="pwCheck">비밀번호 재확인</label>
+        <input type="password" placeholder="비밀번호를 다시 입력해주세요" id="pwCheck" class="input-group">
+
+        <label for="name">이름</label>
+        <input type="text" placeholder="이름을 입력해주세요" id="name" class="input-group">
+
+        <label for="nick-name">닉네임</label>
+        <div class="input-box">
+            <input type="text" id="nick-name" placeholder="닉네임을 입력해 주세요">
+            <button class="btn">중복 확인</button>
+        </div>
+        <span>사용 가능한 닉네임입니다.</span>
+        <label for="gender" id="gender-label">성별</label>
+        <div class="input-group">
+            <select name="" id="gender">
+                <option value="">성별을 선택해 주세요</option>
+            </select>
+        </div>
+
+        <label for="contact">연락처</label>
+        <div class="contact-box">
+            <select name="" id="contact">
+                <option value="">010</option>
+            </select>
+            <input type="text">
+            <input type="text">
+        </div>
+        <button class="btn" id="join-btn">회원가입</button>
+    </article>
+</main>
+</body>
+</html>

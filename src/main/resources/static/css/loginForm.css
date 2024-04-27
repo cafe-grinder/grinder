@@ -1,0 +1,147 @@
+body, html {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background: linear-gradient(to bottom right, #F5FFFA, white);
+}
+
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+    width: 100%;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid #D9D9D9;
+    padding: 20px;
+    width: 722px;
+    height: 765px;
+}
+
+.logo-img {
+    width: 289px;
+    height: 101px;
+}
+
+article input {
+    width: 580px;
+    height: 64px;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    font-size: 25px;
+    padding-left: 46px;
+}
+
+.email-box {
+    position: relative;
+    margin-top: 53px;
+    margin-bottom: 14px;
+}
+
+.pw-box {
+    position: relative;
+    margin-bottom: 52px;
+}
+
+.email-box img {
+    position: absolute;
+    top: 21px;
+    left: 13px;
+    width: 24px;
+    height: 24px;
+}
+
+.pw-box img {
+    position: absolute;
+    top: 21px;
+    left: 13px;
+    width: 24px;
+    height: 24px;
+}
+
+a {
+    text-decoration: none;
+    color: grey;
+}
+
+.btn-login {
+    width: 632px;
+    height: 69px;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 600;
+    background-color: #009B55;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+.a-wrap {
+    display: flex;
+    justify-content: space-between;
+    width: 632px;
+}
+
+.a-wrap a {
+    font-size: 20px;
+}
+
+.a-wrap a:hover {
+    text-decoration: underline;
+}
+
+hr {
+    border: 1px solid #D9D9D9;
+    width: 632px;
+    margin-top: 31px;
+    margin-bottom: 21px;
+}
+
+span {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.social-box1, .social-box2 {
+    position: relative;
+}
+
+.social-box1 img, .social-box2 img {
+    position: absolute;
+    top: 10;
+}
+
+.social-box1 button, .social-box2 button {
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.4), 0px 0px 2px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    text-align: left;
+    padding-left: 70px;
+    font-size: 20px;
+    color: grey;
+    width: 632px;
+    height: 74px;
+}
+
+.social-box1 button {
+    margin-bottom: 16px;
+}
