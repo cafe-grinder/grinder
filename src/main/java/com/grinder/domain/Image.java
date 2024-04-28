@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.util.UUID;
 
 @Entity
 @Table(name = "image")
@@ -25,5 +26,9 @@ public class Image {
     @Column(name = "img_type")
     private ImgType imgType;
 
+    @PrePersist
+    void prePersist() {
+        imgId = imgId == null ? UUID.randomUUID().toString() : imgId;
+    }
 }
 
