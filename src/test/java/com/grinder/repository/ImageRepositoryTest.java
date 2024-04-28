@@ -1,12 +1,12 @@
 package com.grinder.repository;
 
 import com.grinder.domain.Image;
+import com.grinder.domain.ImgType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.UUID;
-import static com.grinder.domain.ImgType.PROFILE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -18,7 +18,7 @@ class ImageRepositoryTest {
     @Test
     void testSaveImage() {
         //given
-        Image img = Image.builder().imgId(UUID.randomUUID().toString()).imgUrl("test-image-url").imgType(PROFILE).build();
+        Image img = Image.builder().imgId(UUID.randomUUID().toString()).imgUrl("test-image-url").imgType(ImgType.PROFILE).build();
 
         //when
         Image savedImg = imageRepository.save(img);

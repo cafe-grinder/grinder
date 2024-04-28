@@ -29,5 +29,4 @@ class CafeRepositoryTest {
         assertThat(savedCafe.getName()).isEqualTo(cafe.getName());
         assertThat(savedCafe.getAddress()).isEqualTo(cafe.getAddress());
     }
-
 }

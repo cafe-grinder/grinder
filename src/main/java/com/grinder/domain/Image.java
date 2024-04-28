@@ -7,8 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Getter
 @Table(name = "image")
+@Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
