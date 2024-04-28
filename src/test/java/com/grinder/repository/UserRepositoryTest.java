@@ -6,12 +6,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import java.time.LocalDateTime;
-import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -26,7 +21,7 @@ class UserRepositoryTest {
         //given
         LocalDateTime beforeCreate = LocalDateTime.now();
 
-        User user = User.builder().userId(UUID.randomUUID().toString()).email("test@test.com").nickname("test-user-1").password("1234").build();
+        User user = User.builder().email("test@test.com").nickname("test-user-1").password("1234").build();
 
         //when
         User savedUser = userRepository.save(user);
@@ -40,9 +35,9 @@ class UserRepositoryTest {
         assertThat(savedUser.getCreatedAt()).isBefore(LocalDateTime.now());
         assertThat(savedUser.getCreatedAt()).isAfter(beforeCreate);
 
+        assertThat(savedUser.getUserId()).isNotNull();
         assertThat(savedUser.getRole()).isEqualTo(Role.USER);
         assertThat(user.getIsDeleted()).isEqualTo(false);
 
     }
-
 }

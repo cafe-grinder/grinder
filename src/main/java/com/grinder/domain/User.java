@@ -5,17 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.util.UUID;
 
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
 @Table(name = "`user`")
+@Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User extends BaseEntity {
 
     @Id
-    @Column(name = "user_id", updatable = false, length = 36)
+    @Column(name = "user_id", length = 36)
     private String userId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -31,13 +32,17 @@ public class User extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Builder.Default //@Builder 사용시 필드의 초기값을 적용하기 위해서 사용
     @Enumerated(EnumType.STRING) // enum 값을 db에 문자열로 저장하기 위해서 사용
     @Column(name = "role")
-    private Role role = Role.USER;
+    private Role role;
 
-    @Builder.Default
     @Column(name = "is_deleted", nullable = false)
-    private Boolean isDeleted = false;
+    private Boolean isDeleted;
 
+    @PrePersist
+    public void prePersist() {
+        userId = userId == null ? UUID.randomUUID().toString() : userId;
+        role = role == null ? Role.USER : role;
+        isDeleted = isDeleted == null ? false : isDeleted;
+    }
 }
