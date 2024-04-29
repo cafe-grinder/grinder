@@ -24,7 +24,7 @@ public class Image {
     private String imageUrl;
 
     @Column(name = "content_id", nullable = false, length = 36)
-    private String content_id;
+    private String contentId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "content_type", nullable = false, length = 16)
