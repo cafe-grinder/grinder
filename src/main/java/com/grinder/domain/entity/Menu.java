@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "menu")
 @Getter
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Menu {
 
     @Id
-    @Column(name = "menu_id", length = 36)
+    @Column(name = "menu_id", updatable = false, length = 36)
     private String menuId;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -48,4 +50,9 @@ public class Menu {
 
     @Column(name = "is_limited")
     private Boolean isLimited;
+
+    @PrePersist
+    public void prePersist() {
+        menuId = menuId == null ? UUID.randomUUID().toString() : menuId;
+    }
 }

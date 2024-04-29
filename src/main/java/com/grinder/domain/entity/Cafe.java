@@ -25,7 +25,7 @@ public class Cafe extends BaseEntity {
 
     @OneToOne
     @JoinColumn(name = "img_id")
-    private Image img;
+    private Image image;
 
     @Column(name = "name", nullable = false, unique = true, length = 20)
     private String name;
@@ -37,5 +37,4 @@ public class Cafe extends BaseEntity {
     public void prePersist() {
         cafeId = cafeId == null ? UUID.randomUUID().toString() : cafeId;
     }
-
 }
