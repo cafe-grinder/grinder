@@ -17,7 +17,7 @@ import java.util.UUID;
 public class Image {
 
     @Id
-    @Column(name = "image_id", updatable = false)
+    @Column(name = "image_id", updatable = false, length = 36)
     private String imageId;
 
     @Column(name = "image_url", nullable = false)
@@ -28,7 +28,7 @@ public class Image {
     private ImageType imgType;
 
     @PrePersist
-    void prePersist() {
+    public void prePersist() {
         imageId = imageId == null ? UUID.randomUUID().toString() : imageId;
     }
 }

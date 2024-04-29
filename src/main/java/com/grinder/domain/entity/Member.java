@@ -17,12 +17,12 @@ import java.util.UUID;
 public class Member extends BaseEntity {
 
     @Id
-    @Column(name = "member_id", length = 36)
+    @Column(name = "member_id", updatable = false, length = 36)
     private String memberId;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "image_id")
-    private Image img;
+    private Image image;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -46,7 +46,7 @@ public class Member extends BaseEntity {
     @PrePersist
     public void prePersist() {
         memberId = memberId == null ? UUID.randomUUID().toString() : memberId;
-        role = role == null ? Role.USER : role;
+        role = role == null ? Role.MEMBER : role;
         isDeleted = isDeleted == null ? false : isDeleted;
     }
 }

@@ -36,7 +36,7 @@ class MemberRepositoryTest {
         assertThat(savedUser.getCreatedAt()).isAfter(beforeCreate);
 
         assertThat(savedUser.getMemberId()).isNotNull();
-        assertThat(savedUser.getRole()).isEqualTo(Role.USER);
+        assertThat(savedUser.getRole()).isEqualTo(Role.MEMBER);
         assertThat(member.getIsDeleted()).isEqualTo(false);
 
     }
