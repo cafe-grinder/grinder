@@ -20,12 +20,12 @@ public class Tag {
     @Column(name = "tag_id", updatable = false, length = 36)
     private String tagId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "feed_id")
+    @ManyToOne
+    @JoinColumn(name = "feed_id", nullable = false)
     private Feed feed;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "tag_name")
+    @Column(name = "tag_name", nullable = false, length = 45)
     private TagName tagName;
 
     @PrePersist

@@ -20,10 +20,6 @@ public class Member extends BaseEntity {
     @Column(name = "member_id", updatable = false, length = 36)
     private String memberId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private Image image;
-
     @Column(name = "email", nullable = false, unique = true)
     private String email;
 
@@ -33,8 +29,8 @@ public class Member extends BaseEntity {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING) // enum 값을 db에 문자열로 저장하기 위해서 사용
-    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 16)
     private Role role;
 
     @Column(name = "is_deleted", nullable = false)

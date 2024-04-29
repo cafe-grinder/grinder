@@ -20,21 +20,21 @@ public class Feed extends BaseEntity {
     @Column(name = "feed_id", updatable = false, length = 36)
     private String feedId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cafe_id")
+    @OneToOne
+    @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 2000)
     private String content;
 
-    @Column(name = "hits")
+    @Column(name = "hits", nullable = false)
     private Long hits;
 
-    @Column(name = "is_visible")
+    @Column(name = "is_visible", nullable = false)
     private Boolean isVisible;
 
     @Column(name = "grade")

@@ -19,22 +19,22 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id", updatable = false, length = 36)
     private String commentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "parent_comment_id")
     private Comment parentCommentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "feed_id")
+    @ManyToOne
+    @JoinColumn(name = "feed_id", nullable = false)
     private Feed feed;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(name = "content")
+    @Column(name = "content", nullable = false, length = 200)
     private String content;
 
-    @Column(name = "is_visible")
+    @Column(name = "is_visible", nullable = false)
     private Boolean isVisible;
 
     @PrePersist
