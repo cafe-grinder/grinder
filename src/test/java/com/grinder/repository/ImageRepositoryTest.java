@@ -1,7 +1,7 @@
 package com.grinder.repository;
 
-import com.grinder.domain.Image;
-import com.grinder.domain.ImgType;
+import com.grinder.domain.entity.Image;
+import com.grinder.domain.enums.ImageType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +17,15 @@ class ImageRepositoryTest {
     @Test
     void testSaveImage() {
         //given
-        Image img = Image.builder().imgUrl("test-image-url").imgType(ImgType.PROFILE).build();
+        Image img = Image.builder().imageUrl("test-image-url").imgType(ImageType.PROFILE).build();
 
         //when
         Image savedImg = imageRepository.save(img);
 
         //then
-        assertThat(savedImg.getImgId()).isNotNull();
-        assertThat(savedImg.getImgId()).isEqualTo(img.getImgId());
-        assertThat(savedImg.getImgUrl()).isEqualTo(img.getImgUrl());
+        assertThat(savedImg.getImageId()).isNotNull();
+        assertThat(savedImg.getImageId()).isEqualTo(img.getImageId());
+        assertThat(savedImg.getImageUrl()).isEqualTo(img.getImageUrl());
         assertThat(savedImg.getImgType()).isEqualTo(img.getImgType());
     }
 }

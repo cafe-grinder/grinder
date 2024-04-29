@@ -1,4 +1,4 @@
-package com.grinder.domain;
+package com.grinder.domain.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
