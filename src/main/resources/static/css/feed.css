@@ -42,7 +42,7 @@ button {
 
 .feed_cafe_name {
     font-family: 'GodoB', sans-serif;
-    font-size: 20px;
+    font-size: 28px;
 }
 
 .feed_writer_name {
@@ -50,6 +50,7 @@ button {
 }
 
 .feed_grey_info {
+    font-size: 20px;
     color: #A3A3A3;
 }
 
@@ -102,6 +103,7 @@ button {
     margin-left: 19px;
 }
 
+/* 피드 이미지 꾸미기 */
 .feed_attached_img_list li {
     margin-right: 12px;
     margin-bottom: 20px;
@@ -127,6 +129,64 @@ button {
     border-radius: 30px;
     box-shadow: 3px 3px 5px 0 #D9D9D9;
 }
+/* ---------------- */
+
+.feed_like_num_align span {
+    padding-left: 10px;
+    font-size: 20px;
+    line-height: 24px;
+    vertical-align: top;
+}
+
+/* 기어 버튼 드롭다운 */
+/* 기본적으로 드롭다운은 숨겨진 상태로 시작 */
+.feed_gear_dropdown {
+    display: none;
+    opacity: 0; /* 초기에는 투명도를 0으로 설정하여 숨김 */
+    transform: translateY(-10px); /* 초기에는 약간 위로 이동하여 보이지 않도록 함 */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* 투명도와 이동에 대한 애니메이션 효과 설정 */
+}
+
+.feed_gear_dropdown li {
+    display: block;
+    width: 100px;
+    margin: 0;
+}
+
+.feed_gear_dropdown button {
+    font-size: 20px;
+}
+
+/* 드롭다운이 표시될 때의 스타일 */
+.feed_gear_dropdown.show {
+    display: block;
+    padding: 15px 24px;
+    position: absolute;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+    opacity: 1; /* 드롭다운이 나타날 때 투명도를 1로 설정하여 페이드 인 효과 적용 */
+    transform: translateY(0); /* 드롭다운이 나타날 때 아래로 이동하는 효과 적용 */
+}
+
+/* 드롭다운 내부의 리스트 아이템 스타일 */
+.feed_gear_dropdown.show button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* 드롭다운 리스트 아이템 호버 효과 */
+.feed_gear_dropdown.show button:hover {
+    background-color: #f0f0f0;
+}
+/* ---------------- */
+
 
 .feed_function_list button,
 .feed_comment_function_list button {
@@ -155,15 +215,30 @@ button {
     height: 106px;
     padding: 13px 14px;
     border-radius: 10px;
+    font-family: 'GodoM', sans-serif;
+    font-size: 20px;
     box-sizing: border-box;
 }
 
-.feed_show_child_comment {
-    margin-top: 10px;
+.feed_comment_textarea::placeholder {
+    color: #666666;
 }
 
+.feed_show_child_comment {
+    margin-top: 15px;
+}
+
+.feed_show_child_comment summary {
+    font-size: 20px;
+}
+
+.feed_writer_comment {
+    width: calc(100% - 200px);
+}
+
+.feed_content,
 .feed_comment_content {
-    width: calc(100% - 150px);
+    font-size: 25px;
 }
 
 .feed_comment_side {
@@ -174,6 +249,8 @@ button {
     width: 131px;
     height: 65px;
     margin-left: 20px;
+    font-size: 25px;
+    font-family: 'GodoB', sans-serif;
     color: white;
     background: #009B55;
     border: none;
@@ -181,5 +258,5 @@ button {
 }
 
 .feed_child_comment_area {
-    margin-top: 10px;
+    margin-top: 15px;
 }

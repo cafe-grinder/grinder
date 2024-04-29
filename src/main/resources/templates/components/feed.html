@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../../static/css/feed.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="../../static/js/feed.js"></script>
     <title>Document</title>
 </head>
 <body>
@@ -30,7 +30,7 @@
             <span class="feed_grey_info">2024-04-24</span>
         </div>
     </div>
-    <p>
+    <p class="feed_content">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa, qui, recusandae! Ad at culpa cum eum
         exercitationem explicabo ipsam laboriosam minima modi molestiae, nesciunt quos sed. Consequuntur in libero
         magnam?
@@ -47,9 +47,16 @@
         <li>🚀친절해요</li>
     </ul>
     <ul class="feed_function_list">
-        <li><button><img src="../../static/img/icon/suit-heart.png" alt=""></button><span>0</span></li>
+        <li class="feed_like_num_align"><button><img src="../../static/img/icon/suit-heart.png" alt=""></button><span>1000</span></li>
         <li><button><img src="../../static/img/icon/chat-dots-fill.png" alt=""></button></li>
-        <li><button><img src="../../static/img/icon/gear-fill.png" alt=""></button></li>
+        <li>
+            <button class="feed_gear_btn"><img src="../../static/img/icon/gear-fill.png" alt=""></button>
+            <ul class="feed_gear_dropdown">
+                <li><button>✍️ 수정</button></li>
+                <li><button>✊ 삭제</button></li>
+                <li><button>🤛 신고</button></li>
+            </ul>
+        </li>
     </ul>
     <div class="feed_dividing_line"></div>
 
@@ -66,17 +73,24 @@
             </div>
             <div class="feed_parent_comment_info">
                 <div class="feed_space_between">
-                    <div class="feed_comment_content">
+                    <div class="feed_writer_comment">
                         <div class="feed_grey_info">작성자 : aaa (강아지)</div>
-                        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque aut autem consequuntur deleniti earum in iure nostrum quidem similique. Expedita in ipsam molestiae nihil numquam praesentium recusandae, rerum. Minus!
+                        <div class="feed_comment_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi atque aut autem consequuntur deleniti earum in iure nostrum quidem similique. Expedita in ipsam molestiae nihil numquam praesentium recusandae, rerum. Minus!
                         </div>
                     </div>
                     <div class="feed_comment_side">
                         <span class="feed_grey_info">2024-04-24</span>
                         <ul class="feed_comment_function_list">
-                            <li><button><img src="../../static/img/icon/suit-heart.png" alt=""></button><span>0</span></li>
+                            <li class="feed_like_num_align"><button><img src="../../static/img/icon/suit-heart.png" alt=""></button><span>1000</span></li>
                             <li><button><img src="../../static/img/icon/chat-dots-fill.png" alt=""></button></li>
-                            <li><button><img src="../../static/img/icon/gear-fill.png" alt=""></button></li>
+                            <li>
+                                <button class="feed_gear_btn"><img src="../../static/img/icon/gear-fill.png" alt=""></button>
+                                <ul class="feed_gear_dropdown">
+                                    <li><button>✍️ 수정</button></li>
+                                    <li><button>✊ 삭제</button></li>
+                                    <li><button>🤛 신고</button></li>
+                                </ul>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -87,7 +101,7 @@
                     <button class="feed_comment_create_btn">작성</button>
                 </div>
                 <details class="feed_show_child_comment">
-                    <summary>댓글</summary>
+                    <summary>답글</summary>
                     <div class="feed_child_comment_area"><!--반복문-->
                         <div class="feed_space_between">
                             <div class="feed_comment_profile_img">
@@ -95,9 +109,9 @@
                                      alt="댓글 작성자 프로필 이미지">
                             </div>
                             <div class="feed_child_comment_info feed_space_between">
-                                <div class="feed_comment_content">
+                                <div class="feed_writer_comment">
                                     <div class="feed_grey_info">작성자 : aaa (강아지)</div>
-                                    <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad delectus dolorum
+                                    <div class="feed_comment_content">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad delectus dolorum
                                         ea eos error harum, hic illum inventore minima minus molestiae molestias numquam
                                         odit, quis repudiandae tempora tenetur ullam vitae!
                                     </div>
@@ -105,9 +119,16 @@
                                 <div class="feed_comment_side">
                                     <span class="feed_grey_info">2024-04-24</span>
                                     <ul class="feed_comment_function_list">
-                                        <li><button><img src="../../static/img/icon/suit-heart.png" alt=""></button><span>0</span></li>
+                                        <li class="feed_like_num_align"><button><img src="../../static/img/icon/suit-heart.png" alt=""></button><span>1000</span></li>
                                         <li><button><img src="../../static/img/icon/chat-dots-fill.png" alt=""></button></li>
-                                        <li><button><img src="../../static/img/icon/gear-fill.png" alt=""></button></li>
+                                        <li>
+                                            <button class="feed_gear_btn"><img src="../../static/img/icon/gear-fill.png" alt=""></button>
+                                            <ul class="feed_gear_dropdown">
+                                                <li><button>✍️ 수정</button></li>
+                                                <li><button>✊ 삭제</button></li>
+                                                <li><button>🤛 신고</button></li>
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
