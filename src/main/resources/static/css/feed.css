@@ -1,28 +1,4 @@
 
-body {
-    margin: 50px auto;
-    padding: 20px;
-    max-width: 1400px;
-    font-family: 'GodoM', sans-serif;
-}
-img {
-    vertical-align: top; /* 이미지 아래 비는 공간 제거 */
-}
-button {
-    margin: 0;
-    padding: 0;
-    cursor: pointer;
-}
-
-@font-face {
-    font-family: 'GodoB';
-    src: url('../fonts/GodoB.ttf') format('truetype');
-}
-@font-face {
-    font-family: 'GodoM';
-    src: url('../fonts/GodoM.ttf') format('truetype');
-}
-
 .feed_container {
     padding: 20px;
     border: #D9D9D9 solid 1px;
@@ -71,15 +47,6 @@ button {
 .feed_dividing_line {
     height: 0;
     border-bottom: #9B9B9B solid 1px;
-}
-
-.feed_attached_img_list,
-.feed_tag_list,
-.feed_function_list,
-.feed_comment_function_list {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
 }
 
 .feed_function_list {
@@ -206,7 +173,6 @@ button {
 }
 
 .feed_child_comment_write {
-    margin-top: 25px;
     align-items: center; /* 수직 방향 가운데 정렬 */
 }
 
@@ -238,6 +204,7 @@ button {
 
 .feed_content,
 .feed_comment_content {
+    margin: 14px 0 20px;
     font-size: 25px;
 }
 
