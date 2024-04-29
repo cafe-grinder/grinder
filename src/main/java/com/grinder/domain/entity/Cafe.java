@@ -1,4 +1,4 @@
-package com.grinder.domain;
+package com.grinder.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class Cafe extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Member user;
 
     @OneToOne
     @JoinColumn(name = "img_id")

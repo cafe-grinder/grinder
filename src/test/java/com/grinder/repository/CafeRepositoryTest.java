@@ -1,6 +1,6 @@
 package com.grinder.repository;
 
-import com.grinder.domain.Cafe;
+import com.grinder.domain.entity.Cafe;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

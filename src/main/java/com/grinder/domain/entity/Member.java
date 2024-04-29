@@ -1,5 +1,6 @@
-package com.grinder.domain;
+package com.grinder.domain.entity;
 
+import com.grinder.domain.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,19 +9,19 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "`user`")
+@Table(name = "member")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
 
     @Id
-    @Column(name = "user_id", length = 36)
-    private String userId;
+    @Column(name = "member_id", length = 36)
+    private String memberId;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "img_id")
+    @JoinColumn(name = "image_id")
     private Image img;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -39,9 +40,12 @@ public class User extends BaseEntity {
     @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
+    @Column(name = "phone_num", nullable = false, length = 11)
+    private String phoneNum;
+
     @PrePersist
     public void prePersist() {
-        userId = userId == null ? UUID.randomUUID().toString() : userId;
+        memberId = memberId == null ? UUID.randomUUID().toString() : memberId;
         role = role == null ? Role.USER : role;
         isDeleted = isDeleted == null ? false : isDeleted;
     }
