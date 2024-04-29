@@ -1,10 +1,13 @@
 package com.grinder.domain.entity;
 
+import com.grinder.domain.enums.TagName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.UUID;
 
 @Entity
 @Table(name = "tag")
@@ -22,6 +25,12 @@ public class Tag {
     @JoinColumn(name = "feed_id")
     private Feed feed;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "tag_name")
-    private
+    private TagName tagName;
+
+    @PrePersist
+    public void prePersist() {
+        tagId = tagId == null ? UUID.randomUUID().toString() : tagId;
+    }
 }
