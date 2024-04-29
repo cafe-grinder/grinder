@@ -40,7 +40,6 @@ body{
     margin: 0 auto;
     font-family: 'GodoM', sans-serif;
 }
-form {margin:0px;padding:0px;}
 img {
     vertical-align: top; /* 이미지 아래 비는 공간 제거 */
 }
