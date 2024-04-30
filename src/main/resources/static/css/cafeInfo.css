@@ -71,7 +71,7 @@
 
 .cafe_info_tab {
     position: relative;
-    top: -30px;
+    top: -65px;
     display: flex;
     float: left;
 }
@@ -85,12 +85,26 @@
     border: 1px solid #D9D9D9;
 }
 
+.cafe_info_tab .cafe_info_bookmark {
+    padding: 11px 11px;
+}
+
 .cafe_info_tab div span {
     font-family: GodoM;
     font-size: 25px;
 }
 
+.cafe_info_banner:after, .cafe_info_tab:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 .cafe_info_line {
+    margin-top: 50px;
     width: 1400px;
     border-top: 1px solid #D9D9D9;
 }
+
+
+

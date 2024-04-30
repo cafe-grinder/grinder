@@ -9,7 +9,9 @@
     <link rel="icon" type="image/x-icon" href="../static/img/grinder.png"/>
     <!--header css-->
     <link rel="stylesheet" href="../static/css/header.css">
+    <!--cafeInfo css-->
     <link rel="stylesheet" href="../static/css/cafeInfo.css">
+    <!-- css-->
 </head>
 <body>
 
@@ -49,11 +51,15 @@
     <div>
         <span>평점 보기</span>
     </div>
-    <div>
+    <div class="cafe_info_bookmark">
         <img th:if="${check} == false" src="../static/img/icon/pin-angle.png">
         <!--        <img th:unless="${check} == false" src="../static/img/icon/pin-angle-fill.png">-->
     </div>
 </article>
+
+<div class="cafe_info_line"></div>
+
+
 
 <!--header js-->
 <script src="../static/js/header.js"></script>
