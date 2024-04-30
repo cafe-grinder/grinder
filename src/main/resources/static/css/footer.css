@@ -42,14 +42,14 @@ footer .footer_logo .footer_est {
     width: 65px;
     height: 65px;
     text-indent: -9999px;
-    background: url("../img/est_logo.png") no-repeat center/contain;
+    background: url("../img/icon/est_logo.png") no-repeat center/contain;
 }
 
 footer .footer_logo .footer_git {
     width: 65px;
     height: 65px;
     text-indent: -9999px;
-    background: url("../img/git_logo.png") no-repeat center/contain;
+    background: url("../img/icon/git_logo.png") no-repeat center/contain;
 }
 
 
