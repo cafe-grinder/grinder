@@ -1,0 +1,13 @@
+<article class="bookmarkList">
+    <div class="bookmark">
+    <img src="../../static/img/not_use/starbucks_logo.png" th:src="">
+    <ul class="bookmarkList_cafeInfo">
+        <li class="bookmark_name">스타벅스</li>
+        <li class="bookmark_address" th:text="${cafe.address} + ' (' + ${cafe.phone} + ')'">서울 서초구 신나동 (02-504-1546)</li>
+        <li class="bookmark_score">평균 평점 :
+            <span><img src="../../static/img/icon/star-fill.png"></span>
+        </li>
+    </ul>
+    <button>삭제하기</button>
+    </div>
+</article>
