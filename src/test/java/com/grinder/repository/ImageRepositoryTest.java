@@ -1,11 +1,14 @@
 package com.grinder.repository;
 
 import com.grinder.domain.entity.Image;
-import com.grinder.domain.enums.ImageType;
+import com.grinder.domain.enums.ContentType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.UUID;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
@@ -17,15 +20,16 @@ class ImageRepositoryTest {
     @Test
     void testSaveImage() {
         //given
-        Image img = Image.builder().imageUrl("test-image-url").imgType(ImageType.PROFILE).build();
+        Image image = Image.builder().imageUrl("test-image-url").contentId(UUID.randomUUID().toString()).contentType(ContentType.MEMBER).build();
 
         //when
-        Image savedImg = imageRepository.save(img);
+        Image savedImage = imageRepository.save(image);
 
         //then
-        assertThat(savedImg.getImageId()).isNotNull();
-        assertThat(savedImg.getImageId()).isEqualTo(img.getImageId());
-        assertThat(savedImg.getImageUrl()).isEqualTo(img.getImageUrl());
-        assertThat(savedImg.getImgType()).isEqualTo(img.getImgType());
+        assertThat(savedImage.getImageId()).isNotNull();
+        assertThat(savedImage.getImageId()).isEqualTo(image.getImageId());
+        assertThat(savedImage.getImageUrl()).isEqualTo(image.getImageUrl());
+        assertThat(savedImage.getContentId()).isEqualTo(image.getContentId());
+        assertThat(savedImage.getContentType()).isEqualTo(image.getContentType());
     }
 }

@@ -17,7 +17,7 @@ class CafeRepositoryTest {
     @Test
     void testSaveCafe() {
         //given
-        Cafe cafe = Cafe.builder().name("그라인더").address("사랑시 고백구 행복동 794-2").build();
+        Cafe cafe = Cafe.builder().name("그라인더").address("사랑시 고백구 행복동 794-2").phoneNum("010-1234-5678").build();
 
         //when
         Cafe savedCafe = cafeRepository.save(cafe);
@@ -27,5 +27,6 @@ class CafeRepositoryTest {
         assertThat(savedCafe.getCafeId()).isEqualTo(cafe.getCafeId());
         assertThat(savedCafe.getName()).isEqualTo(cafe.getName());
         assertThat(savedCafe.getAddress()).isEqualTo(cafe.getAddress());
+        assertThat(savedCafe.getPhoneNum()).isEqualTo(cafe.getPhoneNum());
     }
 }

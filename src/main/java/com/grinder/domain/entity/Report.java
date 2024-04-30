@@ -9,21 +9,22 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "image")
+@Table(name = "report")
 @Getter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Image {
+public class Report {
 
     @Id
-    @Column(name = "image_id", updatable = false, length = 36)
-    private String imageId;
+    @Column(name = "report_id", updatable = false, length = 36)
+    private String reportId;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    @ManyToOne
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
-    @Column(name = "content_id", nullable = false, length = 36)
+    @Column(name = "content_id",nullable = false, length = 36)
     private String contentId;
 
     @Enumerated(EnumType.STRING)
@@ -32,7 +33,6 @@ public class Image {
 
     @PrePersist
     public void prePersist() {
-        imageId = imageId == null ? UUID.randomUUID().toString() : imageId;
+        reportId = reportId == null ? UUID.randomUUID().toString() : reportId;
     }
 }
-
