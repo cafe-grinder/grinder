@@ -19,10 +19,6 @@ public class Cafe extends BaseEntity {
     @Column(name = "cafe_id", updatable = false, length = 36)
     private String cafeId;
 
-    @ManyToOne
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
