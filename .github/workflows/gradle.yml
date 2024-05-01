@@ -13,9 +13,7 @@ jobs:
     permissions:
       contents: read
 
-    env:
-      jwt.secret: ${{ secrets.JWT_KEY }}
-
+    
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -33,6 +31,10 @@ jobs:
     - name: Build with Gradle Wrapper
       run: ./gradlew build
 
+    - run: touch ./src/main/resources/application.properties
+    - run: echo "${{ secrets.APPLICATION }}" > ./src/main/resources/application.properties
+    - run: cat ./src/main/resources/application.properties
+    
   dependency-submission:
 
     runs-on: ubuntu-latest
