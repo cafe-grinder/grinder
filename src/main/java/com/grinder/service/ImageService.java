@@ -23,7 +23,13 @@ public class ImageService {
 
     public void saveFeedImage(String contentId, ContentType contentType, List<String> imageUrlList) {
         for (String imageUrl : imageUrlList) {
-            imageRepository.save(new Image(imageUrl, contentId, contentType));
+            imageRepository.save(
+                    Image.builder()
+                            .imageUrl(imageUrl)
+                            .contentId(contentId)
+                            .contentType(contentType)
+                            .build()
+                    );
         }
     }
 

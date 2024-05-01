@@ -1,6 +1,6 @@
 package com.grinder.service;
 
-import com.grinder.domain.dto.FeedRequestDTO;
+import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.repository.CafeRepository;
@@ -22,10 +22,17 @@ public class FeedService {
         return feedRepository.findById(feedId).orElseThrow(() -> new IllegalArgumentException("feed id(" + feedId + ")를 찾울 수 없습니다."));
     }
 
-    public Feed saveFeed(String feedId, FeedRequestDTO request, Member member){
+    public Feed saveFeed(String feedId, FeedDTO.FeedRequestDTO request, Member member){
         // Feed 저장
         Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정
-        Feed feed = new Feed(feedId, request, member, cafe);
+        Feed feed = Feed.builder()
+                .feedId(feedId)
+                .content(request.getContent())
+                .grade(request.getGrade())
+                .member(member)
+                .cafe(cafe)
+                .build();
+
 
         // Tag 저장
         tagService.saveTag(feed, request.getTagNameList());
@@ -40,7 +47,7 @@ public class FeedService {
         return feedRepository.findAllByIsVisibleTrue();
     }
 
-    public void updateFeed(String feedId, FeedRequestDTO request) {
+    public void updateFeed(String feedId, FeedDTO.FeedRequestDTO request) {
         // 피드 수정
         Feed feed = findFeed(feedId);
         Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정

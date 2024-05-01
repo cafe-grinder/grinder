@@ -24,7 +24,12 @@ public class TagService {
 
     public void saveTag(Feed feed, List<String> tagNameList) {
         for (String tagName : tagNameList) {
-            tagRepository.save(new Tag(feed, TagName.valueOf(tagName)));
+            tagRepository.save(
+                    Tag.builder()
+                            .feed(feed)
+                            .tagName(TagName.valueOf(tagName))
+                            .build()
+            );
         }
     }
 
