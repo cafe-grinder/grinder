@@ -17,7 +17,7 @@ class CafeRepositoryTest {
     @Test
     void testSaveCafe() {
         //given
-        Cafe cafe = Cafe.builder().name("그라인더").address("사랑시 고백구 행복동 794-2").phoneNum("010-1234-5678").build();
+        Cafe cafe = Cafe.builder().name("그라인더").address("사랑시 고백구 행복동 794-2").phoneNum("01012345678").build();
 
         //when
         Cafe savedCafe = cafeRepository.save(cafe);
