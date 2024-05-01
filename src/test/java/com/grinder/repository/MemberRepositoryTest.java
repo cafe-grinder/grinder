@@ -21,7 +21,7 @@ class MemberRepositoryTest {
         //given
         LocalDateTime beforeCreate = LocalDateTime.now();
 
-        Member member = Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("010-1234-5678").build();
+        Member member = Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("01012345678").build();
 
         //when
         Member savedUser = memberRepository.save(member);
@@ -36,7 +36,7 @@ class MemberRepositoryTest {
         assertThat(savedUser.getCreatedAt()).isAfter(beforeCreate);
 
         assertThat(savedUser.getMemberId()).isNotNull();
-        assertThat(savedUser.getRole()).isEqualTo(Role.USER);
+        assertThat(savedUser.getRole()).isEqualTo(Role.MEMBER);
         assertThat(member.getIsDeleted()).isEqualTo(false);
 
     }

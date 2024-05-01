@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이 페이지</title>
+    <link rel="icon" type="image/x-icon" href="../static/img/grinder.png"/>
+
+    <!--header css-->
+    <link rel="stylesheet" href="../static/css/header.css">
+
+    <!--header css-->
+    <link rel="stylesheet" href="../static/css/myPage.css">
+</head>
+<body>
+
+<div class="mypage_banner">
+    <img src="../static/img/basic-user.png" th:attr="src=${user.profile != null ? user.profile : '../static/img/basic-user.png'}">
+    <a href="#"></a>
+    <p><span th:text="${user.nickname}">강아지</span>님</p>
+    <div th:switch="${user.role}">
+        <img th:case="'user'" src="../static/img/icon/award-fill.png"/>
+<!--        <img th:case="'seller'" src="../static/img/icon/check-fill.png"/>-->
+<!--        <img th:case="*" src=""/>-->
+    </div>
+</div>
+
+<div class="mypage_banner_line"></div>
+
+
+<div class="mypage_menu">
+    <ul class="mypage_menu_list">
+        <li class="mypage_menu_user"><img src="../static/img/basic-user-img.png" th:src="${user.profile}"><p th:text="${user.nickname} + ' (' + ${user.email} + ')'">강아지</p></li>
+        <li class="mypage_menu_list_line"></li>
+        <li><button>😀 팔로워 보기</button></li>
+        <li><button>😁 팔로잉 보기</button></li>
+        <li><button>😜 회원 정보 변경</button></li>
+        <li><button>😍 즐겨찾기 보기</button></li>
+        <li><button>😡 차단목록 보기</button></li>
+        <li><button>️😎 판매자 신청</button></li>
+        <li th:if="${user.role} eq 'seller'"><button>️🤗 카페 정보 변경</button></li>
+        <li><button>🙋‍♂️ 로그아웃</button></li>
+    </ul>
+    <button class="mypage_menu_button"><img src="../static/img/icon/stack-fill.png"> </button>
+</div>
+
+<!--header js-->
+<script src="../static/js/header.js"></script>
+<!--mypage js-->
+<script src="../static/js/myPage.js"></script>
+</body>
+</html>

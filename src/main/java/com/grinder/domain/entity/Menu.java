@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "menu")
 @Getter
@@ -16,21 +18,17 @@ import lombok.NoArgsConstructor;
 public class Menu {
 
     @Id
-    @Column(name = "menu_id", length = 36)
+    @Column(name = "menu_id", updatable = false, length = 36)
     private String menuId;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private Image image;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cafe_id")
+    @ManyToOne
+    @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private String price;
 
     @Column(name = "volume")
@@ -43,9 +41,14 @@ public class Menu {
     private String details;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "menu_type")
+    @Column(name = "menu_type", nullable = false, length = 16)
     private MenuType menuType;
 
-    @Column(name = "is_limited")
+    @Column(name = "is_limited", nullable = false)
     private Boolean isLimited;
+
+    @PrePersist
+    public void prePersist() {
+        menuId = menuId == null ? UUID.randomUUID().toString() : menuId;
+    }
 }

@@ -1,0 +1,293 @@
+/*************/
+/* 비회원 전용 */
+/*************/
+
+.feed_img_list_non_member {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 20px;
+    margin: 10px;
+}
+
+.feed_img_list_non_member li {
+    position: relative;
+}
+
+.feed_img_non_member {
+    max-width: 100%;
+    width: 330px;
+    height: 330px;
+    object-fit: cover;
+    border-radius: 15px;
+    cursor: pointer;
+    filter: brightness(0.4);    /* 밝기 40% */
+    transition: transform 0.1s ease;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25);
+}
+
+.feed_img_non_member:hover {
+    transform: scale(1.03); /* 이미지 커지는 애니메이션 */
+}
+
+.feed_img_non_member:active {
+    transform: scale(1.02); /* hover 상태에서 클릭하면 살짝 작아지기 */
+}
+
+.feed_like_info_non_member {
+    position: absolute;
+    bottom: 12px;
+    right: 15px;
+}
+
+.feed_like_info_non_member img {
+    display: inline-block;
+    width: 24px;
+    height: auto;
+}
+
+.feed_like_info_non_member span {
+    margin-left: 5px;
+    color: white;
+    font-size: 20px;
+}
+
+/***********/
+/* 회원 전용 */
+/***********/
+.feed_container {
+    padding: 20px;
+    border: #D9D9D9 solid 1px;
+    border-radius: 15px;
+}
+
+.feed_writer_profile_img,
+.feed_comment_profile_img {
+    width: 71px;
+}
+
+.feed_writer_info,
+.feed_child_comment_info,
+.feed_parent_comment_info {
+    margin-left: 30px;
+}
+
+.feed_cafe_name {
+    font-family: 'GodoB', sans-serif;
+    font-size: 28px;
+}
+
+.feed_writer_name {
+    margin-left: 15px;
+}
+
+.feed_grey_info {
+    font-size: 20px;
+    color: #A3A3A3;
+}
+
+.feed_writer_profile_img img,
+.feed_comment_profile_img img {
+    object-fit: contain;
+}
+
+.feed_review_info {
+    display: inline-block;
+}
+
+.feed_space_between {
+    display: flex;
+    justify-content: space-between;
+}
+
+.feed_dividing_line {
+    height: 0;
+    border-bottom: #9B9B9B solid 1px;
+}
+
+.feed_function_list {
+    margin-top: 29px;
+    text-align: end;
+}
+
+.feed_tag_list {
+    margin-top: 9px;
+}
+
+.feed_attached_img_list li,
+.feed_tag_list li,
+.feed_function_list li,
+.feed_comment_function_list li {
+    display: inline-block;
+}
+
+.feed_function_list li,
+.feed_comment_function_list li {
+    margin-left: 19px;
+}
+
+/*******************/
+/* 피드 이미지 꾸미기 */
+.feed_attached_img_list li {
+    margin-right: 12px;
+    margin-bottom: 20px;
+    transition: transform 0.1s ease;
+}
+
+.feed_attached_img_list li img {
+    max-width: 100%;
+    width: 249px;
+    height: 249px;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+.feed_attached_img_list li:hover {
+    cursor: pointer;
+    transform: scale(1.03); /* 이미지 커지는 애니메이션 */
+}
+
+.feed_attached_img_list li:active {
+    transform: scale(1.02);
+}
+
+.feed_tag_list li {
+    padding: 7px 15px;
+    border: #D9D9D9 solid 1px;
+    border-radius: 30px;
+    box-shadow: 3px 3px 5px 0 #D9D9D9;
+}
+/* 피드 이미지 꾸미기 */
+/*******************/
+
+.feed_like_num_align span {
+    padding-left: 10px;
+    font-size: 20px;
+    line-height: 24px;
+    vertical-align: top;
+}
+
+/*******************/
+/* 기어 버튼 드롭다운 */
+/* 기본적으로 드롭다운은 숨겨진 상태로 시작 */
+.feed_gear_dropdown {
+    display: none;
+}
+
+.feed_gear_dropdown li {
+    display: block;
+    width: auto;
+    margin: 0;
+}
+
+.feed_gear_dropdown button {
+    font-size: 20px;
+}
+
+/* 드롭다운이 표시될 때의 스타일 */
+.feed_gear_dropdown.show {
+    display: block;
+    padding: 15px 0;
+    position: absolute;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+/* 드롭다운 내부의 리스트 아이템 스타일 */
+.feed_gear_dropdown.show button {
+    display: block;
+    padding: 10px 34px;
+    text-align: left;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* 드롭다운 리스트 아이템 호버 효과 */
+.feed_gear_dropdown.show button:hover {
+    background-color: #f0f0f0;
+}
+/* 기어 버튼 드롭다운 */
+/*******************/
+
+
+.feed_function_list button,
+.feed_comment_function_list button {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.feed_dividing_line {
+    margin: 22px 0 28px;
+}
+
+/* 댓글 */
+.feed_parent_comment_write {
+    margin-bottom: 54px;
+    align-items: center; /* 수직 방향 가운데 정렬 */
+}
+
+.feed_child_comment_write {
+    align-items: center; /* 수직 방향 가운데 정렬 */
+}
+
+.feed_comment_textarea {
+    width: calc(100% - 160px);
+    height: 106px;
+    padding: 13px 14px;
+    border-radius: 10px;
+    border-color: #B4B4B4;
+    outline-color: #009B55;
+    font-family: 'GodoM', sans-serif;
+    font-size: 20px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.feed_comment_textarea::placeholder {
+    color: #666666;
+}
+
+.feed_show_child_comment {
+    margin-top: 5px;
+}
+
+.feed_show_child_comment summary {
+    padding: 10px 20px;
+    width: fit-content;
+    font-size: 20px;
+}
+
+.feed_writer_comment {
+    width: calc(100% - 200px);
+}
+
+.feed_content,
+.feed_comment_content {
+    margin: 14px 0 20px;
+    font-size: 25px;
+}
+
+.feed_comment_side {
+    text-align: end;
+}
+
+.feed_comment_create_btn {
+    width: 131px;
+    height: 65px;
+    margin-left: 20px;
+    font-size: 25px;
+    font-family: 'GodoB', sans-serif;
+    color: white;
+    background: #009B55;
+    border: none;
+    border-radius: 10px;
+}
+
+.feed_child_comment_area {
+    margin-top: 5px;
+}
+/* ---------------- */

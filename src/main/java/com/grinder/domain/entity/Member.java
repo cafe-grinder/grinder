@@ -24,12 +24,8 @@ import java.util.UUID;
 public class Member extends BaseEntity{
 
     @Id
-    @Column(name = "member_id", length = 36)
+    @Column(name = "member_id", updatable = false, length = 36)
     private String memberId;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "image_id")
-    private Image img;
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
@@ -40,8 +36,8 @@ public class Member extends BaseEntity{
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Enumerated(EnumType.STRING) // enum 값을 db에 문자열로 저장하기 위해서 사용
-    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false, length = 16)
     private Role role;
 
     @Column(name = "is_deleted", nullable = false)
@@ -53,7 +49,7 @@ public class Member extends BaseEntity{
     @PrePersist
     public void prePersist() {
         memberId = memberId == null ? UUID.randomUUID().toString() : memberId;
-        role = role == null ? Role.USER : role;
+        role = role == null ? Role.MEMBER : role;
         isDeleted = isDeleted == null ? false : isDeleted;
     }
 }

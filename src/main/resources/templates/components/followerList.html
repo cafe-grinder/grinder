@@ -1,0 +1,12 @@
+<article class="followerList">
+    <div class="followerList_follower">
+    <img src="../../static/img/basic-user.png" th:src="${user.profile} != null ? ${user.profile} : '../../static/img/basic-user.png'">
+    <p th:text="${user.nickname} + ' (' + ${user.email} + ')'">강아지 (aaa@aaa.com)</p>
+    <span class="followerList_role" th:switch="${user.role}">
+        <img th:case="'user'" src="../../static/img/icon/award-fill.png"/>
+        <!--        <img th:case="'seller'" src="../static/img/icon/check-fill.png"/>-->
+        <!--        <img th:case="*" src=""/>-->
+    </span>
+    <button>차단해제</button>
+    </div>
+</article>
