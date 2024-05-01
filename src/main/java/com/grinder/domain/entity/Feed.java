@@ -1,5 +1,6 @@
 package com.grinder.domain.entity;
 
+import com.grinder.domain.dto.FeedRequestDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,18 +33,34 @@ public class Feed extends BaseEntity {
     private String content;
 
     @Column(name = "hits", nullable = false)
-    private Long hits;
+    private Integer hits;
 
     @Column(name = "is_visible", nullable = false)
     private Boolean isVisible;
 
     @Column(name = "grade")
-    private Long grade;
+    private Integer grade;
 
     @PrePersist
     public void prePersist() {
         feedId = feedId == null ? UUID.randomUUID().toString() : feedId;
         hits = hits == null ? 0 : hits;
         isVisible = isVisible == null ? true : isVisible;
+    }
+
+    public Feed(String feedId, FeedRequestDTO request, Member member, Cafe cafe) {
+        this.feedId = feedId;
+        this.member = member;
+        this.cafe = cafe;
+    }
+
+    public void updateFeed(Cafe cafe, String content, Integer grade) {
+        this.cafe = cafe;
+        this.content = content;
+        this.grade = grade;
+    }
+
+    public void notVisible() {
+        isVisible = false;
     }
 }

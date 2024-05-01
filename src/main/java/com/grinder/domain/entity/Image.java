@@ -34,5 +34,11 @@ public class Image {
     public void prePersist() {
         imageId = imageId == null ? UUID.randomUUID().toString() : imageId;
     }
+
+    public Image(String imageUrl, String contentId, ContentType contentType) {
+        this.imageUrl = imageUrl;
+        this.contentId = contentId;
+        this.contentType = contentType;
+    }
 }
 

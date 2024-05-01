@@ -32,4 +32,9 @@ public class Tag {
     public void prePersist() {
         tagId = tagId == null ? UUID.randomUUID().toString() : tagId;
     }
+
+    public Tag(Feed feed, TagName tagName) {
+        this.feed = feed;
+        this.tagName = tagName;
+    }
 }
