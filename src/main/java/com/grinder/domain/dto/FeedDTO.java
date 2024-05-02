@@ -38,6 +38,8 @@ public class FeedDTO {
         private Integer grade;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+        private boolean isHeart;
+        private int heartNum;
 
         public FeedResponseDTO(Feed feed) {
             feedId = feed.getFeedId();
