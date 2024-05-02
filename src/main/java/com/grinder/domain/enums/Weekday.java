@@ -1,5 +1,10 @@
 package com.grinder.domain.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum Weekday {
   MONDAY("월요일"),
   TUESDAY("화요일"),
@@ -10,12 +15,4 @@ public enum Weekday {
   SUNDAY("일요일");
 
   private final String value;
-
-  Weekday(String value) {
-    this.value = value;
-  }
-
-  public String getValue() {
-    return value;
-  }
 }

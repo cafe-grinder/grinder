@@ -45,4 +45,16 @@ public class Member extends BaseEntity {
         role = role == null ? Role.MEMBER : role;
         isDeleted = isDeleted == null ? false : isDeleted;
     }
+
+    public void verify() {
+        role = role == Role.MEMBER ? Role.VERIFIED_MEMBER : role;
+    }
+
+    public void cancelVerify() {
+        role = role == Role.VERIFIED_MEMBER ? Role.MEMBER : role;
+    }
+
+    public void switchIsDeleted() {
+        isDeleted = isDeleted == true ? false : true;
+    }
 }
