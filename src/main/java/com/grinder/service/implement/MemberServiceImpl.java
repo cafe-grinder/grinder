@@ -1,6 +1,5 @@
 package com.grinder.service.implement;
 
-import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.enums.Role;
 import com.grinder.repository.MemberRepository;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import static com.grinder.domain.dto.MemberDTO.*;
+
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +19,9 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<MemberDTO.FindMemberDTO> findAllMembers() {
+    public List<FindMemberDTO> findAllMembers() {
         List<Member> memberList = memberRepository.findAll();
-        List<MemberDTO.FindMemberDTO> memberDTOList = memberList.stream().map(member -> new MemberDTO.FindMemberDTO(member)).toList();
+        List<FindMemberDTO> memberDTOList = memberList.stream().map(member -> new FindMemberDTO(member)).toList();
 
         return memberDTOList;
     }
@@ -53,9 +54,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<MemberDTO.FindMemberDTO> searchMemberByNickname(String nickname) {
+    public List<FindMemberDTO> searchMemberByNickname(String nickname) {
         List<Member> memberList = memberRepository.searchMemberByNickname(nickname);
-        List<MemberDTO.FindMemberDTO> memberDTOList = memberList.stream().map(member -> new MemberDTO.FindMemberDTO(member)).toList();
+        List<FindMemberDTO> memberDTOList = memberList.stream().map(member -> new FindMemberDTO(member)).toList();
         return memberDTOList;
     }
 }

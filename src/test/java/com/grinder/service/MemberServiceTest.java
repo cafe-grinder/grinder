@@ -1,6 +1,5 @@
 package com.grinder.service;
 
-import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.enums.Role;
 import com.grinder.repository.MemberRepository;
@@ -11,11 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
+import static com.grinder.domain.dto.MemberDTO.*;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -43,7 +41,7 @@ class MemberServiceTest {
         doReturn(memberList).when(memberRepository).findAll();
 
         //when
-        List<MemberDTO.FindMemberDTO> memberDTOList = memberService.findAllMembers();
+        List<FindMemberDTO> memberDTOList = memberService.findAllMembers();
 
         //then
         assertThat(memberDTOList.size()).isEqualTo(2);

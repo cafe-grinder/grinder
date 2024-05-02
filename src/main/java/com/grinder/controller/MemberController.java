@@ -1,6 +1,6 @@
 package com.grinder.controller;
 
-import com.grinder.domain.dto.MemberDTO;
+
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -8,8 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import static com.grinder.domain.dto.MemberDTO.*;
 
 @Controller
 @RequestMapping("/api/member")
@@ -20,7 +20,7 @@ public class MemberController {
 
     @GetMapping("/find")
     public void findAllMembers(Model model) {
-        List<MemberDTO.FindMemberDTO> memberList = memberService.findAllMembers();
+        List<FindMemberDTO> memberList = memberService.findAllMembers();
         model.addAttribute("memberList", memberList);
     }
 
@@ -40,7 +40,7 @@ public class MemberController {
 
     @GetMapping("/search/nickname")
     public void searchMemberByNickname(@RequestParam String nickname, Model model) {
-        List<MemberDTO.FindMemberDTO> memberList = memberService.searchMemberByNickname(nickname);
+        List<FindMemberDTO> memberList = memberService.searchMemberByNickname(nickname);
         model.addAttribute("memberList", memberList);
     }
 }

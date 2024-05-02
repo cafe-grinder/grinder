@@ -1,6 +1,5 @@
 package com.grinder.controller;
 
-import com.grinder.domain.dto.ReportDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.service.ReportService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import static com.grinder.domain.dto.ReportDTO.*;
 
 @Controller
 @RequestMapping("/api/report")
@@ -19,7 +19,7 @@ public class ReportController {
 
     @GetMapping("/find")
     public void findAllReports(Model model) {
-        List<ReportDTO.FindReportDTO> reportList = reportService.findAllReports();
+        List<FindReportDTO> reportList = reportService.findAllReports();
         model.addAttribute("reportList", reportList);
     }
 

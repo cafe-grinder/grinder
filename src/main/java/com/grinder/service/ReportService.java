@@ -1,12 +1,11 @@
 package com.grinder.service;
 
-import com.grinder.domain.dto.ReportDTO;
-
 import java.util.List;
+import static com.grinder.domain.dto.ReportDTO.*;
 
 public interface ReportService {
 
-    List<ReportDTO.FindReportDTO> findAllReports();
+    List<FindReportDTO> findAllReports();
 
     void deleteReport(String reportId);
 
