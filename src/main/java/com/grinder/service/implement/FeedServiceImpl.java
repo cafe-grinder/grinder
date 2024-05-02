@@ -27,23 +27,21 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public Feed saveFeed(String feedId, FeedDTO.FeedRequestDTO request, Member member){
+    public Feed saveFeed(FeedDTO.FeedRequestDTO request, Member member){
         // Feed 저장
         Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정
         Feed feed = Feed.builder()
-                .feedId(feedId)
                 .content(request.getContent())
                 .grade(request.getGrade())
                 .member(member)
                 .cafe(cafe)
                 .build();
 
-
         // Tag 저장
         tagService.saveTag(feed, request.getTagNameList());
 
         // Image 저장
-        imageService.saveFeedImage(feedId, ContentType.FEED, request.getImageUrlList());
+        imageService.saveFeedImage(feed.getFeedId(), ContentType.FEED, request.getImageUrlList());
 
         return feedRepository.save(feed);
     }
@@ -54,7 +52,7 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public void updateFeed(String feedId, FeedDTO.FeedRequestDTO request) {
+    public Feed updateFeed(String feedId, FeedDTO.FeedRequestDTO request) {
         // 피드 수정
         Feed feed = findFeed(feedId);
         Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정
@@ -67,6 +65,8 @@ public class FeedServiceImpl implements FeedService {
         // 이미지 수정
         imageService.deleteFeedImage(feedId, ContentType.FEED);
         imageService.saveFeedImage(feedId, ContentType.FEED, request.getImageUrlList());
+
+        return feed;
     }
 
     @Override
