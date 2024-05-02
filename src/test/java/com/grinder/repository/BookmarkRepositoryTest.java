@@ -23,9 +23,9 @@ class BookmarkRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
-    @DisplayName("블랙리스트 추가")
+    @DisplayName("북마크 추가")
     @Test
-    void testSaveBlacklist() {
+    void testSaveBookmark() {
         Member member = memberRepository.save(Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("01012345678").build());
         Cafe cafe = cafeRepository.save(Cafe.builder().name("그라인더").address("사랑시 고백구 행복동 794-2").phoneNum("01012345678").build());
         Bookmark saved = bookmarkRepository.save(Bookmark.builder().member(member).cafe(cafe).build());
