@@ -18,9 +18,9 @@ class FollowRepositoryTest {
     private MemberRepository memberRepository;
     @Autowired
     private FollowRepository followRepository;
-    @DisplayName("블랙리스트 추가")
+    @DisplayName("팔로우 추가")
     @Test
-    void testSaveBlacklist() {
+    void testSaveFollow() {
         Member member = memberRepository.save(Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("01012345678").build());
         Follow saved = followRepository.save(Follow.builder().member(member).following(member).build());
 
