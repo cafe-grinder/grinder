@@ -28,8 +28,12 @@ public class Cafe extends BaseEntity {
     @Column(name = "phone_num", nullable = false, length = 11)
     private String phoneNum;
 
+    @Column(name = "average_grade")
+    private Integer averageGrade;
+
     @PrePersist
     public void prePersist() {
         cafeId = cafeId == null ? UUID.randomUUID().toString() : cafeId;
+        averageGrade = averageGrade == null ? 0 : averageGrade;
     }
 }

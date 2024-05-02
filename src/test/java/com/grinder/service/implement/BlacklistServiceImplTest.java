@@ -1,4 +1,4 @@
-package com.grinder.service;
+package com.grinder.service.implement;
 
 import com.grinder.domain.dto.BlacklistDTO;
 import com.grinder.domain.entity.Blacklist;
