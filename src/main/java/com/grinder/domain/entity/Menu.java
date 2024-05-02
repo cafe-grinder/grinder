@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Menu {
+public class Menu extends BaseEntity{
 
     @Id
     @Column(name = "menu_id", updatable = false, length = 36)
