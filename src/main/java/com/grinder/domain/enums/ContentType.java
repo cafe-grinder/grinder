@@ -1,5 +1,16 @@
 package com.grinder.domain.enums;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+@Getter
 public enum ContentType {
-    MEMBER, FEED, CAFE, MENU, COMMENT
+    MEMBER("회원"),
+    FEED("피드"),
+    CAFE("카페"),
+    MENU("메뉴"),
+    COMMENT("댓글");
+
+    private final String value;
 }

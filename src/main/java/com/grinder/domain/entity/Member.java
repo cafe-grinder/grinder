@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -51,5 +50,17 @@ public class Member extends BaseEntity{
         memberId = memberId == null ? UUID.randomUUID().toString() : memberId;
         role = role == null ? Role.MEMBER : role;
         isDeleted = isDeleted == null ? false : isDeleted;
+    }
+
+    public void verify() {
+        role = role == Role.MEMBER ? Role.VERIFIED_MEMBER : role;
+    }
+
+    public void cancelVerify() {
+        role = role == Role.VERIFIED_MEMBER ? Role.MEMBER : role;
+    }
+
+    public void switchIsDeleted() {
+        isDeleted = isDeleted == true ? false : true;
     }
 }
