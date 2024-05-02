@@ -54,9 +54,9 @@ class MemberRepositoryTest {
         memberRepository.save(member3);
 
         //when
-        List<Member> memberList = memberRepository.searchMemberByNickname("user");
+        List<Member> memberList = memberRepository.searchMemberByNickname("3");
 
         //then
-        assertThat(memberList.size()).isEqualTo(0);
+        assertThat(memberList.size()).isEqualTo(2);
     }
 }

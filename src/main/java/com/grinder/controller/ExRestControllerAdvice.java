@@ -27,6 +27,7 @@ public class ExRestControllerAdvice {
     public ErrorResult noSuchElementExHandle(EntityNotFoundException e) {
         log.error("[exceptionHandle] noSuchElementExHandle", e);
         return new ErrorResult("not_exist", e.getMessage());
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MaximumRangeAlreadyAddedException.class)
