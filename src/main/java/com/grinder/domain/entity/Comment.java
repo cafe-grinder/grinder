@@ -21,7 +21,7 @@ public class Comment extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "parent_comment_id")
-    private Comment parentCommentId;
+    private Comment parentComment;
 
     @ManyToOne
     @JoinColumn(name = "feed_id", nullable = false)
@@ -41,5 +41,9 @@ public class Comment extends BaseEntity {
     public void prePersist() {
         commentId = commentId == null ? UUID.randomUUID().toString() : commentId;
         isVisible = isVisible == null ? true : isVisible;
+    }
+
+    public void updateContent(String content){
+        this.content = content;
     }
 }
