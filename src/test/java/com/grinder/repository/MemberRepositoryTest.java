@@ -23,7 +23,7 @@ class MemberRepositoryTest {
         //given
         LocalDateTime beforeCreate = LocalDateTime.now();
 
-        Member member = Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("010-1234-5678").build();
+        Member member = Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("01012345678").build();
 
         //when
         Member savedUser = memberRepository.save(member);

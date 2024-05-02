@@ -18,10 +18,10 @@
     <!--            <li> | </li>-->
     <!--            <li><a href="#">회원가입</a></li>-->
     <!--        </ul>-->
-            <ul th:unless="${user} != null" class="header_login">
-                <li><strong th:text="${user.name}"></strong>님! 안녕하세요.</li>
+            <ul th:unless="${member} != null" class="header_login">
+                <li><strong th:text="${member.name}"></strong>님! 안녕하세요.</li>
                 <li class="header_alarm"><a href="#">alarm</a></li>
-                <li class="header_profile"><a href="#">myPage</a></li>
+                <li class="header_profile"><a th:href="@{/mypage/{id}(id=${member.id})}">myPage</a></li>
             </ul>
         </div>
     </nav>
