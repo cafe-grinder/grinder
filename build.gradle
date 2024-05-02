@@ -38,11 +38,22 @@ dependencies {
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+
+	// jwt
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+	//Gson
+	// https://mvnrepository.com/artifact/com.google.code.gson/gson
+	implementation 'com.google.code.gson:gson:2.8.9'
+
 	// QUERYDSL
 	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
 	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+
 }
 
 tasks.named('test') {

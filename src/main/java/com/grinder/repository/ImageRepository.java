@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ImageRepository extends JpaRepository<Image, String> {
+    List<Image> findByContentIdAndContentType(String contentId, ContentType contentType);
     Optional<Image> findByContentId(String contentId);
     Optional<List<Image>> findAllByContentTypeAndContentId(ContentType type, String contentId);
     Optional<Image> findByContentTypeAndContentId(ContentType type, String contentId);
-
 }
