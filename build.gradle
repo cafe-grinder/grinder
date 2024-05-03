@@ -21,6 +21,27 @@ repositories {
 	mavenCentral()
 }
 
+// 프로파일 기본값 설정
+bootRun {
+	if (!project.hasProperty('profile')) {
+		args '--spring.profiles.active=local'
+	} else {
+		args '--spring.profiles.active=' + profile
+	}
+}
+
+test {
+	systemProperty 'spring.profiles.active', 'local'
+}
+
+// 선택적으로 bootRun에 대해 프로파일 입력을 받아 사용할 수도 있습니다.
+// 예: gradle bootRun -Pprofile=local
+bootRun {
+	if (project.hasProperty('profile')) {
+		args '--spring.profiles.active=' + profile
+	}
+}
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
