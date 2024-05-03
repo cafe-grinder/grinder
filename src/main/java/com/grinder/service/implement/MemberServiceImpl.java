@@ -26,9 +26,15 @@ public class MemberServiceImpl implements MemberService {
         return memberDTOList;
     }
 
+    @Override
     public Member findMemberById(String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("회원 아이디" + memberId + "인 회원이 존재하지 않습니다."));
         return member;
+    }
+
+    @Override
+    public Member findMemberByEmail(String memberEmail) {
+        return memberRepository.findByEmail(memberEmail).orElseThrow(() -> new NoSuchElementException("회원 아이디" + memberEmail + "인 회원이 존재하지 않습니다."));
     }
 
     // Todo. 선택한 회원이 관리자거나 판매자일 경우 - 버튼을 disable 처리

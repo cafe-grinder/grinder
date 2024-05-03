@@ -7,9 +7,11 @@ import com.grinder.repository.CafeRepository;
 import com.grinder.repository.FeedRepository;
 import com.grinder.service.FeedService;
 import com.grinder.service.ImageService;
+import com.grinder.service.MemberService;
 import com.grinder.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ public class FeedServiceImpl implements FeedService {
     private final ImageService imageService;
     private final TagService tagService;
     private final CafeRepository cafeRepository;
+    private final MemberService memberService;
 
     @Override
     public Feed findFeed(String feedId) {
@@ -27,8 +30,9 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public Feed saveFeed(FeedDTO.FeedRequestDTO request, Member member){
+    public Feed saveFeed(FeedDTO.FeedRequestDTO request, String memberEmail, MultipartFile file){
         // Feed 저장
+        Member member = memberService.findMemberByEmail(memberEmail);
         Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정
         Feed feed = Feed.builder()
                 .content(request.getContent())
@@ -40,7 +44,7 @@ public class FeedServiceImpl implements FeedService {
         // Tag 저장
         tagService.saveTag(feed, request.getTagNameList());
 
-        // Image 저장
+        // Image 저장, TODO: S3 저장 로직 추가
         imageService.saveFeedImage(feed.getFeedId(), ContentType.FEED, request.getImageUrlList());
 
         return feedRepository.save(feed);
