@@ -59,10 +59,12 @@ public class FeedServiceImpl implements FeedService {
         feed.updateFeed(cafe, request.getContent(), request.getGrade());
 
         // 태그 수정
+        // TODO: 선택된 것만 수정하기
         tagService.deleteTag(feedId);
         tagService.saveTag(feed, request.getTagNameList());
 
         // 이미지 수정
+        // TODO: 선택된 것만 수정하기
         imageService.deleteFeedImage(feedId, ContentType.FEED);
         imageService.saveFeedImage(feedId, ContentType.FEED, request.getImageUrlList());
 
