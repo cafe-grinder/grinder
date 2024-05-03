@@ -1,6 +1,7 @@
 package com.grinder.controller.entity;
 
 import com.grinder.domain.dto.FeedDTO;
+import com.grinder.domain.dto.SuccessResult;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
 import com.grinder.service.FeedService;
@@ -8,8 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -19,39 +22,56 @@ public class FeedController {
     private final FeedService feedService;
 
     @PostMapping("/newfeed")
-    public ResponseEntity<FeedDTO.FeedResponseDTO> addFeed(
-            @AuthenticationPrincipal Member member,
-            @RequestBody FeedDTO.FeedRequestDTO request
+    public ResponseEntity<SuccessResult> addFeed(
+            Authentication authentication,
+            @RequestBody FeedDTO.FeedRequestDTO request,
+            @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-        Feed feed = feedService.saveFeed(request, member);
-        FeedDTO.FeedResponseDTO response = new FeedDTO.FeedResponseDTO(feed);
-        return ResponseEntity.ok(response);
+        String memberEmail = authentication.getName();
+        Feed feed = feedService.saveFeed(request, memberEmail, file);
+
+        if (feed != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Add Success", "추가되었습니다."));
+        } else {
+            throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+        }
     }
 
     @PutMapping("/{feed_id}")
-    public ResponseEntity<FeedDTO.FeedResponseDTO> updateFeed(
-            @AuthenticationPrincipal Member member,
+    public ResponseEntity<SuccessResult> updateFeed(
+            Authentication authentication,
             @PathVariable String feed_id,
             @RequestBody FeedDTO.FeedRequestDTO request
     ) {
-        Feed feed = feedService.updateFeed(feed_id, request);
-        if (member.equals(feed.getMember())) {
-            FeedDTO.FeedResponseDTO response = new FeedDTO.FeedResponseDTO(feed);
-            return ResponseEntity.ok(response);
+        String memberEmail = authentication.getName();
+        Feed feed = feedService.findFeed(feed_id);
+        if (memberEmail.equals(feed.getMember().getEmail())) {
+            feed = feedService.updateFeed(feed_id, request);
+            if (feed != null) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Update Success", "수정되었습니다."));
+            } else {
+                throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+            }
         } else {    // 403에러 (회원 불일치)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @DeleteMapping("/{feed_id}")
-    public ResponseEntity<Void> deleteFeed(
-            @AuthenticationPrincipal Member member,
+    public ResponseEntity<SuccessResult> deleteFeed(
+            Authentication authentication,
             @PathVariable String feed_id
     ) {
+        String memberEmail = authentication.getName();
         Feed feed = feedService.findFeed(feed_id);
-        if (member.equals(feed.getMember())) {
+        if (memberEmail.equals(feed.getMember().getEmail())) {
             feedService.deleteFeed(feed_id);
-            return ResponseEntity.ok().build();
+            feed = feedService.findFeed(feed_id);
+            if (feed == null) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Delete Success", "삭제되었습니다."));
+            } else {
+                throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+            }
         } else {    // 403에러 (회원 불일치)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

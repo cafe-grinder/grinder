@@ -251,6 +251,10 @@
     color: #666666;
 }
 
+.feed_comment_textarea:focus {
+    background-color: #fafffa;
+}
+
 .feed_show_child_comment {
     margin-top: 5px;
 }

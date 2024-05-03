@@ -10,6 +10,8 @@ public interface MemberService {
 
     public Member findMemberById(String memberId);
 
+    Member findMemberByEmail(String email);
+
     public void updateMemberRole(String memberId);
 
     public void updateMemberIsDeleted(String memberId);

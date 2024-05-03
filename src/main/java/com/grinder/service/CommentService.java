@@ -10,7 +10,7 @@ public interface CommentService {
     List<Comment> findParentCommentList(String feedId);
     Comment findComment(String commentId);
     List<Comment> findChildrenCommentList(String parentId);
-    Comment saveComment(CommentDTO.CommentRequestDTO request, Member member, String feed_id);
+    Comment saveComment(CommentDTO.CommentRequestDTO request, String memberEmail, String feed_id);
     Comment updateComment(String commentId, String content);
     void deleteComment(String commentId);
 }

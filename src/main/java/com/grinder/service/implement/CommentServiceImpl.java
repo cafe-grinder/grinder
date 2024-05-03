@@ -7,6 +7,7 @@ import com.grinder.domain.entity.Member;
 import com.grinder.repository.CommentRepository;
 import com.grinder.service.CommentService;
 import com.grinder.service.FeedService;
+import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final FeedService feedService;
+    private final MemberService memberService;
 
     @Override
     public Comment findComment(String commentId) {
@@ -34,7 +36,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment saveComment(CommentDTO.CommentRequestDTO request, Member member, String feed_id) {
+    public Comment saveComment(CommentDTO.CommentRequestDTO request, String memberEmail, String feed_id) {
+        Member member = memberService.findMemberByEmail(memberEmail);
         Feed feed = feedService.findFeed(feed_id);
         Comment parentComment = findComment(request.getParentCommentId());
         return commentRepository.save(

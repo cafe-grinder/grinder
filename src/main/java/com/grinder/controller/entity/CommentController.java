@@ -3,13 +3,12 @@ package com.grinder.controller.entity;
 import com.grinder.domain.dto.CommentDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.domain.entity.Comment;
-import com.grinder.domain.entity.Member;
 import com.grinder.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -21,11 +20,12 @@ public class CommentController {
 
     @PostMapping("/newcomment")
     public ResponseEntity<SuccessResult> addComment(
-            @AuthenticationPrincipal Member member,
+            Authentication authentication,
             @PathVariable String feed_id,
             @RequestBody CommentDTO.CommentRequestDTO request
     ) {
-        Comment comment = commentService.saveComment(request, member, feed_id);
+        String memberEmail = authentication.getName();
+        Comment comment = commentService.saveComment(request, memberEmail, feed_id);
 
         if (comment != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Add Success", "추가되었습니다."));
@@ -36,12 +36,13 @@ public class CommentController {
 
     @PutMapping("/{comment_id}")
     public ResponseEntity<SuccessResult> updateComment(
-            @AuthenticationPrincipal Member member,
+            Authentication authentication,
             @PathVariable String comment_id,
             @RequestBody CommentDTO.CommentRequestDTO request
     ) {
+        String memberEmail = authentication.getName();
         Comment comment = commentService.findComment(comment_id);
-        if (member.equals(comment.getMember())) {
+        if (memberEmail.equals(comment.getMember().getEmail())) {
             comment = commentService.updateComment(comment_id, request.getContent());
             if (comment != null) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Update Success", "수정되었습니다."));
@@ -55,11 +56,12 @@ public class CommentController {
 
     @DeleteMapping("/{comment_id}")
     public ResponseEntity<SuccessResult> deleteComment(
-            @AuthenticationPrincipal Member member,
+            Authentication authentication,
             @PathVariable String comment_id
     ) {
+        String memberEmail = authentication.getName();
         Comment comment = commentService.findComment(comment_id);
-        if (member.equals(comment.getMember())) {
+        if (memberEmail.equals(comment.getMember().getEmail())) {
             commentService.deleteComment(comment_id);
             comment = commentService.findComment(comment_id);
             if (comment == null) {
