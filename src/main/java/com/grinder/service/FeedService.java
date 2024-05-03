@@ -18,4 +18,6 @@ public interface FeedService {
     Feed updateFeed(String feedId, FeedDTO.FeedRequestDTO request);
     // 피드 삭제(isVisible == false)
     void deleteFeed(String feedId);
+    //cafeId로 Feed 찾기
+    Feed findFeedByCafeId(String cafeId);
 }

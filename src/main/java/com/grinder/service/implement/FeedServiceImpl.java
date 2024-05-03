@@ -81,4 +81,10 @@ public class FeedServiceImpl implements FeedService {
         feed.notVisible();
         feedRepository.save(feed);
     }
+
+    @Override
+    public Feed findFeedByCafeId(String cafeId) {
+        //작성중ㄱㄷ
+        return null;
+    }
 }
