@@ -1,10 +1,12 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.dto.CommentDTO;
 import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
 import com.grinder.repository.CommentRepository;
 import com.grinder.service.CommentService;
+import com.grinder.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
+    private final FeedService feedService;
 
     @Override
     public Comment findComment(String commentId) {
@@ -31,10 +34,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment saveComment(String content, Member member, Feed feed, Comment parentComment) {
+    public Comment saveComment(CommentDTO.CommentRequestDTO request, Member member, String feed_id) {
+        Feed feed = feedService.findFeed(feed_id);
+        Comment parentComment = findComment(request.getParentCommentId());
         return commentRepository.save(
                 Comment.builder()
-                        .content(content)
+                        .content(request.getContent())
                         .member(member)
                         .feed(feed)
                         .parentComment(parentComment)
@@ -50,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void deleteById(String commentId) {
+    public void deleteComment(String commentId) {
         commentRepository.deleteById(commentId);
     }
 }

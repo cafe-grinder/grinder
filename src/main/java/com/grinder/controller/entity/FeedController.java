@@ -1,4 +1,4 @@
-package com.grinder.controller;
+package com.grinder.controller.entity;
 
 import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.Feed;
@@ -19,9 +19,9 @@ public class FeedController {
     private final FeedService feedService;
 
     @PostMapping("/newfeed")
-    public ResponseEntity<FeedDTO.FeedResponseDTO> newFeed(
+    public ResponseEntity<FeedDTO.FeedResponseDTO> addFeed(
             @AuthenticationPrincipal Member member,
-            FeedDTO.FeedRequestDTO request
+            @RequestBody FeedDTO.FeedRequestDTO request
     ) {
         Feed feed = feedService.saveFeed(request, member);
         FeedDTO.FeedResponseDTO response = new FeedDTO.FeedResponseDTO(feed);
@@ -32,7 +32,7 @@ public class FeedController {
     public ResponseEntity<FeedDTO.FeedResponseDTO> updateFeed(
             @AuthenticationPrincipal Member member,
             @PathVariable String feed_id,
-            FeedDTO.FeedRequestDTO request
+            @RequestBody FeedDTO.FeedRequestDTO request
     ) {
         Feed feed = feedService.updateFeed(feed_id, request);
         if (member.equals(feed.getMember())) {
