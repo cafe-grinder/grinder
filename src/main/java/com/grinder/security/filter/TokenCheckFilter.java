@@ -30,8 +30,13 @@ public class TokenCheckFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException{
 
         String path = request.getRequestURI();
-        if(!path.startsWith("/api")){
+        if(!path.startsWith("/api/")){
             filterChain.doFilter(request,response);
+        }
+        if(path.equals("/api/member/signup")){
+            System.out.println("통과!!!!!1");
+            filterChain.doFilter(request,response);
+            return ;
         }
         log.info("Token Check Filter...................");
         log.info("JWTUtil: "+jwtUtil);

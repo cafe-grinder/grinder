@@ -5,6 +5,7 @@ import com.grinder.domain.enums.Role;
 import com.grinder.repository.MemberRepository;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -18,6 +19,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
     @Override
     public List<FindMemberDTO> findAllMembers() {
         List<Member> memberList = memberRepository.findAll();
@@ -64,5 +66,17 @@ public class MemberServiceImpl implements MemberService {
         List<Member> memberList = memberRepository.searchMemberByNickname(nickname);
         List<FindMemberDTO> memberDTOList = memberList.stream().map(member -> new FindMemberDTO(member)).toList();
         return memberDTOList;
+    }
+
+    @Override
+    public boolean addMember(MemberRequestDto request){
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .nickname(request.getNickname())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phoneNum(request.getPhoneNum())
+                .build();
+        memberRepository.save(member);
+        return true;
     }
 }

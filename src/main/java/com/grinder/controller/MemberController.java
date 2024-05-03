@@ -1,9 +1,11 @@
 package com.grinder.controller;
 
 
+import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,5 +44,11 @@ public class MemberController {
     public void searchMemberByNickname(@RequestParam String nickname, Model model) {
         List<FindMemberDTO> memberList = memberService.searchMemberByNickname(nickname);
         model.addAttribute("memberList", memberList);
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<SuccessResult> addMember(@RequestBody MemberDTO.MemberRequestDto request) {
+        if (memberService.addMember(request)) return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Add Success", "추가되었습니다."));
+        else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
     }
 }

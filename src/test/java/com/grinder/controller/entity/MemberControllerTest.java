@@ -1,7 +1,11 @@
-package com.grinder.controller;
+package com.grinder.controller.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grinder.controller.MemberController;
+import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.enums.Role;
+import com.grinder.repository.MemberRepository;
 import com.grinder.service.implement.MemberServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,11 +14,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -30,6 +37,7 @@ class MemberControllerTest {
     MemberServiceImpl memberService;
 
     MockMvc mockMvc;
+
 
     @BeforeEach
     void setUp() {
@@ -53,5 +61,6 @@ class MemberControllerTest {
         //then
         actions.andExpect(model().attributeExists("memberList"));
     }
+
 
 }
