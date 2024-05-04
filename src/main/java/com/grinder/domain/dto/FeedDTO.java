@@ -38,20 +38,22 @@ public class FeedDTO {
         private Integer grade;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
-        private boolean isHeart;
-        private int heartNum;
+        private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
+        private int heartNum;       // 해당 댓글의 좋아요 수
 
         public FeedResponseDTO(Feed feed) {
-            feedId = feed.getFeedId();
-            memberNickname = feed.getMember().getNickname();
-            memberEmail = feed.getMember().getEmail();
-            cafeName = feed.getCafe().getName();
-            content = feed.getContent();
-            hits = feed.getHits();
-            isVisible = feed.getIsVisible();
-            grade = feed.getGrade();
-            createdAt = feed.getCreatedAt();
-            updatedAt = feed.getUpdatedAt();
+            this.feedId = feed.getFeedId();
+            this.memberNickname = feed.getMember().getNickname();
+            this.memberEmail = feed.getMember().getEmail();
+            this.cafeName = feed.getCafe().getName();
+            this.content = feed.getContent();
+            this.hits = feed.getHits();
+            this.isVisible = feed.getIsVisible();
+            this.grade = feed.getGrade();
+            this.createdAt = feed.getCreatedAt();
+            this.updatedAt = feed.getUpdatedAt();
+            this.isHeart = false;
+            this.heartNum = 0;
         }
     }
 }

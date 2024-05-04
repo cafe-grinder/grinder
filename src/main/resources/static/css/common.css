@@ -8,6 +8,14 @@
     font-family: 'GodoB';
     src: url('../fonts/GodoB.ttf') format('truetype');
 }
+@font-face {
+    font-family: 'NanumGothic';
+    src: url('../fonts/NanumGothic.ttf') format('truetype');
+}
+@font-face {
+    font-family: 'NanumGothic Light';
+    src: url('../fonts/NanumGothicLight.ttf') format('truetype');
+}
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,

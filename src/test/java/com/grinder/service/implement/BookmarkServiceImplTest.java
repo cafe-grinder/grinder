@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -24,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Import({BookmarkServiceImpl.class, BookmarkQueryRepository.class})
+@ActiveProfiles("test")
 class BookmarkServiceImplTest {
     @Autowired
     public BookmarkServiceImpl bookmarkService;

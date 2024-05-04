@@ -26,7 +26,7 @@ public class BookmarkDTO {
             CafePhoneNum = bookmark.getCafe().getPhoneNum();
             averageGrade = bookmark.getCafe().getAverageGrade();
             if (imageUrl == null)  imageUrl = "";
-            this.cafeImageUrl = imageUrl;
+            cafeImageUrl = imageUrl;
         }
     }
 }

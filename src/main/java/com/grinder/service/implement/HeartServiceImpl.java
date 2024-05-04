@@ -1,9 +1,12 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.dto.HeartDTO;
 import com.grinder.domain.entity.Heart;
+import com.grinder.domain.entity.Member;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.repository.HeartRepository;
 import com.grinder.service.HeartService;
+import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,24 +17,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class HeartServiceImpl implements HeartService {
     private final HeartRepository heartRepository;
+    private final MemberService memberService;
 
     @Override
-    public void addLike(Heart like) {
-        heartRepository.save(like);
+    public Heart addHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
+        Member member = memberService.findMemberByEmail(memberEmail);
+        return heartRepository.save(
+                Heart.builder()
+                        .member(member)
+                        .contentId(request.getContentId())
+                        .contentType(ContentType.valueOf(request.getContentType()))
+                        .build()
+        );
     }
 
     @Override
-    public void deleteLike(String memberId, String contentId, String contentType) {
-        heartRepository.deleteByMember_MemberIdAndContentIdAndContentType(memberId, contentId, ContentType.valueOf(contentType));
+    public void deleteHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
+        heartRepository.deleteByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
 
     @Override
-    public Heart findLike(String memberId, String contentId, String contentType) {
-        return heartRepository.findByMember_MemberIdAndContentIdAndContentType(memberId, contentId, ContentType.valueOf(contentType));
+    public Heart findHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
+        return heartRepository.findByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
 
     @Override
-    public List<Heart> findByContent(String contentId, String contentType) {
-        return heartRepository.findByContentIdAndContentType(contentId, ContentType.valueOf(contentType));
+    public List<Heart> findHeartList(HeartDTO.HeartRequestDTO request) {
+        return heartRepository.findByContentIdAndContentType(request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
 }

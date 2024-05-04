@@ -45,7 +45,7 @@ class BookmarkControllerTest {
                 .setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver())
                 .build();
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken("user@example.com", "password", new ArrayList<>());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken("test@test.com", "password", new ArrayList<>());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         when(authentication.getName()).thenReturn("test@test.com");
