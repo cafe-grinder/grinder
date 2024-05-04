@@ -6,6 +6,7 @@ import com.grinder.repository.MemberRepository;
 import com.grinder.repository.queries.MemberQueryRepository;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,11 +20,17 @@ import static com.grinder.domain.dto.MemberDTO.*;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
     private final MemberQueryRepository memberQueryRepository;
 
     public Member findMemberById(String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("회원 아이디: " + memberId + " 인 회원이 존재하지 않습니다."));
         return member;
+    }
+
+    @Override
+    public Member findMemberByEmail(String memberEmail) {
+        return memberRepository.findByEmail(memberEmail).orElseThrow(() -> new NoSuchElementException("회원 아이디" + memberEmail + "인 회원이 존재하지 않습니다."));
     }
 
     @Override
@@ -49,5 +56,17 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable) {
         return memberQueryRepository.searchMemberByRoleAndNicknameSlice(role, nickname, pageable).getContent();
+    }
+
+    @Override
+    public boolean addMember(MemberRequestDto request){
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .nickname(request.getNickname())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .phoneNum(request.getPhoneNum())
+                .build();
+        memberRepository.save(member);
+        return true;
     }
 }

@@ -15,4 +15,8 @@ public interface MemberService {
     void updateMemberIsDeleted(String memberId);
 
     List<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable);
+
+    Member findMemberByEmail(String email);
+
+    public boolean addMember(MemberRequestDto request);
 }
