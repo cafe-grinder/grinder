@@ -11,7 +11,7 @@ import java.util.List;
 import static com.grinder.domain.dto.SellerApplyDTO.*;
 
 @Controller
-@RequestMapping("/api/seller/apply")
+@RequestMapping("/api/seller_apply")
 @RequiredArgsConstructor
 public class SellerApplyController {
 

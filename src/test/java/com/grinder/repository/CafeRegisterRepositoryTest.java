@@ -26,7 +26,7 @@ class CafeRegisterRepositoryTest {
     @Test
     void testSaveCafeRegister() {
         Member member = memberRepository.save(Member.builder().email("test@test.com").nickname("test-user-1").password("1234").phoneNum("01012345678").build());
-        CafeRegister saved = cafeRegisterRepository.save(CafeRegister.builder().member(member).name("스타벅스").address("서울 서초구").build());
+        CafeRegister saved = cafeRegisterRepository.save(CafeRegister.builder().member(member).name("스타벅스").address("서울 서초구").phoneNum("01012348765").build());
 
         CafeRegister found = cafeRegisterRepository.findById(saved.getRegisterId()).orElseThrow();
 

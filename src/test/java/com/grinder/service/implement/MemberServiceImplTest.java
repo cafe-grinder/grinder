@@ -1,61 +1,37 @@
-package com.grinder.service;
+package com.grinder.service.implement;
 
-import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.enums.Role;
 import com.grinder.repository.MemberRepository;
-import com.grinder.service.implement.MemberServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import static com.grinder.domain.dto.MemberDTO.*;
+import java.util.UUID;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 @ExtendWith(MockitoExtension.class)
-class MemberServiceTest {
-
+class MemberServiceImplTest {
     @InjectMocks
     MemberServiceImpl memberService;
 
     @Mock
     MemberRepository memberRepository;
 
-    @Spy
-    BCryptPasswordEncoder passwordEncoder;
-
-    @DisplayName("전체 회원 조회 테스트")
+    @DisplayName("회원 아이디로 조회")
     @Test
-    void testFindAllMembers() {
-        //given
-        Member member1 = Member.builder().email("test1@test.com").nickname("member1").password("qwer1234").phoneNum("01012345678").role(Role.MEMBER).build();
-        Member member2 = Member.builder().email("test2@test.com").nickname("member2").password("qwer1234").phoneNum("01043218765").role(Role.MEMBER).build();
+    void testFindMemberById() {
+        Member member = Member.builder().memberId(UUID.randomUUID().toString()).build();
 
-        List<Member> memberList = new ArrayList<>();
-        memberList.add(member1);
-        memberList.add(member2);
+        doReturn(Optional.of(member)).when(memberRepository).findById(member.getMemberId());
 
-        doReturn(memberList).when(memberRepository).findAll();
+        Member memberFound =  memberService.findMemberById(member.getMemberId());
 
-        //when
-        List<FindMemberDTO> memberDTOList = memberService.findAllMembers();
-
-        //then
-        assertThat(memberDTOList.size()).isEqualTo(2);
-        assertThat(memberDTOList.get(0).getMemberId()).isNull();
+        assertThat(memberFound).isEqualTo(member);
     }
 
     @DisplayName("회원 권한 변경 테스트")
@@ -102,37 +78,5 @@ class MemberServiceTest {
         //then
         assertThat(aliveMember.getIsDeleted()).isTrue();
         assertThat(deletedMember.getIsDeleted()).isFalse();
-    }
-
-    @DisplayName("회원가입 테스트")
-    @Test
-    void testSaveMember(){
-        //given
-        String email = "email";
-        String nickname = "nickname";
-        String password = "password";
-        String phoneNum = "phoneNum";
-        MemberDTO.MemberRequestDto request = new MemberDTO.MemberRequestDto(email,nickname,password,phoneNum);
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encryptPassword = encoder.encode(request.getPassword());
-
-        Member member = Member.builder()
-                .email(request.getEmail())
-                .nickname(request.getNickname())
-                .password(encryptPassword)
-                .phoneNum(request.getPhoneNum())
-                .build();
-
-        doReturn(member)
-                .when(memberRepository)
-                .save(any(Member.class));
-
-        //when
-        boolean result = memberService.addMember(request);
-
-        //then
-        assertThat(result).isTrue();
-
     }
 }

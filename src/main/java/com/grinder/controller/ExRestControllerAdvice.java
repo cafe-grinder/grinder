@@ -1,10 +1,11 @@
 package com.grinder.controller;
 
 import com.grinder.domain.dto.ErrorResult;
-import jakarta.persistence.EntityNotFoundException;
+import com.grinder.exception.AlreadyExistException;
 import com.grinder.exception.HasNotBeenAddedException;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.MaximumRangeAlreadyAddedException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,7 +25,7 @@ public class ExRestControllerAdvice {
     }
 
     @ExceptionHandler(NoSuchElementException.class)
-    public ErrorResult noSuchElementExHandle(EntityNotFoundException e) {
+    public ErrorResult noSuchElementExHandle(NoSuchElementException e) {
         log.error("[exceptionHandle] noSuchElementExHandle", e);
         return new ErrorResult("not_exist", e.getMessage());
     }
@@ -48,5 +49,17 @@ public class ExRestControllerAdvice {
     public ErrorResult LoginRequiredExHandle(LoginRequiredException e) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
         return new ErrorResult("Login_Require", e.getMessage());
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ErrorResult entityNotFoundExHandle(EntityNotFoundException e) {
+        log.error("[exceptionHandle] entityNotFoundExHandle", e);
+        return new ErrorResult("no_entity", e.getMessage());
+    }
+
+    @ExceptionHandler(AlreadyExistException.class)
+    public ErrorResult alreadyExistExHandle(AlreadyExistException e) {
+        log.error("[exceptionHandle] alreadyExistExHandle", e);
+        return new ErrorResult("already_exist", e.getMessage());
     }
 }
