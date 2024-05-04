@@ -9,12 +9,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.context.ActiveProfiles;
+
 import java.util.Optional;
 import java.util.UUID;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
+@ActiveProfiles("test")
 class MemberServiceImplTest {
     @InjectMocks
     MemberServiceImpl memberService;
