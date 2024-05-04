@@ -1,5 +1,6 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.enums.Role;
 import com.grinder.repository.MemberRepository;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
@@ -81,5 +83,37 @@ class MemberServiceImplTest {
         //then
         assertThat(aliveMember.getIsDeleted()).isTrue();
         assertThat(deletedMember.getIsDeleted()).isFalse();
+    }
+
+    @DisplayName("회원가입 테스트")
+    @Test
+    void testSaveMember(){
+        //given
+        String email = "email";
+        String nickname = "nickname";
+        String password = "password";
+        String phoneNum = "phoneNum";
+        MemberDTO.MemberRequestDto request = new MemberDTO.MemberRequestDto(email,nickname,password,phoneNum);
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String encryptPassword = encoder.encode(request.getPassword());
+
+        Member member = Member.builder()
+                .email(request.getEmail())
+                .nickname(request.getNickname())
+                .password(encryptPassword)
+                .phoneNum(request.getPhoneNum())
+                .build();
+
+        doReturn(member)
+                .when(memberRepository)
+                .save(any(Member.class));
+
+        //when
+        boolean result = memberService.addMember(request);
+
+        //then
+        assertThat(result).isTrue();
+
     }
 }
