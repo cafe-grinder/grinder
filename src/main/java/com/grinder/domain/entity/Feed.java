@@ -41,11 +41,15 @@ public class Feed extends BaseEntity {
     @Column(name = "grade")
     private Integer grade;
 
+    @Column(name = "rank")
+    private Integer rank;
+
     @PrePersist
     public void prePersist() {
         feedId = feedId == null ? UUID.randomUUID().toString() : feedId;
         hits = hits == null ? 0 : hits;
         isVisible = isVisible == null ? true : isVisible;
+        rank = rank == null ? 0 : rank;
     }
 
     public void updateFeed(Cafe cafe, String content, Integer grade) {
