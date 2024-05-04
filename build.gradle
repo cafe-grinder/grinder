@@ -21,26 +21,6 @@ repositories {
 	mavenCentral()
 }
 
-// 프로파일 기본값 설정
-bootRun {
-	if (!project.hasProperty('profile')) {
-		args '--spring.profiles.active=local'
-	} else {
-		args '--spring.profiles.active=' + profile
-	}
-}
-
-test {
-	systemProperty 'spring.profiles.active', 'local'
-}
-
-// 선택적으로 bootRun에 대해 프로파일 입력을 받아 사용할 수도 있습니다.
-// 예: gradle bootRun -Pprofile=local
-bootRun {
-	if (project.hasProperty('profile')) {
-		args '--spring.profiles.active=' + profile
-	}
-}
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -50,6 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.slf4j:jcl-over-slf4j:1.7.36'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
@@ -79,26 +60,34 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+	// Tika
+	implementation group: 'org.apache.tika', name: 'tika-core', version: '1.24'
+
+	//aws s3
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.518'
+
+
+
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
 
-// === ⭐ QueryDsl 빌드 옵션 (선택) ===
-def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
-sourceSets {
-	main.java.srcDirs += [ querydslDir ]
-}
+// Querydsl 설정부
+def generated = 'src/main/generated'
 
+// querydsl QClass 파일 생성 위치를 지정
 tasks.withType(JavaCompile) {
-	options.compilerArgs = [
-			'-s', querydslDir
-	]
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
-compileJava.dependsOn(clean)
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+	main.java.srcDirs += [generated]
+}
 
+// gradle clean 시에 QClass 디렉토리 삭제
 clean {
-	delete file('src/main/generated')
+	delete file(generated)
 }

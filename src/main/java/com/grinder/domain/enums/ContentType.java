@@ -13,4 +13,14 @@ public enum ContentType {
     COMMENT("댓글");
 
     private final String value;
+
+    // 문자열 값으로부터 ContentType을 반환하는 정적 메소드
+    public static ContentType fromString(String text) {
+        for (ContentType type : ContentType.values()) {
+            if (type.getValue().equals(text)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + text + " found");
+    }
 }
