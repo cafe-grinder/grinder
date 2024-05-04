@@ -13,4 +13,5 @@ public interface CommentService {
     Comment saveComment(CommentDTO.CommentRequestDTO request, String memberEmail, String feed_id);
     Comment updateComment(String commentId, String content);
     void deleteComment(String commentId);
+    CommentDTO.FindCommentDTO findCommentForAdmin(String commentId);
 }

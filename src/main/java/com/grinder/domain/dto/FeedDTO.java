@@ -1,10 +1,8 @@
 package com.grinder.domain.dto;
 
-import com.grinder.domain.entity.Feed;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.grinder.domain.entity.*;
+import com.grinder.domain.enums.TagName;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -90,6 +88,32 @@ public class FeedDTO {
             this.isHeart = false;
             this.heartNum = 0;
             this.image = image;
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FindFeedDTO {
+        private String feedId;
+        private String nickname;
+        private String name;
+        private String content;
+        private Integer hits;
+        private Integer grade;
+        private List<String> imageUrls;
+        private List<String> tagNames;
+
+        public FindFeedDTO(Feed feed, Member member, Cafe cafe, List<String> imageUrls, List<String> tagNames) {
+            this.feedId = feed.getFeedId();
+            this.nickname = member.getNickname();
+            this.name = cafe.getName();
+            this.content = feed.getContent();
+            this.hits = feed.getHits();
+            this.grade = feed.getGrade();
+            this.imageUrls = imageUrls;
+            this.tagNames = tagNames;
         }
     }
 }

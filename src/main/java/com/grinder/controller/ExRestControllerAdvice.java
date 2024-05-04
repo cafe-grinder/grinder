@@ -7,6 +7,7 @@ import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.MaximumRangeAlreadyAddedException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -61,5 +62,11 @@ public class ExRestControllerAdvice {
     public ErrorResult alreadyExistExHandle(AlreadyExistException e) {
         log.error("[exceptionHandle] alreadyExistExHandle", e);
         return new ErrorResult("already_exist", e.getMessage());
+    }
+
+    @ExceptionHandler(PermissionDeniedDataAccessException.class)
+    public ErrorResult permissionDeniedDataAccessExHandle(PermissionDeniedDataAccessException e) {
+        log.error("[exceptionHandle] permissionDeniedDataAccessExHandle", e);
+        return new ErrorResult("has_not_authority", e.getMessage());
     }
 }

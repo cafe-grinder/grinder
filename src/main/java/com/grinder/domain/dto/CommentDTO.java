@@ -1,10 +1,8 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.Comment;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.grinder.domain.entity.Member;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -46,6 +44,22 @@ public class CommentDTO {
             this.parentCommentId = comment.getParentComment().getCommentId();
             this.isHeart = false;
             this.heartNum = 0;
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FindCommentDTO {
+        private String commentId;
+        private String content;
+        private String nickname;
+
+        public FindCommentDTO(Comment comment, Member member) {
+            this.commentId = comment.getCommentId();
+            this.content = comment.getContent();
+            this.nickname = member.getNickname();
         }
     }
 }

@@ -7,6 +7,7 @@ import com.grinder.domain.entity.Member;
 import com.grinder.service.FeedService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -75,5 +76,14 @@ public class FeedController {
         } else {    // 403에러 (회원 불일치)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    }
+
+    @GetMapping("/admin/{feed_id}")
+    public ResponseEntity<FeedDTO.FindFeedDTO> findFeedForAdmin(@PathVariable String feed_id, Authentication authentication) {
+        if(!authentication.getAuthorities().contains("ADMIN")) {
+            throw new PermissionDeniedDataAccessException("관리자 권한이 필요합니다", null);
+        }
+        FeedDTO.FindFeedDTO feedDTO = feedService.findFeedForAdmin(feed_id);
+        return ResponseEntity.ok(feedDTO);
     }
 }
