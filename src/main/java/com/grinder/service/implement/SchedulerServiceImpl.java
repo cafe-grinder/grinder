@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
-    @Scheduled(cron = "0 0 0 0 * *", zone = "Asia/Seoul")
-    public void DecreaseFeedRank() {
+    @Scheduled(cron = "0 0 0 ? * SUN", zone = "Asia/Seoul")
+    public void decreaseFeedRank() {
 
     }
 }
