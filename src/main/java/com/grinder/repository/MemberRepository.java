@@ -9,8 +9,5 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
 
-    @Query("select m from Member m where m.nickname like %:nickname%")
-    List<Member> searchMemberByNickname(@Param("nickname") String nickname);
-
     Optional<Member> findByEmail(String email);
 }

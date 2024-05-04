@@ -1,9 +1,13 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.SellerInfo;
+import lombok.Getter;
+import lombok.Setter;
 
 public class SellerInfoDTO {
 
+    @Getter
+    @Setter
     public static class FindSellerInfoDTO {
         private Long sellerInfoId;
         private String memberId;

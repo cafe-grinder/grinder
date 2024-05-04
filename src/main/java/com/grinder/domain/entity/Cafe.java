@@ -28,8 +28,11 @@ public class Cafe extends BaseEntity {
     @Column(name = "phone_num", nullable = false, length = 11)
     private String phoneNum;
 
-    @Column(name = "average_grade")
+    @Column(name = "average_grade", nullable = false)
     private Integer averageGrade;
+
+    @Column(name = "image_url", length = 255)
+    private String imageUrl;
 
     @PrePersist
     public void prePersist() {
