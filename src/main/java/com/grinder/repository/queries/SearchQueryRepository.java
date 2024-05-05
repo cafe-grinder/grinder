@@ -20,14 +20,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class SearchQueryRepository {
-    /**
-     * TODO : 점수별로 feed 슬라이스(유저가 follow한 사람 중 최신 피드이면서 rank 기존 랭크에 +5,
-     *                          feed 테이블의 rank가 높은 순에서 유저가 blacklist에 추가된 사람은 제외한 피드,
-     *                          최근 2개월 내 게시물 중 rank가 높은 순은 기존 랭크에 +10
-     *                          이중 rank가 높은 순으로 슬라이스)
-     *
-     * TODO : 검색한 searchString 을 피드 내용에서 검색, 카페 이름이나 주소에서 검색, 회원 닉네임이나 email에서 검색
-     */
     private final JPAQueryFactory queryFactory;
 
     public SearchQueryRepository(EntityManager entityManager) {
@@ -38,6 +30,7 @@ public class SearchQueryRepository {
      * TODO : 점수별로 feed 슬라이스(유저가 follow한 사람 중 최신 피드이면서 rank 기존 랭크에 +5,
      *                          feed 테이블의 rank가 높은 순에서 유저가 blacklist에 추가된 사람은 제외한 피드,
      *                          최근 2개월 내 게시물 중 rank가 높은 순은 기존 랭크에 +10
+     *                          작성일 기준으로 7일로 나누어 나눈 값만큼 rank에서 뺄셈
      *                          이중 rank가 높은 순으로 슬라이스)
      */
     public Slice<FeedDTO.FeedAndImageResponseDTO> feedSuggestionSlice(String email, Pageable pageable) {
@@ -105,14 +98,112 @@ public class SearchQueryRepository {
     /**
      * TODO : 검색한 searchString 을 피드 내용에서 검색, 카페 이름이나 주소에서 검색, 회원 닉네임이나 email에서 검색
      */
-    //피드 내용 검색
-    public List<Feed> searchFeedsByContent(String searchString) {
+    //피드 내용 검색(정확도순)
+    public Slice<FeedDTO.FeedAndImageResponseDTO> searchFeedsByContentAccuracy(String searchString, Pageable pageable) {
         QFeed feed = QFeed.feed;
+        QBlacklist blacklist = QBlacklist.blacklist;
+        QImage image = QImage.image;
 
-        return queryFactory
-                .selectFrom(feed)
-                .where(feed.content.containsIgnoreCase(searchString))
-                .fetch();
+        long limit = pageable.getPageSize() + 1;
+        long offset = pageable.getOffset();
+
+        List<FeedDTO.FeedAndImageResponseDTO> list = queryFactory
+                .select(feed)
+                .from(feed)
+                .leftJoin(blacklist).on(feed.member.memberId.eq(blacklist.blockedMember.memberId))
+                .where(feed.content.containsIgnoreCase(searchString)
+                        .and(blacklist.blacklistId.isNull()))
+                .orderBy(feed.content.asc())
+                .limit(limit)
+                .offset(offset)
+                .fetch()
+                .stream()
+                .map(arg -> {
+                    List<String> images = queryFactory
+                            .select(image.imageUrl)
+                            .from(image)
+                            .where(image.contentId.eq(arg.getFeedId()).and(image.contentType.eq(ContentType.FEED)))
+                            .fetch();
+                    return new FeedDTO.FeedAndImageResponseDTO(arg, images);
+                })
+                .collect(Collectors.toList());
+
+        boolean hasNext = list.size() > pageable.getPageSize();
+        if (hasNext) list.remove(list.size() - 1);
+
+        return new SliceImpl<>(list, pageable, hasNext);
+    }
+
+    //피드 내용 검색(최신순)
+    public Slice<FeedDTO.FeedAndImageResponseDTO> searchFeedsByContentRecent(String searchString, Pageable pageable) {
+        QFeed feed = QFeed.feed;
+        QBlacklist blacklist = QBlacklist.blacklist;
+        QImage image = QImage.image;
+
+        long limit = pageable.getPageSize() + 1;
+        long offset = pageable.getOffset();
+
+        List<FeedDTO.FeedAndImageResponseDTO> list = queryFactory
+                .select(feed)
+                .from(feed)
+                .leftJoin(blacklist).on(feed.member.memberId.eq(blacklist.blockedMember.memberId))
+                .where(feed.content.containsIgnoreCase(searchString)
+                        .and(blacklist.blacklistId.isNull()))
+                .orderBy(feed.createdAt.desc())
+                .limit(limit)
+                .offset(offset)
+                .fetch()
+                .stream()
+                .map(arg -> {
+                    List<String> images = queryFactory
+                            .select(image.imageUrl)
+                            .from(image)
+                            .where(image.contentId.eq(arg.getFeedId()).and(image.contentType.eq(ContentType.FEED)))
+                            .fetch();
+                    return new FeedDTO.FeedAndImageResponseDTO(arg, images);
+                })
+                .collect(Collectors.toList());
+
+        boolean hasNext = list.size() > pageable.getPageSize();
+        if (hasNext) list.remove(list.size() - 1);
+
+        return new SliceImpl<>(list, pageable, hasNext);
+    }
+
+    //피드 내용 검색(인기순)
+    public Slice<FeedDTO.FeedAndImageResponseDTO> searchFeedsByContentPopular(String searchString, Pageable pageable) {
+        QFeed feed = QFeed.feed;
+        QBlacklist blacklist = QBlacklist.blacklist;
+        QImage image = QImage.image;
+
+        long limit = pageable.getPageSize() + 1;
+        long offset = pageable.getOffset();
+
+        List<FeedDTO.FeedAndImageResponseDTO> list = queryFactory
+                .select(feed)
+                .from(feed)
+                .leftJoin(blacklist).on(feed.member.memberId.eq(blacklist.blockedMember.memberId))
+                .where(feed.content.containsIgnoreCase(searchString)
+                        .and(blacklist.blacklistId.isNull()))
+                .orderBy(feed.hits.desc())
+                .limit(limit)
+                .offset(offset)
+                .fetch()
+                .stream()
+                .map(arg -> {
+                    List<String> images = queryFactory
+                            .select(image.imageUrl)
+                            .from(image)
+                            .where(image.contentId.eq(arg.getFeedId()).and(image.contentType.eq(ContentType.FEED)))
+                            .fetch();
+                    return new FeedDTO.FeedAndImageResponseDTO(arg, images);
+                })
+                .collect(Collectors.toList());
+
+        boolean hasNext = list.size() > pageable.getPageSize();
+        if (hasNext) list.remove(list.size() - 1);
+
+        return new SliceImpl<>(list, pageable, hasNext);
     }
 
     //카페 이름이나 주소 검색
