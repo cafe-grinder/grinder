@@ -51,14 +51,15 @@ public class TokenCheckFilter extends OncePerRequestFilter {
     }
     // AccessToken 검증
     private Map<String,Object> validateAccessToken(HttpServletRequest request) throws AccessTokenException{
-        String headerStr = request.getHeader("Authorization");
+        String accessToken = request.getHeader("access");
 
-        if(headerStr == null||headerStr.length() < 8){
+        if(accessToken == null||accessToken.length() < 8){
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.UNACCEPT);
         }
-        String tokenType = headerStr.substring(0,6);
-        String tokenStr = headerStr.substring(7);
+        String tokenType = accessToken.substring(0,6);
+        String tokenStr = accessToken.substring(7);
 
+        //TODO : 이부분 고려!
         if(tokenType.equalsIgnoreCase("Bearer")==false){
             throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BADTYPE);
         }

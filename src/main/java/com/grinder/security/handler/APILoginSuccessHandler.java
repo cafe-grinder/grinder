@@ -41,7 +41,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         String refreshToken = jwtUtil.generateToken(claim, 24*7);
 
         //accessToken은 로컬 스토리지 , refreshToken은 httpOnly 쿠키에 저장
-        response.addHeader("Authorization","Bearer"+accessToken);
+        response.addHeader("access","Bearer"+accessToken);
         response.addCookie(createCookie("refresh",refreshToken));
         response.setStatus(HttpStatus.OK.value());
     }

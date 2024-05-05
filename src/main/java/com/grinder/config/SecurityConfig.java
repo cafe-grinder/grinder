@@ -1,13 +1,16 @@
 package com.grinder.config;
 
 import com.grinder.repository.MemberRepository;
+import com.grinder.repository.RefreshRepository;
 import com.grinder.security.MemberDetailsService;
 import com.grinder.security.filter.APILoginFilter;
+import com.grinder.security.filter.APILogoutFilter;
 import com.grinder.security.filter.RefreshTokenFilter;
 import com.grinder.security.filter.TokenCheckFilter;
 import com.grinder.security.handler.APILoginFailureHandler;
 import com.grinder.security.handler.APILoginSuccessHandler;
 import com.grinder.utils.JWTUtil;
+import com.grinder.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -32,12 +36,16 @@ public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
     private final MemberRepository memberRepository;
+    private final RefreshRepository refreshRepository;
     private final JWTUtil jwtUtil;
+    private final RedisUtil redisUtil;
 
-    public SecurityConfig(MemberDetailsService memberDetailsService, MemberRepository memberRepository, JWTUtil jwtUtil) {
+    public SecurityConfig(MemberDetailsService memberDetailsService, MemberRepository memberRepository, RefreshRepository refreshRepository, JWTUtil jwtUtil, RedisUtil redisUtil) {
         this.memberDetailsService = memberDetailsService;
         this.memberRepository = memberRepository;
+        this.refreshRepository = refreshRepository;
         this.jwtUtil = jwtUtil;
+        this.redisUtil = redisUtil;
     }
 
     @Bean
@@ -79,6 +87,8 @@ public class SecurityConfig {
         );
         http.addFilterBefore(new RefreshTokenFilter("/api/reissue",jwtUtil),
                 TokenCheckFilter.class);
+
+        http.addFilterBefore(new APILogoutFilter(jwtUtil, refreshRepository,redisUtil), LogoutFilter.class);
         http.csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->              // 인증, 인가 설정
