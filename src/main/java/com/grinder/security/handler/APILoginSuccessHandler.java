@@ -3,10 +3,12 @@ package com.grinder.security.handler;
 import com.google.gson.Gson;
 import com.grinder.utils.JWTUtil;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -36,15 +38,22 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         //Access Token 유효기간 1시간
         String accessToken = jwtUtil.generateToken(claim, 1);
         //Refresh Token 유효기간 1일
-        String refreshToken = jwtUtil.generateToken(claim, 24);
+        String refreshToken = jwtUtil.generateToken(claim, 24*7);
 
-        Gson gson = new Gson();
+        //accessToken은 로컬 스토리지 , refreshToken은 httpOnly 쿠키에 저장
+        response.addHeader("Authorization","Bearer"+accessToken);
+        response.addCookie(createCookie("refresh",refreshToken));
+        response.setStatus(HttpStatus.OK.value());
+    }
+    private Cookie createCookie(String key, String value) {
 
-        Map<String, String> keyMap = Map.of("accessToken", accessToken, "refreshToken", refreshToken);
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(24*60*60);
+        //cookie.setSecure(true);
+        //cookie.setPath("/");
+        cookie.setHttpOnly(true);
 
-        String jsonStr = gson.toJson(keyMap);
-
-        response.getWriter().println(jsonStr);
+        return cookie;
     }
 
 }

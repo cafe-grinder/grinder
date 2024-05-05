@@ -9,6 +9,7 @@ import com.grinder.security.handler.APILoginFailureHandler;
 import com.grinder.security.handler.APILoginSuccessHandler;
 import com.grinder.utils.JWTUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -42,7 +43,8 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer configure() {      // 1) 스프링 시큐리티 기능 비활성화
         return web -> web.ignoring().requestMatchers(toH2Console())
-                .requestMatchers("/static/**");
+                .requestMatchers("/static/**", "/img/**", "/js/**", "/css/**", "/fonts/**")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -75,7 +77,7 @@ public class SecurityConfig {
                 tokenCheckFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
         );
-        http.addFilterBefore(new RefreshTokenFilter("/refreshToken",jwtUtil),
+        http.addFilterBefore(new RefreshTokenFilter("/api/reissue",jwtUtil),
                 TokenCheckFilter.class);
         http.csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

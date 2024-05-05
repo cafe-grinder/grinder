@@ -54,4 +54,13 @@ public class JWTUtil {
                 .getBody();
         return claim;
     }
+    public String getEmail(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("email", String.class);
+    }
 }

@@ -32,6 +32,7 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         if(path.startsWith("/")){
             filterChain.doFilter(request,response);
+            return;
         }
 //        if(path.equals("/api/member/signup")||path.startsWith("/api/file/")){
 //            System.out.println("통과확인");
