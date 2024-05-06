@@ -219,6 +219,14 @@ class CommentServiceImplTest {
     @Test
     @DisplayName("댓글 수정 테스트")
     void updateComment() {
+        String comment1Id = comment1.getCommentId();
+        String updateContent = "update content!";
+        comment1.updateContent(updateContent);
+        commentRepository.save(comment1);
+
+        Comment findComment1 = commentRepository.findById(comment1Id).orElseThrow(() -> new IllegalArgumentException("comment id(" + comment1Id + ")를 찾을 수 없습니다."));
+
+        assertEquals(updateContent, findComment1.getContent());
     }
 
     @Test
