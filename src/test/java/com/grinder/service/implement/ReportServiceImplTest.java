@@ -1,6 +1,8 @@
 package com.grinder.service.implement;
 
 import com.grinder.domain.dto.ReportDTO;
+import com.grinder.domain.entity.Cafe;
+import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.entity.Report;
 import com.grinder.domain.enums.ContentType;
@@ -42,10 +44,12 @@ class ReportServiceImplTest {
         //given
         List<Report> reportList = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
-            reportList.add(Report.builder().member(new Member()).build());
+            reportList.add(Report.builder().member(new Member()).contentType(ContentType.FEED).contentId(UUID.randomUUID().toString()).build());
         }
+        Feed feed = Feed.builder().cafe(new Cafe()).member(new Member()).content("피드내용").build();
 
         doReturn(reportList).when(reportRepository).findAll();
+        doReturn(feed).when(feedService).findFeed(anyString());
 
         //when
         List<ReportDTO.FindReportDTO> reportDTOList = reportService.findAllReports();
