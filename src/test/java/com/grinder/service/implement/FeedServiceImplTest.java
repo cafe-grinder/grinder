@@ -1,5 +1,6 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @Import({FeedServiceImpl.class, ImageServiceImpl.class, TagServiceImpl.class, MemberServiceImpl.class})
@@ -150,10 +152,31 @@ class FeedServiceImplTest {
         assertEquals(feedList, findFeedList);
     }
 
+    /*
+    feed1 = Feed.builder()
+                .member(member1)
+                .cafe(cafe1)
+                .content("Great coffee and atmosphere!")
+                .hits(100)
+                .isVisible(true)
+                .grade(5)
+                .build();
+    */
     @Test
     @DisplayName("피드 수정 테스트")
     void updateFeed() {
+        String feed1Id = feed1.getFeedId();
+        Cafe updateCafe = cafe2;
+        String updateContent = "update content!";
+        Integer updateGrade = 4;
 
+        feed1.updateFeed(updateCafe, updateContent, updateGrade);
+        feedRepository.save(feed1);
+        Feed updateFeed1 = feedRepository.findById(feed1Id).orElseThrow(() -> new IllegalArgumentException("feed id(" + feed1Id + ")를 찾울 수 없습니다."));
+
+        assertEquals(updateFeed1.getCafe(), updateCafe);
+        assertEquals(updateFeed1.getContent(), updateContent);
+        assertEquals(updateFeed1.getGrade(), updateGrade);
     }
 
     @Test
