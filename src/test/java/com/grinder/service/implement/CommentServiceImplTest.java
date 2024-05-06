@@ -17,19 +17,12 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-@Import({CommentServiceImpl.class, FeedServiceImpl.class, ImageServiceImpl.class, TagServiceImpl.class, MemberServiceImpl.class})
 @ActiveProfiles("test")
 class CommentServiceImplTest {
     @Autowired
     public FeedRepository feedRepository;
     @Autowired
-    public ImageServiceImpl imageService;
-    @Autowired
-    public TagServiceImpl tagService;
-    @Autowired
     public CafeRepository cafeRepository;
-    @Autowired
-    public MemberServiceImpl memberService;
     @Autowired
     public MemberRepository memberRepository;
     @Autowired
@@ -179,6 +172,20 @@ class CommentServiceImplTest {
     @Test
     @DisplayName("댓글 조회 테스트")
     void findComment() {
+        String comment1Id = comment1.getCommentId();
+        String comment2Id = comment2.getCommentId();
+        String comment3Id = comment3.getCommentId();
+        String comment4Id = comment4.getCommentId();
+
+        Comment findComment1 = commentRepository.findById(comment1Id).orElseThrow(() -> new IllegalArgumentException("comment id(" + comment1Id + ")를 찾을 수 없습니다."));
+        Comment findComment2 = commentRepository.findById(comment2Id).orElseThrow(() -> new IllegalArgumentException("comment id(" + comment2Id + ")를 찾을 수 없습니다."));
+        Comment findComment3 = commentRepository.findById(comment3Id).orElseThrow(() -> new IllegalArgumentException("comment id(" + comment3Id + ")를 찾을 수 없습니다."));
+        Comment findComment4 = commentRepository.findById(comment4Id).orElseThrow(() -> new IllegalArgumentException("comment id(" + comment4Id + ")를 찾을 수 없습니다."));
+
+        assertEquals(comment1, findComment1);
+        assertEquals(comment2, findComment2);
+        assertEquals(comment3, findComment3);
+        assertEquals(comment4, findComment4);
     }
 
     @Test
