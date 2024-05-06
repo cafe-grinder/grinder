@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -232,5 +233,11 @@ class CommentServiceImplTest {
     @Test
     @DisplayName("댓글 삭제 테스트")
     void deleteComment() {
+        String comment1Id = comment1.getCommentId();
+        commentRepository.deleteById(comment1Id);
+
+        Optional<Comment> findComment1 = commentRepository.findById(comment1Id);
+
+        assertFalse(findComment1.isPresent());
     }
 }
