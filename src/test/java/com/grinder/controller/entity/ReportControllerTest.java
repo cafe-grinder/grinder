@@ -2,6 +2,9 @@ package com.grinder.controller.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import static com.grinder.domain.dto.ReportDTO.*;
+
+import com.grinder.domain.entity.Cafe;
+import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
 import com.grinder.domain.entity.Report;
 import com.grinder.service.implement.ReportServiceImpl;
@@ -39,7 +42,7 @@ class ReportControllerTest {
     void testFindAllReports() throws Exception {
         List<FindReportDTO> reportDTOList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            reportDTOList.add(new FindReportDTO(Report.builder().member(new Member()).build()));
+            reportDTOList.add(new FindReportDTO(Report.builder().member(new Member()).build(), Feed.builder().member(new Member()).cafe(new Cafe()).build()));
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -50,7 +53,7 @@ class ReportControllerTest {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        mockMvc.perform(get("/api/report/find"))
+        mockMvc.perform(get("/api/report"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResponse));
     }

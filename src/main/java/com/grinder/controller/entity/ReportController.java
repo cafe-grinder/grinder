@@ -20,26 +20,12 @@ import static com.grinder.domain.dto.ReportDTO.*;
 public class ReportController {
 
     private final ReportService reportService;
-    private final FeedService feedService;
-    private final CommentService commentService;
 
     @GetMapping("/find")
     public ResponseEntity<List<FindReportDTO>> findAllReports() {
         List<FindReportDTO> reportList = reportService.findAllReports();
 
         return ResponseEntity.ok(reportList);
-    }
-
-    @GetMapping("/find/feed")
-    public ResponseEntity<FeedDTO.FindFeedDTO> findReportedFeed(@RequestParam String contentId) {
-        FeedDTO.FindFeedDTO feedDTO = feedService.findFeedForAdmin(contentId);
-        return ResponseEntity.ok(feedDTO);
-    }
-
-    @GetMapping("/find/comment")
-    public ResponseEntity<CommentDTO.FindCommentDTO> findReportedComment(@RequestParam String contentId) {
-        CommentDTO.FindCommentDTO commentDTO = commentService.findCommentForAdmin(contentId);
-        return ResponseEntity.ok(commentDTO);
     }
 
     @DeleteMapping("/delete/{reportId}")

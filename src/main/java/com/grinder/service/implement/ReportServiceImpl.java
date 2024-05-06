@@ -1,6 +1,9 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.entity.Comment;
+import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Report;
+import com.grinder.domain.enums.ContentType;
 import com.grinder.exception.ContentTypeException;
 import com.grinder.repository.ReportRepository;
 import com.grinder.service.CommentService;
@@ -27,7 +30,20 @@ public class ReportServiceImpl implements ReportService {
     public List<FindReportDTO> findAllReports() {
         List<Report> reportList = reportRepository.findAll();
 
-        List<FindReportDTO> reportDTOList = reportList.stream().map(report -> new FindReportDTO(report)).toList();
+        List<FindReportDTO> reportDTOList = reportList
+                .stream()
+                .map(report -> {
+                    if (report.getContentType() == ContentType.FEED) {
+                        Feed feed = feedService.findFeed(report.getContentId());
+                        return new FindReportDTO(report, feed);
+                    } else if(report.getContentType() == ContentType.COMMENT) {
+                        Comment comment = commentService.findComment(report.getContentId());
+                        return new FindReportDTO(report, comment);
+                    } else {
+                        throw new ContentTypeException("신고된 컨텐츠의 타입이 잘못되었습니다");
+                    }
+                })
+                .toList();
 
         return reportDTOList;
     }
