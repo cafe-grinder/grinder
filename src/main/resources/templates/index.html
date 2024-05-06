@@ -6,16 +6,19 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>grinder</title>
-    <link rel="icon" type="image/x-icon" href="../static/img/grinder.png"/>
+    <link rel="icon" type="image/x-icon" href="img/grinder.png"/>
     <!--swiper css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.4.1/swiper-bundle.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.4.1/swiper-bundle.min.js"></script>
 
-    <link rel="stylesheet" href="../static/css/swiper_config.css">
+    <link rel="stylesheet" href="css/swiper_config.css">
     <!--header css-->
-    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/footer.css">
 </head>
 <body>
+
+<div id="headerContainer"></div>
 
 <!-- Slider main container -->
 <div class="swiper">
@@ -29,7 +32,7 @@
                     <h2>카페 정보를 찾고 싶다면</h2>
                     <p>그라인드에서 확인해보세요!</p>
                 </div>
-                <img src="../static/img/background_one.png" alt="">
+                <img src="img/background_one.png" alt="">
             </a>
         </div>
         <div class="swiper-slide">
@@ -39,7 +42,7 @@
                     <h2>카페 정보를 찾고 싶다면</h2>
                     <p>그라인드에서 확인해보세요!</p>
                 </div>
-                <img src="../static/img/background.png" alt="">
+                <img src="img/background.png" alt="">
             </a>
         </div>
     </div>
@@ -50,10 +53,12 @@
 </div>
 <!-- Slider main container -->
 
+<footer th:replace="components/footer :: footers"></footer>
 
+<script src="js/index.js"></script>
 <!--header js-->
-<script src="../static/js/header.js"></script>
+<script src="js/header.js"></script>
 <!--swiper js-->
-<script src="../static/js/swiper_config.js"></script>
+<script src="js/swiper_config.js"></script>
 </body>
 </html>

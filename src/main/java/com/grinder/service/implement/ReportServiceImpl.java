@@ -5,7 +5,11 @@ import com.grinder.repository.ReportRepository;
 import com.grinder.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+import java.util.NoSuchElementException;
+
 import static com.grinder.domain.dto.ReportDTO.*;
 
 @Service
@@ -24,7 +28,9 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
+    @Transactional
     public void deleteReport(String reportId) {
-        reportRepository.deleteById(reportId);
+        Report report = reportRepository.findById(reportId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 신고글입니다."));
+        reportRepository.delete(report);
     }
 }

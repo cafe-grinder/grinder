@@ -56,4 +56,40 @@ public class FeedDTO {
             this.heartNum = 0;
         }
     }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class FeedAndImageResponseDTO {
+        private String feedId;
+        private String memberNickname;
+        private String memberEmail;
+        private String cafeName;
+        private String content;
+        private Integer hits;
+        private Boolean isVisible;
+        private Integer grade;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+        private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
+        private int heartNum;       // 해당 댓글의 좋아요 수
+        private List<String> image;
+
+        public FeedAndImageResponseDTO(Feed feed, List<String> image) {
+            this.feedId = feed.getFeedId();
+            this.memberNickname = feed.getMember().getNickname();
+            this.memberEmail = feed.getMember().getEmail();
+            this.cafeName = feed.getCafe().getName();
+            this.content = feed.getContent();
+            this.hits = feed.getHits();
+            this.isVisible = feed.getIsVisible();
+            this.grade = feed.getGrade();
+            this.createdAt = feed.getCreatedAt();
+            this.updatedAt = feed.getUpdatedAt();
+            this.isHeart = false;
+            this.heartNum = 0;
+            this.image = image;
+        }
+    }
 }

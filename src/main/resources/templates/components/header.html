@@ -1,45 +1,46 @@
-<header>
+<header th:fragment="headers">
     <nav class="header_bar">
         <div class="header_search_box">
             <h1><a class="header_grinder_logo" href="#">그라인더 홈페이지</a></h1>
 <!--            폼 태그로 묶어야 하는지?-->
-            <form action="#" method="post" title="검색">
-                    <select title="검색 리스트">
-                        <option value="search_cafe">카페</option>
-                        <option value="search_feed">피드</option>
-                    </select>
-                <input type="text" class="header_search" title="검색어를 입력해주세요" placeholder="검색어를 입력해주세요">
-                <a href="#" class="header_search_tab"></a>
+            <form action="#" method="get" title="검색">
+                <select title="search_list" name="category">
+                    <option value="cafe">카페</option>
+                    <option value="feed">피드</option>
+                    <option value="member">회원</option>
+                </select>
+                <input type="text" name="query" class="header_search" title="검색어를 입력해주세요" placeholder="검색어를 입력해주세요">
+                <button type="submit" style="display: none">검색</button>
             </form>
         </div>
         <div class="header_btn">
-    <!--        <ul th:if="${user != null}" class="header_non_login">-->
-    <!--            <li><a href="#">로그인</a></li>-->
-    <!--            <li> | </li>-->
-    <!--            <li><a href="#">회원가입</a></li>-->
-    <!--        </ul>-->
-            <ul th:unless="${member} != null" class="header_login">
-                <li><strong th:text="${member.name}"></strong>님! 안녕하세요.</li>
+            <ul th:if="${member} == null" class="header_non_login">
+                <li><a href="#">로그인</a></li>
+                <li> | </li>
+                <li><a href="#">회원가입</a></li>
+            </ul>
+            <ul th:if="${member} != null" class="header_login">
+                <li><strong th:text="${member.nickname}"></strong>님! 안녕하세요.</li>
                 <li class="header_alarm"><a href="#">alarm</a></li>
-                <li class="header_profile"><a th:href="@{/mypage/{id}(id=${member.id})}">myPage</a></li>
+                <li class="header_profile"><a th:href="@{/mypage/{memberId}(id=${member.memberId})}">myPage</a></li>
             </ul>
         </div>
     </nav>
 
-    <article th:if="${user} != null" class="header_alarm_box">
-        <ul th:if="${message} != null" class="header_alarm_list">
-            <li th:each="message: ${message}" th:classappend="${message.read == false} ? 'non_read'">
-                <div>
-                    <img th:src="message.url">
-                    <p th:text="message.cafename"></p>
-                </div>
-                <p th:text="message.content"></p>
-            </li>
-        </ul>
-
-<!--        <ul th:if="${message} == null" class="header_non_alarm">-->
-<!--            <p>도착한 메세지가 없습니다.</p>-->
+    <article th:if="${member} != null" class="header_alarm_box">
+<!--        <ul th:if="${message} != null" class="header_alarm_list">-->
+<!--            <li th:each="message: ${message}" th:classappend="${message.read == false} ? 'non_read'">-->
+<!--                <div>-->
+<!--                    <img th:src="message.url">-->
+<!--                    <p th:text="message.cafename"></p>-->
+<!--                </div>-->
+<!--                <p th:text="message.content"></p>-->
+<!--            </li>-->
 <!--        </ul>-->
+
+        <ul th:if="${message} == null" class="header_non_alarm">
+            <p>도착한 메세지가 없습니다.</p>
+        </ul>
 
         <div class="header_alarm_line"></div>
         <p class="header_alarm_more"><a href="#">더보기</a></p>

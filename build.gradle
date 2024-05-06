@@ -21,6 +21,7 @@ repositories {
 	mavenCentral()
 }
 
+
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
@@ -29,11 +30,16 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'org.slf4j:jcl-over-slf4j:1.7.36'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	//test
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -54,6 +60,14 @@ dependencies {
 	annotationProcessor "jakarta.annotation:jakarta.annotation-api"
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
+	// Tika
+	implementation group: 'org.apache.tika', name: 'tika-core', version: '1.24'
+
+	//aws s3
+	implementation 'com.amazonaws:aws-java-sdk-s3:1.12.518'
+
+
+
 }
 
 tasks.named('test') {
@@ -61,19 +75,19 @@ tasks.named('test') {
 }
 
 // === ⭐ QueryDsl 빌드 옵션 (선택) ===
-def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
-sourceSets {
-	main.java.srcDirs += [ querydslDir ]
-}
+def generated = layout.buildDirectory.dir("generated/querydsl")
 
+// querydsl QClass 파일 생성 위치를 지정
 tasks.withType(JavaCompile) {
-	options.compilerArgs = [
-			'-s', querydslDir
-	]
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
-compileJava.dependsOn(clean)
+// java source set 에 querydsl QClass 위치 추가
+sourceSets {
+	main.java.srcDirs += [ generated.get().asFile ]
+}
 
+// gradle clean 시에 QClass 디렉토리 삭제
 clean {
-	delete file('src/main/generated')
+	delete file(generated)
 }

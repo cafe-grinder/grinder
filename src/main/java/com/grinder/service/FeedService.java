@@ -2,7 +2,6 @@ package com.grinder.service;
 
 import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.Feed;
-import com.grinder.domain.entity.Member;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

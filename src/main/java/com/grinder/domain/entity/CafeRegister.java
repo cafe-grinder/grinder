@@ -29,6 +29,9 @@ public class CafeRegister {
     @Column(name = "address", nullable = false, length = 100)
     private String address;
 
+    @Column(name = "phone_num", nullable = false, length = 11)
+    private String phoneNum;
+
     @PrePersist
     public void prePersist() {
         registerId = registerId == null ? UUID.randomUUID().toString() : registerId;
