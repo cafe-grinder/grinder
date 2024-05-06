@@ -17,7 +17,7 @@ public class SellerApplyController {
 
     private final SellerApplyService sellerApplyService;
 
-    @GetMapping()
+    @GetMapping
     public void findAllSellerApplies(Model model) {
         List<FindSellerApplyDTO> sellerApplyList = sellerApplyService.findAllSellerApplies();
         model.addAttribute("sellerApplyList", sellerApplyList);
