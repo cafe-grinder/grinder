@@ -2,7 +2,6 @@ package com.grinder.service;
 
 import com.grinder.domain.dto.CommentDTO;
 import com.grinder.domain.entity.Comment;
-import com.grinder.domain.entity.Member;
 
 import java.util.List;
 
