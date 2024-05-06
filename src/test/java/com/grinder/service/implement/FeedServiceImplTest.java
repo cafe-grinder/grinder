@@ -1,6 +1,5 @@
 package com.grinder.service.implement;
 
-import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
@@ -13,29 +12,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-@Import({FeedServiceImpl.class, ImageServiceImpl.class, TagServiceImpl.class, MemberServiceImpl.class})
 @ActiveProfiles("test")
 class FeedServiceImplTest {
     @Autowired
     public FeedRepository feedRepository;
     @Autowired
-    public ImageServiceImpl imageService;
-    @Autowired
-    public TagServiceImpl tagService;
-    @Autowired
     public CafeRepository cafeRepository;
-    @Autowired
-    public MemberServiceImpl memberService;
     @Autowired
     public MemberRepository memberRepository;
 
