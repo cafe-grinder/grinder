@@ -42,7 +42,7 @@ class ReportControllerTest {
     void testFindAllReports() throws Exception {
         List<FindReportDTO> reportDTOList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            reportDTOList.add(new FindReportDTO(Report.builder().member(new Member()).build(), Feed.builder().member(new Member()).cafe(new Cafe()).build()));
+            reportDTOList.add(new FindReportDTO(Report.builder().member(new Member()).build(), Feed.builder().member(new Member()).cafe(new Cafe()).content("피드내용").build()));
         }
 
         ObjectMapper objectMapper = new ObjectMapper();
