@@ -141,6 +141,13 @@ class FeedServiceImplTest {
     @Test
     @DisplayName("피드 전체 조회 테스트")
     void findAllFeed() {
+        List<Feed> feedList = new ArrayList<>();
+        feedList.add(feed1);
+        feedList.add(feed2);
+        // feedList.add(feed3); feed3은 isVisible==false 이므로 제외
+
+        List<Feed> findFeedList = feedRepository.findAllByIsVisibleTrue();
+        assertEquals(feedList, findFeedList);
     }
 
     @Test
