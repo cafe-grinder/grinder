@@ -14,6 +14,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -119,7 +122,7 @@ class CommentServiceImplTest {
                 .feed(feed1)
                 .member(member1)
                 .content("Nice photo!")
-                .isVisible(true)
+                .isVisible(false)
                 .build();
 
         comment5 = Comment.builder()
@@ -134,7 +137,7 @@ class CommentServiceImplTest {
                 .feed(feed2)
                 .member(member2)
                 .content("Great angle!")
-                .isVisible(true)
+                .isVisible(false)
                 .build();
 
         comment7 = Comment.builder()
@@ -142,7 +145,7 @@ class CommentServiceImplTest {
                 .feed(feed2)
                 .member(member1)
                 .content("Interesting topic!")
-                .isVisible(true)
+                .isVisible(false)
                 .build();
 
         comment8 = Comment.builder()
@@ -191,6 +194,14 @@ class CommentServiceImplTest {
     @Test
     @DisplayName("부모 댓글 리스트 조회 테스트")
     void findParentCommentList() {
+        List<Comment> commentList = new ArrayList<>();
+        commentList.add(comment1);
+        commentList.add(comment2);
+        // comment3은 자식댓글, comment4는 isVisible==false
+
+        List<Comment> findCommentList = commentRepository.findByFeed_FeedIdAndParentCommentIsNullAndIsVisibleTrue(feed1.getFeedId());
+
+        assertEquals(commentList, findCommentList);
     }
 
     @Test
