@@ -182,6 +182,12 @@ class FeedServiceImplTest {
     @Test
     @DisplayName("피드 삭제 테스트")
     void deleteFeed() {
+        feed1.notVisible();
+        feed2.notVisible();
+        List<Feed> feedList = new ArrayList<>();
 
+        List<Feed> findFeedList = feedRepository.findAllByIsVisibleTrue();
+
+        assertEquals(feedList, findFeedList);
     }
 }
