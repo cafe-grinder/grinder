@@ -40,4 +40,8 @@ public class CafeServiceImpl implements CafeService {
         cafeRepository.save(cafe);
     }
 
+    @Override
+    public Cafe findCafeById(String cafeId) {
+        return cafeRepository.findById(cafeId).orElseThrow(() -> new NoSuchElementException("카페 아이디: " + cafeId + " 인 카페가 존재하지 않습니다."));
+    }
 }
