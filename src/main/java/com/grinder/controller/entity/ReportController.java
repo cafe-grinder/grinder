@@ -21,20 +21,20 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @GetMapping("/find")
+    @GetMapping
     public ResponseEntity<List<FindReportDTO>> findAllReports() {
         List<FindReportDTO> reportList = reportService.findAllReports();
 
         return ResponseEntity.ok(reportList);
     }
 
-    @DeleteMapping("/delete/{reportId}")
+    @DeleteMapping("/{reportId}")
     public ResponseEntity<SuccessResult> deleteReport(@PathVariable String reportId) {
         reportService.deleteReport(reportId);
         return ResponseEntity.ok(new SuccessResult("Success", "신고 요청이 삭제되었습니다."));
     }
 
-    @PutMapping("/{reportId}")
+    @DeleteMapping("/{reportId}/accepted")
     public ResponseEntity<SuccessResult> deleteContent(@PathVariable String reportId) {
         reportService.deleteContent(reportId);
 
