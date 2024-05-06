@@ -152,16 +152,6 @@ class FeedServiceImplTest {
         assertEquals(feedList, findFeedList);
     }
 
-    /*
-    feed1 = Feed.builder()
-                .member(member1)
-                .cafe(cafe1)
-                .content("Great coffee and atmosphere!")
-                .hits(100)
-                .isVisible(true)
-                .grade(5)
-                .build();
-    */
     @Test
     @DisplayName("피드 수정 테스트")
     void updateFeed() {
