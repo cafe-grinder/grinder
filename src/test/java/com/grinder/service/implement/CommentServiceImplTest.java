@@ -207,6 +207,13 @@ class CommentServiceImplTest {
     @Test
     @DisplayName("댓글의 자식 댓글 리스트 조회 테스트")
     void findChildrenCommentList() {
+        List<Comment> commentList = new ArrayList<>();
+        commentList.add(comment8);
+        // comment6, comment7은 isVisible==false
+
+        List<Comment> findCommentList = commentRepository.findByParentComment_CommentIdAndIsVisibleTrue(comment5.getCommentId());
+
+        assertEquals(commentList, findCommentList);
     }
 
     @Test
