@@ -3,7 +3,7 @@
         <div class="header_search_box">
             <h1><a class="header_grinder_logo" href="#">그라인더 홈페이지</a></h1>
 <!--            폼 태그로 묶어야 하는지?-->
-            <form action="#" method="get" title="검색">
+            <form action="/" method="get" title="검색">
                 <select title="search_list" name="category">
                     <option value="cafe">카페</option>
                     <option value="feed">피드</option>
@@ -14,20 +14,20 @@
             </form>
         </div>
         <div class="header_btn">
-            <ul th:if="${member} == null" class="header_non_login">
+            <ul th:if="${headerMember} == null" class="header_non_login">
                 <li><a href="#">로그인</a></li>
                 <li> | </li>
                 <li><a href="#">회원가입</a></li>
             </ul>
-            <ul th:if="${member} != null" class="header_login">
-                <li><strong th:text="${member.nickname}"></strong>님! 안녕하세요.</li>
+            <ul th:if="${headerMember} != null" class="header_login">
+                <li><strong th:text="${headerMember.nickname}"></strong>님! 안녕하세요.</li>
                 <li class="header_alarm"><a href="#">alarm</a></li>
-                <li class="header_profile"><a th:href="@{/mypage/{memberId}(id=${member.memberId})}">myPage</a></li>
+                <li class="header_profile"><a th:href="@{/mypage/{member_id}(member_id=${headerMember.memberId})}">myPage</a></li>
             </ul>
         </div>
     </nav>
 
-    <article th:if="${member} != null" class="header_alarm_box">
+    <article th:if="${headerMember} != null" class="header_alarm_box">
 <!--        <ul th:if="${message} != null" class="header_alarm_list">-->
 <!--            <li th:each="message: ${message}" th:classappend="${message.read == false} ? 'non_read'">-->
 <!--                <div>-->

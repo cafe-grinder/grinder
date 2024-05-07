@@ -51,7 +51,7 @@ public class FollowQueryRepository {
     }
 
     public Slice<FollowDTO.findAllFollowerResponse> findAllFollowerSlice(String email, Pageable pageable) {
-        QMember following = QMember.member;
+        QMember member = QMember.member;
         QFollow follow = QFollow.follow;
         QImage image = QImage.image;
 
@@ -63,10 +63,10 @@ public class FollowQueryRepository {
                         follow,
                         image.imageUrl))
                 .from(follow)
-                .join(follow.following, following)
+                .join(follow.following, member)
                 .leftJoin(image).on(image.contentType.eq(ContentType.MEMBER)
                         .and(image.contentId.eq(follow.following.memberId)))
-                .where(following.email.eq(email).and(follow.member.isDeleted.isFalse()))
+                .where(follow.following.email.eq(email).and(follow.member.isDeleted.isFalse()))
                 .limit(limit)
                 .offset(offset)
                 .fetch();

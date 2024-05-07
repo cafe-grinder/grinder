@@ -48,7 +48,7 @@ class FollowServiceImplTest {
 
         List<FollowDTO.findAllFollowingResponse> list = followService.findAllFollowingSlice(follower.getEmail(), pageable);
 
-        assertEquals(list.get(0).getFollowingEmail(), following.getEmail());
+        assertEquals(list.get(0).getFollowEmail(), following.getEmail());
     }
 
     @Test
@@ -58,7 +58,7 @@ class FollowServiceImplTest {
 
         List<FollowDTO.findAllFollowerResponse> list = followService.findAllFollowerSlice(following.getEmail(), pageable);
 
-        assertEquals(list.get(0).getFollowerEmail(), follower.getEmail());
+        assertEquals(list.get(0).getFollowEmail(), follower.getEmail());
     }
 
     @Test
