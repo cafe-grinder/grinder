@@ -17,4 +17,6 @@ public interface FeedService {
     Feed updateFeed(String feedId, FeedDTO.FeedRequestDTO request);
     // 피드 삭제(isVisible == false)
     void deleteFeed(String feedId);
+    //관리자 페이지 피드 조회(신고 처리를 위해 사용)
+    FeedDTO.FindFeedDTO findFeedForAdmin(String feedId);
 }

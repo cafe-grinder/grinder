@@ -6,6 +6,7 @@ import com.grinder.domain.entity.Comment;
 import com.grinder.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -72,5 +73,15 @@ public class CommentController {
         } else {    // 403에러 (회원 불일치)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    }
+
+    @GetMapping("/admin/{comment_id}")
+    public ResponseEntity<CommentDTO.FindCommentDTO> findCommentForAdmin(@PathVariable String comment_id, Authentication authentication) {
+        if(!authentication.getAuthorities().contains("ADMIN")) {
+            throw new PermissionDeniedDataAccessException("관리자 권한이 필요합니다", null);
+        }
+        CommentDTO.FindCommentDTO commentDTO = commentService.findCommentForAdmin(comment_id);
+
+        return ResponseEntity.ok(commentDTO);
     }
 }

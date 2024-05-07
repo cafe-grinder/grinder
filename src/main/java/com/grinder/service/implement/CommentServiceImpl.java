@@ -5,6 +5,7 @@ import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Member;
 import com.grinder.repository.CommentRepository;
+import com.grinder.repository.queries.CommentQueryRepository;
 import com.grinder.service.CommentService;
 import com.grinder.service.FeedService;
 import com.grinder.service.MemberService;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +21,7 @@ public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
     private final FeedService feedService;
     private final MemberService memberService;
+    private final CommentQueryRepository commentQueryRepository;
 
     @Override
     public Comment findComment(String commentId) {
@@ -60,5 +63,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComment(String commentId) {
         commentRepository.deleteById(commentId);
+    }
+
+    @Override
+    public CommentDTO.FindCommentDTO findCommentForAdmin(String commentId) {
+        CommentDTO.FindCommentDTO commentDTO = commentQueryRepository.findComment(commentId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 댓글입니다."));
+        return commentDTO;
     }
 }
