@@ -90,7 +90,7 @@ public class APILogoutFilter extends GenericFilterBean {
 
         // accessToken blacklist에 추가
         String accessToken = request.getHeader("access");
-        redisUtil.setBlackList(accessToken,"accessToken",5);
+        redisUtil.setBlackList(accessToken,"accessToken",60);
 
         //Refresh 토큰 Cookie 값 0
         Cookie cookie = new Cookie("refresh", null);
