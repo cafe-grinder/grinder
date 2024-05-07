@@ -88,7 +88,7 @@ public class SearchQueryRepository {
 
         // 팔로우한 사용자의 피드에 대한 추가 점수
         NumberExpression<Integer> followerBonus = new CaseBuilder()
-                .when(isFollower).then(5)
+                .when(isFollower).then(50)
                 .otherwise(0);
 
         // 최종 점수 계산: 기본 점수 + 최근 2달 보너스 + 팔로우 보너스 - 주차별 감소

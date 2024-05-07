@@ -25,16 +25,17 @@ public class FollowServiceImpl implements FollowService {
     private final FollowQueryRepository followQueryRepository;
     private final MemberRepository memberRepository;
 
+    @Override
     public List<FollowDTO.findAllFollowingResponse> findAllFollowingSlice(String email, Pageable pageable) {
         Slice<FollowDTO.findAllFollowingResponse> slice = followQueryRepository.findAllFollowingSlice(email, pageable);
         return slice.getContent();
     }
-
+    @Override
     public List<FollowDTO.findAllFollowerResponse> findAllFollowerSlice(String email, Pageable pageable) {
         Slice<FollowDTO.findAllFollowerResponse> slice = followQueryRepository.findAllFollowerSlice(email, pageable);
         return slice.getContent();
     }
-
+    @Override
     public boolean addFollow(String email, String followEmail) {
         if (email.equals(followEmail)) throw new IllegalArgumentException("자기 자신은 추가할 수 없습니다.");
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다."));
@@ -47,7 +48,7 @@ public class FollowServiceImpl implements FollowService {
         followRepository.save(follow);
         return true;
     }
-
+    @Override
     public boolean deleteFollow(String email, String followEmail) {
         if (!followQueryRepository.existsByMemberEmailAndFollowEmail(email, followEmail)) {
             throw new IllegalArgumentException("존재하지 않는 팔로우 입니다.");

@@ -33,7 +33,7 @@ public class MemberDTO {
     @Setter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class MemberRequestDto{
+    public static class MemberRequestDto {
         private String email;
         private String nickname;
         private String password;
@@ -41,4 +41,22 @@ public class MemberDTO {
 
     }
 
+    @Getter
+    @Setter
+    public static class FindMemberAndImageDTO {
+
+        private String memberId;
+        private String email;
+        private String nickname;
+        private String role;
+        private String image;
+
+        public FindMemberAndImageDTO(Member member, String image) {
+            memberId = member.getMemberId();
+            email = member.getEmail();
+            nickname = member.getNickname();
+            role = member.getRole().getValue();
+            this.image = image;
+        }
+    }
 }

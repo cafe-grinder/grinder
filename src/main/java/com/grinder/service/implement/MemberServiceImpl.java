@@ -1,7 +1,11 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.dto.MemberDTO;
+import com.grinder.domain.entity.Image;
 import com.grinder.domain.entity.Member;
+import com.grinder.domain.enums.ContentType;
 import com.grinder.domain.enums.Role;
+import com.grinder.repository.ImageRepository;
 import com.grinder.repository.MemberRepository;
 import com.grinder.repository.queries.MemberQueryRepository;
 import com.grinder.service.MemberService;
@@ -19,6 +23,7 @@ import static com.grinder.domain.dto.MemberDTO.*;
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
+    private final ImageRepository imageRepository;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberQueryRepository memberQueryRepository;
@@ -31,6 +36,22 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member findMemberByEmail(String memberEmail) {
         return memberRepository.findByEmail(memberEmail).orElseThrow(() -> new NoSuchElementException("회원 아이디" + memberEmail + "인 회원이 존재하지 않습니다."));
+    }
+
+    @Transactional
+    @Override
+    public MemberDTO.FindMemberAndImageDTO findMemberAndImageById(String memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("회원 아이디: " + memberId + " 인 회원이 존재하지 않습니다."));
+        String image = imageRepository.findByContentTypeAndContentId(ContentType.MEMBER, memberId).orElse(new Image()).getImageUrl();
+        return new MemberDTO.FindMemberAndImageDTO(member, image);
+    }
+
+    @Transactional
+    @Override
+    public MemberDTO.FindMemberAndImageDTO findMemberAndImageByEmail(String email) {
+        Member member = memberRepository.findByEmail(email).orElseThrow(() -> new NoSuchElementException("회원 아이디: " + email + " 인 회원이 존재하지 않습니다."));
+        String image = imageRepository.findByContentTypeAndContentId(ContentType.MEMBER, member.getMemberId()).orElse(new Image()).getImageUrl();
+        return new MemberDTO.FindMemberAndImageDTO(member, image);
     }
 
     @Override
@@ -69,4 +90,6 @@ public class MemberServiceImpl implements MemberService {
         memberRepository.save(member);
         return true;
     }
+
+
 }
