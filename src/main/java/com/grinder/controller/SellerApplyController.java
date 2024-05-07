@@ -17,16 +17,16 @@ public class SellerApplyController {
 
     private final SellerApplyService sellerApplyService;
 
-    @GetMapping("/find")
+    @GetMapping
     public void findAllSellerApplies(Model model) {
         List<FindSellerApplyDTO> sellerApplyList = sellerApplyService.findAllSellerApplies();
         model.addAttribute("sellerApplyList", sellerApplyList);
     }
 
-    @DeleteMapping("/delete/{applyId}")
+    @DeleteMapping("/{applyId}")
     @ResponseBody
     public ResponseEntity<SuccessResult> deleteSellerApply(@PathVariable String applyId) {
         sellerApplyService.deleteSellerApply(applyId);
-        return ResponseEntity.ok(new SuccessResult("Success", "요청이 성공적으로 처리되었습니다."));
+        return ResponseEntity.ok(new SuccessResult("Delete seller_apply", "판매자 신청이 삭제되었습니다."));
     }
 }

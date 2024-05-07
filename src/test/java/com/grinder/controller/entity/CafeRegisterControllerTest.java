@@ -52,7 +52,7 @@ class CafeRegisterControllerTest {
         doReturn(registerDTOList).when(cafeRegisterService).FindAllCafeRegisters();
 
 
-        mockMvc.perform(get("/api/cafe_register/find"))
+        mockMvc.perform(get("/api/cafe_register"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(expectedResponse));
     }
