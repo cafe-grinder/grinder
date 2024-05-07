@@ -31,12 +31,16 @@ public class Cafe extends BaseEntity {
     @Column(name = "average_grade", nullable = false)
     private Integer averageGrade;
 
-    @Column(name = "image_url", length = 255)
-    private String imageUrl;
+    @Column(name = "reg_image_url", length = 36)
+    private String regImageUrl;
 
     @PrePersist
     public void prePersist() {
         cafeId = cafeId == null ? UUID.randomUUID().toString() : cafeId;
         averageGrade = averageGrade == null ? 0 : averageGrade;
+    }
+
+    public void uploadRegImage(String regImageUrl) {
+        this.regImageUrl = regImageUrl;
     }
 }

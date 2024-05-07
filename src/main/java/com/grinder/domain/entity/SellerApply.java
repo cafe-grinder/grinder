@@ -27,8 +27,8 @@ public class SellerApply {
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 
-    @Column(name = "image_url", nullable = false)
-    private String imageUrl;
+    @Column(name = "reg_image_url", nullable = false)
+    private String regImageUrl;
 
     @PrePersist
     public void prePersist() {

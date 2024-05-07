@@ -10,7 +10,8 @@ public enum ContentType {
     FEED("피드"),
     CAFE("카페"),
     MENU("메뉴"),
-    COMMENT("댓글");
+    COMMENT("댓글"),
+    SELLER_APPLY("판매자신청");
 
     private final String value;
 
