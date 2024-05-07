@@ -1,10 +1,13 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.BlacklistDTO;
+import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.dto.FollowDTO;
 import com.grinder.domain.dto.MemberDTO;
+import com.grinder.domain.entity.Feed;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.service.BlacklistService;
+import com.grinder.service.FeedService;
 import com.grinder.service.FollowService;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,7 @@ public class ComponentsController {
     private final MemberService memberService;
     private final FollowService followService;
     private final BlacklistService blacklistService;
+    private final FeedService feedService;
 
     @GetMapping("/get-header")
     public String getHeader(Authentication authentication, Model model) {
@@ -76,6 +80,22 @@ public class ComponentsController {
         return "components/blacklist :: blackList(title='차단목록 보기')";
     }
 
+    @GetMapping("/get-feed")
+    public String getFeed(Authentication authentication, Model model) {
+        MemberDTO.FindMemberDTO member = null;
+        try {
+            //String email = Optional.ofNullable(authentication.getName()).orElseThrow(() -> new LoginRequiredException("로그인이 필요합니다."));
+            String email = "example1@example.com"; // TODO: 테스트용. 나중에 지우기!
+            member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        } catch (Exception e) {}
+        model.addAttribute("feedMember",member);
+
+        List<Feed> feedList = feedService.findAllFeed();
+        List<FeedDTO.FeedResponseDTO> feedResponseList = feedList.stream().map(FeedDTO.FeedResponseDTO::new).toList();
+        model.addAttribute("feedList", feedResponseList);
+
+        return "components/feed";
+    }
 
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
