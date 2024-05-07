@@ -1,6 +1,5 @@
 package com.grinder.controller.entity;
 
-import com.grinder.domain.dto.SellerInfoDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.service.SellerInfoService;
 import lombok.RequiredArgsConstructor;
@@ -15,9 +14,9 @@ public class SellerInfoController {
 
     private final SellerInfoService sellerInfoService;
 
-    @PostMapping
-    public ResponseEntity<SuccessResult> saveSellerInfo(@RequestBody SellerInfoDTO.SaveSellerInfoDTO sellerInfoDTO) {
-        sellerInfoService.saveSellerInfo(sellerInfoDTO);
+    @PostMapping("/{applyId}")
+    public ResponseEntity<SuccessResult> saveSellerInfo(@PathVariable String applyId) {
+        sellerInfoService.saveSellerInfo(applyId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new  SuccessResult("Create seller_info", "판매자 정보 등록이 완료되었습니다"));
     }
 

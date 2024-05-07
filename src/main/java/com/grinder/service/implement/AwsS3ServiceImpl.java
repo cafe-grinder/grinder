@@ -137,4 +137,15 @@ public class AwsS3ServiceImpl implements AwsS3Service {
         }
         return null;
     }
+
+    @Override
+    public Image uploadSingleImageBucket(MultipartFile imageFile, String contentId, ContentType contentType){
+        String imageURL = uploadImageFile(imageFile, awsProperties.getBucket());
+        Image image = Image.builder()
+                .imageUrl(imageURL)
+                .contentId(contentId)
+                .contentType(contentType)
+                .build();
+        return imageRepository.save(image);
+    }
 }
