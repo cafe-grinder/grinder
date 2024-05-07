@@ -1,8 +1,10 @@
 package com.grinder.utils;
 
+import com.grinder.security.exception.AccessTokenException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,10 +16,14 @@ import java.util.Map;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class JWTUtil {
 
     @Value("${jwt.secret}")
     private String key;
+
+    private final RedisUtil redisUtil;
+
 
     // 인증 완료시 토큰 발급하는 메소드
     public String generateToken(Map<String,Object> valueMap, int hours){
@@ -52,6 +58,20 @@ public class JWTUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+        // blacklist에 있는 token(로그아웃한 token)인지 확인
+        if(redisUtil.hasKeyBlackList(token)){
+            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BLACKLISTED);
+        }
         return claim;
     }
+    public String getEmail(String token) {
+
+        return Jwts.parserBuilder()
+                .setSigningKey(key.getBytes())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("email", String.class);
+    }
+
 }

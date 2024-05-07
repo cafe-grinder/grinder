@@ -1,14 +1,18 @@
 package com.grinder.config;
 
 import com.grinder.repository.MemberRepository;
+import com.grinder.repository.RefreshRepository;
 import com.grinder.security.MemberDetailsService;
 import com.grinder.security.filter.APILoginFilter;
+import com.grinder.security.filter.APILogoutFilter;
 import com.grinder.security.filter.RefreshTokenFilter;
 import com.grinder.security.filter.TokenCheckFilter;
 import com.grinder.security.handler.APILoginFailureHandler;
 import com.grinder.security.handler.APILoginSuccessHandler;
 import com.grinder.utils.JWTUtil;
+import com.grinder.utils.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,6 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -31,18 +36,23 @@ public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
     private final MemberRepository memberRepository;
+    private final RefreshRepository refreshRepository;
     private final JWTUtil jwtUtil;
+    private final RedisUtil redisUtil;
 
-    public SecurityConfig(MemberDetailsService memberDetailsService, MemberRepository memberRepository, JWTUtil jwtUtil) {
+    public SecurityConfig(MemberDetailsService memberDetailsService, MemberRepository memberRepository, RefreshRepository refreshRepository, JWTUtil jwtUtil, RedisUtil redisUtil) {
         this.memberDetailsService = memberDetailsService;
         this.memberRepository = memberRepository;
+        this.refreshRepository = refreshRepository;
         this.jwtUtil = jwtUtil;
+        this.redisUtil = redisUtil;
     }
 
     @Bean
     public WebSecurityCustomizer configure() {      // 1) 스프링 시큐리티 기능 비활성화
         return web -> web.ignoring().requestMatchers(toH2Console())
-                .requestMatchers("/static/**");
+                .requestMatchers("/static/**", "/img/**", "/js/**", "/css/**", "/fonts/**")
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
@@ -65,7 +75,7 @@ public class SecurityConfig {
         //APILoginFilter의 위치 조정
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
         // 인증 성공 후처리 담당
-        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil);
+        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil,refreshRepository);
         apiLoginFilter.setAuthenticationSuccessHandler(successHandler);
 
         APILoginFailureHandler failureHandler = new APILoginFailureHandler();
@@ -75,8 +85,10 @@ public class SecurityConfig {
                 tokenCheckFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
         );
-        http.addFilterBefore(new RefreshTokenFilter("/refreshToken",jwtUtil),
+        http.addFilterBefore(new RefreshTokenFilter("/api/reissue",jwtUtil),
                 TokenCheckFilter.class);
+
+        http.addFilterBefore(new APILogoutFilter(jwtUtil, refreshRepository,redisUtil), LogoutFilter.class);
         http.csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->              // 인증, 인가 설정
@@ -92,6 +104,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil){
-        return new TokenCheckFilter(jwtUtil);
+        return new TokenCheckFilter(jwtUtil,memberDetailsService);
     }
 }

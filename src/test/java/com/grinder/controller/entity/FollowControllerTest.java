@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -56,7 +55,7 @@ class FollowControllerTest {
     void findAllFollowingSlice() throws Exception {
         List<FollowDTO.findAllFollowingResponse> expectedResponse = new ArrayList<>();
         FollowDTO.findAllFollowingResponse thing = new FollowDTO.findAllFollowingResponse();
-        thing.setFollowingEmail("test2@test.com");
+        thing.setFollowEmail("test2@test.com");
         expectedResponse.add(thing);
 
         Mockito.doReturn(expectedResponse)

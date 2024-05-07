@@ -12,17 +12,16 @@ public class FollowDTO {
     @NoArgsConstructor
     public static class findAllFollowingResponse {
         private Long followId;
-        private String followingNickname;
-        private String followingEmail;
-        private String followingRole;
+        private String followNickname;
+        private String followEmail;
+        private String followRole;
         private String followImage;
 
         public findAllFollowingResponse(Follow follow, String imageUrl) {
             followId = follow.getFollowId();
-            followingNickname = follow.getFollowing().getNickname();
-            followingEmail = follow.getFollowing().getEmail();
-            followingRole = follow.getFollowing().getRole().getValue();
-            if (imageUrl == null) imageUrl = "";
+            followNickname = follow.getFollowing().getNickname();
+            followEmail = follow.getFollowing().getEmail();
+            followRole = follow.getFollowing().getRole().getValue();
             followImage = imageUrl;
         }
     }
@@ -32,18 +31,17 @@ public class FollowDTO {
     @NoArgsConstructor
     public static class findAllFollowerResponse {
         private Long followId;
-        private String followerNickname;
-        private String followerEmail;
-        private String followerRole;
-        private String followerImage;
+        private String followNickname;
+        private String followEmail;
+        private String followRole;
+        private String followImage;
 
         public findAllFollowerResponse(Follow follow, String imageUrl) {
             followId = follow.getFollowId();
-            followerNickname = follow.getMember().getNickname();
-            followerEmail = follow.getMember().getEmail();
-            followerRole = follow.getMember().getRole().getValue();
-            if (imageUrl == null) imageUrl = "";
-            followerImage = imageUrl;
+            followNickname = follow.getMember().getNickname();
+            followEmail = follow.getMember().getEmail();
+            followRole = follow.getMember().getRole().getValue();
+            followImage = imageUrl;
         }
     }
 }

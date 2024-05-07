@@ -1,12 +1,31 @@
-<article class="followerList">
-    <div class="followerList_follower">
-    <img src="../../static/img/basic-user.png" th:src="${user.profile} != null ? ${user.profile} : '../../static/img/basic-user.png'">
-    <p th:text="${user.nickname} + ' (' + ${user.email} + ')'">강아지 (aaa@aaa.com)</p>
-    <span class="followerList_role" th:switch="${user.role}">
-        <img th:case="'user'" src="../../static/img/icon/award-fill.png"/>
-        <!--        <img th:case="'seller'" src="../static/img/icon/check-fill.png"/>-->
-        <!--        <img th:case="*" src=""/>-->
-    </span>
-    <button>차단해제</button>
-    </div>
-</article>
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<div th:fragment="followList(title)">
+    <p th:if="${followMembers.isEmpty()}" class="myPage_title" >등록된 정보가 없습니다.</p>
+    <p th:unless="${followMembers.isEmpty()}" class="myPage_title" th:text="${title}"></p>
+    <article class="followerList" th:each="member : ${followMembers}">
+        <div class="followerList_follower">
+            <img th:if="${member.followImage} == null" src="/img/basic-user.png">
+            <img th:if="${member.followImage} != null" src="${member.image}">
+            <p th:text="${member.followNickname} + ' (' + ${member.followEmail} + ')'">강아지 (aaa@aaa.com)</p>
+            <span class="followerList_role" th:switch="${member.followRole}">
+                <img th:case="'VERIFIED_MEMBER'" src="/img/icon/award-fill.png"/>
+                <img th:case="'SELLER'" src="/img/icon/check-fill.png"/>
+            </span>
+            <button th:onclick="unfollow('${member.followEmail}')">팔로우 해제</button>
+        </div>
+    </article>
+</div>
+
+</body>
+</html>
+
