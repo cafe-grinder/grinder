@@ -75,7 +75,7 @@ public class SecurityConfig {
         //APILoginFilter의 위치 조정
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
         // 인증 성공 후처리 담당
-        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil);
+        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil,refreshRepository);
         apiLoginFilter.setAuthenticationSuccessHandler(successHandler);
 
         APILoginFailureHandler failureHandler = new APILoginFailureHandler();

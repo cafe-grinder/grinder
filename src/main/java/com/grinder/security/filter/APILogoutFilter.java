@@ -13,10 +13,12 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class APILogoutFilter extends GenericFilterBean {
     private final JWTUtil jwtUtil;
@@ -62,6 +64,7 @@ public class APILogoutFilter extends GenericFilterBean {
 
             throw new RefreshTokenException(RefreshTokenException.ErrorCase.BAD_ACCESS);
         }
+        log.info("refreshToken: "+refresh);
 
         //expired check
         try {

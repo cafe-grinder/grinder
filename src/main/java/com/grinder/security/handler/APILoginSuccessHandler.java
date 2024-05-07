@@ -1,6 +1,8 @@
 package com.grinder.security.handler;
 
 import com.google.gson.Gson;
+import com.grinder.domain.entity.RefreshEntity;
+import com.grinder.repository.RefreshRepository;
 import com.grinder.utils.JWTUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -15,6 +17,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import java.awt.*;
 import java.io.IOException;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.Map;
 
 @Slf4j
@@ -22,6 +26,7 @@ import java.util.Map;
 public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JWTUtil jwtUtil;
+    private final RefreshRepository refreshRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -34,11 +39,15 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         log.info(authentication.toString());
         log.info(authentication.getName());
 
+
         Map<String, Object> claim = Map.of("email", authentication.getName());
         //Access Token 유효기간 1시간
         String accessToken = jwtUtil.generateToken(claim, 1);
         //Refresh Token 유효기간 1일
         String refreshToken = jwtUtil.generateToken(claim, 24*7);
+
+        addRefreshEntity(authentication.getName(),refreshToken,24&7);
+
 
         //accessToken은 로컬 스토리지 , refreshToken은 httpOnly 쿠키에 저장
         response.addHeader("access","Bearer"+accessToken);
@@ -54,6 +63,17 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         cookie.setHttpOnly(true);
 
         return cookie;
+    }
+
+    private void addRefreshEntity(String email, String refresh,int time) {
+
+        RefreshEntity refreshEntity = RefreshEntity.builder()
+                .refresh(refresh)
+                .email(email)
+                .expiration(Date.from(ZonedDateTime.now().plusMinutes(time).toInstant()).toString())
+                .build();
+
+        refreshRepository.save(refreshEntity);
     }
 
 }

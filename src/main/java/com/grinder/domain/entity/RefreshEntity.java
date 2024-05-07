@@ -4,12 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Entity
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RefreshEntity {
 
     @Id
@@ -19,6 +25,7 @@ public class RefreshEntity {
     private String refresh;
     private String email;
     private String expiration;
+
 
     @PrePersist
     public void prePersist() {
