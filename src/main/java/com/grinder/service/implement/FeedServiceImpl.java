@@ -5,6 +5,7 @@ import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.repository.CafeRepository;
 import com.grinder.repository.FeedRepository;
+import com.grinder.repository.queries.FeedQueryRepository;
 import com.grinder.service.FeedService;
 import com.grinder.service.ImageService;
 import com.grinder.service.MemberService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ public class FeedServiceImpl implements FeedService {
     private final TagService tagService;
     private final CafeRepository cafeRepository;
     private final MemberService memberService;
+    private final FeedQueryRepository feedQueryRepository;
 
     @Override
     public Feed findFeed(String feedId) {
@@ -80,6 +83,12 @@ public class FeedServiceImpl implements FeedService {
         Feed feed = findFeed(feedId);
         feed.notVisible();
         feedRepository.save(feed);
+    }
+
+    @Override
+    public FeedDTO.FindFeedDTO findFeedForAdmin(String feedId) {
+        FeedDTO.FindFeedDTO feedDTO = feedQueryRepository.findFeed(feedId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 피드입니다."));
+        return feedDTO;
     }
 
     @Override

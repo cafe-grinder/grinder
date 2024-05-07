@@ -10,6 +10,7 @@ import com.grinder.repository.CafeRepository;
 import com.grinder.service.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -22,6 +23,7 @@ public class CafeServiceImpl implements CafeService {
     private final CafeRegisterRepository cafeRegisterRepository;
 
     @Override
+    @Transactional
     public void saveCafe(String registerId) {
         CafeRegister register = cafeRegisterRepository.findById(registerId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 신철글입니다."));
 
@@ -40,4 +42,8 @@ public class CafeServiceImpl implements CafeService {
         cafeRepository.save(cafe);
     }
 
+    @Override
+    public Cafe findCafeById(String cafeId) {
+        return cafeRepository.findById(cafeId).orElseThrow(() -> new NoSuchElementException("카페 아이디: " + cafeId + " 인 카페가 존재하지 않습니다."));
+    }
 }
