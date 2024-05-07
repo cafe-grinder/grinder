@@ -104,6 +104,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
     private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil){
-        return new TokenCheckFilter(jwtUtil);
+        return new TokenCheckFilter(jwtUtil,memberDetailsService);
     }
 }

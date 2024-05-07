@@ -19,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Currency;
 import java.util.Map;
 
 // 현재 사용자가 로그인한 사용자인지 체크 -> JWT 토큰을 검사
