@@ -1,5 +1,6 @@
 package com.grinder.service;
 
+import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import org.springframework.data.domain.Pageable;
 
@@ -9,6 +10,9 @@ import static com.grinder.domain.dto.MemberDTO.*;
 public interface MemberService {
 
     Member findMemberById(String memberId);
+    MemberDTO.FindMemberAndImageDTO findMemberAndImageById(String memberId);
+
+    MemberDTO.FindMemberAndImageDTO findMemberAndImageByEmail(String email);
 
     void updateMemberRole(String memberId);
 

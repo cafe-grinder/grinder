@@ -1,4 +1,7 @@
-@import "common.css";
+.myPage_title {
+    padding: 34px 0 45px 18px;
+    font-size: 35px;
+}
 
 .followerList {
     width: 1400px;
@@ -15,10 +18,11 @@
 .followerList .followerList_follower img {
     width: 78px;
     height: 78px;
-    margin: 0 35px 0 27px;
+    margin: 0 0 0 27px;
 }
 
 .followerList .followerList_follower p {
+    margin-left: 25px;
     font-family: GodoB;
     font-size: 20px;
 }
@@ -37,4 +41,5 @@
     border-radius: 10px;
     padding: 6px 18px;
     box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
+    margin-left: 35px;
 }
