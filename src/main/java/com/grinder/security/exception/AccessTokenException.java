@@ -17,7 +17,8 @@ public class AccessTokenException extends RuntimeException {
         BADTYPE(401, "Token type Bearer"),
         MALFORM(403, "Malformed Token"),
         BADSIGN(403, "Badsignatured Token"),
-        EXPIRED(403, "Expired Token");
+        EXPIRED(403, "Expired Token"),
+        BLACKLISTED(403, "Blacklisted Token");
 
         private int status;
         private String msg;

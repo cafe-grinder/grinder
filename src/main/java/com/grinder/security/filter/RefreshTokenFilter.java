@@ -7,10 +7,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -40,20 +42,16 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             return;
         }
         log.info("Refresh Token Filter.........run...........1");
-        // 전송된 Json에서 accessToken과 refreshToken을 확인
-        Map<String,String> tokens = parseRequestJSON(request);
+        String refreshToken = null;
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies){
+            if (cookie.getName().equals("refresh")) {
 
-        String accessToken = tokens.get("accessToken");
-        String refreshToken = tokens.get("refreshToken");
-
-        log.info("accessToken: "+ accessToken);
-        log.info("refreshToken: "+refreshToken);
-
-        try{
-            checkAccessToken(accessToken);
-        }catch (RefreshTokenException refreshTokenException){
-            refreshTokenException.sendResponseError(response);
+                refreshToken = cookie.getValue();
+            }
         }
+
+        log.info("refreshToken: "+refreshToken);
 
         Map<String,Object> refreshClaims = null;
 
@@ -76,21 +74,21 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             log.info("expTime: "+expTime);
             log.info("gap: "+gapTime);
 
-            String mid = (String)refreshClaims.get("mid");
+            String email = jwtUtil.getEmail(refreshToken);
+            Map<String, Object> mid = Map.of("email", email);
+            log.info("mid: "+mid);
             //이 상태 도달 시 무조건 accessToken은 새로 생성
-            String accessTokenValue = jwtUtil.generateToken(Map.of("mid",mid),1);
-            String refreshTokenValue = tokens.get("refreshToken");
-
+            String accessToken = jwtUtil.generateToken(Map.of("mid",mid),1);
             //refreshToken이 3일도 안남았을때
             if(gapTime < (1000*60*60*24*3)){
                 log.info("new Refresh Token required.....");
-                refreshTokenValue = jwtUtil.generateToken(Map.of("mid",mid),30);
+                refreshToken = jwtUtil.generateToken(Map.of("mid",mid),24*7);
             }
             log.info("Refresh Token result.......");
-            log.info("accessToken : "+accessToken);
+            log.info("nowAccessToken : "+accessToken);
             log.info("refreshToken : "+refreshToken);
 
-            sendToken(accessTokenValue,refreshTokenValue,response);
+            sendToken(accessToken,refreshToken,response);
 
         }catch (RefreshTokenException refreshTokenException){
             refreshTokenException.sendResponseError(response);
@@ -98,27 +96,6 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
         }
     }
 
-    private Map<String,String> parseRequestJSON(HttpServletRequest request){
-        try(Reader reader = new InputStreamReader(request.getInputStream())) {
-            Gson gson = new Gson();
-
-            return gson.fromJson(reader, Map.class);
-        }catch (Exception e){
-            log.error(e.getMessage());
-        }
-        return null;
-    }
-
-    // accessToken 검사 -> 토큰이 없거나 잘못된 토큰인 경우 에러메세지 전송
-    private void checkAccessToken(String accessToken) throws RefreshTokenException{
-        try{
-            jwtUtil.validateToken(accessToken);
-        }catch (ExpiredJwtException expiredJwtException){
-            log.info("Access Token has expired");
-        }catch (Exception exception){
-            throw new RefreshTokenException(RefreshTokenException.ErrorCase.NO_ACCESS);
-        }
-    }
 
     // refreshToken 검사 -> 토큰이 없거나 잘못된 토큰인 경우 에러메세지 전송
     private Map<String,Object> checkRefreshToken(String refreshToken)throws RefreshTokenException{
@@ -138,17 +115,19 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
     //만들어진 토큰들 전송
     private void sendToken(String accessTokenValue, String refreshTokenValue,HttpServletResponse response){
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        //accessToken은 로컬 스토리지 , refreshToken은 httpOnly 쿠키에 저장
+        response.addHeader("access","Bearer"+accessTokenValue);
+        response.addCookie(createCookie("refresh",refreshTokenValue));
+        response.setStatus(HttpStatus.OK.value());
+    }
+    private Cookie createCookie(String key, String value) {
 
-        Gson gson = new Gson();
+        Cookie cookie = new Cookie(key, value);
+        cookie.setMaxAge(24*60*60);
+        //cookie.setSecure(true);
+        //cookie.setPath("/");
+        cookie.setHttpOnly(true);
 
-        String jsonStr = gson.toJson(Map.of("accessToken",accessTokenValue,
-                "refreshToken",refreshTokenValue));
-
-        try{
-            response.getWriter().println(jsonStr);
-        }catch (IOException e){
-            throw new RuntimeException(e);
-        }
+        return cookie;
     }
 }
