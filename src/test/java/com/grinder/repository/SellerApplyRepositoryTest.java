@@ -31,7 +31,7 @@ class SellerApplyRepositoryTest {
         for (int i = 0; i < 3; i++) {
             Member member = memberRepository.save(Member.builder().email("test"+i+"@test.com").nickname("member"+i).password("1234").phoneNum("0101234123"+i).build());
             Cafe cafe = cafeRepository.save(Cafe.builder().name("cafe"+i).address("서울시 마포구 서교동 123-"+i).phoneNum("0101234123"+i).build());
-            sellerApplyRepository.save(SellerApply.builder().cafe(cafe).member(member).imageUrl("url").build());
+            sellerApplyRepository.save(SellerApply.builder().cafe(cafe).member(member).regImageUrl("url").build());
         }
 
         List<SellerApply> applyList = sellerApplyRepository.findAll();

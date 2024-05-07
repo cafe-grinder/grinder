@@ -1,5 +1,6 @@
 package com.grinder.service;
 
+import com.grinder.domain.entity.Image;
 import com.grinder.domain.enums.ContentType;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,4 +12,6 @@ public interface AwsS3Service {
     boolean uploadFileBucket(List<MultipartFile> fileList, String contentId, ContentType contentType);
 
     byte[] downloadFile(String file);
+
+    Image uploadSingleImageBucket(MultipartFile imageFile, String contentId, ContentType contentType);
 }

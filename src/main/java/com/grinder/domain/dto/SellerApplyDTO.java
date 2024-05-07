@@ -1,7 +1,9 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.SellerApply;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 public class SellerApplyDTO {
@@ -12,13 +14,13 @@ public class SellerApplyDTO {
         private String applyId;
         private String memberId;
         private String cafeId;
-        private String imageUrl;
+        private String regImageUrl;
 
         public FindSellerApplyDTO(SellerApply apply) {
             this.applyId = apply.getApplyId();
             this.memberId = apply.getMember().getMemberId();
             this.cafeId = apply.getCafe().getCafeId();
-            this.imageUrl = apply.getImageUrl();
+            this.regImageUrl = apply.getRegImageUrl();
         }
     }
 }
