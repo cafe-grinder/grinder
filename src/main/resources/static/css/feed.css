@@ -208,6 +208,7 @@
 .feed_gear_dropdown.show button {
     display: block;
     padding: 10px 34px;
+    width: 162px;
     text-align: left;
     border: none;
     background-color: transparent;

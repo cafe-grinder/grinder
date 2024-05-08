@@ -59,9 +59,11 @@
                 <li>
                     <button class="feed_gear_btn"><img src="/img/icon/gear-fill.png" alt=""></button>
                     <ul class="feed_gear_dropdown">
-                        <li><button>✍️ 수정</button></li>
-                        <li><button>✊ 삭제</button></li>
-                        <li><button>🤛 신고</button></li>
+                        <li th:if="${feed.memberEmail} == ${feedMember.email}"><button>✍️ 수정</button></li>
+                        <li th:if="${feed.memberEmail} == ${feedMember.email}"><button>✊ 삭제</button></li>
+                        <li th:if="${feed.memberEmail} != ${feedMember.email}"><button>🤛 신고</button></li>
+                        <li th:if="${feed.memberEmail} != ${feedMember.email}"><button>😍 팔로우</button></li>
+                        <li th:if="${feed.memberEmail} != ${feedMember.email}"><button>😡 차단</button></li>
                     </ul>
                 </li>
             </ul>
@@ -98,9 +100,11 @@
                                         <button class="feed_gear_btn"><img src="/img/icon/gear-fill.png" alt="">
                                         </button>
                                         <ul class="feed_gear_dropdown">
-                                            <li><button>✍️ 수정</button></li>
-                                            <li><button>✊ 삭제</button></li>
-                                            <li><button>🤛 신고</button></li>
+                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button>✍️ 수정</button></li>
+                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button>✊ 삭제</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button>🤛 신고</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button>😍 팔로우</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button>😡 차단</button></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -137,9 +141,11 @@
                                                         <img src="/img/icon/gear-fill.png" alt="">
                                                     </button>
                                                     <ul class="feed_gear_dropdown">
-                                                        <li><button>✍️ 수정</button></li>
-                                                        <li><button>✊ 삭제</button></li>
-                                                        <li><button>🤛 신고</button></li>
+                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button>✍️ 수정</button></li>
+                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button>✊ 삭제</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button>🤛 신고</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button>😍 팔로우</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button>😡 차단</button></li>
                                                     </ul>
                                                 </li>
                                             </ul>
