@@ -100,10 +100,13 @@ public class ComponentsController {
         }
         model.addAttribute("feedList", feedResponseList);
 
-        return "components/feed";
+        return "components/feed :: feeds";
     }
 
-
+    @GetMapping("/get-cafeCard")
+    public String getCafeCard() {
+        return "components/cafeCard :: cafeCards";
+    }
 
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
