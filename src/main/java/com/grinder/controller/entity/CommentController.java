@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/comment/{feed_id}")
 public class CommentController {
-    CommentService commentService;
+    private final CommentService commentService;
 
     @PostMapping("/newcomment")
     public ResponseEntity<SuccessResult> addComment(
@@ -25,7 +25,8 @@ public class CommentController {
             @PathVariable String feed_id,
             @RequestBody CommentDTO.CommentRequestDTO request
     ) {
-        String memberEmail = authentication.getName();
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Comment comment = commentService.saveComment(request, memberEmail, feed_id);
 
         if (comment != null) {
@@ -41,7 +42,8 @@ public class CommentController {
             @PathVariable String comment_id,
             @RequestBody CommentDTO.CommentRequestDTO request
     ) {
-        String memberEmail = authentication.getName();
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Comment comment = commentService.findComment(comment_id);
         if (memberEmail.equals(comment.getMember().getEmail())) {
             comment = commentService.updateComment(comment_id, request.getContent());
@@ -60,7 +62,8 @@ public class CommentController {
             Authentication authentication,
             @PathVariable String comment_id
     ) {
-        String memberEmail = authentication.getName();
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Comment comment = commentService.findComment(comment_id);
         if (memberEmail.equals(comment.getMember().getEmail())) {
             commentService.deleteComment(comment_id);

@@ -26,8 +26,8 @@ public class FeedController {
             @RequestBody FeedDTO.FeedRequestDTO request,
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {
-        String memberEmail = authentication.getName();
-        memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Feed feed = feedService.saveFeed(request, memberEmail, file);
 
         if (feed != null) {
@@ -43,8 +43,8 @@ public class FeedController {
             @PathVariable String feed_id,
             @RequestBody FeedDTO.FeedRequestDTO request
     ) {
-        String memberEmail = authentication.getName();
-        memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Feed feed = feedService.findFeed(feed_id);
         if (memberEmail.equals(feed.getMember().getEmail())) {
             feed = feedService.updateFeed(feed_id, request);
@@ -63,8 +63,8 @@ public class FeedController {
             Authentication authentication,
             @PathVariable String feed_id
     ) {
-        String memberEmail = authentication.getName();
-        memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Feed feed = feedService.findFeed(feed_id);
         if (memberEmail.equals(feed.getMember().getEmail())) {
             feedService.deleteFeed(feed_id);
