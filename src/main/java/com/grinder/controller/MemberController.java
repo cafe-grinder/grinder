@@ -1,6 +1,7 @@
 package com.grinder.controller;
 
 
+import com.grinder.domain.dto.ErrorResult;
 import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.service.MemberService;
@@ -46,5 +47,22 @@ public class MemberController {
     public ResponseEntity<SuccessResult> addMember(@RequestBody MemberDTO.MemberRequestDto request) {
         if (memberService.addMember(request)) return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Add Success", "추가되었습니다."));
         else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+    }
+
+    @GetMapping("/email/check")
+    public ResponseEntity<SuccessResult> checkEmail(@RequestParam String email){
+        System.out.println(email);
+       if(memberService.checkEmail(email)) {
+           return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Email is already in use","중복된 이메일입니다."));
+       }
+       else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Email is available","사용가능한 이메일입니다."));
+    }
+
+    @GetMapping("/nickname/check")
+    public ResponseEntity<SuccessResult> checkNickname(@RequestParam String nickname){
+        if(memberService.checkNickname(nickname)) {
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Nickname is already in use","중복된 닉네임입니다."));
+        }
+        else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Nickname is available","사용가능한 닉네임입니다."));
     }
 }
