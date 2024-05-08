@@ -1,20 +1,6 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/css/common.css">
-    <link rel="stylesheet" href="/css/feed.css">
-    <script src="/js/feed.js"></script>
-    <title>Document</title>
-</head>
-<body>
 
-
-<!--여기부터 위로 지우기-->
-<article><!-- 비회원 화면 -->
+<article th:fragment="feeds">
+    <!-- 비회원 화면 -->
     <div class="feed_container_non_member" th:if="${feedMember} == null">
         <ul class="feed_img_list_non_member">
             <li th:each="feed: ${feedList}"><!-- 반복문 -->
@@ -88,7 +74,7 @@
                 <textarea class="feed_comment_textarea" placeholder="댓글을 입력해 주세요"></textarea>
                 <button class="feed_comment_create_btn">작성</button>
             </div>
-            <div><!--반복문-->
+            <div th:each="parentComment : ${feed.parentCommentList}"><!--반복문-->
                 <div class="feed_space_between">
                     <div class="feed_comment_profile_img">
                         <img src="/img/not_use/basic_profile_img.png"
@@ -189,8 +175,3 @@
         </div>
     </div>
 </article>
-<!--여기부터 아래로 지우기-->
-
-
-</body>
-</html>
