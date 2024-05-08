@@ -23,4 +23,7 @@ public interface MemberService {
     Member findMemberByEmail(String email);
 
     public boolean addMember(MemberRequestDto request);
+
+    boolean checkEmail(String email);
+    boolean checkNickname(String nickname);
 }
