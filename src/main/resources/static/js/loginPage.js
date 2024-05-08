@@ -23,12 +23,6 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    // 응답 헤더에서 "access" 토큰 추출하여 로컬 스토리지에 저장
-                    const accessToken = response.headers.get('access');
-                    if (accessToken) {
-                        localStorage.setItem('access', accessToken);
-                    }
-
                     // 응답 쿠키에서 "refresh" 쿠키 추출하여 로컬 스토리지에 저장
                     const cookies = response.headers.get('set-cookie');
                     if (cookies) {
@@ -37,6 +31,9 @@
                             const [name, value] = cookie.trim().split('=');
                             if (name === 'refresh') {
                                 localStorage.setItem('refresh', value);
+                            }
+                            if(name === 'access'){
+                                localStorage.setItem('access', value);
                             }
                         });
                     }
