@@ -22,7 +22,7 @@
 
 .mypage_banner >p {
     font-size: 50px;
-    margin-left: 50px;
+    margin: 0 50px;
 }
 
 .mypage_banner_line {

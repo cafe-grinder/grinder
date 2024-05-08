@@ -7,10 +7,12 @@ import com.grinder.service.BookmarkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,25 +29,31 @@ public class BookmarkController {
 
     @GetMapping("/bookmark")
     public ResponseEntity<List<BookmarkDTO.findAllResponse>> findAllBookmarksSlice(
-            Authentication authentication, @PageableDefault Pageable pageable) {
-        String email = Optional.ofNullable(authentication.getName()).orElseThrow(() -> new LoginRequiredException("로그인이 필요합니다."));
-        List<BookmarkDTO.findAllResponse> list = bookmarkService.findAllBookmarksSlice(email, pageable);
+            @PageableDefault Pageable pageable) {
+        String email = getEmail();
+        Slice<BookmarkDTO.findAllResponse> slice = bookmarkService.findAllBookmarksSlice(email, pageable);
+        List<BookmarkDTO.findAllResponse> list = slice.getContent();
         return ResponseEntity.ok().body(list);
     }
 
     @PostMapping("/bookmark/{cafeId}")
     public ResponseEntity<SuccessResult> addBookmark(
-            @PathVariable("cafeId")String cafeId, Authentication authentication) {
-        String email = Optional.ofNullable(authentication.getName()).orElseThrow(() -> new LoginRequiredException("로그인이 필요합니다."));
+            @PathVariable("cafeId")String cafeId) {
+        String email = getEmail();
         if (bookmarkService.addBookmark(email, cafeId)) return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Add Success", "추가되었습니다."));
         else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
     }
 
     @DeleteMapping("/bookmark/{cafeId}")
     public ResponseEntity<SuccessResult> deleteBookmark(
-            @PathVariable("cafeId")String cafeId, Authentication authentication) {
-        String email = Optional.ofNullable(authentication.getName()).orElseThrow(() -> new LoginRequiredException("로그인이 필요합니다."));
+            @PathVariable("cafeId")String cafeId) {
+        String email = getEmail();
         if (bookmarkService.deleteBookmark(email, cafeId)) return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Delete Success", "삭제되었습니다."));
         else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+    }
+
+    private String getEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return  Optional.ofNullable(authentication.getName()).orElse(null);
     }
 }

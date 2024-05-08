@@ -1,63 +1,61 @@
-.bookmark_title {
+.myCafeList_title {
     padding: 34px 0 45px 18px;
     font-size: 35px;
 }
 
-.bookmark {
+.myCafeList {
     display: flex;
     align-items: center;
     width: 1400px;
     height: 135px;
 }
 
-.bookmark >img {
+.myCafeList >img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin: 0 20px;
 }
 
-.bookmark .bookmarkList_cafeInfo {
+.myCafeList .myCafeList_cafeInfo {
     margin-right: 65px;
 }
 
-.bookmark .bookmarkList_cafeInfo .bookmark_name {
+.myCafeList .myCafeList_cafeInfo .myCafeList_name {
     font-family: GodoB;
     font-size: 25px;
     margin-bottom: 10px;
 }
 
-.bookmark .bookmarkList_cafeInfo .bookmark_address {
+.myCafeList .myCafeList_cafeInfo .myCafeList_address {
     font-size: 17px;
     color: #8A8A8A;
     margin-bottom: 10px;
 }
 
-.bookmark .bookmarkList_cafeInfo .bookmark_score {
+.myCafeList .myCafeList_cafeInfo .myCafeList_score {
     display: flex;
     align-items: center;
     font-size: 18px;
 }
 
-.bookmark .bookmarkList_cafeInfo .bookmark_score img {
+.myCafeList .myCafeList_cafeInfo .myCafeList_score img {
     width: 18px;
     height: 18px;
     margin-left: 10px;
 }
 
-.bookmark button {
+.myCafe button {
     font-family: GodoM;
-    font-size: 20px;
-    color: #FF2E2E;
-    background-color: white;
-    border: 1px solid #D9D9D9;
+    font-size: 25px;
+    color: white;
+    background-color: #009B55;
     border-radius: 10px;
-    padding: 6px 18px;
-    box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
+    padding: 18px 41px;
     z-index: 0;
 }
 
-.bookmark_more {
+.myCafeList_more {
     position: fixed;
     top: 80%;
     left: 50%;

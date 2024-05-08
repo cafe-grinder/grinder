@@ -30,9 +30,9 @@ public class BookmarkServiceImpl implements BookmarkService {
     private final BookmarkQueryRepository bookmarkQueryRepository;
 
 
-    public List<BookmarkDTO.findAllResponse> findAllBookmarksSlice(String email, Pageable pageable) {
+    public Slice<BookmarkDTO.findAllResponse> findAllBookmarksSlice(String email, Pageable pageable) {
         Slice<BookmarkDTO.findAllResponse> slice = bookmarkQueryRepository.findAllBookmarkSlice(email, pageable);
-        return slice.getContent();
+        return slice;
     }
 
     public boolean addBookmark(String email, String cafeId) {
