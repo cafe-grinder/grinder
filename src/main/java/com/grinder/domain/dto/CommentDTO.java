@@ -5,6 +5,7 @@ import com.grinder.domain.entity.Member;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class CommentDTO {
     @Data
@@ -20,24 +21,57 @@ public class CommentDTO {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CommentResponseDTO {
+    public static class ParentCommentResponseDTO {
         private String commentId;
         private String content;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private String nickname;
+        private String email;
+        private String memberId;
+        private String feedId;
+        private List<CommentDTO.ChildCommentResponseDTO> childCommentList;
+        private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
+        private int heartNum;       // 해당 댓글의 좋아요 수
+
+        public ParentCommentResponseDTO(Comment comment) {
+            this.commentId = comment.getCommentId();
+            this.content = comment.getContent();
+            this.createdAt = comment.getCreatedAt();
+            this.updatedAt = comment.getUpdatedAt();
+            this.nickname = comment.getMember().getNickname();
+            this.email = comment.getMember().getEmail();
+            this.memberId = comment.getMember().getMemberId();
+            this.feedId = comment.getFeed().getFeedId();
+            this.isHeart = false;
+            this.heartNum = 0;
+        }
+    }
+
+    @Data
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class ChildCommentResponseDTO {
+        private String commentId;
+        private String content;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+        private String nickname;
+        private String email;
         private String memberId;
         private String feedId;
         private String parentCommentId;
         private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
         private int heartNum;       // 해당 댓글의 좋아요 수
 
-        public CommentResponseDTO(Comment comment) {
+        public ChildCommentResponseDTO(Comment comment) {
             this.commentId = comment.getCommentId();
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
             this.updatedAt = comment.getUpdatedAt();
             this.nickname = comment.getMember().getNickname();
+            this.email = comment.getMember().getEmail();
             this.memberId = comment.getMember().getMemberId();
             this.feedId = comment.getFeed().getFeedId();
             this.parentCommentId = comment.getParentComment().getCommentId();
