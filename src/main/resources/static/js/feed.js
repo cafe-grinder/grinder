@@ -1,8 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
-
-});
-
-// 톱니바퀴 버튼
+// 백-프론트 연동
 document.addEventListener('DOMContentLoaded', function() {
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
     xhr.open('GET', '/get-feed', true); // 요청을 초기화합니다.
@@ -20,9 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('The request failed due to a network error!');
     };
     xhr.send(); // 요청을 서버로 보냅니다.
+})
 
-    
-
+// 톱니바퀴 버튼
+document.addEventListener('DOMContentLoaded', function() {
     // feed_gear_btn 클래스를 가진 버튼 요소들을 모두 가져옴
     const gearButtons = document.querySelectorAll('.feed_gear_btn');
 

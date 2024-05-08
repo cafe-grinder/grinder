@@ -3,6 +3,8 @@ package com.grinder.controller.view;
 import com.grinder.domain.dto.*;
 import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
+import com.grinder.domain.entity.Tag;
+import com.grinder.domain.enums.ContentType;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.service.*;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,7 @@ public class ComponentsController {
     private final FeedService feedService;
     private final CommentService commentService;
     private final HeartService heartService;
+    private final TagService tagService;
 
     @GetMapping("/get-header")
     public String getHeader(Authentication authentication, Model model) {
@@ -87,25 +90,47 @@ public class ComponentsController {
         List<Feed> feedList = feedService.findAllFeed();
         List<FeedDTO.FeedResponseDTO> feedResponseList = feedList.stream().map(FeedDTO.FeedResponseDTO::new).toList();
         for (FeedDTO.FeedResponseDTO feedResponse : feedResponseList) {
+            // 태그
+            List<String> tagList = tagService.findAllTag(feedResponse.getFeedId()).stream().map(x->x.getTagName().getValue()).toList();
+            feedResponse.setTagNameList(tagList);
+
+            // 피드 좋아요
+            HeartDTO.HeartRequestDTO feedHeartRequest = new HeartDTO.HeartRequestDTO(feedResponse.getFeedId(), ContentType.FEED.toString());
+            feedResponse.setHeart(heartService.isHeart(email, feedHeartRequest));
+            feedResponse.setHeartNum(heartService.findHeartList(feedHeartRequest).size());
+
             // 부모 댓글
             List<Comment> parentCommentList = commentService.findParentCommentList(feedResponse.getFeedId());
             List<CommentDTO.ParentCommentResponseDTO> parentCommentResponseList = parentCommentList.stream().map(CommentDTO.ParentCommentResponseDTO::new).toList();
 
-            // 자식 댓글
             for (CommentDTO.ParentCommentResponseDTO parentCommentResponse : parentCommentResponseList) {
+                // 부모 댓글 좋아요
+                HeartDTO.HeartRequestDTO parentCommentHeartRequest = new HeartDTO.HeartRequestDTO(parentCommentResponse.getCommentId(), ContentType.COMMENT.toString());
+                parentCommentResponse.setHeart(heartService.isHeart(email, parentCommentHeartRequest));
+                parentCommentResponse.setHeartNum(heartService.findHeartList(parentCommentHeartRequest).size());
+
+                // 자식 댓글
                 List<Comment> childCommentList = commentService.findChildrenCommentList(parentCommentResponse.getCommentId());
                 List<CommentDTO.ChildCommentResponseDTO> childCommentResponseList = childCommentList.stream().map(CommentDTO.ChildCommentResponseDTO::new).toList();
+
+                for (CommentDTO.ChildCommentResponseDTO childCommentResponse : childCommentResponseList) {
+                    // 자식 댓글 좋아요
+                    HeartDTO.HeartRequestDTO childCommentHeartRequest = new HeartDTO.HeartRequestDTO(parentCommentResponse.getCommentId(), ContentType.COMMENT.toString());
+                    childCommentResponse.setHeart(heartService.isHeart(email, childCommentHeartRequest));
+                    childCommentResponse.setHeartNum(heartService.findHeartList(childCommentHeartRequest).size());
+                }
                 parentCommentResponse.setChildCommentList(childCommentResponseList);
             }
+            feedResponse.setParentCommentList(parentCommentResponseList);
         }
         model.addAttribute("feedList", feedResponseList);
 
-        return "components/feed :: feeds";
+        return "components/feed";
     }
 
     @GetMapping("/get-cafeCard")
     public String getCafeCard() {
-        return "components/cafeCard :: cafeCards";
+        return "components/cafeCard";
     }
 
     private String getEmail() {
