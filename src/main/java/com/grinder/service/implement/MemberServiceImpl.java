@@ -91,5 +91,15 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    @Override
+    public boolean checkEmail(String email){
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean checkNickname(String nickname){
+        return memberRepository.existsByNickname(nickname);
+    }
+
 
 }
