@@ -29,7 +29,6 @@ public class MyPageController {
         MemberDTO.FindMemberAndImageDTO member = memberService.findMemberAndImageById(memberId);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = Optional.ofNullable(authentication.getName()).orElse(null);
-        email = "test@test.com";
         model.addAttribute("myPageMember", member);
         model.addAttribute("connectEmail", email);
         return "myPage";

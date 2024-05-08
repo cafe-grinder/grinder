@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<article class="myCafeList" th:fragment="myCafeList">
+    <button class="myCafeList_more">더보기</button>
+    <div class="myCafe" th:each="myCafe : ${myCafeList}">
+        <img th:if="${myCafe.cafeImageUrl} == null" src="/img/default-cafe-logo.png">
+        <img th:if="${myCafe.cafeImageUrl} != null" src="${bookmark.cafeImageUrl}">
+        <ul class="myCafeList_cafeInfo">
+            <li class="myCafeList_name" th:text="${myCafe.cafeName}">스타벅스</li>
+            <li class="myCafeList_address" th:text="${myCafe.cafeAddress} + ' (' + ${myCafe.cafePhoneNum} + ')'">서울 서초구 신나동 (02-504-1546)</li>
+            <li class="myCafeList_score">평균 평점 :
+                <span id="starsContainer">
+                    <img th:if="${myCafe.averageGrade >= 1}" src="/img/icon/star-fill.png">
+                    <img th:if="${myCafe.averageGrade >= 2}" src="/img/icon/star-fill.png">
+                    <img th:if="${myCafe.averageGrade >= 3}" src="/img/icon/star-fill.png">
+                    <img th:if="${myCafe.averageGrade >= 4}" src="/img/icon/star-fill.png">
+                    <img th:if="${myCafe.averageGrade >= 5}" src="/img/icon/star-fill.png">
+                </span>
+            </li>
+        </ul>
+        <button>수정하기</button>
+    </div>
+</article>
+
+</body>
+</html>

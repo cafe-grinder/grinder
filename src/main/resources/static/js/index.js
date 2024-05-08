@@ -1,6 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
+    let token = localStorage.getItem('access');
+
+    let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
     xhr.open('GET', '/get-header', true); // 요청을 초기화합니다.
+
+    // 토큰이 존재하면 헤더에 추가합니다.
+    if (token) {
+        xhr.setRequestHeader('access', 'Bearer ' + token);
+    }
 
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
