@@ -23,7 +23,7 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    // 응답 쿠키에서 "refresh" 쿠키 추출하여 로컬 스토리지에 저장
+                    // 응답 쿠키에서 "refresh" 쿠키 추출하여 로컬 스토리지에 저장 -> 필요없지만 일단 놔둘게여
                     const cookies = response.headers.get('set-cookie');
                     if (cookies) {
                         const cookieArray = cookies.split(';');
@@ -43,7 +43,7 @@
                     console.log(data);
 
                     // 성공적으로 로그인되었을 때 특정 URL로 이동
-                    window.location.href = '/api/login'; // 이동할 URL로 수정
+                    window.location.href = '/'; // 이동할 URL로 수정
                 })
                 .catch(error => {
                     // 오류 처리
