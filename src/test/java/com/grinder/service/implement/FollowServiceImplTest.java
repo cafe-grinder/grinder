@@ -46,7 +46,7 @@ class FollowServiceImplTest {
         followRepository.save(Follow.builder().member(follower).following(following).build());
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<FollowDTO.findAllFollowingResponse> list = followService.findAllFollowingSlice(follower.getEmail(), pageable);
+        List<FollowDTO.findAllFollowingResponse> list = followService.findAllFollowingSlice(follower.getEmail(), pageable).getContent();
 
         assertEquals(list.get(0).getFollowEmail(), following.getEmail());
     }
@@ -56,7 +56,7 @@ class FollowServiceImplTest {
         followRepository.save(Follow.builder().member(follower).following(following).build());
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<FollowDTO.findAllFollowerResponse> list = followService.findAllFollowerSlice(following.getEmail(), pageable);
+        List<FollowDTO.findAllFollowerResponse> list = followService.findAllFollowerSlice(following.getEmail(), pageable).getContent();
 
         assertEquals(list.get(0).getFollowEmail(), follower.getEmail());
     }
