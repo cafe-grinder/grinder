@@ -44,4 +44,10 @@ public class HeartServiceImpl implements HeartService {
     public List<Heart> findHeartList(HeartDTO.HeartRequestDTO request) {
         return heartRepository.findByContentIdAndContentType(request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
+
+    @Override
+    public boolean isHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
+        Heart heart = findHeart(memberEmail, request);
+        return heart != null;
+    }
 }

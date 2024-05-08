@@ -27,6 +27,7 @@ public class CommentDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private String nickname;
+        private String email;
         private String memberId;
         private String feedId;
         private List<CommentDTO.ChildCommentResponseDTO> childCommentList;
@@ -39,6 +40,7 @@ public class CommentDTO {
             this.createdAt = comment.getCreatedAt();
             this.updatedAt = comment.getUpdatedAt();
             this.nickname = comment.getMember().getNickname();
+            this.email = comment.getMember().getEmail();
             this.memberId = comment.getMember().getMemberId();
             this.feedId = comment.getFeed().getFeedId();
             this.isHeart = false;
@@ -56,6 +58,7 @@ public class CommentDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private String nickname;
+        private String email;
         private String memberId;
         private String feedId;
         private String parentCommentId;
@@ -68,6 +71,7 @@ public class CommentDTO {
             this.createdAt = comment.getCreatedAt();
             this.updatedAt = comment.getUpdatedAt();
             this.nickname = comment.getMember().getNickname();
+            this.email = comment.getMember().getEmail();
             this.memberId = comment.getMember().getMemberId();
             this.feedId = comment.getFeed().getFeedId();
             this.parentCommentId = comment.getParentComment().getCommentId();
