@@ -65,4 +65,21 @@ public class MemberController {
         }
         else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Nickname is available","사용가능한 닉네임입니다."));
     }
+
+    @PostMapping("/email/verification-requests")
+    public ResponseEntity<SuccessResult> sendMessage(@RequestParam("email") String email) {
+        if(memberService.sendCodeToEmail(email)) {
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Request Email Verification","이메일 요청을 완료했습니다."));
+        }
+        else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+    }
+
+    @GetMapping("/email/verifications")
+    public ResponseEntity<SuccessResult> verificationEmail(@RequestParam("email") String email,
+                                            @RequestParam("code") String authCode) {
+        if(memberService.verifiedCode(email, authCode)) {
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Verify Email Success", "이메일 인증에 성공했습니다."));
+        }
+        else throw new IllegalArgumentException("인증에 실패했습니다.");
+    }
 }
