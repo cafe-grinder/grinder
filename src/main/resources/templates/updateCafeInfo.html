@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>grinder</title>
+    <link rel="stylesheet" href="/css/updateCafeInfo.css">
+</head>
+<body>
+    <section>
+        <span id="first-span">카페 정보 변경</span>
+        <span>좌석 수</span>
+        <form action="">
+            <input type="number" placeholder="수용 가능한 좌석 수를 입력해주세요" id="first-input">
+            <div class="day-container">
+                <span>영업시간</span>
+                <div class="day-box">
+                    <span>월요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span>화요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox">
+                </div>
+                <div class="day-box">
+                    <span>수요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox">
+                </div>
+                <div class="day-box">
+                    <span>목요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox">
+                </div>
+                <div class="day-box">
+                    <span>금요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox">
+                </div>
+                <div class="day-box">
+                    <span>토요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox">
+                </div>
+                <div class="day-box">
+                    <span>일요일</span>
+                    <input type="text" placeholder="영업 시작 시간">
+                    <input type="text" placeholder="영업 마감 시간">
+                    <span>휴무일</span><input type="checkbox">
+                </div>
+            </div>
+            <span id="last-span">백그라운드 이미지 변경</span>
+            <input type="file" id="file-input" accept="image/*">
+            <button type="button" onclick="openFileUploader()" id="image-btn">이미지 첨부</button>
+            <div id="img-box">
+
+            </div>
+            <button id="cafe-btn" type="submit">수정</button>
+        </form>
+    </section>
+    <script src="/js/attachImage.js"></script>
+</body>
+</html>
