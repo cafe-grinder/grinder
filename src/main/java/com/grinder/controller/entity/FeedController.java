@@ -27,6 +27,7 @@ public class FeedController {
             @RequestPart(value = "file", required = false) MultipartFile file
     ) {
         String memberEmail = authentication.getName();
+        memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Feed feed = feedService.saveFeed(request, memberEmail, file);
 
         if (feed != null) {
@@ -43,6 +44,7 @@ public class FeedController {
             @RequestBody FeedDTO.FeedRequestDTO request
     ) {
         String memberEmail = authentication.getName();
+        memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Feed feed = feedService.findFeed(feed_id);
         if (memberEmail.equals(feed.getMember().getEmail())) {
             feed = feedService.updateFeed(feed_id, request);
@@ -62,11 +64,11 @@ public class FeedController {
             @PathVariable String feed_id
     ) {
         String memberEmail = authentication.getName();
+        memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
         Feed feed = feedService.findFeed(feed_id);
         if (memberEmail.equals(feed.getMember().getEmail())) {
             feedService.deleteFeed(feed_id);
-            feed = feedService.findFeed(feed_id);
-            if (feed == null) {
+            if (!feed.getIsVisible()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Delete Success", "삭제되었습니다."));
             } else {
                 throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
