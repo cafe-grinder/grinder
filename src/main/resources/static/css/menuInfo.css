@@ -1,0 +1,89 @@
+section {
+    display: flex;
+    flex-direction: column;
+}
+
+span {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 53px;
+}
+
+label {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+#last-span {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input:not([type="file"]), select {
+    width: 607px;
+    height: 64px;
+    margin-top: 15px;
+    margin-bottom: 34px;
+    font-size: 20px;
+    padding-left: 25px;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+select {
+    box-sizing: content-box;
+    cursor: pointer;
+}
+
+#file-input {
+    display: none;
+}
+
+#img-box {
+    height: 10px;
+}
+
+#img-box img {
+    width: 214px;
+    height: 239px;
+    margin-right: 55px;
+    border-radius: 15px;
+}
+
+#last-span {
+    margin-bottom: 25px;
+}
+
+#image-btn {
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    margin-right: 460px;
+    margin-bottom: 55px;
+    width: 166px;
+    height: 52px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#add-btn {
+    width: 131px;
+    height: 69px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    color: #FFFFFF;
+    background-color: #009B55;
+    font-weight: bold;
+    font-size: 25px;
+}
