@@ -55,7 +55,7 @@ public class MemberController {
        if(memberService.checkEmail(email)) {
            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Email is already in use","중복된 이메일입니다."));
        }
-       else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Email is available","사용가능한 이메일입니다."));
+       else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Email is available","사용 가능한 이메일입니다."));
     }
 
     @GetMapping("/nickname/check")
@@ -63,7 +63,7 @@ public class MemberController {
         if(memberService.checkNickname(nickname)) {
             return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Nickname is already in use","중복된 닉네임입니다."));
         }
-        else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Nickname is available","사용가능한 닉네임입니다."));
+        else return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Nickname is available","사용 가능한 닉네임입니다."));
     }
 
     @PostMapping("/email/verification-requests")
@@ -75,12 +75,12 @@ public class MemberController {
     }
 
     @GetMapping("/email/verifications")
-    public ResponseEntity<SuccessResult> verificationEmail(@RequestParam("email") String email,
+    public ResponseEntity<?> verificationEmail(@RequestParam("email") String email,
                                             @RequestParam("code") String authCode) {
         if(memberService.verifiedCode(email, authCode)) {
             return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Verify Email Success", "이메일 인증에 성공했습니다."));
         }
-        else throw new IllegalArgumentException("인증에 실패했습니다.");
+        else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult("Verify Email Failed","이메일 인증에 실패했습니다."));
     }
 
     @PatchMapping("/email/password/")
@@ -91,3 +91,4 @@ public class MemberController {
         else throw new IllegalArgumentException("비밀번호 변경에 실패했습니다.");
     }
 }
+
