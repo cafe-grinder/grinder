@@ -1,7 +1,6 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.*;
-import com.grinder.domain.enums.TagName;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -36,6 +35,8 @@ public class FeedDTO {
         private Integer grade;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
+        private List<String> tagNameList;
+        private List<CommentDTO.ParentCommentResponseDTO> parentCommentList;
         private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
         private int heartNum;       // 해당 댓글의 좋아요 수
 

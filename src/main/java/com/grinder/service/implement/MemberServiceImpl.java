@@ -8,14 +8,23 @@ import com.grinder.domain.enums.Role;
 import com.grinder.repository.ImageRepository;
 import com.grinder.repository.MemberRepository;
 import com.grinder.repository.queries.MemberQueryRepository;
+import com.grinder.service.MailService;
 import com.grinder.service.MemberService;
+import com.grinder.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.time.Duration;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
+
 import static com.grinder.domain.dto.MemberDTO.*;
 
 
@@ -27,7 +36,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final MemberQueryRepository memberQueryRepository;
-
+    private final MailService mailService;
+    private final RedisUtil redisUtil;
     public Member findMemberById(String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("회원 아이디: " + memberId + " 인 회원이 존재하지 않습니다."));
         return member;
@@ -91,5 +101,66 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    @Override
+    public boolean checkEmail(String email){
+        return memberRepository.existsByEmail(email);
+    }
 
+    @Override
+    public boolean checkNickname(String nickname){
+        return memberRepository.existsByNickname(nickname);
+    }
+
+    public boolean sendCodeToEmail(String toEmail) {
+        String title = "이메일 인증 번호";
+        String authCode = this.createCode();
+        String content =
+                "CAFE GRINDER에 방문해주셔서 감사합니다." + 	//html 형식으로 작성 !
+                        "<br><br>" +
+                        "인증 번호는 " + authCode + "입니다." +
+                        "<br>" +
+                        "인증번호를 웹사이트에 입력해주세요";
+        mailService.sendEmail(toEmail, title, content);
+        // 이메일 인증 요청 시 인증 번호 Redis에 저장 ( key = "AuthCode " + Email / value = AuthCode )
+        redisUtil.set(toEmail,
+                authCode, 30);
+        return true;
+    }
+
+    private String createCode() {
+        int lenth = 6;
+        try {
+            Random random = SecureRandom.getInstanceStrong();
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < lenth; i++) {
+                builder.append(random.nextInt(10));
+            }
+            return builder.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new IllegalArgumentException("번호 생성에 실패했습니다.");
+        }
+    }
+
+    @Override
+    public boolean verifiedCode(String email, String authCode) {
+        String redisAuthCode = (String) redisUtil.get(email);
+
+        return authCode.equals(redisAuthCode);
+    }
+
+    @Override
+    public boolean changePassword(String email){
+        String password = this.createCode();
+        String title = "비밀번호 변경 안내";
+        String content =
+                "CAFE GRINDER에 방문해주셔서 감사합니다." + 	//html 형식으로 작성 !
+                        "<br><br>" +
+                        "변경된 비밀번호는 " + password + "입니다." +
+                        "<br>" +
+                        "추후 비밀번호 변경을 부탁드립니다.";
+        Member member = findMemberByEmail(email);
+        member.setPassword(passwordEncoder.encode(password));
+        mailService.sendEmail(email, title, content);
+        return true;
+    }
 }

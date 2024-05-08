@@ -58,6 +58,7 @@
     padding: 20px;
     border: #D9D9D9 solid 1px;
     border-radius: 15px;
+    margin: 40px 0;
 }
 
 .feed_writer_profile_img,
@@ -65,10 +66,19 @@
     width: 71px;
 }
 
+.feed_comment {
+    margin-bottom: 30px;
+}
+
 .feed_writer_info,
 .feed_child_comment_info,
 .feed_parent_comment_info {
     margin-left: 30px;
+}
+
+.feed_child_comment_info,
+.feed_parent_comment_info {
+    width: 100%;
 }
 
 .feed_cafe_name {
@@ -99,9 +109,9 @@
     justify-content: space-between;
 }
 
-.feed_dividing_line {
+.feed_divide_line {
     height: 0;
-    border-bottom: #9B9B9B solid 1px;
+    border-bottom: #D9D9D9 solid 1px;
 }
 
 .feed_function_list {
@@ -220,7 +230,7 @@
     background: none;
 }
 
-.feed_dividing_line {
+.feed_divide_line {
     margin: 22px 0 28px;
 }
 
@@ -292,6 +302,6 @@
 }
 
 .feed_child_comment_area {
-    margin-top: 5px;
+    margin: 10px 0;
 }
 /* ---------------- */

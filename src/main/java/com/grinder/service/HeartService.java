@@ -10,4 +10,5 @@ public interface HeartService {
     void deleteHeart(String memberEmail, HeartDTO.HeartRequestDTO request);
     Heart findHeart(String memberEmail, HeartDTO.HeartRequestDTO request);
     List<Heart> findHeartList(HeartDTO.HeartRequestDTO request);
+    boolean isHeart(String memberEmail, HeartDTO.HeartRequestDTO request);
 }
