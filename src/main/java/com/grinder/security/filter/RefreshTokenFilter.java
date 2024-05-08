@@ -116,7 +116,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
     //만들어진 토큰들 전송
     private void sendToken(String accessTokenValue, String refreshTokenValue,HttpServletResponse response){
         //accessToken은 로컬 스토리지 , refreshToken은 httpOnly 쿠키에 저장
-        response.addHeader("access","Bearer"+accessTokenValue);
+        response.addCookie(createCookie("access","Bearer"+accessTokenValue));
         response.addCookie(createCookie("refresh",refreshTokenValue));
         response.setStatus(HttpStatus.OK.value());
     }
