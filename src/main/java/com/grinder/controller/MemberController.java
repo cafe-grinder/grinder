@@ -82,4 +82,12 @@ public class MemberController {
         }
         else throw new IllegalArgumentException("인증에 실패했습니다.");
     }
+
+    @PatchMapping("/email/password/")
+    public ResponseEntity<SuccessResult> resetPassword(@RequestParam("email") String email ){
+        if(memberService.changePassword(email)){
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Change Password Success", "비밀번호 변경에 성공했습니다."));
+        }
+        else throw new IllegalArgumentException("비밀번호 변경에 실패했습니다.");
+    }
 }

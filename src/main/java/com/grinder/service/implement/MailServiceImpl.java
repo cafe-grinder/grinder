@@ -19,27 +19,20 @@ public class MailServiceImpl implements MailService {
     @Override
     public void sendEmail(String toEmail,
                           String title,
-                          String authCode) {
-        SimpleMailMessage emailForm = createEmailForm(toEmail, title, authCode);
+                          String content) {
+        SimpleMailMessage emailForm = createEmailForm(toEmail, title,content);
         try {
             emailSender.send(emailForm);
         } catch (RuntimeException e) {
             log.debug("MailService.sendEmail exception occur toEmail: {}, " +
-                    "title: {}, text: {}", toEmail, title, authCode);
+                    "title: {}, text: {}", toEmail, title, content);
             throw new IllegalArgumentException("Unable to send email");
         }
     }
-
     // 발신할 이메일 데이터 세팅
     private SimpleMailMessage createEmailForm(String toEmail,
                                               String title,
-                                              String authCode) {
-        String content =
-                "CAFE GRINDER에 방문해주셔서 감사합니다." + 	//html 형식으로 작성 !
-                        "<br><br>" +
-                        "인증 번호는 " + authCode + "입니다." +
-                        "<br>" +
-                        "인증번호를 웹사이트에 입력해주세요"; //이메일 내용 삽입
+                                              String content) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
         message.setSubject(title);
@@ -47,4 +40,5 @@ public class MailServiceImpl implements MailService {
 
         return message;
     }
+
 }
