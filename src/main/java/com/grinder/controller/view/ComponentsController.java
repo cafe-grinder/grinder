@@ -115,7 +115,7 @@ public class ComponentsController {
 
                 for (CommentDTO.ChildCommentResponseDTO childCommentResponse : childCommentResponseList) {
                     // 자식 댓글 좋아요
-                    HeartDTO.HeartRequestDTO childCommentHeartRequest = new HeartDTO.HeartRequestDTO(parentCommentResponse.getCommentId(), ContentType.COMMENT.toString());
+                    HeartDTO.HeartRequestDTO childCommentHeartRequest = new HeartDTO.HeartRequestDTO(childCommentResponse.getCommentId(), ContentType.COMMENT.toString());
                     childCommentResponse.setHeart(heartService.isHeart(email, childCommentHeartRequest));
                     childCommentResponse.setHeartNum(heartService.findHeartList(childCommentHeartRequest).size());
                 }
