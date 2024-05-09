@@ -10,6 +10,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.mockito.Mockito.*;
@@ -31,6 +34,9 @@ class CafeRegisterServiceImplTest {
     @Mock
     CafeRegisterRepository cafeRegisterRepository;
 
+    @Mock
+    Pageable pageable;
+
     @DisplayName("신규 장소 등록 내역 조회")
     @Test
     void testFindAllCafeRegister() {
@@ -40,13 +46,14 @@ class CafeRegisterServiceImplTest {
             cafeRegisterList.add(CafeRegister.builder().member(new Member()).build());
         }
 
-        doReturn(cafeRegisterList).when(cafeRegisterRepository).findAll();
+
+        doReturn(new SliceImpl<>(cafeRegisterList, pageable, false)).when(cafeRegisterRepository).findAll(any(Pageable.class));
 
         //when
-        List<FindCafeRegisterDTO> cafeRegisterDTOList = cafeRegisterService.FindAllCafeRegisters();
+        Slice<FindCafeRegisterDTO> cafeRegisterDTOSlice = cafeRegisterService.FindAllCafeRegisters(pageable);
 
         //then
-        assertThat(cafeRegisterDTOList.size()).isEqualTo(3);
+        assertThat(cafeRegisterDTOSlice.getContent().size()).isEqualTo(3);
     }
 
 }

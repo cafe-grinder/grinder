@@ -3,6 +3,7 @@ package com.grinder.service;
 import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Member;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 import static com.grinder.domain.dto.MemberDTO.*;
@@ -18,7 +19,7 @@ public interface MemberService {
 
     void updateMemberIsDeleted(String memberId);
 
-    List<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable);
+    Slice<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable);
 
     Member findMemberByEmail(String email);
 

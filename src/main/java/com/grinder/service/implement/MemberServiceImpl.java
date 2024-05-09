@@ -10,6 +10,7 @@ import com.grinder.repository.MemberRepository;
 import com.grinder.repository.queries.MemberQueryRepository;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -75,8 +76,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable) {
-        return memberQueryRepository.searchMemberByRoleAndNicknameSlice(role, nickname, pageable).getContent();
+    public Slice<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable) {
+        return memberQueryRepository.searchMemberByRoleAndNicknameSlice(role, nickname, pageable);
     }
 
     @Override

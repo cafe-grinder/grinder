@@ -8,9 +8,9 @@
     <title>Grinder</title>
 
     <!--header css-->
-    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="/css/header.css">
     <!--admin css-->
-    <link rel="stylesheet" href="../static/css/admin.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <!-- css-->
 </head>
 <body>
@@ -21,8 +21,8 @@
 <article class="admin_article">
     <div class="admin_article_head">
         <h2 class="admin_article_title">회원 목록</h2>
-        <form action="" method="GET" name="member" class="admin_article_form">
-            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search">
+        <form action="" method="GET" name="member" class="admin_article_form" id="member_form">
+            <input type="text" name="nickname" placeholder="닉네임 검색" class="admin_article_search" id="member_nickname">
         </form>
     </div>
 
@@ -33,64 +33,32 @@
                 <th></th>
                 <th>닉네임</th>
                 <th></th>
-                <th>권한</th>
+                <th>
+                    <select id="member_role">
+                        <option value="" selected>권한</option>
+                        <option value="MEMBER">일반회원</option>
+                        <option value="VERIFIED_MEMBER">인증회원</option>
+                        <option value="SELLER">판매자</option>
+                        <option value="ADMIN">관리자</option>
+                    </select>
+                </th>
                 <th></th>
                 <th >상태</th>
                 <th></th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="admin_list_row_body">
-                <td class="admin_list_data">test@test.com</td>
-                <td>|</td>
-                <td class="admin_list_data">user</td>
-                <td>|</td>
-                <td class="admin_list_data">일반회원</td>
-                <td>|</td>
-                <td class="admin_list_data">정상</td>
-                <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">정지</button> <button class="admin_list_button member_delete_cancel_button">해제</button> </td>
-            </tr>
-            <tr class="admin_list_row_body">
-                <td class="admin_list_data">test@test.com</td>
-                <td>|</td>
-                <td class="admin_list_data">user</td>
-                <td>|</td>
-                <td class="admin_list_data">일반회원</td>
-                <td>|</td>
-                <td class="admin_list_data">정상</td>
-                <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">정지</button> <button class="admin_list_button member_delete_cancel_button">해제</button> </td>
-            </tr>
-            <tr class="admin_list_row_body">
-                <td class="admin_list_data">test@test.com</td>
-                <td>|</td>
-                <td class="admin_list_data">user</td>
-                <td>|</td>
-                <td class="admin_list_data">일반회원</td>
-                <td>|</td>
-                <td class="admin_list_data">정상</td>
-                <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">정지</button> <button class="admin_list_button member_delete_cancel_button">해제</button> </td>
-            </tr>
+        <tbody id="member_list">
 
-<!--            <tr th:each="member:${members}" class="admin_list_row_body">-->
-<!--                <td th:text="${member.email}"></td>-->
-<!--                <td th:text="${member.nickname}"></td>-->
-<!--                <td th:text="${member.role}"></td>-->
-<!--                <td th:if="${member.isDeleted}">사용불가</td>-->
-<!--                <td th:unless="${member.isDeleted}">정상</td>-->
-<!--                <td> <button class="admin_list_button member_delete_button">정지</button> <button class="admin_list_button member_delete_cancel_button">해제</button> </td>-->
-<!--            </tr>-->
         </tbody>
     </table>
+    <button id="more_member_button" class="add_list_button">더보기</button>
 </article>
 
 <article class="admin_article">
     <div class="admin_article_head">
         <h2 class="admin_article_title">신고 목록</h2>
-        <form action="" method="GET" name="member" class="admin_article_form">
-            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search">
+        <form action="" method="GET" name="member" class="admin_article_form" id="report_form">
+            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search" id="report_keyword">
         </form>
     </div>
 
@@ -99,39 +67,29 @@
         <tr class="admin_list_row_head">
             <th>신고자</th>
             <th></th>
-            <th>종류</th>
+            <th>
+                <select id="report_content_type">
+                    <option value="" selected>타입</option>
+                    <option value="FEED">피드</option>
+                    <option value="COMMENT">댓글</option>
+                </select>
+            </th>
             <th></th>
             <th>내용</th>
             <th></th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">user</td>
-            <td>|</td>
-            <td class="admin_list_data">댓글</td>
-            <td>|</td>
-            <td class="admin_list_data">저놈이 내 치즈를 훔쳤어요</td>
-            <td class="admin_list_blank"></td>
-            <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">신고 처리</button> <button class="admin_list_button member_delete_cancel_button">요청 삭제</button> </td>
-        </tr>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">user</td>
-            <td>|</td>
-            <td class="admin_list_data">댓글</td>
-            <td>|</td>
-            <td class="admin_list_data">저놈이 내 치즈를 훔쳤어요</td>
-            <td class="admin_list_blank"></td>
-            <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">신고 처리</button> <button class="admin_list_button member_delete_cancel_button">요청 삭제</button> </td>
-        </tr>
+        <tbody id="report_list">
+
         </tbody>
     </table>
+    <button id="more_report_button" class="add_list_button">더보기</button>
 </article>
 
 <article class="admin_article">
     <div class="admin_article_head">
         <h2 class="admin_article_title">신규 장소 신청 목록</h2>
-        <form action="" method="GET" name="member" class="admin_article_form">
+        <form action="" method="GET" name="member" class="admin_article_form" id="register_form">
             <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search">
         </form>
     </div>
@@ -149,37 +107,17 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">user</td>
-            <td>|</td>
-            <td class="admin_list_data">스타벅스 홍대점</td>
-            <td>|</td>
-            <td class="admin_list_data">서울시 마포구 서교동 123-4</td>
-            <td>|</td>
-            <td class="admin_list_data">010-1234-5678</td>
-            <td class="admin_list_blank"></td>
-            <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">등록</button> <button class="admin_list_button member_delete_cancel_button">삭제</button> </td>
-        </tr>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">user</td>
-            <td>|</td>
-            <td class="admin_list_data">스타벅스 홍대점</td>
-            <td>|</td>
-            <td class="admin_list_data">서울시 마포구 서교동 123-4</td>
-            <td>|</td>
-            <td class="admin_list_data">010-1234-5678</td>
-            <td class="admin_list_blank"></td>
-            <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">등록</button> <button class="admin_list_button member_delete_cancel_button">삭제</button> </td>
-        </tr>
+        <tbody id="register_list">
+
         </tbody>
     </table>
+    <button id="more_register_button" class="add_list_button">더보기</button>
 </article>
 
 <article class="admin_article">
     <div class="admin_article_head">
         <h2 class="admin_article_title">판매자 신청 목록</h2>
-        <form action="" method="GET" name="member" class="admin_article_form">
+        <form action="" method="GET" name="member" class="admin_article_form" id="apply_form">
             <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search">
         </form>
     </div>
@@ -199,42 +137,18 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">user</td>
-            <td>|</td>
-            <td class="admin_list_data">스타벅스 홍대점</td>
-            <td>|</td>
-            <td class="admin_list_data">서울시 마포구 서교동 123-4</td>
-            <td>|</td>
-            <td class="admin_list_data">010-1234-5678</td>
-            <td>|</td>
-            <td class="admin_list_data"><a href="">사업자등록증</a></td>
-            <td class="admin_list_blank"></td>
-            <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">등록</button> <button class="admin_list_button member_delete_cancel_button">삭제</button> </td>
-        </tr>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">user</td>
-            <td>|</td>
-            <td class="admin_list_data">스타벅스 홍대점</td>
-            <td>|</td>
-            <td class="admin_list_data">서울시 마포구 서교동 123-4</td>
-            <td>|</td>
-            <td class="admin_list_data">010-1234-5678</td>
-            <td>|</td>
-            <td class="admin_list_data"><a href="">사업자등록증</a></td>
-            <td class="admin_list_blank"></td>
-            <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">등록</button> <button class="admin_list_button member_delete_cancel_button">삭제</button> </td>
-        </tr>
+        <tbody id="apply_list">
+
         </tbody>
     </table>
+    <button id="more_apply_button" class="add_list_button">더보기</button>
 </article>
 
 <article class="admin_article">
     <div class="admin_article_head">
         <h2 class="admin_article_title">카페 조회</h2>
-        <form action="" method="GET" name="member" class="admin_article_form">
-            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search">
+        <form action="" method="GET" name="member" class="admin_article_form" id="cafe_form">
+            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search" id="cafe_keyword">
         </form>
     </div>
 
@@ -249,25 +163,12 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">스타벅스 홍대역점</td>
-            <td>|</td>
-            <td class="admin_list_data">서울시 마포구 서교동 123-4</td>
-            <td>|</td>
-            <td class="admin_list_data">02-1234-5678</td>
-            <td class="admin_list_blank"></td>
-        </tr>
-        <tr class="admin_list_row_body">
-            <td class="admin_list_data">스타벅스 홍대역점</td>
-            <td>|</td>
-            <td class="admin_list_data">서울시 마포구 서교동 123-4</td>
-            <td>|</td>
-            <td class="admin_list_data">02-1234-5678</td>
-            <td class="admin_list_blank"></td>
-        </tr>
+        <tbody id="cafe_list">
+
         </tbody>
     </table>
+    <button id="more_cafe_button" class="add_list_button">더보기</button>
 </article>
+<script src="/js/admin.js"></script>
 </body>
 </html>

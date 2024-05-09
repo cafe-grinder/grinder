@@ -9,6 +9,10 @@ import com.grinder.service.CafeService;
 import com.grinder.service.MemberService;
 import com.grinder.service.SellerApplyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,12 +33,12 @@ public class SellerApplyServiceImpl implements SellerApplyService {
     private final CafeService cafeService;
 
     @Override
-    public List<SellerApplyDTO.FindSellerApplyDTO> findAllSellerApplies() {
-        List<SellerApply> sellerApplyList = sellerApplyRepository.findAll();
+    public Slice<FindSellerApplyDTO> findAllSellerApplies(Pageable pageable) {
+        Page<SellerApply> sellerApplyPage = sellerApplyRepository.findAll(pageable);
 
-        List<FindSellerApplyDTO> sellerApplyDTOList = sellerApplyList.stream().map(sellerApply -> new FindSellerApplyDTO(sellerApply)).toList();
+        Slice<FindSellerApplyDTO> sellerApplyDTOSlice = new SliceImpl<>(sellerApplyPage.getContent().stream().map(sellerApply -> new FindSellerApplyDTO(sellerApply)).toList(), pageable, sellerApplyPage.hasNext());
 
-        return sellerApplyDTOList;
+        return sellerApplyDTOSlice;
     }
 
     @Override
