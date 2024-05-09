@@ -17,7 +17,9 @@ public interface MemberService {
 
     void updateMemberRole(String memberId);
 
-    void updateMemberIsDeleted(String memberId);
+    boolean deleteMember(String memberId);
+
+    boolean recoverMember(String memberId);
 
     Slice<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable);
 

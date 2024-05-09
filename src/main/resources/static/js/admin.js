@@ -205,7 +205,7 @@ function renderMemberList(memberList) {
                  <td class="admin_list_data">${member.nickname}</td>
                  <td>|</td>
                  <td class="admin_list_data">
-                    <select ${member.role == "SELLER" || member.role == "ADMIN" ? 'disabled' : ''}>
+                    <select class="change_role" data-member-id="${member.memberId}" ${member.role == "SELLER" || member.role == "ADMIN" ? 'disabled' : ''}>
                         <option value="MEMBER" ${member.role == 'MEMBER' ? 'selected' : ''}>일반회원</option>
                         <option value="VERIFIED_MEMBER" ${member.role == 'VERIFIED_MEMBER' ? 'selected' : ''}>인증회원</option>
                         <option value="SELLER" disabled ${member.role == 'SELLER' ? 'selected' : ''}>판매자</option>
@@ -215,8 +215,64 @@ function renderMemberList(memberList) {
                  <td>|</td>
                  <td class="admin_list_data">${member.isDeleted ? '사용불가' : '정상'}</td>
                  <td class="admin_list_blank"></td>
-                 <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">정지</button> <button class="admin_list_button member_delete_cancel_button">해제</button> </td>`;
+                 <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button" data-member-id="${member.memberId}")">정지</button> <button class="admin_list_button member_recover_button" data-member-id="${member.memberId}">해제</button> </td>`;
         memberTableBody.appendChild(row);
+        let select = row.querySelector('.change_role');
+        select.addEventListener('change', () => {
+            let memberId = select.dataset.memberId;
+            let url = '/api/member/' + memberId + '/role'
+            fetch(url, {
+                method: 'PUT'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        });
+
+        let deleteMember = row.querySelector('.member_delete_button');
+        deleteMember.addEventListener('click', () => {
+            let memberId = deleteMember.dataset.memberId;
+            let url = '/api/member/'+ memberId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        })
+
+        let recoverMember = row.querySelector('.member_recover_button');
+        recoverMember.addEventListener('click', () => {
+            let memberId = recoverMember.dataset.memberId;
+            let url = '/api/member/'+ memberId + '/recovery'
+            fetch(url, {
+                method: 'PUT'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        })
     })
 }
 function renderReportList(reportList) {
@@ -230,7 +286,7 @@ function renderReportList(reportList) {
                  <td>|</td>
                  <td class="admin_list_data">${report.content}</td>
                  <td class="admin_list_blank"></td>
-                 <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">신고 처리</button> <button class="admin_list_button member_delete_cancel_button">요청 삭제</button> </td>`;
+                 <td class="admin_list_button_container"> <button class="admin_list_button report_accept_button">신고 처리</button> <button class="admin_list_button report_delete_button">요청 삭제</button> </td>`;
         reportTableBody.appendChild(row);
     })
 }
@@ -247,7 +303,7 @@ function renderRegisterList(registerList) {
                 <td>|</td>
                 <td class="admin_list_data">${register.phoneNum}</td>
                 <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">등록</button> <button class="admin_list_button member_delete_cancel_button">삭제</button> </td>`;
+                <td class="admin_list_button_container"> <button class="admin_list_button register_accept_button">등록</button> <button class="admin_list_button register_delete_button">삭제</button> </td>`;
         registerTableBody.appendChild(row);
     })
 }
@@ -266,7 +322,7 @@ function renderApplyList(applyList) {
                 <td>|</td>
                 <td class="admin_list_data"><a href="${apply.regImageUrl}">사업자등록증</a></td>
                 <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button">등록</button> <button class="admin_list_button member_delete_cancel_button">삭제</button> </td>`;
+                <td class="admin_list_button_container"> <button class="admin_list_button apply_accept_button">등록</button> <button class="admin_list_button apply_delete_button">삭제</button> </td>`;
         applyTableBody.appendChild(row);
     })
 }

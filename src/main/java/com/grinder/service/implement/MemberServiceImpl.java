@@ -69,10 +69,18 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void updateMemberIsDeleted(String memberId) {
+    public boolean deleteMember(String memberId) {
         Member member = findMemberById(memberId);
 
-        member.switchIsDeleted();
+        return member.delete();
+    }
+
+    @Override
+    @Transactional
+    public boolean recoverMember(String memberId) {
+        Member member = findMemberById(memberId);
+
+        return member.recover();
     }
 
     @Override
