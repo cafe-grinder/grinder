@@ -29,11 +29,11 @@ public class MemberQueryRepository {
 
         BooleanBuilder builder = new BooleanBuilder();
 
-        if (role != null) {
+        if (role != "") {
             builder.and(member.role.eq(Role.valueOf(role)));
         }
 
-        if (nickname != null) {
+        if (nickname != null && nickname != "") {
             builder.and(member.nickname.like("%"+nickname+"%"));
         }
 
@@ -41,7 +41,7 @@ public class MemberQueryRepository {
         long offset = pageable.getOffset();
 
         List<FindMemberDTO> content = queryFactory
-                .select(Projections.constructor(FindMemberDTO.class))
+                .select(Projections.constructor(FindMemberDTO.class, member))
                 .from(member)
                 .where(builder)
                 .limit(limit)

@@ -5,6 +5,10 @@ import com.grinder.repository.CafeRegisterRepository;
 import com.grinder.repository.CafeRepository;
 import com.grinder.service.CafeRegisterService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,14 +26,13 @@ public class CafeRegisterServiceImpl implements CafeRegisterService {
     private final CafeRepository cafeRepository;
 
     @Override
-    public List<FindCafeRegisterDTO> FindAllCafeRegisters() {
-        List<CafeRegister> registerList = cafeRegisterRepository.findAll();
+    public Slice<FindCafeRegisterDTO> FindAllCafeRegisters(Pageable pageable) {
+        Page<CafeRegister> registerPage = cafeRegisterRepository.findAll(pageable);
 
-        List<FindCafeRegisterDTO> registerDTOList = registerList.stream().map(register -> new FindCafeRegisterDTO(register)).toList();
+        Slice<FindCafeRegisterDTO> registerDTOSlice = new SliceImpl<>(registerPage.getContent().stream().map(register -> new FindCafeRegisterDTO(register)).toList(), pageable, registerPage.hasNext());
 
-        return registerDTOList;
+        return registerDTOSlice;
     }
-
     @Override
     @Transactional
     public void deleteCafeRegister(String registerId) {

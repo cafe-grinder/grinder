@@ -11,6 +11,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.ArrayList;
@@ -30,22 +34,25 @@ class SellerApplyServiceImplTest {
     @Mock
     SellerApplyRepository sellerApplyRepository;
 
+    @Mock
+    Pageable pageable;
+
     @DisplayName("판매자 신청 내역 조회")
     @Test
     void testFindAllSellerApplies() {
         //given
         List<SellerApply> sellerApplyList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            sellerApplyList.add(SellerApply.builder().member(new Member()).cafe(new Cafe()).build());
+            sellerApplyList.add(SellerApply.builder().member(Member.builder().nickname("membername"+i).build()).cafe(Cafe.builder().name("new cafe"+i).address("new address"+i).phoneNum("0109534246"+i).build()).build());
         }
 
-        doReturn(sellerApplyList).when(sellerApplyRepository).findAll();
+        doReturn(new PageImpl<>(sellerApplyList, pageable, 3)).when(sellerApplyRepository).findAll(any(Pageable.class));
 
         //when
-        List<SellerApplyDTO.FindSellerApplyDTO> sellerApplyDTOList = sellerApplyService.findAllSellerApplies();
+        Slice<SellerApplyDTO.FindSellerApplyDTO> sellerApplyDTOSlice = sellerApplyService.findAllSellerApplies(pageable);
 
         //then
-        assertThat(sellerApplyDTOList.size()).isEqualTo(3);
+        assertThat(sellerApplyDTOSlice.getContent().size()).isEqualTo(3);
     }
 
     @DisplayName("판매자 신청 내역 삭제")

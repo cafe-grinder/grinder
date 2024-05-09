@@ -7,6 +7,9 @@ import com.grinder.service.CommentService;
 import com.grinder.service.FeedService;
 import com.grinder.service.ReportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +42,13 @@ public class ReportController {
         reportService.deleteContent(reportId);
 
         return ResponseEntity.ok(new SuccessResult("report_accepted", "신고된 컨텐츠가 삭제되었습니다."));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<Slice<FindReportDTO>> searchReportByContentAndType(@RequestParam String keyword, @RequestParam String contentType, @PageableDefault(size = 5) Pageable pageable) {
+        Slice<FindReportDTO> reportList = reportService.searchReportByContentAndType(keyword, contentType, pageable);
+
+        return ResponseEntity.ok(reportList);
     }
 
 }

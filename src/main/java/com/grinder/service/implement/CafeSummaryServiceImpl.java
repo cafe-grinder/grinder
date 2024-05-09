@@ -29,7 +29,7 @@ public class CafeSummaryServiceImpl implements CafeSummaryService {
      * @param cafeId : 카페 정보를 확인하여 Alan으로 분석하고, cafeSummary 테이블에 저장한다.
      * @return : 카페 이름과 주소를 분위기, 맛, 가격을 분석하여 반환한다.
      */
-    public AlanDTO.AlanResponse AnalysisCafe(String cafeId) {
+    public AlanDTO.AlanResponse analysisCafe(String cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 카페입니다."));
         AlanDTO.AlanResponse result = alanAPI.requestSummary(cafe.getName(), cafe.getAddress());
         cafeSummaryRepository.save(CafeSummary.builder().cafeId(cafeId).summary(result.getContent()).build());
@@ -64,5 +64,16 @@ public class CafeSummaryServiceImpl implements CafeSummaryService {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 카페입니다."));
         CafeSummary summary = cafeSummaryRepository.findById(cafeId).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 데이터입니다."));
         return new CafeSummaryDTO.CafeSummaryResponse(cafe, summary);
+    }
+
+    @Transactional
+    public void saveCafeSummary(String cafeId) {
+        String content = analysisCafe(cafeId).getContent();
+        CafeSummary cafeSummary = CafeSummary
+                .builder()
+                .cafeId(cafeId)
+                .summary(content)
+                .build();
+        cafeSummaryRepository.save(cafeSummary);
     }
 }

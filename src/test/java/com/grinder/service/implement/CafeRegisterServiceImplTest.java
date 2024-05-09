@@ -10,6 +10,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.mockito.Mockito.*;
@@ -31,22 +35,26 @@ class CafeRegisterServiceImplTest {
     @Mock
     CafeRegisterRepository cafeRegisterRepository;
 
+    @Mock
+    Pageable pageable;
+
     @DisplayName("신규 장소 등록 내역 조회")
     @Test
     void testFindAllCafeRegister() {
         //given
         List<CafeRegister> cafeRegisterList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            cafeRegisterList.add(CafeRegister.builder().member(new Member()).build());
+            cafeRegisterList.add(CafeRegister.builder().member(new Member()).phoneNum("01045689852").name("newcafe556").address("서울시 마포구 서교동 632-8").build());
         }
 
-        doReturn(cafeRegisterList).when(cafeRegisterRepository).findAll();
+
+        doReturn(new PageImpl<>(cafeRegisterList, pageable, 1)).when(cafeRegisterRepository).findAll(any(Pageable.class));
 
         //when
-        List<FindCafeRegisterDTO> cafeRegisterDTOList = cafeRegisterService.FindAllCafeRegisters();
+        Slice<FindCafeRegisterDTO> cafeRegisterDTOSlice = cafeRegisterService.FindAllCafeRegisters(pageable);
 
         //then
-        assertThat(cafeRegisterDTOList.size()).isEqualTo(3);
+        assertThat(cafeRegisterDTOSlice.getContent().size()).isEqualTo(3);
     }
 
 }
