@@ -6,10 +6,14 @@ import com.grinder.domain.entity.Report;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.exception.ContentTypeException;
 import com.grinder.repository.ReportRepository;
+import com.grinder.repository.queries.ReportQueryRepository;
 import com.grinder.service.CommentService;
 import com.grinder.service.FeedService;
 import com.grinder.service.ReportService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +29,7 @@ public class ReportServiceImpl implements ReportService {
     private final ReportRepository reportRepository;
     private final CommentService commentService;
     private final FeedService feedService;
+    private final ReportQueryRepository reportQueryRepository;
 
     @Override
     public List<FindReportDTO> findAllReports() {
@@ -86,5 +91,22 @@ public class ReportServiceImpl implements ReportService {
         }
 
         deleteAllReportByContentId(report);
+    }
+
+    @Override
+    public Slice<FindReportDTO> searchReportByContentAndType(String keyword, String contentType, Pageable pageable) {
+        Slice<Report> reportSlice = reportQueryRepository.searchReport(keyword, contentType, pageable);
+
+        return new SliceImpl<>(reportSlice.getContent().stream().map(report -> {
+            if (report.getContentType() == ContentType.FEED) {
+                Feed feed = feedService.findFeed(report.getContentId());
+                return new FindReportDTO(report, feed);
+            } else if(report.getContentType() == ContentType.COMMENT) {
+                Comment comment = commentService.findComment(report.getContentId());
+                return new FindReportDTO(report, comment);
+            } else {
+                throw new ContentTypeException("신고된 컨텐츠의 타입이 잘못되었습니다");
+            }
+        }).toList(), reportSlice.getPageable(), reportSlice.hasNext());
     }
 }

@@ -10,6 +10,21 @@ public class CafeDTO {
     @Getter
     @Setter
     @NoArgsConstructor
+    public static class CafeSearchByAdminDTO {
+        private String name;
+        private String address;
+        private String phoneNum;
+
+        public CafeSearchByAdminDTO(Cafe cafe) {
+            this.name = cafe.getName();
+            this.address = cafe.getAddress();
+            this.phoneNum = cafe.getPhoneNum();
+        }
+    }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
     public static class findAllWithImageResponse {
         private String cafeId;
         private String cafeName;

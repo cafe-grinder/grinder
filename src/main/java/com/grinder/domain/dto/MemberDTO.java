@@ -11,6 +11,7 @@ public class MemberDTO {
     @Getter
     @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public static class FindMemberDTO {
 
         private String memberId;
@@ -25,7 +26,7 @@ public class MemberDTO {
             this.email = member.getEmail();
             this.nickname = member.getNickname();
             this.phoneNum = member.getPhoneNum();
-            this.role = member.getRole().getValue();
+            this.role = member.getRole().name();
             this.isDeleted = member.getIsDeleted();
         }
     }

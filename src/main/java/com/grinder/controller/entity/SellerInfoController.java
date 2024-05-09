@@ -1,6 +1,7 @@
 package com.grinder.controller.entity;
 
 import com.grinder.domain.dto.SuccessResult;
+import com.grinder.service.SellerApplyService;
 import com.grinder.service.SellerInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class SellerInfoController {
 
     private final SellerInfoService sellerInfoService;
+    private final SellerApplyService sellerApplyService;
 
     @PostMapping("/{applyId}")
     public ResponseEntity<SuccessResult> saveSellerInfo(@PathVariable String applyId) {
         sellerInfoService.saveSellerInfo(applyId);
+        sellerApplyService.deleteSellerApply(applyId);
         return ResponseEntity.status(HttpStatus.CREATED).body(new  SuccessResult("Create seller_info", "판매자 정보 등록이 완료되었습니다"));
     }
 

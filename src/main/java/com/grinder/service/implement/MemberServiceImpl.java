@@ -12,6 +12,7 @@ import com.grinder.service.MailService;
 import com.grinder.service.MemberService;
 import com.grinder.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Pageable;
@@ -78,15 +79,23 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     @Transactional
-    public void updateMemberIsDeleted(String memberId) {
+    public boolean deleteMember(String memberId) {
         Member member = findMemberById(memberId);
 
-        member.switchIsDeleted();
+        return member.delete();
     }
 
     @Override
-    public List<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable) {
-        return memberQueryRepository.searchMemberByRoleAndNicknameSlice(role, nickname, pageable).getContent();
+    @Transactional
+    public boolean recoverMember(String memberId) {
+        Member member = findMemberById(memberId);
+
+        return member.recover();
+    }
+
+    @Override
+    public Slice<FindMemberDTO> searchMemberSlice(String role, String nickname, Pageable pageable) {
+        return memberQueryRepository.searchMemberByRoleAndNicknameSlice(role, nickname, pageable);
     }
 
     @Override

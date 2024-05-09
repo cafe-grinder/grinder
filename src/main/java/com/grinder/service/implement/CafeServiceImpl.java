@@ -2,13 +2,20 @@ package com.grinder.service.implement;
 
 import static com.grinder.domain.dto.CafeRegisterDTO.*;
 
+import com.grinder.domain.dto.CafeDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.CafeRegister;
+import com.grinder.domain.entity.CafeSummary;
 import com.grinder.exception.AlreadyExistException;
 import com.grinder.repository.CafeRegisterRepository;
 import com.grinder.repository.CafeRepository;
+import com.grinder.repository.queries.CafeQueryRepository;
 import com.grinder.service.CafeService;
+import com.grinder.service.CafeSummaryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +28,8 @@ public class CafeServiceImpl implements CafeService {
 
     private final CafeRepository cafeRepository;
     private final CafeRegisterRepository cafeRegisterRepository;
+    private final CafeSummaryService cafeSummaryService;
+    private final CafeQueryRepository cafeQueryRepository;
 
     @Override
     @Transactional
@@ -40,10 +49,20 @@ public class CafeServiceImpl implements CafeService {
         Cafe cafe = Cafe.builder().name(register.getName()).address(register.getAddress()).phoneNum(register.getPhoneNum()).build();
 
         cafeRepository.save(cafe);
+
+        cafeSummaryService.saveCafeSummary(cafe.getCafeId());
     }
 
     @Override
     public Cafe findCafeById(String cafeId) {
         return cafeRepository.findById(cafeId).orElseThrow(() -> new NoSuchElementException("카페 아이디: " + cafeId + " 인 카페가 존재하지 않습니다."));
+    }
+
+    @Override
+    public Slice<CafeDTO.CafeSearchByAdminDTO> searchCafeByAdmin(String keyword, Pageable pageable) {
+        Slice<Cafe> cafeSlice =  cafeQueryRepository.searchCafeByNameAndAddressAndPhoneNum(keyword, pageable);
+
+        return new SliceImpl<>(cafeSlice.getContent().stream().map(cafe ->
+            new CafeDTO.CafeSearchByAdminDTO(cafe)).toList(), pageable, cafeSlice.hasNext());
     }
 }
