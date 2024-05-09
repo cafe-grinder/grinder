@@ -53,7 +53,8 @@
                 <li class="feed_like_num_align">
                     <button class="feed_like_yet" th:if="${not feed.heart}"></button>
                     <button class="feed_like" th:if="${feed.heart}"></button>
-                    <span th:text="${feed.heartNum}"></span></li>
+                    <span class="feed_like_num" th:text="${feed.heartNum}"></span>
+                </li>
                 <li>
                     <button class="feed_comment_view_btn"></button>
                 </li>
@@ -101,9 +102,9 @@
                                           th:text="${#temporals.format(parentComment.updatedAt, 'yyyy-MM-dd')}"></span>
                                     <ul class="feed_comment_function_list">
                                         <li class="feed_like_num_align">
-                                            <button class="feed_like_yet" th:if="${not parentComment.heart}"></button>
-                                            <button class="feed_like" th:if="${parentComment.heart}"></button>
-                                            <span th:text="${parentComment.heartNum}"></span></li>
+                                            <button class="feed_like_yet feed_parent_comment" th:if="${not parentComment.heart}"></button>
+                                            <button class="feed_like feed_parent_comment" th:if="${parentComment.heart}"></button>
+                                            <span class="feed_like_num" th:text="${parentComment.heartNum}"></span></li>
                                         <li>
                                             <button class="feed_child_comment_textarea_view_btn"></button>
                                         </li>
@@ -168,9 +169,9 @@
                                                       th:text="${#temporals.format(childComment.updatedAt, 'yyyy-MM-dd')}"></span>
                                                 <ul class="feed_comment_function_list">
                                                     <li class="feed_like_num_align">
-                                                        <button class="feed_like_yet" th:if="${not childComment.heart}"></button>
-                                                        <button class="feed_like" th:if="${childComment.heart}"></button>
-                                                        <span th:text="${childComment.heartNum}"></span>
+                                                        <button class="feed_like_yet feed_child_comment" th:if="${not childComment.heart}"></button>
+                                                        <button class="feed_like feed_child_comment" th:if="${childComment.heart}"></button>
+                                                        <span class="feed_like_num" th:text="${childComment.heartNum}"></span>
                                                     </li>
                                                     <li class="feed_gear_btn_parent">
                                                         <button class="feed_gear_btn"></button>

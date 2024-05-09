@@ -23,7 +23,8 @@ public class HeartController {
             Authentication authentication,
             @RequestBody HeartDTO.HeartRequestDTO request
     ) {
-        String memberEmail = authentication.getName();
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";   // TODO: 테스트용. 나중에 지울 것!
         Heart heart = heartService.addHeart(memberEmail, request);
 
         if (heart != null) {
@@ -38,12 +39,12 @@ public class HeartController {
             Authentication authentication,
             @RequestBody HeartDTO.HeartRequestDTO request
     ) {
-        String memberEmail = authentication.getName();
+        // String memberEmail = authentication.getName();
+        String memberEmail = "test@test.com";   // TODO: 테스트용. 나중에 지울 것!
         Heart heart = heartService.findHeart(memberEmail, request);
         if (memberEmail.equals(heart.getMember().getEmail())) {
             heartService.deleteHeart(memberEmail, request);
-            heart = heartService.findHeart(memberEmail, request);
-            if (heart == null) {
+            if (!heartService.isHeart(memberEmail, request)) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Delete Success", "추천 해제했습니다."));
             } else {
                 throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
