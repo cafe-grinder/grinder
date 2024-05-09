@@ -67,8 +67,7 @@ public class CommentController {
         Comment comment = commentService.findComment(comment_id);
         if (memberEmail.equals(comment.getMember().getEmail())) {
             commentService.deleteComment(comment_id);
-            comment = commentService.findComment(comment_id);
-            if (comment == null) {
+            if (!comment.getIsVisible()) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Delete Success", "삭제되었습니다."));
             } else {
                 throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");

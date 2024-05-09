@@ -24,13 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
         initGearDropdown();
 
         // 피드 삭제 이벤트 설정
-        initDeleteFeedEvent();
-
-        // 댓글 작성 이벤트 설정
-        initCommentEvent();
-
-        // 댓글 삭제 이벤트 설정 함수
-        initDeleteCommentEvent();
+        initFeedEvent();
     }
 
     // 톱니바퀴 드롭다운 초기화
@@ -59,35 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // 피드 삭제 이벤트 설정
-    function initDeleteFeedEvent() {
+    // 피드 이벤트 설정
+    function initFeedEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
+            const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
 
             // 피드 삭제 버튼 클릭시
             if (target.classList.contains('feed_delete_btn')) {
-                // 피드 ID 가져오기
-                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
-
-                // 확인 대화상자 표시
                 if (confirm('삭제하시겠습니까?')) {
-                    // 사용자가 확인을 선택한 경우 AJAX 요청을 통해 피드 삭제
                     await deleteFeed(feedId);
-                    // 삭제 후 해당 피드를 화면에서 숨깁니다.
                     target.closest('.feed_container').style.display = 'none';
                 }
             }
-        });
-    }
-
-    // 댓글 작성 이벤트 설정
-    function initCommentEvent() {
-        document.addEventListener('click', async function(event) {
-            const target = event.target;
 
             // 댓글 작성 버튼 클릭 시
             if (target.classList.contains('feed_comment_create_btn')) {
-                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 let commentTextarea;
                 let content;
                 let parentCommentId = '';
@@ -114,18 +95,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 await saveComment(content, parentCommentId, feedId);
                 commentTextarea.value = '';
             }
-        });
-    }
-
-
-    // 댓글 삭제 이벤트 설정 함수
-    function initDeleteCommentEvent() {
-        document.addEventListener('click', async function(event) {
-            const target = event.target;
 
             // 댓글 삭제 버튼 클릭시
             if (target.classList.contains('feed_comment_delete_btn')) {
-                let feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 let commentArea;
                 let commentId;
 
