@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 댓글 작성 이벤트 설정
         initCommentEvent();
+
+        // 댓글 삭제 이벤트 설정 함수
+        initDeleteCommentEvent();
     }
 
     // 톱니바퀴 드롭다운 초기화
@@ -58,20 +61,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 피드 삭제 이벤트 설정
     function initDeleteFeedEvent() {
-        const deleteButtons = document.querySelectorAll('.feed_delete_btn');
-        deleteButtons.forEach(function(btn) {
-            btn.addEventListener('click', async function() {
+        document.addEventListener('click', async function(event) {
+            const target = event.target;
+
+            // 피드 삭제 버튼 클릭시
+            if (target.classList.contains('feed_delete_btn')) {
                 // 피드 ID 가져오기
-                const feedId = this.closest('.feed_container').querySelector('.feed_feed_id').value;
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
 
                 // 확인 대화상자 표시
                 if (confirm('삭제하시겠습니까?')) {
                     // 사용자가 확인을 선택한 경우 AJAX 요청을 통해 피드 삭제
                     await deleteFeed(feedId);
                     // 삭제 후 해당 피드를 화면에서 숨깁니다.
-                    this.closest('.feed_container').style.display = 'none';
+                    target.closest('.feed_container').style.display = 'none';
                 }
-            });
+            }
         });
     }
 
@@ -90,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (childCommentWrite) {
                     commentTextarea = childCommentWrite.querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;
-                    parentCommentId = target.closest('.feed_comment').querySelector('.feed_parent_comment_id').value;
+                    parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
                 } else {
                     commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;
@@ -109,6 +114,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // 댓글 작성 후 입력창 초기화
                 commentTextarea.value = '';
+            }
+        });
+    }
+
+
+    // 댓글 삭제 이벤트 설정 함수
+    function initDeleteCommentEvent() {
+        document.addEventListener('click', async function(event) {
+            const target = event.target;
+
+            // 댓글 삭제 버튼 클릭시
+            if (target.classList.contains('feed_comment_delete_btn')) {
+                let feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                const childCommentArea = target.closest('.feed_child_comment_area');
+                if (childCommentArea) {
+                    let commentId = childCommentArea.querySelector('.feed_child_comment_id').value;
+                    await deleteComment(feedId, commentId);
+                    target.closest('.feed_child_comment_area').style.display = 'none';
+                } else {
+                    let parentCommentArea = target.closest('.feed_parent_comment_area');
+                    let commentId = parentCommentArea.querySelector('.feed_parent_comment_id').value;
+                    await deleteComment(feedId, commentId);
+                    target.closest('.feed_parent_comment_area').style.display = 'none';
+                }
             }
         });
     }
@@ -162,5 +191,28 @@ async function saveComment(content, parentCommentId, feedId) {
         }
     } catch (error) {
         console.error('댓글 저장 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 댓글 삭제 비동기 함수
+async function deleteComment(feedId, commentId) {
+    try {
+        const response = await fetch(`/comment/${feedId}/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 댓글 삭제 성공 시 추가 동작 수행 가능
+        } else {
+            // 실패했을 때의 처리
+            console.error('댓글 삭제에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 삭제 중 오류가 발생했습니다:', error);
     }
 }

@@ -46,7 +46,7 @@
                 <li><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
                 <li><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
             </ul>
-            <ul class="feed_tag_list"><!--반복문-->
+            <ul class="feed_tag_list" th:if="${feed.tagNameList.size() != 0}"><!--반복문-->
                 <li th:each="tag: ${feed.tagNameList}" th:text="${tag}"></li>
             </ul>
             <ul class="feed_function_list">
@@ -75,7 +75,7 @@
                 <textarea class="feed_comment_textarea" placeholder="댓글을 입력해 주세요"></textarea>
                 <button class="feed_comment_create_btn">작성</button>
             </div>
-            <div class="feed_comment" th:each="parentComment: ${feed.parentCommentList}"><!--반복문-->
+            <div class="feed_parent_comment_area" th:each="parentComment: ${feed.parentCommentList}"><!--반복문-->
                 <input class="feed_parent_comment_id" type="hidden" th:value="${parentComment.commentId}">
                 <div class="feed_space_between">
                     <div class="feed_comment_profile_img">
@@ -99,14 +99,15 @@
                                         <button><img src="/img/icon/chat-dots-fill.png" alt=""></button>
                                     </li>
                                     <li>
-                                        <button class="feed_gear_btn"><img src="/img/icon/gear-fill.png" alt="">
+                                        <button class="feed_gear_btn">
+                                            <img src="/img/icon/gear-fill.png" alt="">
                                         </button>
                                         <ul class="feed_gear_dropdown">
-                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_update_btn">✍️ 수정</button></li>
-                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_delete_btn">✊ 삭제</button></li>
-                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_report_btn">🤛 신고</button></li>
-                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_follow_btn">😍 팔로우</button></li>
-                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_black_btn">😡 차단</button></li>
+                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_comment_update_btn">✍️ 수정</button></li>
+                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_comment_delete_btn">✊ 삭제</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_report_btn">🤛 신고</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_follow_btn">😍 팔로우</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_black_btn">😡 차단</button></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -144,11 +145,11 @@
                                                         <img src="/img/icon/gear-fill.png" alt="">
                                                     </button>
                                                     <ul class="feed_gear_dropdown">
-                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_update_btn">✍️ 수정</button></li>
-                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_delete_btn">✊ 삭제</button></li>
-                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_report_btn">🤛 신고</button></li>
-                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_follow_btn">😍 팔로우</button></li>
-                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_black_btn">😡 차단</button></li>
+                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_comment_update_btn">✍️ 수정</button></li>
+                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_comment_delete_btn">✊ 삭제</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_report_btn">🤛 신고</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_follow_btn">😍 팔로우</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_black_btn">😡 차단</button></li>
                                                     </ul>
                                                 </li>
                                             </ul>
