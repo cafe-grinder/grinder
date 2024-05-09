@@ -71,7 +71,7 @@
             <div class="feed_divide_line"></div>
 
             <!-- 댓글 -->
-            <div class="feed_comment_container">
+            <div class="feed_comment_container display_none">
                 <div class="feed_parent_comment_write feed_space_between">
                     <textarea class="feed_comment_textarea" placeholder="댓글을 입력해 주세요"></textarea>
                     <button class="feed_comment_create_btn feed_parent_comment">작성</button>
@@ -86,9 +86,15 @@
                         <div class="feed_parent_comment_info">
                             <div class="feed_space_between">
                                 <div class="feed_writer_comment">
-                                    <div class="feed_grey_info"
-                                         th:text="'작성자 : ' + ${parentComment.nickname} + ' (' + ${parentComment.email} + ')'"></div>
+                                    <div class="feed_grey_info" th:text="'작성자 : ' + ${parentComment.nickname} + ' (' + ${parentComment.email} + ')'"></div>
                                     <div class="feed_comment_content" th:text="${parentComment.content}"></div>
+                                    <div class="feed_comment_content_update display_none">
+                                        <textarea class="feed_comment_content_update_textarea"></textarea>
+                                        <div class="feed_comment_content_btns">
+                                            <button class="feed_comment_content_update_cancel feed_parent_comment">취소</button>
+                                            <button class="feed_comment_content_update_btn feed_parent_comment">수정</button>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="feed_comment_side">
                                     <span class="feed_grey_info"
@@ -128,7 +134,7 @@
                             </div>
 
                             <!-- 자식 댓글 -->
-                            <div class="feed_child_comment_write feed_space_between">
+                            <div class="feed_child_comment_write feed_space_between display_none">
                                 <textarea class="feed_comment_textarea" placeholder="답글을 입력해 주세요"></textarea>
                                 <button class="feed_comment_create_btn feed_child_comment">작성</button>
                             </div>
@@ -148,8 +154,14 @@
                                             <div class="feed_writer_comment">
                                                 <div class="feed_grey_info"
                                                      th:text="'작성자 : ' + ${childComment.nickname} + ' (' + ${childComment.email} + ')'"></div>
-                                                <div class="feed_comment_content"
-                                                     th:text="${childComment.content}"></div>
+                                                <div class="feed_comment_content" th:text="${childComment.content}"></div>
+                                                <div class="feed_comment_content_update display_none">
+                                                    <textarea class="feed_comment_content_update_textarea"></textarea>
+                                                    <div class="feed_comment_content_btns">
+                                                        <button class="feed_comment_content_update_cancel feed_child_comment">취소</button>
+                                                        <button class="feed_comment_content_update_btn feed_child_comment">수정</button>
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div class="feed_comment_side">
                                                 <span class="feed_grey_info"
