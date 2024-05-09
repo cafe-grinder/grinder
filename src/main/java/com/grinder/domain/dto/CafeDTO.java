@@ -1,10 +1,6 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.Cafe;
-import com.grinder.domain.entity.Feed;
-import com.grinder.domain.entity.Member;
-import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +17,7 @@ public class CafeDTO {
         private String cafeId;
         private String name;
         private String address;
+        private String phoneNum;
     }
 
     @Data
@@ -50,4 +47,27 @@ public class CafeDTO {
 //    public static class FindCafeDTO {
 //
 //    }
+
+    @Getter
+    @Setter
+    public static class findAllWithImageResponse {
+        private String cafeId;
+        private String cafeName;
+        private String cafeAddress;
+        private String CafePhoneNum;
+        private Integer averageGrade;
+        private String cafeImageUrl;
+
+        public findAllWithImageResponse() {
+        }
+
+        public findAllWithImageResponse(Cafe cafe, String imageUrl) {
+            cafeId = cafe.getCafeId();
+            cafeName = cafe.getName();
+            cafeAddress = cafe.getAddress();
+            CafePhoneNum = cafe.getPhoneNum();
+            averageGrade = cafe.getAverageGrade();
+            cafeImageUrl = imageUrl;
+        }
+    }
 }
