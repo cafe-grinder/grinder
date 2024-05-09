@@ -1,47 +1,343 @@
-// JavaScript 코드
 document.addEventListener('DOMContentLoaded', function() {
-    // feed_gear_btn 클래스를 가진 버튼 요소들을 모두 가져옴
-    const gearButtons = document.querySelectorAll('.feed_gear_btn');
+    // 백엔드에서 피드를 가져오는 XMLHttpRequest
+    let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
+    xhr.open('GET', '/get-feed', true); // 요청을 초기화합니다.
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            // 요청이 성공적으로 완료되면 실행됩니다.
+            document.getElementById('feedContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            initPage(); // 페이지 초기화 함수 호출
+        } else {
+            // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
+            console.error('The request failed!');
+        }
+    };
+    xhr.onerror = function () {
+        // 요청이 네트워크 문제로 실패했을 때 실행됩니다.
+        console.error('The request failed due to a network error!');
+    };
+    xhr.send(); // 요청을 서버로 보냅니다.
 
-    // 가져온 버튼 요소들에 대해 반복하여 이벤트 리스너를 추가
-    gearButtons.forEach(function(button) {
-        // 클릭 이벤트에 대한 리스너 추가
-        button.addEventListener('click', function(event) {
-            // 이벤트 버블링 방지
-            event.stopPropagation();
+    // 페이지 초기화 함수
+    function initPage() {
+        // 톱니바퀴 드롭다운 초기화
+        // initGearDropdown();
 
-            // 현재 클릭된 버튼과 그 버튼의 드롭다운을 가져옴
-            const currentButton = this;
-            const currentDropdown = currentButton.parentElement.querySelector('.feed_gear_dropdown');
+        // 피드 삭제 이벤트 설정
+        initFeedEvent();
+    }
 
-            // 다른 모든 드롭다운을 닫음
-            hideAllDropdowns(currentDropdown);
+    // 톱니바퀴 드롭다운 초기화
+    function initGearDropdown() {
+        const gearBtns = document.querySelectorAll('.feed_gear_btn');
+        gearBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(event) {
+                const dropdown = this.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
+                dropdown.classList.toggle('show');
 
-            // 현재 클릭된 버튼의 드롭다운을 토글
-            currentDropdown.classList.toggle('show');
-        });
-    });
+                // 다른 dropdown이 열려있는 경우 닫음
+                const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
+                allDropdowns.forEach(function(dropdownItem) {
+                    if (dropdownItem !== dropdown) {
+                        dropdownItem.classList.remove('show');
+                    }
+                });
 
-    // 문서의 다른 곳을 클릭했을 때 모든 드롭다운을 숨기는 함수
-    function hideAllDropdowns(excludeDropdown) {
-        const dropdowns = document.querySelectorAll('.feed_gear_dropdown.show');
-        dropdowns.forEach(function(dropdown) {
-            // 현재 클릭된 버튼의 드롭다운을 제외하고 모든 다른 드롭다운을 닫음
-            if (dropdown !== excludeDropdown) {
-                dropdown.classList.remove('show');
-            }
+                // 화면 어느 곳이나 클릭할 때 드롭다운 닫기
+                document.addEventListener('click', function(e) {
+                    if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+                        dropdown.classList.remove('show');
+                    }
+                });
+            });
         });
     }
 
-    // 문서의 어느 곳을 클릭하든 모든 드롭다운을 닫음
-    document.addEventListener('click', function(event) {
-        hideAllDropdowns();
-    });
+    // 피드 이벤트 설정
+    function initFeedEvent() {
+        document.addEventListener('click', async function(event) {
+            const target = event.target;
 
-    // 드롭다운 메뉴를 클릭해도 닫히지 않도록 이벤트 버블링을 방지
-    document.querySelectorAll('.feed_gear_dropdown').forEach(function(dropdown) {
-        dropdown.addEventListener('click', function(event) {
-            event.stopPropagation();
+            // 톱니바퀴 버튼 클릭
+            if (target.classList.contains('feed_gear_btn')) {
+                const dropdown = target.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
+                dropdown.classList.toggle('display_none');
+
+                // 다른 dropdown이 열려있는 경우 닫음
+                const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
+                allDropdowns.forEach(function(dropdownItem) {
+                    if (dropdownItem !== dropdown) {
+                        dropdownItem.classList.add('display_none');
+                    }
+                });
+            }
+
+            // 댓글 보기 버튼 클릭
+            if (target.classList.contains('feed_comment_view_btn')) {
+                const commentContainer = target.closest('.feed_container').querySelector('.feed_comment_container');
+                commentContainer.classList.toggle('display_none');
+            }
+
+            // 답글 입력창 토글 버튼
+            if (target.classList.contains('feed_child_comment_textarea_view_btn')) {
+                const childCommentWriteArea = target.closest('.feed_parent_comment_info').querySelector('.feed_child_comment_write');
+                childCommentWriteArea.classList.toggle('display_none');
+
+                const commentContent = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content, .feed_parent_comment');
+                const commentUpdateForm = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content_update');
+                commentContent.classList.remove('display_none');
+                commentUpdateForm.classList.add('display_none');
+            }
+
+            // 피드 삭제 버튼 클릭
+            if (target.classList.contains('feed_delete_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                if (confirm('삭제하시겠습니까?')) {
+                    await deleteFeed(feedId);
+                    target.closest('.feed_container').style.display = 'none';
+                }
+            }
+
+            // 댓글 작성 버튼 클릭
+            if (target.classList.contains('feed_comment_create_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                let commentTextarea;
+                let content;
+                let parentCommentId = '';
+
+                // 부모 댓글
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
+                    content = commentTextarea.value;
+                }
+
+                // 자식 댓글
+                if (target.classList.contains('feed_child_comment')) {
+                    const childCommentWriteArea = target.closest('.feed_child_comment_write');
+                    childCommentWriteArea.classList.toggle('display_none');
+                    commentTextarea = childCommentWriteArea.querySelector('.feed_comment_textarea');
+                    content = commentTextarea.value;
+                    parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
+                }
+
+                // 댓글 내용이 비어있는지 확인
+                if (!content.trim()) {
+                    alert('댓글 내용을 입력하세요.');
+                    return;
+                }
+
+                await saveComment(content, parentCommentId, feedId);
+                commentTextarea.value = '';
+            }
+
+            // 댓글 삭제 버튼 클릭
+            if (target.classList.contains('feed_comment_delete_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                let commentArea;
+                let commentId;
+
+                // 부모 댓글
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentArea = target.closest('.feed_parent_comment_area');
+                    commentId = commentArea.querySelector('.feed_parent_comment_id').value;
+                }
+
+                // 자식 댓글
+                if (target.classList.contains('feed_child_comment')) {
+                    commentArea = target.closest('.feed_child_comment_area');
+                    commentId = commentArea.querySelector('.feed_child_comment_id').value;
+                }
+
+                await deleteComment(feedId, commentId);
+                commentArea.style.display = 'none';
+            }
+
+            // 댓글 수정 or 취소 버튼 클릭
+            if (target.classList.contains('feed_comment_update_btn') || target.classList.contains('feed_comment_content_update_cancel')) {
+                let commentArea;
+                let commentContent;
+                let commentUpdateForm;
+
+                // 부모 댓글
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentArea = target.closest('.feed_parent_comment_area');
+                    commentContent = commentArea.querySelector('.feed_comment_content, .feed_parent_comment');
+                    commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
+
+                    // 답글 입력창 닫기
+                    const childCommentWriteArea = target.closest('.feed_parent_comment_info').querySelector('.feed_child_comment_write');
+                    childCommentWriteArea.classList.add('display_none');
+                } else {
+                    commentArea = target.closest('.feed_child_comment_area');
+                    commentContent = commentArea.querySelector('.feed_comment_content, .feed_child_comment');
+                    commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
+                }
+
+                if (target.classList.contains('feed_comment_update_btn')) {
+                    // 드롭다운 메뉴창 닫기
+                    const dropdown = target.closest('.feed_gear_dropdown');
+                    dropdown.classList.add('display_none');
+
+                    // 다른 댓글 수정창이 열려있는 경우 닫음
+                    const allCommentUpdateArea = document.querySelectorAll('.feed_writer_comment');
+                    allCommentUpdateArea.forEach(function(updateArea) {
+                        if (updateArea !== commentUpdateForm) {
+                            updateArea.querySelector('.feed_comment_content').classList.remove('display_none');
+                            updateArea.querySelector('.feed_comment_content_update').classList.add('display_none');
+                        }
+                    });
+                }
+
+                commentUpdateForm.querySelector('.feed_comment_content_update_textarea').value = commentContent.innerText;
+
+                commentContent.classList.toggle('display_none');
+                commentUpdateForm.classList.toggle('display_none');
+            }
+
+
+
+            // 댓글 수정 완료 버튼을 누르면
+            if (target.classList.contains('feed_comment_content_update_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                let commentArea;
+                let commentContent;
+                let commentUpdateForm;
+                let commentId;
+                let updatedContent;
+
+                // 부모 댓글
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentArea = target.closest('.feed_parent_comment_area');
+                    commentContent = commentArea.querySelector('.feed_comment_content');
+                    commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
+                    commentId = commentArea.querySelector('.feed_parent_comment_id').value;
+                } else {
+                    commentArea = target.closest('.feed_child_comment_area');
+                    commentContent = commentArea.querySelector('.feed_comment_content');
+                    commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
+                    commentId = commentArea.querySelector('.feed_child_comment_id').value;
+                }
+
+                // 수정 입력창을 꺼지고, 댓글 내용을 켜기
+                commentContent.classList.remove('display_none');
+                commentUpdateForm.classList.add('display_none');
+
+                updatedContent = commentUpdateForm.querySelector('.feed_comment_content_update_textarea').value.trim();
+
+                // 수정된 내용이 비어 있는지 확인
+                if (!updatedContent) {
+                    alert('수정할 내용을 입력하세요.');
+                    return;
+                }
+
+                // 댓글 수정 처리 함수 호출
+                await updateComment(feedId, commentId, updatedContent);
+
+                // 수정 입력창을 숨기고 수정된 내용을 댓글 내용에 반영
+                commentUpdateForm.classList.add('display_none');
+                commentContent.textContent = updatedContent;
+                commentContent.classList.remove('display_none');
+            }
         });
-    });
+    }
 });
+
+// 피드 삭제 비동기 함수
+async function deleteFeed(feedId) {
+    try {
+        const response = await fetch(`/feed/${feedId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 피드를 화면에서 제거하는 등의 추가적인 동작을 수행할 수 있습니다.
+        } else {
+            // 실패했을 때의 처리
+            console.error('피드 삭제에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('피드 삭제 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 댓글 저장 비동기 함수
+async function saveComment(content, parentCommentId, feedId) {
+    try {
+        const response = await fetch(`/comment/${feedId}/newcomment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: content,
+                parentCommentId: parentCommentId
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+
+            // 성공적으로 댓글이 저장된 후에 필요한 추가 작업 수행 가능
+        } else {
+            // 실패했을 때의 처리
+            console.error('댓글 저장에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 저장 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 댓글 삭제 비동기 함수
+async function deleteComment(feedId, commentId) {
+    try {
+        const response = await fetch(`/comment/${feedId}/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 댓글 삭제 성공 시 추가 동작 수행 가능
+        } else {
+            // 실패했을 때의 처리
+            console.error('댓글 삭제에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 삭제 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 댓글 수정 비동기 함수
+async function updateComment(feedId, commentId, updatedContent) {
+    try {
+        const response = await fetch(`/comment/${feedId}/${commentId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: updatedContent,
+                parentCommentId: ''
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+        } else {
+            // 실패했을 때의 처리
+            console.error('댓글 수정에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 수정 중 오류가 발생했습니다:', error);
+    }
+}

@@ -1,7 +1,7 @@
 <header th:fragment="headers">
     <nav class="header_bar">
         <div class="header_search_box">
-            <h1><a class="header_grinder_logo" href="#">그라인더 홈페이지</a></h1>
+            <h1><a class="header_grinder_logo" th:href="@{/}">그라인더 홈페이지</a></h1>
 <!--            폼 태그로 묶어야 하는지?-->
             <form action="/" method="get" title="검색">
                 <select title="search_list" name="category">
@@ -14,15 +14,15 @@
             </form>
         </div>
         <div class="header_btn">
-            <ul th:if="${headerMember} == null" class="header_non_login">
-                <li><a href="#">로그인</a></li>
+            <ul th:if="${headerMember == null}" class="header_non_login">
+                <li><a th:href="@{/page/login}">로그인</a></li>
                 <li> | </li>
                 <li><a href="#">회원가입</a></li>
             </ul>
             <ul th:if="${headerMember} != null" class="header_login">
                 <li><strong th:text="${headerMember.nickname}"></strong>님! 안녕하세요.</li>
-                <li class="header_alarm"><a href="#">alarm</a></li>
-                <li class="header_profile"><a th:href="@{/mypage/{member_id}(member_id=${headerMember.memberId})}">myPage</a></li>
+                <button class="header_alarm">alarm</button>
+                <button class="header_profile" th:onclick="|window.location.href='@{/mypage/{member_id}(member_id=${headerMember.memberId})}'|">myPage</button>
             </ul>
         </div>
     </nav>

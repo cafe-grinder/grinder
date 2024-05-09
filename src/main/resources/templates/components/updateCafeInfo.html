@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>grinder</title>
+    <link rel="stylesheet" href="/css/updateCafeInfo.css">
+</head>
+<body>
+    <section class="update_opening_section" th:fragment="updateCafeInfo">
+        <span class="update_opening_title">카페 정보 변경</span>
+        <form class="update_opening_form" action="">
+            <span>영업시간</span>
+            <div class="day-container">
+                <div class="day-box">
+                    <span class="day">월요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span class="day">화요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span class="day">수요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span class="day">목요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span class="day">금요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span class="day">토요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+                <div class="day-box">
+                    <span class="day">일요일</span>
+                    <input class="cafe_open" type="text" placeholder="영업 시작 시간">
+                    <input class="cafe_close" type="text" placeholder="영업 마감 시간">
+                    <span class="cafe_dayoff">휴무일</span><input class="cafe_dayoff" type="checkbox" checked>
+                </div>
+            </div>
+            <button id="cafe-btn" type="submit">수정</button>
+        </form>
+    </section>
+    <script src="/js/attachImage.js"></script>
+</body>
+</html>

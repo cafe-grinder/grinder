@@ -75,4 +75,6 @@ public class Member extends BaseEntity{
         isDeleted = false;
         return true;
     }
+
+    public void setPassword(String password){ this.password = password;}
 }

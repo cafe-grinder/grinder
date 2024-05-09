@@ -1,6 +1,8 @@
 package com.grinder.repository.queries;
 
+import com.grinder.domain.dto.CafeDTO;
 import com.grinder.domain.dto.FeedDTO;
+import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
 import com.querydsl.core.types.Projections;
@@ -207,22 +209,28 @@ public class SearchQueryRepository {
     }
 
     //카페 이름이나 주소 검색
-    public List<Cafe> searchCafesByNameOrAddress(String searchString) {
+    public List<CafeDTO.findAllWithImageResponse> searchCafesByNameOrAddress(String searchString) {
         QCafe cafe = QCafe.cafe;
+        QImage image = QImage.image;
 
         return queryFactory
-                .selectFrom(cafe)
+                .select(Projections.constructor(CafeDTO.findAllWithImageResponse.class, cafe, image.imageUrl))
+                .from(cafe)
+                .leftJoin(image).on(image.contentId.eq(cafe.cafeId))
                 .where(cafe.name.containsIgnoreCase(searchString)
                         .or(cafe.address.containsIgnoreCase(searchString)))
                 .fetch();
     }
 
     //회원 닉네임이나 이메일 검색
-    public List<Member> searchMembersByNicknameOrEmail(String searchString) {
+    public List<MemberDTO.FindMemberAndImageDTO> searchMembersByNicknameOrEmail(String searchString) {
         QMember member = QMember.member;
+        QImage image = QImage.image;
 
         return queryFactory
-                .selectFrom(member)
+                .select(Projections.constructor(MemberDTO.FindMemberAndImageDTO.class, member, image.imageUrl))
+                .from(member)
+                .leftJoin(image).on(image.contentId.eq(member.memberId))
                 .where(member.nickname.containsIgnoreCase(searchString)
                         .or(member.email.containsIgnoreCase(searchString)))
                 .fetch();
@@ -231,18 +239,20 @@ public class SearchQueryRepository {
     /**
      * TODO : 최근 일주일 간 피드에 가장 많이 참조된 카페 3곳
      */
-    public List<Cafe> findTop3CafesReferencedThisWeek(JPAQueryFactory queryFactory) {
+    public List<CafeDTO.findAllWithImageResponse> findTop3CafesReferencedThisWeek() {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime startOfWeek = now.with(DayOfWeek.MONDAY).withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime endOfWeek = startOfWeek.plusWeeks(1).minusNanos(1);
 
         QCafe cafe = QCafe.cafe;
         QFeed feed = QFeed.feed;
+        QImage image = QImage.image;
 
-        List<Cafe> topCafes = queryFactory
-                .select(cafe)
+        List<CafeDTO.findAllWithImageResponse> topCafes = queryFactory
+                .select(Projections.constructor(CafeDTO.findAllWithImageResponse.class, cafe, image.imageUrl))
                 .from(feed)
                 .join(feed.cafe, cafe)
+                .leftJoin(image).on(image.contentId.eq(cafe.cafeId))
                 .where(feed.createdAt.between(startOfWeek, endOfWeek))
                 .groupBy(cafe.cafeId)
                 .orderBy(cafe.count().desc())

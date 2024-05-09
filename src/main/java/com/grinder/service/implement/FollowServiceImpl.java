@@ -26,14 +26,14 @@ public class FollowServiceImpl implements FollowService {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<FollowDTO.findAllFollowingResponse> findAllFollowingSlice(String email, Pageable pageable) {
+    public Slice<FollowDTO.findAllFollowingResponse> findAllFollowingSlice(String email, Pageable pageable) {
         Slice<FollowDTO.findAllFollowingResponse> slice = followQueryRepository.findAllFollowingSlice(email, pageable);
-        return slice.getContent();
+        return slice;
     }
     @Override
-    public List<FollowDTO.findAllFollowerResponse> findAllFollowerSlice(String email, Pageable pageable) {
+    public Slice<FollowDTO.findAllFollowerResponse> findAllFollowerSlice(String email, Pageable pageable) {
         Slice<FollowDTO.findAllFollowerResponse> slice = followQueryRepository.findAllFollowerSlice(email, pageable);
-        return slice.getContent();
+        return slice;
     }
     @Override
     public boolean addFollow(String email, String followEmail) {

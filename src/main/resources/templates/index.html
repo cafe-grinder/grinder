@@ -7,14 +7,20 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>grinder</title>
     <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+
     <!--swiper css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.4.1/swiper-bundle.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.4.1/swiper-bundle.min.js"></script>
-
     <link rel="stylesheet" href="/css/swiper_config.css">
+    <!--index css-->
+    <link rel="stylesheet" href="/css/index.css">
     <!--header css-->
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
+    <!--feed css-->
+    <link rel="stylesheet" href="/css/feed.css">
+    <!--cafeCard css-->
+    <link rel="stylesheet" href="/css/cafeCard.css">
 </head>
 <body>
 
@@ -53,6 +59,12 @@
 </div>
 <!-- Slider main container -->
 
+<div class="index-hot-cafe">지금 뜨는 카페</div>
+<div class="index-divide-line"></div>
+<div id="cafeCardContainer"></div>
+<div class="index-divide-line"></div>
+<div id="feedContainer"></div>
+
 <footer th:replace="components/footer :: footers"></footer>
 
 <script src="/js/index.js"></script>
@@ -60,5 +72,9 @@
 <script src="/js/header.js"></script>
 <!--swiper js-->
 <script src="/js/swiper_config.js"></script>
+<!--feed js-->
+<script src="/js/feed.js"></script>
+<!--cafeCard js-->
+<script src="/js/cafeCard.js"></script>
 </body>
 </html>

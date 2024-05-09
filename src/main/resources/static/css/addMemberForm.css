@@ -25,8 +25,9 @@ article {
     border: 1px solid #D9D9D9;
     padding: 20px 65px 0px 65px;
     width: 650px;
-    height: 1498px;
+    height: 1240px;
     background-color: #FFFFFF;
+    margin-bottom: 60px;
 }
 
 img {
@@ -72,10 +73,6 @@ input, select {
     height: 64px;
 }
 
-#pw-label {
-    margin-top: 46px;
-}
-
 .input-group {
     margin-bottom: 46px;
 }
@@ -87,7 +84,7 @@ select {
 }
 
 span {
-    color: #00780C;
+    color: #E10000;
     font-size: 20px;
     font-weight: bold;
     margin-top: 14px;

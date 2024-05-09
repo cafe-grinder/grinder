@@ -29,8 +29,7 @@ public class BlacklistDTO {
         public findAllResponse(){}
         public findAllResponse(Blacklist blacklist, String ImageUrl) {
             blockedId = blacklist.getBlacklistId();
-            if (ImageUrl == null)  blockedImageUrl = "";
-            else blockedImageUrl = ImageUrl;
+            blockedImageUrl = ImageUrl;
             blockedNickname = blacklist.getBlockedMember().getNickname();
             blockedEmail = blacklist.getBlockedMember().getEmail();
             blockedRole = blacklist.getBlockedMember().getRole().getValue();

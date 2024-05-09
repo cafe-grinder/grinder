@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>이미지 수정</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+</head>
+<body>
+<main class="main_container">
+    <article>
+        <img src="/img/logo_img.png" alt="grinder_logo" id="logo-img">
+        <p>
+            이미지 수정 페이지
+        </p>
+        <hr>
+        <span>이미지 수정</span>
+        <form action="" method="post">
+            <input type="file" id="file-input" accept="image/*">
+            <button type="button" onclick="openFileUploader()" id="image-btn">이미지 첨부</button>
+            <button id="application-btn">등록하기</button>
+        </form>
+    </article>
+</main>
+<script>
+    function openFileUploader() {
+        document.getElementById('file-input').click();
+    }
+</script>
+</body>
+</html>

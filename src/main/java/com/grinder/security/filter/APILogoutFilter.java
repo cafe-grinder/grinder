@@ -1,6 +1,7 @@
 package com.grinder.security.filter;
 
 import com.grinder.repository.RefreshRepository;
+import com.grinder.security.exception.AccessTokenException;
 import com.grinder.security.exception.RefreshTokenException;
 import com.grinder.utils.JWTUtil;
 import com.grinder.utils.RedisUtil;
@@ -17,6 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.io.IOException;
+
+import static java.awt.SystemColor.window;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -67,13 +70,13 @@ public class APILogoutFilter extends GenericFilterBean {
         log.info("refreshToken: "+refresh);
 
         //expired check
-        try {
-            jwtUtil.validateToken(refresh);
-        } catch (ExpiredJwtException e) {
-
-            //response status code
-            throw new RefreshTokenException(RefreshTokenException.ErrorCase.OLD_REFRESH);
-        }
+//        try {
+//            jwtUtil.validateToken(refresh);
+//        } catch (ExpiredJwtException e) {
+//
+//            //response status code
+//            throw new RefreshTokenException(RefreshTokenException.ErrorCase.OLD_REFRESH);
+//        }
 
 
         //DB에 저장되어 있는지 확인
@@ -89,15 +92,41 @@ public class APILogoutFilter extends GenericFilterBean {
         refreshRepository.deleteByRefresh(refresh);
 
         // accessToken blacklist에 추가
-        String accessToken = request.getHeader("access");
+        String accessToken = cutOffBearer(getAccess(request, response));
         redisUtil.setBlackList(accessToken,"accessToken",60);
 
         //Refresh 토큰 Cookie 값 0
-        Cookie cookie = new Cookie("refresh", null);
-        cookie.setMaxAge(0);
-        cookie.setPath("/");
+        Cookie reCookie = new Cookie("refresh", null);
+        reCookie.setMaxAge(0);
+        reCookie.setPath("/");
 
-        response.addCookie(cookie);
+        Cookie acCookie = new Cookie("access", null);
+        acCookie.setMaxAge(0);
+        acCookie.setPath("/");
+
+        response.addCookie(reCookie);
+        response.addCookie(acCookie);
         response.setStatus(HttpServletResponse.SC_OK);
+    }
+
+    private String getAccess(HttpServletRequest request, HttpServletResponse response) {
+        String accessToken = null;
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies){
+            if (cookie.getName().equals("access")) {
+                accessToken = "Bearer " + cookie.getValue();
+                return accessToken;
+            }
+        }
+        return null;
+    }
+
+    private String cutOffBearer(String accessToken) {
+        if(accessToken == null||accessToken.length() < 8){
+            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.UNACCEPT);
+        }
+        String tokenStr = accessToken.substring(7);
+
+        return tokenStr;
     }
 }

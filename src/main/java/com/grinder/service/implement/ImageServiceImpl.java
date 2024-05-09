@@ -3,6 +3,7 @@ package com.grinder.service.implement;
 import com.grinder.domain.entity.Image;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.repository.ImageRepository;
+import com.grinder.repository.queries.ImageQueryRepository;
 import com.grinder.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,11 +13,17 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ImageServiceImpl implements ImageService {
-    ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
+    private final ImageQueryRepository imageQueryRepository;
 
     @Override
     public Image findImage(String imageId) {
         return imageRepository.findById(imageId).orElseThrow(() -> new IllegalArgumentException("image id(" + imageId + ")를 찾울 수 없습니다."));
+    }
+
+    @Override
+    public String findImageUrlByContentId(String id) {
+        return imageQueryRepository.findImageUrlByContentId(id);
     }
 
     @Override
@@ -36,7 +43,6 @@ public class ImageServiceImpl implements ImageService {
                     );
         }
     }
-
     @Override
     public void deleteFeedImage(String contentId, ContentType contentType) {
         List<Image> ImageList = findAllImage(contentId, contentType);

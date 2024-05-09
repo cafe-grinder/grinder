@@ -51,7 +51,7 @@ class BookmarkServiceImplTest {
         bookmarkRepository.save(Bookmark.builder().member(member).cafe(cafe).build());
         Pageable pageable = PageRequest.of(0, 10);
 
-        List<BookmarkDTO.findAllResponse> list = bookmarkService.findAllBookmarksSlice(member.getEmail(), pageable);
+        List<BookmarkDTO.findAllResponse> list = bookmarkService.findAllBookmarksSlice(member.getEmail(), pageable).getContent();
 
         assertEquals(list.get(0).getCafeName(), cafe.getName());
     }

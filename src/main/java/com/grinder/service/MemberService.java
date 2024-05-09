@@ -26,4 +26,14 @@ public interface MemberService {
     Member findMemberByEmail(String email);
 
     public boolean addMember(MemberRequestDto request);
+
+    boolean checkEmail(String email);
+    boolean checkNickname(String nickname);
+
+    boolean sendCodeToEmail(String toEmail);
+
+    boolean verifiedCode(String email, String authCode);
+
+    boolean changePassword(String email);
+
 }
