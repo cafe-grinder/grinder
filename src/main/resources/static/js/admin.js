@@ -282,12 +282,50 @@ function renderReportList(reportList) {
         row.innerHTML =
                 `<td class="admin_list_data">${report.nickname}</td>
                  <td>|</td>
-                 <td class="admin_list_data">${report.contentType}</td>
+                 <td class="admin_list_data">${report.contentType == 'FEED' ? '피드' : '댓글'}</td>
                  <td>|</td>
                  <td class="admin_list_data">${report.content}</td>
                  <td class="admin_list_blank"></td>
-                 <td class="admin_list_button_container"> <button class="admin_list_button report_accept_button">신고 처리</button> <button class="admin_list_button report_delete_button">요청 삭제</button> </td>`;
+                 <td class="admin_list_button_container"> <button class="admin_list_button report_accept_button" data-report-id="${report.reportId}">신고 처리</button> <button class="admin_list_button report_delete_button" data-report-id="${report.reportId}">요청 삭제</button> </td>`;
         reportTableBody.appendChild(row);
+
+        let reportAccept = row.querySelector('.report_accept_button');
+        reportAccept.addEventListener('click', () => {
+            let reportId = reportAccept.dataset.reportId;
+            let url = '/api/report/' + reportId + '/accepted'
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        })
+
+        let reportDelete = row.querySelector('.report_delete_button');
+        reportDelete.addEventListener('click', () => {
+            let reportId = reportDelete.dataset.reportId;
+            let url = '/api/report/' + reportId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        })
     })
 }
 function renderRegisterList(registerList) {
@@ -303,8 +341,47 @@ function renderRegisterList(registerList) {
                 <td>|</td>
                 <td class="admin_list_data">${register.phoneNum}</td>
                 <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button register_accept_button">등록</button> <button class="admin_list_button register_delete_button">삭제</button> </td>`;
+                <td class="admin_list_button_container"> <button class="admin_list_button register_accept_button" data-register-id="${register.registerId}">등록</button> <button class="admin_list_button register_delete_button" data-register-id="${register.registerId}">삭제</button> </td>`;
         registerTableBody.appendChild(row);
+
+        let registerAccept = row.querySelector('.register_accept_button');
+        registerAccept.addEventListener('click', () => {
+            let registerId = registerAccept.dataset.registerId;
+            let url = '/api/cafe/' + registerId
+            fetch(url, {
+                method: 'POST'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+
+        })
+
+        let registerDelete = row.querySelector('.register_delete_button');
+        registerDelete.addEventListener('click', () => {
+            let registerId = registerDelete.dataset.registerId;
+            let url = '/api/cafe_register/' + registerId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        })
     })
 }
 function renderApplyList(applyList) {
@@ -322,8 +399,47 @@ function renderApplyList(applyList) {
                 <td>|</td>
                 <td class="admin_list_data"><a href="${apply.regImageUrl}">사업자등록증</a></td>
                 <td class="admin_list_blank"></td>
-                <td class="admin_list_button_container"> <button class="admin_list_button apply_accept_button">등록</button> <button class="admin_list_button apply_delete_button">삭제</button> </td>`;
+                <td class="admin_list_button_container"> <button class="admin_list_button apply_accept_button" data-apply-id="${apply.applyId}">등록</button> <button class="admin_list_button apply_delete_button" data-apply-id="${apply.applyId}">삭제</button> </td>`;
         applyTableBody.appendChild(row);
+
+        let applyAccept = row.querySelector('.apply_accept_button');
+        applyAccept.addEventListener('click', () => {
+            let applyId = applyAccept.dataset.applyId;
+            let url = '/api/seller_info/' + applyId
+            fetch(url, {
+                method: 'POST'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+
+        })
+
+        let applyDelete = row.querySelector('.apply_delete_button');
+        applyDelete.addEventListener('click', () => {
+            let applyId = applyDelete.dataset.applyId;
+            let url = '/api/seller_apply/' + applyId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('The request failed');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        })
     })
 }
 function renderCafeList(cafeList) {
