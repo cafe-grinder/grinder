@@ -102,7 +102,7 @@ public class ComponentsController {
     @GetMapping("/get-feed")
     public String getFeed(Model model) {
         // 멤버
-        String email = "example1@example.com"; // TODO: 테스트용. 나중에 수정하기!
+        String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
 
@@ -135,7 +135,7 @@ public class ComponentsController {
 
                 for (CommentDTO.ChildCommentResponseDTO childCommentResponse : childCommentResponseList) {
                     // 자식 댓글 좋아요
-                    HeartDTO.HeartRequestDTO childCommentHeartRequest = new HeartDTO.HeartRequestDTO(parentCommentResponse.getCommentId(), ContentType.COMMENT.toString());
+                    HeartDTO.HeartRequestDTO childCommentHeartRequest = new HeartDTO.HeartRequestDTO(childCommentResponse.getCommentId(), ContentType.COMMENT.toString());
                     childCommentResponse.setHeart(heartService.isHeart(email, childCommentHeartRequest));
                     childCommentResponse.setHeartNum(heartService.findHeartList(childCommentHeartRequest).size());
                 }
