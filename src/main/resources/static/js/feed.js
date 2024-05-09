@@ -58,18 +58,15 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
 
+            // 다른 dropdown이 열려있는 경우 닫음
+            const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
+            allDropdowns.forEach(function(dropdownItem) {
+                dropdownItem.classList.add('display_none');
+            });
             // 톱니바퀴 버튼 클릭
             if (target.classList.contains('feed_gear_btn')) {
                 const dropdown = target.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
                 dropdown.classList.toggle('display_none');
-
-                // 다른 dropdown이 열려있는 경우 닫음
-                const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
-                allDropdowns.forEach(function(dropdownItem) {
-                    if (dropdownItem !== dropdown) {
-                        dropdownItem.classList.add('display_none');
-                    }
-                });
             }
 
             // 댓글 보기 버튼 클릭
@@ -82,6 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target.classList.contains('feed_child_comment_textarea_view_btn')) {
                 const childCommentWriteArea = target.closest('.feed_parent_comment_info').querySelector('.feed_child_comment_write');
                 childCommentWriteArea.classList.toggle('display_none');
+
+                const allCommentArea = document.querySelectorAll('.feed_child_comment_write');
+                allCommentArea.forEach(function(commentArea) {
+                    if (commentArea !== childCommentWriteArea) {
+                        commentArea.classList.add('display_none');
+                    }
+                });
 
                 const commentContent = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content, .feed_parent_comment');
                 const commentUpdateForm = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content_update');
