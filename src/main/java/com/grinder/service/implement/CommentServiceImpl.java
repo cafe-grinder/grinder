@@ -62,7 +62,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteComment(String commentId) {
-        commentRepository.deleteById(commentId);
+        Comment comment = findComment(commentId);
+        comment.notVisible();
+        commentRepository.save(comment);
     }
 
     @Override
