@@ -1,13 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
-    let token = localStorage.getItem('access');
-
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
     xhr.open('GET', '/get-header', true); // 요청을 초기화합니다.
-
-    // 토큰이 존재하면 헤더에 추가합니다.
-    if (token) {
-        xhr.setRequestHeader('access', 'Bearer ' + token);
-    }
 
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
@@ -16,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
+            reissue();
         }
     };
 
@@ -26,3 +20,44 @@ document.addEventListener('DOMContentLoaded', function() {
 
     xhr.send(); // 요청을 서버로 보냅니다.
 });
+
+function logout() {
+    let url = '/api/logout';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'POST',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href="/";
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            window.location.href = "/";
+        });
+}
+
+function reissue() {
+    let url = '/api/reissue';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'GET',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href = "/";
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            window.location.href = "/";
+        });
+}

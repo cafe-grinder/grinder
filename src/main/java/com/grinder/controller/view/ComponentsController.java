@@ -1,12 +1,17 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.*;
+import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Tag;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.service.*;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -17,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +42,12 @@ public class ComponentsController {
     private final TagService tagService;
 
     @GetMapping("/get-header")
-    public String getHeader(Model model) {
+    public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
         String email = getEmail();
-        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        MemberDTO.FindMemberDTO member = null;
+        if (email != null && !email.equals("anonymousUser")) {
+            member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        }
         model.addAttribute("headerMember",member);
         return "components/header :: headers";
     }
@@ -47,8 +56,7 @@ public class ComponentsController {
     public String getFollower(Model model, @PageableDefault Pageable pageable) {
         String email = getEmail();
         List<FollowDTO.findAllFollowerResponse> list = new ArrayList<>();
-        if (email != null) {
-            if (!email.equals("anonymousUser"))
+        if (email != null && !email.equals("anonymousUser")) {
                 list = followService.findAllFollowerSlice(email, pageable).getContent();
         }
         model.addAttribute("followMembers", list);
@@ -98,6 +106,12 @@ public class ComponentsController {
         model.addAttribute("myCafeList", list);
         return "components/myCafeList :: myCafeList";
     }
+
+    @GetMapping("/get-opening")
+    public String getOpening() {
+        return "components/updateCafeInfo :: updateCafeInfo";
+    }
+
 
     @GetMapping("/get-feed")
     public String getFeed(Model model) {

@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>grinder</title>
-    <link rel="stylesheet" href="/css/findAccountFinishForm.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>비밀번호 찾기</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
 </head>
 <body>
 <main class="main_container">
@@ -16,7 +19,7 @@
             을 확인하고, [마이페이지]의 [비밀번호 변경]에서 해당 비 <br>
             밀번호를 변경해주세요!
         </p>
-        <button>로그인으로 이동</button>
+        <button th:href="@{/page/login}">로그인으로 이동</button>
     </article>
 </main>
 </body>

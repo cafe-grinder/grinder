@@ -1,6 +1,5 @@
 package com.grinder.security.filter;
 
-import com.grinder.security.CustomUserDetails;
 import com.grinder.security.MemberDetailsService;
 import com.grinder.security.exception.AccessTokenException;
 import com.grinder.utils.JWTUtil;
@@ -9,6 +8,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Currency;
 import java.util.Map;
 
 // 현재 사용자가 로그인한 사용자인지 체크 -> JWT 토큰을 검사
@@ -36,10 +35,10 @@ public class TokenCheckFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException{
 
-        String header = request.getHeader("access");
+        String header = getAccess(request, response);
         if (header != null) {
             String path = request.getRequestURI();
-            if (path.startsWith("/")) {
+            if (!path.startsWith("/")) {
                 filterChain.doFilter(request, response);
                 return;
             }
@@ -48,8 +47,9 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             log.info("JWTUtil: " + jwtUtil);
 
             try {
-                validateAccessToken(header);
-                String email = jwtUtil.getEmail(header);
+                Map<String, Object> map = validateAccessToken(header);
+                log.info(map.toString());
+                String email = (String) map.get("email");
                 UserDetails userDetails = memberDetailsService.loadUserByUsername(email);
 
                 if(userDetails != null){
@@ -58,12 +58,11 @@ public class TokenCheckFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                 }
-                filterChain.doFilter(request, response);
             } catch (AccessTokenException accessTokenException) {
                 accessTokenException.sendResponseError(response);
             }
-        }
-        filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response);
+        } else filterChain.doFilter(request, response);
     }
     // AccessToken 검증
 
@@ -96,4 +95,15 @@ public class TokenCheckFilter extends OncePerRequestFilter {
         }
     }
 
+    private String getAccess(HttpServletRequest request, HttpServletResponse response) {
+        String accessToken = null;
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies){
+            if (cookie.getName().equals("access")) {
+                accessToken = "Bearer " + cookie.getValue();
+                return accessToken;
+            }
+        }
+        return null;
+    }
 }

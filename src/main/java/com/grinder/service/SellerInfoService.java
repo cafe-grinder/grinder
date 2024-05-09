@@ -14,4 +14,6 @@ public interface SellerInfoService {
     void deleteSellerInfo(Long sellerInfoId);
 
     List<SellerInfoDTO.findAllResponse> findAllSellerInfoByEmail(String sellerEmail);
+
+    boolean existByMemberAndCafe(String cafeId, String memberEmail);
 }

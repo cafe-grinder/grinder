@@ -10,6 +10,7 @@ public class MemberDTO {
 
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class FindMemberDTO {
 
         private String memberId;

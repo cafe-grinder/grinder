@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>grinder</title>
-    <link rel="stylesheet" href="/css/welcomeForm.css">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>환영합니다!</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
 </head>
 <body>
 <main class="main_container">
@@ -16,7 +19,7 @@
             인증 회원이 될 수 있도록 다양한 인증을 남기고 여러 사람<br>
             들을 만나보세요!
         </p>
-        <button>로그인으로 이동</button>
+        <button th:href="@{/page/login}">로그인으로 이동</button>
     </article>
 </main>
 </body>

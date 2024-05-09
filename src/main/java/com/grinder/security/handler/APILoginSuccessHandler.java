@@ -50,7 +50,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
 
         //accessToken은 로컬 스토리지 , refreshToken은 httpOnly 쿠키에 저장
-        response.addCookie(createCookie("access","Bearer"+accessToken));
+        response.addCookie(createCookie("access",accessToken));
         response.addCookie(createCookie("refresh",refreshToken));
         response.setStatus(HttpStatus.OK.value());
     }
@@ -60,7 +60,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         cookie.setMaxAge(24*60*60);
         //cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setHttpOnly(true);
+        cookie.setHttpOnly(false);
 
         return cookie;
     }
