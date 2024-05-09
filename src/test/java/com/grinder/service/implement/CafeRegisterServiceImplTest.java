@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
@@ -43,11 +44,11 @@ class CafeRegisterServiceImplTest {
         //given
         List<CafeRegister> cafeRegisterList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            cafeRegisterList.add(CafeRegister.builder().member(new Member()).build());
+            cafeRegisterList.add(CafeRegister.builder().member(new Member()).phoneNum("01045689852").name("newcafe556").address("서울시 마포구 서교동 632-8").build());
         }
 
 
-        doReturn(new SliceImpl<>(cafeRegisterList, pageable, false)).when(cafeRegisterRepository).findAll(any(Pageable.class));
+        doReturn(new PageImpl<>(cafeRegisterList, pageable, 1)).when(cafeRegisterRepository).findAll(any(Pageable.class));
 
         //when
         Slice<FindCafeRegisterDTO> cafeRegisterDTOSlice = cafeRegisterService.FindAllCafeRegisters(pageable);

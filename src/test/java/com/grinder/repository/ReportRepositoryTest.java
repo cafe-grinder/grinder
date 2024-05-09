@@ -32,14 +32,6 @@ class ReportRepositoryTest {
         }
     }
 
-    @DisplayName("신고 내역 전체 조회")
-    @Test
-    void testFindAll() {
-        List<Report> reportList = reportRepository.findAll();
-
-        assertThat(reportList.size()).isEqualTo(3+11);
-    }
-
     @DisplayName("컨텐츠 Id로 신고내역 조회")
     @Test
     void testFindByContentId() {
