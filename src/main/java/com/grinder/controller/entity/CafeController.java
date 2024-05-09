@@ -25,13 +25,14 @@ public class CafeController {
     @GetMapping("/{cafeId}")
     public ResponseEntity<CafeResponseDTO> getCafeInfo(@PathVariable String cafeId) {
         Cafe cafe = cafeService.findCafeById(cafeId);
-        CafeResponseDTO cafeResponseDTO = CafeResponseDTO.builder()
+        CafeResponseDTO cafeInfo = CafeResponseDTO.builder()
             .cafeId(cafe.getCafeId())
             .name(cafe.getName())
             .address(cafe.getAddress())
             .phoneNum(cafe.getPhoneNum())
+            .averageGrade(cafe.getAverageGrade())
             .build();
-        return ResponseEntity.ok(cafeResponseDTO);
+        return ResponseEntity.ok(cafeInfo);
     }
 
     @PostMapping("/{registerId}")
