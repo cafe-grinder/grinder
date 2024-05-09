@@ -7,6 +7,7 @@ import com.grinder.domain.enums.ContentType;
 import com.grinder.repository.HeartRepository;
 import com.grinder.service.HeartService;
 import com.grinder.service.MemberService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,7 @@ public class HeartServiceImpl implements HeartService {
     }
 
     @Override
+    @Transactional
     public void deleteHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
         heartRepository.deleteByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
