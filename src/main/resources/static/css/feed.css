@@ -290,7 +290,8 @@
     text-align: end;
 }
 
-.feed_comment_create_btn {
+.feed_parent_comment_create_btn,
+.feed_child_comment_create_btn {
     width: 131px;
     height: 65px;
     margin-left: 20px;

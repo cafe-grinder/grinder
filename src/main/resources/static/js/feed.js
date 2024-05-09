@@ -87,19 +87,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 댓글 작성 버튼 클릭 시
             if (target.classList.contains('feed_comment_create_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 let commentTextarea;
                 let content;
-                let parentCommentId;
+                let parentCommentId = '';
 
-                const childCommentWrite = target.closest('.feed_child_comment_write');
-                if (childCommentWrite) {
-                    commentTextarea = childCommentWrite.querySelector('.feed_comment_textarea');
-                    content = commentTextarea.value;
-                    parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
-                } else {
+                // 부모 댓글
+                if (target.classList.contains('feed_parent_comment_create_btn')) {
                     commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;
-                    parentCommentId = '';
+                }
+
+                // 자식 댓글
+                if (target.classList.contains('feed_child_comment_create_btn')) {
+                    commentTextarea = target.closest('.feed_child_comment_write').querySelector('.feed_comment_textarea');
+                    content = commentTextarea.value;
+                    parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
                 }
 
                 // 댓글 내용이 비어있는지 확인
@@ -108,11 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                // AJAX를 통해 댓글 저장
-                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 await saveComment(content, parentCommentId, feedId);
-
-                // 댓글 작성 후 입력창 초기화
                 commentTextarea.value = '';
             }
         });
@@ -127,17 +126,23 @@ document.addEventListener('DOMContentLoaded', function() {
             // 댓글 삭제 버튼 클릭시
             if (target.classList.contains('feed_comment_delete_btn')) {
                 let feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
-                const childCommentArea = target.closest('.feed_child_comment_area');
-                if (childCommentArea) {
-                    let commentId = childCommentArea.querySelector('.feed_child_comment_id').value;
-                    await deleteComment(feedId, commentId);
-                    target.closest('.feed_child_comment_area').style.display = 'none';
-                } else {
-                    let parentCommentArea = target.closest('.feed_parent_comment_area');
-                    let commentId = parentCommentArea.querySelector('.feed_parent_comment_id').value;
-                    await deleteComment(feedId, commentId);
-                    target.closest('.feed_parent_comment_area').style.display = 'none';
+                let commentArea;
+                let commentId;
+
+                // 부모 댓글
+                if (target.classList.contains('feed_parent_comment_delete_btn')) {
+                    commentArea = target.closest('.feed_parent_comment_area');
+                    commentId = commentArea.querySelector('.feed_parent_comment_id').value;
                 }
+
+                // 자식 댓글
+                if (target.classList.contains('feed_child_comment_delete_btn')) {
+                    commentArea = target.closest('.feed_child_comment_area');
+                    commentId = commentArea.querySelector('.feed_child_comment_id').value;
+                }
+
+                await deleteComment(feedId, commentId);
+                commentArea.style.display = 'none';
             }
         });
     }
