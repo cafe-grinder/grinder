@@ -10,7 +10,7 @@ public class CafeDTO {
     @Getter
     @Setter
     @NoArgsConstructor
-    public static class CafeSearchByAdminDTO{
+    public static class CafeSearchByAdminDTO {
         private String name;
         private String address;
         private String phoneNum;
@@ -19,7 +19,7 @@ public class CafeDTO {
             this.name = cafe.getName();
             this.address = cafe.getAddress();
             this.phoneNum = cafe.getPhoneNum();
-            }
+        }
     }
 
     @Getter
