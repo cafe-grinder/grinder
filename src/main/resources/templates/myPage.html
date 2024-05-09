@@ -52,7 +52,7 @@
         <li><button id="view_blacklist">😡 차단목록 보기</button></li>
         <li><button >️😎 판매자 신청</button></li>
         <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
-        <li><button>🙋‍♂️ 로그아웃</button></li>
+        <li><button th:onclick="logout()">🙋‍♂️ 로그아웃</button></li>
     </ul>
     <button class="mypage_menu_button"><img src="/img/icon/stack-fill.png"></button>
 </div>

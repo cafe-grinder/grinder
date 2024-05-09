@@ -32,40 +32,23 @@ public class CafeDTO {
         Integer averageGrade;
     }
 
-//    @Data
-//    @Builder
-//    @AllArgsConstructor
-//    @NoArgsConstructor
-//    public static class FeedAndImageResponseDTO {
-//
-//    }
-//
-//    @Getter
-//    @Setter
-//    @NoArgsConstructor
-//    @AllArgsConstructor
-//    public static class FindCafeDTO {
-//
-//    }
-
     @Getter
     @Setter
+    @NoArgsConstructor
     public static class findAllWithImageResponse {
         private String cafeId;
         private String cafeName;
         private String cafeAddress;
-        private String CafePhoneNum;
+        private String cafePhoneNum;
         private Integer averageGrade;
         private String cafeImageUrl;
 
-        public findAllWithImageResponse() {
-        }
 
         public findAllWithImageResponse(Cafe cafe, String imageUrl) {
             cafeId = cafe.getCafeId();
             cafeName = cafe.getName();
             cafeAddress = cafe.getAddress();
-            CafePhoneNum = cafe.getPhoneNum();
+            cafePhoneNum = cafe.getPhoneNum();
             averageGrade = cafe.getAverageGrade();
             cafeImageUrl = imageUrl;
         }

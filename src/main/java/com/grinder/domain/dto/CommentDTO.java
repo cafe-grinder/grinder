@@ -46,6 +46,20 @@ public class CommentDTO {
             this.isHeart = false;
             this.heartNum = 0;
         }
+
+        public ParentCommentResponseDTO(Comment comment, List<CommentDTO.ChildCommentResponseDTO> childCommentList, boolean isHeart, int heartNum) {
+            this.commentId = comment.getCommentId();
+            this.content = comment.getContent();
+            this.createdAt = comment.getCreatedAt();
+            this.updatedAt = comment.getUpdatedAt();
+            this.nickname = comment.getMember().getNickname();
+            this.email = comment.getMember().getEmail();
+            this.memberId = comment.getMember().getMemberId();
+            this.feedId = comment.getFeed().getFeedId();
+            this.childCommentList = childCommentList;
+            this.isHeart = isHeart;
+            this.heartNum = heartNum;
+        }
     }
 
     @Data
@@ -77,6 +91,20 @@ public class CommentDTO {
             this.parentCommentId = comment.getParentComment().getCommentId();
             this.isHeart = false;
             this.heartNum = 0;
+        }
+
+        public ChildCommentResponseDTO(Comment comment, boolean isHeart, int heartNum) {
+            this.commentId = comment.getCommentId();
+            this.content = comment.getContent();
+            this.createdAt = comment.getCreatedAt();
+            this.updatedAt = comment.getUpdatedAt();
+            this.nickname = comment.getMember().getNickname();
+            this.email = comment.getMember().getEmail();
+            this.memberId = comment.getMember().getMemberId();
+            this.feedId = comment.getFeed().getFeedId();
+            this.parentCommentId = comment.getParentComment().getCommentId();
+            this.isHeart = isHeart;
+            this.heartNum = heartNum;
         }
     }
 

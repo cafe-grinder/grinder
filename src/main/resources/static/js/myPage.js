@@ -1,16 +1,11 @@
 let myPageMenu = document.querySelector('.mypage_menu_list');
 let myMenuButton = document.querySelector('.mypage_menu_button');
 let nextPage = 0;
-const token = getCookie('access');
 
 document.addEventListener('DOMContentLoaded', function() {
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
     xhr.open('GET', '/get-header', true); // 요청을 초기화합니다.
 
-    const token = getCookie('access');
-    if (token) {
-        xhr.setRequestHeader('access', 'Bearer ' + token);
-    }
 
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
@@ -19,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
+            reissue();
         }
     };
 
@@ -97,18 +93,13 @@ function fetchContent(url, containerId) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
 
-    // TODO : 쿠키로 변경 필요
-    const token = getCookie('access');
-    if (token) {
-        xhr.setRequestHeader('access', 'Bearer ' + token);
-    }
-
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             document.getElementById(containerId).innerHTML = xhr.responseText;
         } else { // TODO : 403 에러 처리 필요
             console.error('The request failed with status:', xhr.status);
             document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
+            reissue();
         }
     };
 
@@ -123,13 +114,8 @@ function fetchContent(url, containerId) {
 // 팔로워 추가 더보기
 function MoreFollowContent(url, insertTag) {
     const options = {
-        method: 'GET',
-        headers: new Headers()
+        method: 'GET'
     };
-
-    if (token) {
-        options.headers.append('access', 'Bearer ' + token);
-    }
 
     fetch(url, options)
         .then(response => {
@@ -141,6 +127,7 @@ function MoreFollowContent(url, insertTag) {
         })
         .catch(error => {
             console.error('Error:', error);
+            reissue();
         });
 }
 
@@ -178,13 +165,8 @@ function renderFollowList(follows, insertTag) {
 // 북마크 추가 더보기
 function MoreContent(url, insertTag) {
     const options = {
-        method: 'GET',
-        headers: new Headers()
+        method: 'GET'
     };
-
-    if (token) {
-        options.headers.append('access', 'Bearer ' + token);
-    }
 
     fetch(url, options)
         .then(response => {
@@ -196,6 +178,7 @@ function MoreContent(url, insertTag) {
         })
         .catch(error => {
             console.error('Error:', error);
+            reissue();
         });
 }
 
@@ -248,13 +231,6 @@ function unfollow(email) {
         method: 'DELETE',
     };
 
-    // 토큰이 존재하면 헤더를 추가
-    if (token) {
-        fetchOptions.headers = {
-            'access': 'Bearer ' + token  // Authorization 헤더에 JWT 추가
-        };
-    }
-
     // AJAX 요청 예시
     fetch(url, fetchOptions)
         .then(response => response.json())
@@ -264,6 +240,7 @@ function unfollow(email) {
         })
         .catch((error) => {
             console.error('Error:', error);
+            reissue();
         });
 }
 
@@ -275,13 +252,6 @@ function unblock(blackId) {
         method: 'DELETE',
     };
 
-    // 토큰이 존재하면 헤더를 추가
-    if (token) {
-        fetchOptions.headers = {
-            'access': 'Bearer ' + token  // Authorization 헤더에 JWT 추가
-        };
-    }
-
     // AJAX 요청 예시
     fetch(url, fetchOptions)
         .then(response => response.json())
@@ -291,6 +261,7 @@ function unblock(blackId) {
         })
         .catch((error) => {
             console.error('Error:', error);
+            reissue();
         });
 }
 
@@ -302,13 +273,6 @@ function unBookmark(cafeId) {
         method: 'DELETE',
     };
 
-    // 토큰이 존재하면 헤더를 추가
-    if (token) {
-        fetchOptions.headers = {
-            'access': 'Bearer ' + token  // Authorization 헤더에 JWT 추가
-        };
-    }
-
     // AJAX 요청 예시
     fetch(url, fetchOptions)
         .then(response => response.json())
@@ -318,6 +282,7 @@ function unBookmark(cafeId) {
         })
         .catch((error) => {
             console.error('Error:', error);
+            reissue();
         });
 }
 
@@ -330,9 +295,42 @@ if (myMenuButton) {
     });
 }
 
-//쿠키 불러오기 메서드
-function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
+function logout() {
+    let url = '/api/logout';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'POST',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href="/";
+
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+}
+
+function reissue() {
+    let url = '/api/reissue';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'GET',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+        .then(data => {
+            console.log('Success:', data);
+            window.location.href = "/";
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            window.location.href = "/";
+        });
 }
