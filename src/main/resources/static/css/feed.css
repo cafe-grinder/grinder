@@ -177,25 +177,45 @@
 }
 
 /*******************/
-/* 기어 버튼 드롭다운 */
-/* 기본적으로 드롭다운은 숨겨진 상태로 시작 */
-.feed_gear_dropdown {
-    display: none;
-}
 
-.feed_gear_dropdown li {
-    display: block;
-    width: auto;
+.feed_function_list button,
+.feed_comment_function_list button {
     margin: 0;
+    padding: 0;
+    border: none;
 }
 
-.feed_gear_dropdown button {
-    font-size: 20px;
+.feed_like,
+.feed_like_yet,
+.feed_comment_view_btn,
+.feed_child_comment_textarea_view_btn,
+.feed_gear_btn {
+    width: 24px;
+    height: 24px;
 }
 
+.feed_like {
+    background: url("../img/icon/suit-heart-fill.png") no-repeat center;
+}
+
+.feed_like_yet {
+    background: url("../img/icon/suit-heart.png") no-repeat center;
+}
+
+.feed_comment_view_btn,
+.feed_child_comment_textarea_view_btn {
+    background: url("../img/icon/chat-dots-fill.png") no-repeat center;
+}
+
+.feed_gear_btn {
+    background: url("../img/icon/gear-fill.png") no-repeat center;
+}
+
+/* 기어 버튼 드롭다운 */
 /* 드롭다운이 표시될 때의 스타일 */
-.feed_gear_dropdown.show {
+.feed_gear_dropdown {
     display: block;
+    width: 162px;
     padding: 15px 0;
     position: absolute;
     border-radius: 15px;
@@ -204,32 +224,30 @@
     z-index: 1;
 }
 
-/* 드롭다운 내부의 리스트 아이템 스타일 */
-.feed_gear_dropdown.show button {
+.feed_gear_dropdown li {
     display: block;
+    width: auto;
+    margin: 0;
+}
+
+/* 드롭다운 내부의 리스트 아이템 스타일 */
+.feed_gear_dropdown button {
     padding: 10px 34px;
-    width: 162px;
+    width: 100%;
+    font-size: 20px;
     text-align: left;
     border: none;
-    background-color: transparent;
-    cursor: pointer;
+    background: none;
 }
 
 /* 드롭다운 리스트 아이템 호버 효과 */
-.feed_gear_dropdown.show button:hover {
+.feed_gear_dropdown button:hover {
     background-color: #f0f0f0;
 }
 /* 기어 버튼 드롭다운 */
 /*******************/
 
 
-.feed_function_list button,
-.feed_comment_function_list button {
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: none;
-}
 
 .feed_divide_line {
     margin: 22px 0 28px;
@@ -290,8 +308,7 @@
     text-align: end;
 }
 
-.feed_parent_comment_create_btn,
-.feed_child_comment_create_btn {
+.feed_comment_create_btn {
     width: 131px;
     height: 65px;
     margin-left: 20px;
@@ -307,3 +324,7 @@
     margin: 10px 0;
 }
 /* ---------------- */
+
+.display_none {
+    display: none;
+}

@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 페이지 초기화 함수
     function initPage() {
         // 톱니바퀴 드롭다운 초기화
-        initGearDropdown();
+        // initGearDropdown();
 
         // 피드 삭제 이벤트 설정
         initFeedEvent();
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const gearBtns = document.querySelectorAll('.feed_gear_btn');
         gearBtns.forEach(function(btn) {
             btn.addEventListener('click', function(event) {
-                const dropdown = this.nextElementSibling;
+                const dropdown = this.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
                 dropdown.classList.toggle('show');
 
                 // 다른 dropdown이 열려있는 경우 닫음
@@ -57,30 +57,45 @@ document.addEventListener('DOMContentLoaded', function() {
     function initFeedEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
-            const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
 
-            // 피드 삭제 버튼 클릭시
+            // 톱니바퀴 버튼 클릭
+            if (target.classList.contains('feed_gear_btn')) {
+                const dropdown = target.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
+                dropdown.classList.toggle('display_none');
+
+                // 다른 dropdown이 열려있는 경우 닫음
+                const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
+                allDropdowns.forEach(function(dropdownItem) {
+                    if (dropdownItem !== dropdown) {
+                        dropdownItem.classList.add('display_none');
+                    }
+                });
+            }
+
+            // 피드 삭제 버튼 클릭
             if (target.classList.contains('feed_delete_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 if (confirm('삭제하시겠습니까?')) {
                     await deleteFeed(feedId);
                     target.closest('.feed_container').style.display = 'none';
                 }
             }
 
-            // 댓글 작성 버튼 클릭 시
+            // 댓글 작성 버튼 클릭
             if (target.classList.contains('feed_comment_create_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 let commentTextarea;
                 let content;
                 let parentCommentId = '';
 
                 // 부모 댓글
-                if (target.classList.contains('feed_parent_comment_create_btn')) {
+                if (target.classList.contains('feed_parent_comment')) {
                     commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;
                 }
 
                 // 자식 댓글
-                if (target.classList.contains('feed_child_comment_create_btn')) {
+                if (target.classList.contains('feed_child_comment')) {
                     commentTextarea = target.closest('.feed_child_comment_write').querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;
                     parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
@@ -96,25 +111,45 @@ document.addEventListener('DOMContentLoaded', function() {
                 commentTextarea.value = '';
             }
 
-            // 댓글 삭제 버튼 클릭시
+            // 댓글 삭제 버튼 클릭
             if (target.classList.contains('feed_comment_delete_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
                 let commentArea;
                 let commentId;
 
                 // 부모 댓글
-                if (target.classList.contains('feed_parent_comment_delete_btn')) {
+                if (target.classList.contains('feed_parent_comment')) {
                     commentArea = target.closest('.feed_parent_comment_area');
                     commentId = commentArea.querySelector('.feed_parent_comment_id').value;
                 }
 
                 // 자식 댓글
-                if (target.classList.contains('feed_child_comment_delete_btn')) {
+                if (target.classList.contains('feed_child_comment')) {
                     commentArea = target.closest('.feed_child_comment_area');
                     commentId = commentArea.querySelector('.feed_child_comment_id').value;
                 }
 
                 await deleteComment(feedId, commentId);
                 commentArea.style.display = 'none';
+            }
+
+            // 댓글 수정 버튼 클릭
+            if (target.classList.contains('feed_comment_update_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                const commentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
+                const updatedContent = target.closest('.feed_comment_update_area').querySelector('.feed_comment_update_textarea').value;
+
+                // 서버로 수정된 내용 전송
+                await updateComment(feedId, commentId, updatedContent);
+
+                // 화면에 수정된 내용 업데이트
+                const commentContent = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content');
+                commentContent.innerText = updatedContent;
+
+                // 수정 영역 감추기
+                const updateArea = target.closest('.feed_comment_update_area');
+                updateArea.style.display = 'none';
+                commentContent.style.display = 'block';
             }
         });
     }
@@ -191,5 +226,31 @@ async function deleteComment(feedId, commentId) {
         }
     } catch (error) {
         console.error('댓글 삭제 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 댓글 수정 비동기 함수
+async function updateComment(feedId, commentId, updatedContent) {
+    try {
+        const response = await fetch(`/comment/${feedId}/${commentId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: updatedContent,
+                parentCommentId: ''
+            })
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+        } else {
+            // 실패했을 때의 처리
+            console.error('댓글 수정에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 수정 중 오류가 발생했습니다:', error);
     }
 }
