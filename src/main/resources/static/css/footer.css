@@ -12,7 +12,7 @@ footer .footer_logo {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0px 100px;
+    margin: 0px 100px 100px 0;
 }
 
 footer .footer_logo .footer_grinder {
@@ -36,18 +36,18 @@ footer .footer_logo ul li {
     border-radius: 50%;
 }
 
-footer .footer_logo .footer_est {
-    width: 65px;
-    height: 65px;
-    text-indent: -9999px;
-    background: url("../img/icon/est_logo.png") no-repeat center/contain;
-}
-
-footer .footer_logo .footer_git {
+footer .footer_logo .footer_git button {
+    border: 0;
     width: 65px;
     height: 65px;
     text-indent: -9999px;
     background: url("../img/icon/git_logo.png") no-repeat center/contain;
 }
 
-
+footer .footer_logo .footer_est button {
+    border: 0;
+    width: 65px;
+    height: 65px;
+    text-indent: -9999px;
+    background: url("../img/icon/est_logo.png") no-repeat center/contain;
+}

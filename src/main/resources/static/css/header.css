@@ -96,6 +96,7 @@ header .header_bar .header_btn .header_login .header_alarm {
     background-size: contain;
     text-indent: -9999px;
     cursor : pointer;
+    border: 0;
 }
 
 header .header_bar .header_btn .header_login .header_alarm:hover {
@@ -109,6 +110,8 @@ header .header_bar .header_btn .header_login .header_profile {
     background-size: contain;
     text-indent: -9999px;
     cursor : pointer;
+    border: 0;
+    margin-left: 15px;
 }
 
 /*알림창*/

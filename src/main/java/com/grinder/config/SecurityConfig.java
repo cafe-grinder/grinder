@@ -85,7 +85,7 @@ public class SecurityConfig {
                 tokenCheckFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
         );
-        http.addFilterBefore(new RefreshTokenFilter("/api/reissue",jwtUtil),
+        http.addFilterBefore(new RefreshTokenFilter("/api/reissue",jwtUtil, refreshRepository, redisUtil),
                 TokenCheckFilter.class);
 
         http.addFilterBefore(new APILogoutFilter(jwtUtil, refreshRepository,redisUtil), LogoutFilter.class);
@@ -96,6 +96,7 @@ public class SecurityConfig {
 //                                .anyRequest().authenticated())
 //                                .requestMatchers("/api/admin/").hasRole("관리자")
                                 .anyRequest().permitAll());
+        http.logout(log -> log.deleteCookies());
         return http.build();
 
     }
