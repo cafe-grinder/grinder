@@ -5,8 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
-            NewFeedChangeEvent(); // 변경 이벤트 함수 호출
-            NewFeedClickEvent(); // 클릭 이벤트 함수 호출
+            ImageSelectEvent();     // 이미지 선택
+            CafeSelectEvent();      // 카페 선택
+            StarGradEvent();        // 별점
+            NewFeedClickEvent();    // 클릭 이벤트
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
@@ -18,10 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     xhr.send(); // 요청을 서버로 보냅니다.
 
-    let uploadImages = [];
-    function NewFeedChangeEvent() {
+    let imageUrlList = [];
+    function ImageSelectEvent() {
         let imgCnt = 0; // 이미지 수 카운트(4개)
-
         document.getElementById('file-input').addEventListener('change', function() {
             let files = this.files;
             let imgBox = document.querySelector('.img-box');
@@ -49,16 +50,16 @@ document.addEventListener('DOMContentLoaded', function() {
                             img.addEventListener('click', function() {
                                 if (confirm("이미지를 제거하시겠습니까?")) {
                                     imgBox.removeChild(img); // 이미지 박스에서 이미지 제거
-                                    const index = uploadImages.indexOf(file);
+                                    const index = imageUrlList.indexOf(file);
                                     if (index !== -1) {
-                                        uploadImages.splice(index, 1); // uploadImages 배열에서 해당 파일 제거
+                                        imageUrlList.splice(index, 1); // uploadImages 배열에서 해당 파일 제거
                                     }
                                     imgCnt--; // 이미지 수 카운트 감소
                                 }
                             });
 
                             imgBox.appendChild(img); // 이미지 박스에 이미지 추가
-                            uploadImages.push(file); // uploadImages 배열에 파일 추가
+                            imageUrlList.push(file); // uploadImages 배열에 파일 추가
                         };
                     })(file);
 
@@ -72,26 +73,62 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    let selectedTags = [];
+    let cafeId = '';
+    function CafeSelectEvent() {
+
+    }
+
+    let grade = 0;
+    function StarGradEvent() {
+        const stars = document.querySelectorAll('.star');
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                if (cafeId === '') {
+                    alert("카페를 선택해주세요.");
+                    return;
+                }
+                grade = parseInt(star.getAttribute('data-value'));
+                highlightStars(grade);
+            });
+        });
+
+        function highlightStars(grade) {
+            stars.forEach(star => {
+                const starValue = parseInt(star.getAttribute('data-value'));
+                if (starValue <= grade) {
+                    star.setAttribute('src', '/img/icon/star-fill.png');
+                } else {
+                    star.setAttribute('src', '/img/icon/star.png');
+                }
+            });
+        }
+    }
+
+    let tagNameList = [];
     function NewFeedClickEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
 
             // 태그 클릭
             if (target.classList.contains('newfeed_tag_name')) {
+                if (cafeId === '') {
+                    alert("카페를 선택해주세요.");
+                    return;
+                }
                 if (target.classList.contains('newfeed_tag_name_active')) {
                     // 선택 해제
-                    const index = selectedTags.indexOf(target.innerText);
+                    const index = tagNameList.indexOf(target.innerText);
                     if (index !== -1) {
-                        selectedTags.splice(index, 1);
+                        tagNameList.splice(index, 1);
                     }
                     target.classList.remove('newfeed_tag_name_active');
                 } else {
                     // 선택
-                    if (selectedTags.length >= 3) {
+                    if (tagNameList.length >= 3) {
                         alert('3개 이상 선택하실 수 없습니다.');
                     } else {
-                        selectedTags.push(target.innerText);
+                        tagNameList.push(target.innerText);
                         target.classList.add('newfeed_tag_name_active');
                     }
                 }
@@ -104,33 +141,82 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 등록하기 버튼 클릭
             if (target.classList.contains('feed_comment_create_btn')) {
-                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
-                let commentTextarea;
-                let content;
-                let parentCommentId = '';
-
-                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
-                    commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
-                    content = commentTextarea.value;
-                } else {    // 자식 댓글
-                    const childCommentWriteArea = target.closest('.feed_child_comment_write');
-                    childCommentWriteArea.classList.toggle('display_none');
-                    commentTextarea = childCommentWriteArea.querySelector('.feed_comment_textarea');
-                    content = commentTextarea.value;
-                    parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
+                if (cafeId !== '' && grade === 0) {
+                    alert('평점을 선택해주세요.');
                 }
+
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                let newFeedTextarea;
+                let content = document.querySelector('.newfeed_content').innerHTML;
 
                 // 댓글 내용이 비어있는지 확인
                 if (!content.trim()) {
-                    alert('댓글 내용을 입력하세요.');
+                    alert('본문이 비었습니다.');
                     return;
                 }
 
-                await saveComment(content, parentCommentId, feedId);
-                commentTextarea.value = '';
+                await addFeed(cafeId, content, imageUrlList, tagNameList, grade);
             }
         });
     }
-
-
 });
+
+// 피드 등록
+async function addFeed(cafeId, content, imageUrlList, tagNameList, grade) {
+    try {
+        const response = await fetch(`/heart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cafeId: cafeId,
+                content: content,
+                imageUrlList: imageUrlList,
+                tagNameList: tagNameList,
+                grade: grade
+            }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 피드를 화면에서 제거하는 등의 추가적인 동작을 수행할 수 있습니다.
+        } else {
+            // 실패했을 때의 처리
+            console.error('피드 등록에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('피드 등록 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 피드 수정
+async function updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, grade) {
+    try {
+        const response = await fetch(`/heart`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cafeId: cafeId,
+                content: content,
+                imageUrlList: imageUrlList,
+                tagNameList: tagNameList,
+                grade: grade
+            }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 피드를 화면에서 제거하는 등의 추가적인 동작을 수행할 수 있습니다.
+        } else {
+            // 실패했을 때의 처리
+            console.error('피드 수정에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('피드 수정 중 오류가 발생했습니다:', error);
+    }
+}
