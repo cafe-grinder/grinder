@@ -19,6 +19,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -64,5 +65,10 @@ public class CafeServiceImpl implements CafeService {
 
         return new SliceImpl<>(cafeSlice.getContent().stream().map(cafe ->
             new CafeDTO.CafeSearchByAdminDTO(cafe)).toList(), pageable, cafeSlice.hasNext());
+    }
+
+    @Override
+    public List<Cafe> findCafeList(String cafeName) {
+        return cafeRepository.findByNameContainingIgnoreCase(cafeName);
     }
 }
