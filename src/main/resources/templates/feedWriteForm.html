@@ -30,9 +30,11 @@
 
         <div class="newfeed_divide_line"></div>
 
-        <section class="newfeed_estimate">
+        <section class="newfeed_estimate_area">
             <img class="newfeed_estimate_img" src="/img/icon/BsLightbulbFill.png" alt="light_bulb_img">
-            <h2 class="newfeed_estimate_head">평가 작성하기</h2>
+            <h2 class="newfeed_estimate_head">
+                평가 작성하기
+            </h2>
             <div class="newfeed_estimate_sub">
                 <p class="newfeed_sub_text">평가 작성은 선택입니다.</p>
                 <p class="newfeed_sub_text">평점과 카테고리를 선택하고싶으시다면 카페를 선택해주세요.</p>
@@ -57,9 +59,11 @@
         </section>
 
         <section class="newfeed_tag_area">
-            <h2 class="newfeed_head_text" id="category-span">평가 카테고리</h2>
-            <p class="newfeed_sub_text">적절한 평가를 3개 골라주세요!</p>
-            <div class="evaluation-box">
+            <h2 class="newfeed_head_text">
+                평가 카테고리
+                <p class="newfeed_sub_text">적절한 평가를 3개 골라주세요!</p>
+            </h2>
+            <div class="newfeed_tag_box">
                 <button class="newfeed_tag_name" type="button" th:each="tagName, tagIdx: ${tagList}" th:text="${tagName}"></button>
             </div>
         </section>
