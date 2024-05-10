@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/MymenuCard.css">
+</head>
+<body>
+<!-- 여기부터 위로 제거 -->
+<article class="menu_card_container" th:fragment="myCafeMenu" th:each="myMenu : ${myMenus}">
+    <input id="cafeId" th:value="${myMenu.menuId}" type="hidden">
+    <div class="menu_card_wrap">
+        <h1 class="menu_card_name" th:text="${myMenu.menuName}">메뉴명</h1>
+        <ul>
+            <li>예상 가격: <strong th:text="${myMenu.menuPrice}">가격</strong></li>
+            <li>수정 일자: <span th:text="${myMenu.menuUpdate}">업데이트 일자</span></li>
+        </ul>
+        <br>
+        <div class="menu_card_detail_title">
+            <img class="menu_card_bulb" src="/img/icon/bulb.png" alt="">
+            <div class="menu_card_detail">메뉴 상세보기</div>
+        </div>
+        <hr>
+        <div class="menu_card_detail_list">
+            <ul>
+                <li>용량: <span th:text="${myMenu.menuVolume}">용량</span></li>
+                <li>설명: <span th:text="${myMenu.menuDetails}">설명</span></li>
+            </ul>
+            <ul>
+                <li>알러지 재료: <span th:text="${myMenu.menuAllergy}">알러지</span></li>
+                <li>판매 유형: <span th:text="${myMenu.menuIsLimited}">유형</span></li>
+            </ul>
+        </div>
+    </div>
+    <section class="myMenu_image">
+        <img class="menu_card_img" th:if="${myMenu.menuImage == null}" src="/img/feed-default-img-gray.png" alt="">
+        <img class="menu_card_img" th:if="${myMenu.menuImage != null}" src="${myMenu.menuImage}" alt="">
+        <button class="menu_delete" th:data-menuid="${myMenu.menuId}">삭제</button>
+    </section>
+</article>
+<!-- 여기부터 아래로 제거 -->
+
+</body>
+</html>
