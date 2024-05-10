@@ -14,6 +14,8 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,5 +89,22 @@ public class FeedQueryRepository {
         boolean hasNext = results.size() > pageable.getPageSize();
         List<FeedDTO.FeedWithImageResponseDTO> content = hasNext ? results.subList(0, pageable.getPageSize()) : results;
         return new SliceImpl<>(content, pageable, hasNext);
+    }
+
+    List<Cafe> findRecentPopularCafeByFeedCount(int num) {
+        QFeed feed = QFeed.feed;
+        QCafe cafe = QCafe.cafe;
+
+        List<Cafe> results = queryFactory
+                .select(cafe)
+                .from(cafe)
+                .leftJoin(feed.cafe, cafe)
+                .where(feed.createdAt.after(LocalDateTime.now().minusDays(60)))
+                .groupBy(cafe.cafeId)
+                .orderBy(feed.cafe.cafeId.count().desc())
+                .limit(num)
+                .fetch();
+
+        return results;
     }
 }
