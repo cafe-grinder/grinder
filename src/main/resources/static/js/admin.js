@@ -24,8 +24,11 @@ const addRegisterBtn = document.getElementById('more_register_button');
 const addApplyBtn = document.getElementById('more_apply_button');
 const addCafeBtn = document.getElementById('more_cafe_button');
 
+// 조회를 위한 select 태그
 const memberSelect = document.getElementById('member_role');
 const reportSelect = document.getElementById('report_content_type');
+
+const modal = document.getElementById('modal');
 
 // 처음 페이지 접근 시 목록 불러오기
 document.addEventListener('DOMContentLoaded', () => {
@@ -104,9 +107,12 @@ function loadMemberList(memberPageNum) {
         method: 'GET'
     }).then(response => {
         if (!response.ok) {
-            throw new Error('The request failed');
+            // 200 이외라면 토큰 재발급
+                reissue();
+
+        } else {
+            return response.json(); // 응답을 JSON으로 파싱
         }
-        return response.json();
     })
             .then(data => {
                 renderMemberList(data.content);
@@ -126,9 +132,12 @@ function loadReportList(reportPageNum) {
     })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('The request failed');
+                    if (response.status === 401 || response.status === 403) {
+                        reissue();
+                    }
+                } else {
+                    return response.json();
                 }
-                return response.json();
             })
             .then(data => {
                 renderReportList(data.content);
@@ -144,9 +153,12 @@ function loadRegisterList(registerPageNum) {
     })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('The request failed');
+                    if (response.status === 401 || response.status === 403) {
+                        reissue();
+                    }
+                } else {
+                    return response.json();
                 }
-                return response.json();
             })
             .then(data => {
                 renderRegisterList(data.content);
@@ -162,9 +174,12 @@ function loadApplyList(applyPageNum) {
     })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('The request failed');
+                    if (response.status === 401 || response.status === 403) {
+                        reissue();
+                    }
+                } else {
+                    return response.json();
                 }
-                return response.json();
             })
             .then(data => {
                 renderApplyList(data.content);
@@ -175,16 +190,18 @@ function loadApplyList(applyPageNum) {
 }
 function loadCafeList(cafePageNum) {
     let keyword = document.getElementById('cafe_keyword').value;
-
     const url = '/api/cafe/admin?keyword=' + keyword + '&page=' + cafePageNum;
     fetch(url, {
         method: 'GET'
     })
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('The request failed');
+                    if (response.status === 401 || response.status === 403) {
+                        reissue();
+                    }
+                } else {
+                    return response.json();
                 }
-                return response.json();
             })
             .then(data => {
                 renderCafeList(data.content);
@@ -197,6 +214,7 @@ function loadCafeList(cafePageNum) {
 // 목록을 화면에 렌더링
 function renderMemberList(memberList) {
     memberList.forEach(member => {
+        // 테이블 행 생성
         let row = document.createElement('tr');
         row.classList.add('admin_list_row_body');
         row.innerHTML =
@@ -217,6 +235,8 @@ function renderMemberList(memberList) {
                  <td class="admin_list_blank"></td>
                  <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button" data-member-id="${member.memberId}")">정지</button> <button class="admin_list_button member_recover_button" data-member-id="${member.memberId}">해제</button> </td>`;
         memberTableBody.appendChild(row);
+
+        // 회원 권한을 변경하면 수정
         let select = row.querySelector('.change_role');
         select.addEventListener('change', () => {
             let memberId = select.dataset.memberId;
@@ -236,6 +256,7 @@ function renderMemberList(memberList) {
                     })
         });
 
+        // 정지 버튼 누르면 회원 삭제
         let deleteMember = row.querySelector('.member_delete_button');
         deleteMember.addEventListener('click', () => {
             let memberId = deleteMember.dataset.memberId;
@@ -255,6 +276,7 @@ function renderMemberList(memberList) {
                     })
         })
 
+        // 해제 버튼 누르면 회원 정보 복구
         let recoverMember = row.querySelector('.member_recover_button');
         recoverMember.addEventListener('click', () => {
             let memberId = recoverMember.dataset.memberId;
@@ -289,6 +311,7 @@ function renderReportList(reportList) {
                  <td class="admin_list_button_container"> <button class="admin_list_button report_accept_button" data-report-id="${report.reportId}">신고 처리</button> <button class="admin_list_button report_delete_button" data-report-id="${report.reportId}">요청 삭제</button> </td>`;
         reportTableBody.appendChild(row);
 
+        // 신고 처리 버튼 누르면 해당 컨텐츠 삭제 + 같은 컨텐츠 신고 내역 모두 삭제
         let reportAccept = row.querySelector('.report_accept_button');
         reportAccept.addEventListener('click', () => {
             let reportId = reportAccept.dataset.reportId;
@@ -308,6 +331,7 @@ function renderReportList(reportList) {
                     })
         })
 
+        // 해당 신고 요청 삭제
         let reportDelete = row.querySelector('.report_delete_button');
         reportDelete.addEventListener('click', () => {
             let reportId = reportDelete.dataset.reportId;
@@ -344,6 +368,7 @@ function renderRegisterList(registerList) {
                 <td class="admin_list_button_container"> <button class="admin_list_button register_accept_button" data-register-id="${register.registerId}">등록</button> <button class="admin_list_button register_delete_button" data-register-id="${register.registerId}">삭제</button> </td>`;
         registerTableBody.appendChild(row);
 
+        // 신규 장소 등록 + 신청 내역 삭제
         let registerAccept = row.querySelector('.register_accept_button');
         registerAccept.addEventListener('click', () => {
             let registerId = registerAccept.dataset.registerId;
@@ -361,9 +386,9 @@ function renderRegisterList(registerList) {
                         console.log(data.code)
                         alert(data.message)
                     })
-
         })
 
+        // 신규 장소 신청 삭제
         let registerDelete = row.querySelector('.register_delete_button');
         registerDelete.addEventListener('click', () => {
             let registerId = registerDelete.dataset.registerId;
@@ -397,11 +422,12 @@ function renderApplyList(applyList) {
                 <td>|</td>
                 <td class="admin_list_data">${apply.phoneNum}</td>
                 <td>|</td>
-                <td class="admin_list_data"><a href="${apply.regImageUrl}">사업자등록증</a></td>
+                <td class="admin_list_data"><button class="reg_image_button">사업자등록증</button></td>
                 <td class="admin_list_blank"></td>
                 <td class="admin_list_button_container"> <button class="admin_list_button apply_accept_button" data-apply-id="${apply.applyId}">등록</button> <button class="admin_list_button apply_delete_button" data-apply-id="${apply.applyId}">삭제</button> </td>`;
         applyTableBody.appendChild(row);
 
+        // 판매자 정보 저장 + 신청 내역 삭제
         let applyAccept = row.querySelector('.apply_accept_button');
         applyAccept.addEventListener('click', () => {
             let applyId = applyAccept.dataset.applyId;
@@ -422,6 +448,7 @@ function renderApplyList(applyList) {
 
         })
 
+        // 판매자 신청 삭제
         let applyDelete = row.querySelector('.apply_delete_button');
         applyDelete.addEventListener('click', () => {
             let applyId = applyDelete.dataset.applyId;
@@ -440,6 +467,18 @@ function renderApplyList(applyList) {
                         alert(data.message)
                     })
         })
+
+        // 신청시 제출한 사업자등록증 확인
+        let regImageBtn = row.querySelector('.reg_image_button');
+        regImageBtn.addEventListener('click', () => {
+            modal.innerHTML = '';
+            modal.innerHTML =
+                    `<form method="dialog">
+                        <img src="${apply.regImageUrl}" alt="사업자등록증">
+                        <button class="modal_button">닫기</button>
+                    </form>`;
+            modal.showModal();
+        })
     })
 }
 function renderCafeList(cafeList) {
@@ -455,4 +494,28 @@ function renderCafeList(cafeList) {
                 <td class="admin_list_blank"></td>`;
         cafeTableBody.appendChild(row);
     })
+}
+
+// 토큰 재발급
+function reissue() {
+    let url = '/api/reissue';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'GET',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
+                window.location.href = "/admin";
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                window.location.href = "/";
+                console.error('Error:', error);
+            });
 }
