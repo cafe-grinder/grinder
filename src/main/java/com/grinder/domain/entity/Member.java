@@ -62,9 +62,25 @@ public class Member extends BaseEntity{
         role = role == Role.VERIFIED_MEMBER ? Role.MEMBER : role;
     }
 
-    public void switchIsDeleted() {
-        isDeleted = isDeleted == true ? false : true;
+    public boolean delete() {
+        if (isDeleted) {
+            return false;
+        }
+        isDeleted = true;
+        return true;
+    }
+
+    public boolean recover() {
+        if (!isDeleted) {
+            return false;
+        }
+        isDeleted = false;
+        return true;
     }
 
     public void setPassword(String password){ this.password = password;}
+
+    public void toSeller() {
+        this.role = Role.SELLER;
+    }
 }

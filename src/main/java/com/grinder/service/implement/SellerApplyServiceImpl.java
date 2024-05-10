@@ -1,14 +1,20 @@
 package com.grinder.service.implement;
 
 import com.grinder.domain.dto.SellerApplyDTO;
+import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Image;
 import com.grinder.domain.entity.SellerApply;
+import com.grinder.domain.entity.SellerInfo;
 import com.grinder.domain.enums.ContentType;
+import com.grinder.exception.AlreadyExistException;
 import com.grinder.repository.SellerApplyRepository;
-import com.grinder.service.CafeService;
-import com.grinder.service.MemberService;
-import com.grinder.service.SellerApplyService;
+import com.grinder.repository.SellerInfoRepository;
+import com.grinder.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,14 +33,16 @@ public class SellerApplyServiceImpl implements SellerApplyService {
     private final AwsS3ServiceImpl awsS3Service;
     private final MemberService memberService;
     private final CafeService cafeService;
+    private final ImageService imageService;
+    private final SellerInfoRepository sellerInfoRepository;
 
     @Override
-    public List<SellerApplyDTO.FindSellerApplyDTO> findAllSellerApplies() {
-        List<SellerApply> sellerApplyList = sellerApplyRepository.findAll();
+    public Slice<FindSellerApplyDTO> findAllSellerApplies(Pageable pageable) {
+        Page<SellerApply> sellerApplyPage = sellerApplyRepository.findAll(pageable);
 
-        List<FindSellerApplyDTO> sellerApplyDTOList = sellerApplyList.stream().map(sellerApply -> new FindSellerApplyDTO(sellerApply)).toList();
+        Slice<FindSellerApplyDTO> sellerApplyDTOSlice = new SliceImpl<>(sellerApplyPage.getContent().stream().map(sellerApply -> new FindSellerApplyDTO(sellerApply)).toList(), pageable, sellerApplyPage.hasNext());
 
-        return sellerApplyDTOList;
+        return sellerApplyDTOSlice;
     }
 
     @Override
@@ -45,6 +53,12 @@ public class SellerApplyServiceImpl implements SellerApplyService {
     @Override
     @Transactional
     public void saveSellerApply(String memberId, String cafeId, MultipartFile file) {
+        List<SellerInfo> sellerInfoList = sellerInfoRepository.findAllByCafe_CafeId(cafeId);
+
+        if (sellerInfoList.size() != 0) {
+            throw new AlreadyExistException("이미 판매자가 등록된 카페입니다.");
+        }
+
         String sellerApplyId = UUID.randomUUID().toString();
 
         Image image = awsS3Service.uploadSingleImageBucket(file, sellerApplyId, ContentType.SELLER_APPLY);

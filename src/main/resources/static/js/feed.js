@@ -58,18 +58,42 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
 
+            // 다른 dropdown이 열려있는 경우 닫음
+            const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
+            allDropdowns.forEach(function(dropdownItem) {
+                dropdownItem.classList.add('display_none');
+            });
             // 톱니바퀴 버튼 클릭
             if (target.classList.contains('feed_gear_btn')) {
                 const dropdown = target.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
                 dropdown.classList.toggle('display_none');
+            }
 
-                // 다른 dropdown이 열려있는 경우 닫음
-                const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
-                allDropdowns.forEach(function(dropdownItem) {
-                    if (dropdownItem !== dropdown) {
-                        dropdownItem.classList.add('display_none');
-                    }
-                });
+            // 좋아요 버튼 클릭
+            if (target.classList.contains('feed_like') || target.classList.contains('feed_like_yet')) {
+                let contentId;
+                let contentType;
+
+                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
+                    contentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
+                    contentType = 'COMMENT';
+                } else if (target.classList.contains('feed_child_comment')) {   // 자식 댓글
+                    contentId = target.closest('.feed_child_comment_area').querySelector('.feed_child_comment_id').value;
+                    contentType = 'COMMENT';
+                } else {    // 피드
+                    contentId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                    contentType = 'FEED';
+                }
+
+                const likeForm = target.closest('.feed_like_num_align');
+                let likeNum = parseInt(likeForm.querySelector('.feed_like_num').innerHTML);
+                if (target.classList.contains('feed_like')) {   // 좋아요 취소
+                    deleteHeart(contentId, contentType);
+                    likeForm.innerHTML = `<button class="feed_like_yet"></button><span class="feed_like_num">${likeNum-1}</span>`;
+                } else {    // 좋아요
+                    addHeart(contentId, contentType);
+                    likeForm.innerHTML = `<button class="feed_like"></button><span class="feed_like_num">${likeNum+1}</span>`;
+                }
             }
 
             // 댓글 보기 버튼 클릭
@@ -82,6 +106,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target.classList.contains('feed_child_comment_textarea_view_btn')) {
                 const childCommentWriteArea = target.closest('.feed_parent_comment_info').querySelector('.feed_child_comment_write');
                 childCommentWriteArea.classList.toggle('display_none');
+
+                const allCommentArea = document.querySelectorAll('.feed_child_comment_write');
+                allCommentArea.forEach(function(commentArea) {
+                    if (commentArea !== childCommentWriteArea) {
+                        commentArea.classList.add('display_none');
+                    }
+                });
 
                 const commentContent = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content, .feed_parent_comment');
                 const commentUpdateForm = target.closest('.feed_parent_comment_area').querySelector('.feed_comment_content_update');
@@ -241,6 +272,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// 좋아요 삭제
+async function deleteHeart(contentId, contentType) {
+    try {
+        const response = await fetch(`/heart`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contentId: contentId,
+                contentType: contentType
+            }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 피드를 화면에서 제거하는 등의 추가적인 동작을 수행할 수 있습니다.
+        } else {
+            // 실패했을 때의 처리
+            console.error('좋아요 삭제에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('좋아요 삭제 중 오류가 발생했습니다:', error);
+    }
+}
+
+// 좋아요 등록
+async function addHeart(contentId, contentType) {
+    try {
+        const response = await fetch(`/heart`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                contentId: contentId,
+                contentType: contentType
+            }),
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message); // 성공 메시지 출력
+            // 피드를 화면에서 제거하는 등의 추가적인 동작을 수행할 수 있습니다.
+        } else {
+            // 실패했을 때의 처리
+            console.error('좋아요 삭제에 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('좋아요 삭제 중 오류가 발생했습니다:', error);
+    }
+}
 
 // 피드 삭제 비동기 함수
 async function deleteFeed(feedId) {

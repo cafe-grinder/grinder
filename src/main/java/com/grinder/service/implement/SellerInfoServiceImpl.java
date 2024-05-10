@@ -1,19 +1,14 @@
 package com.grinder.service.implement;
 
 import com.grinder.domain.dto.SellerInfoDTO;
-import com.grinder.domain.entity.Cafe;
-import com.grinder.domain.entity.Member;
-import com.grinder.domain.entity.SellerApply;
-import com.grinder.domain.entity.SellerInfo;
+import com.grinder.domain.entity.*;
+import com.grinder.exception.AlreadyExistException;
 import com.grinder.repository.CafeRepository;
 import com.grinder.repository.MemberRepository;
 import com.grinder.repository.SellerInfoRepository;
 import com.grinder.repository.queries.ImageQueryRepository;
 import com.grinder.repository.queries.SellerInfoQueryRepository;
-import com.grinder.service.CafeService;
-import com.grinder.service.MemberService;
-import com.grinder.service.SellerApplyService;
-import com.grinder.service.SellerInfoService;
+import com.grinder.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,20 +27,28 @@ public class SellerInfoServiceImpl implements SellerInfoService {
     private final CafeRepository cafeRepository;
     private final MemberRepository memberRepository;
     private final ImageQueryRepository imageQueryRepository;
+    private final ImageService imageService;
+    private final MemberService memberService;
 
     @Override
     @Transactional
     public void saveSellerInfo(String applyId) {
         SellerApply sellerApply = sellerApplyService.findSellerApply(applyId);
+        List<SellerInfo> sellerInfoList = findSellerInfoByCafeId(sellerApply.getCafe().getCafeId());
+        if (sellerInfoList.size() != 0) {
+            throw new AlreadyExistException("이미 판매자가 등록된 카페입니다.");
+        }
         sellerInfoRepository.save(SellerInfo
                 .builder()
                 .cafe(sellerApply.getCafe())
                 .member(sellerApply.getMember())
                 .build());
+        Image image = imageService.findImageByImageUrl(sellerApply.getRegImageUrl());
+        image.updateContentId(sellerApply.getCafe().getCafeId());
         Cafe cafe = cafeService.findCafeById(sellerApply.getCafe().getCafeId());
-        if (cafe.getRegImageUrl() != null) {
-            cafe.uploadRegImage(sellerApply.getRegImageUrl());
-        }
+        cafe.uploadRegImage(sellerApply.getRegImageUrl());
+        Member member = memberService.findMemberById(sellerApply.getMember().getMemberId());
+        member.toSeller();
         sellerApplyService.deleteSellerApply(applyId);
     }
 
@@ -73,4 +76,8 @@ public class SellerInfoServiceImpl implements SellerInfoService {
         return sellerInfoRepository.existsByMemberAndCafe(member, cafe);
     }
 
+    @Override
+    public List<SellerInfo> findSellerInfoByCafeId(String cafeId) {
+        return sellerInfoRepository.findAllByCafe_CafeId(cafeId);
+    }
 }

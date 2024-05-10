@@ -1,4 +1,4 @@
-package com.grinder.controller;
+package com.grinder.controller.entity;
 
 
 import com.grinder.domain.dto.ErrorResult;
@@ -6,16 +6,16 @@ import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import static com.grinder.domain.dto.MemberDTO.*;
 
-@Controller
+@RestController
 @RequestMapping("/api/member")
 @RequiredArgsConstructor
 public class MemberController {
@@ -23,24 +23,31 @@ public class MemberController {
     private final MemberService memberService;
 
     @PutMapping("/{memberId}/role")
-    @ResponseBody
     public ResponseEntity<SuccessResult> updateMemberRole(@PathVariable String memberId) {
         memberService.updateMemberRole(memberId);
         return ResponseEntity.ok(new SuccessResult("Success", "요청이 성공적으로 처리되었습니다."));
     }
 
-    @PutMapping("/{memberId}/isDeleted")
-    @ResponseBody
-    public ResponseEntity<SuccessResult> updateMemberIsDeleted(@PathVariable String memberId) {
-        memberService.updateMemberIsDeleted(memberId);
-        return ResponseEntity.ok(new SuccessResult("Success", "요청이 성공적으로 처리되었습니다."));
+    @DeleteMapping("/{memberId}")
+    public ResponseEntity<SuccessResult> deleteMember(@PathVariable String memberId) {
+        if (!memberService.deleteMember(memberId)) {
+            return ResponseEntity.ok(new SuccessResult("Already deleted", "이미 삭제된 회원입니다."));
+        }
+        return ResponseEntity.ok(new SuccessResult("Delete member", "회원이 삭제 처리되었습니다."));
+    }
+
+    @PutMapping("/{memberId}/recovery")
+    public ResponseEntity<SuccessResult> recoverMember(@PathVariable String memberId) {
+        if (!memberService.recoverMember(memberId)) {
+            return ResponseEntity.ok(new SuccessResult("Alive member", "정상 회원입니다."));
+        }
+        return ResponseEntity.ok(new SuccessResult("Recover member", "회원 삭제가 취소되었습니다."));
     }
 
     @GetMapping("/search")
-    @ResponseBody
-    public ResponseEntity<List<FindMemberDTO>> searchMemberByNicknameAndRole(@RequestParam String nickname, @RequestParam String role, Pageable pageable) {
-        List<FindMemberDTO> memberList = memberService.searchMemberSlice(role, nickname, pageable);
-        return ResponseEntity.ok(memberList);
+    public ResponseEntity<Slice<FindMemberDTO>> searchMemberByNicknameAndRole(@RequestParam String nickname, @RequestParam String role,@PageableDefault(size = 5) Pageable pageable) {
+        Slice<FindMemberDTO> memberSlice = memberService.searchMemberSlice(role, nickname, pageable);
+        return ResponseEntity.ok(memberSlice);
     }
 
     @PostMapping("/signup")

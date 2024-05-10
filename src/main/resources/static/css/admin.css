@@ -6,15 +6,13 @@
     box-sizing: border-box;
 }
 
-body {
-    /*max-width: 100%;*/
-    /*min-width: 70%;*/
-    width: 1280px;
-}
-
 h1 {
     margin: 60px auto 36px auto;
     font-size: 32px;
+}
+
+button {
+    font-family: 'GodoM', sans-serif;
 }
 
 .admin_article {
@@ -41,6 +39,16 @@ h1 {
     border-collapse: collapse;
     border: 1px solid black;
     width: 100%;
+    display: block;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.admin_list thead {
+    position: sticky;
+    top: 0;
+    background-color: white; /* 필요에 따라 배경색 설정 */
+    z-index: 1; /* 다른 콘텐츠 위에 위치하도록 설정 */
 }
 
 .admin_list td {
@@ -70,4 +78,53 @@ h1 {
     border: none;
     background-color: #009B55;
     color: white;
+}
+
+/*사업자 등록증 확인*/
+.reg_image_button {
+    border: none;
+    background-color: #fff;
+    color: black;
+}
+
+/*더보기 버튼*/
+.admin_article .add_list_button {
+    position: relative;
+    left: 50%;
+    bottom: 10%;
+    transform: translate(-50%, 50%);
+    width: 80px;
+    height: 36px;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    background-color: #009B55;
+    color: white;
+}
+
+/*모달*/
+.reg_modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 800px;
+    border:none;
+    border-radius: 30px;
+}
+.reg_modal img {
+    display: block;
+}
+.reg_modal .modal_button {
+    width: 80px;
+    height: 36px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #009B55;
+    color: white;
+    position: sticky;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
 }

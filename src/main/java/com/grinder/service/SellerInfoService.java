@@ -16,4 +16,6 @@ public interface SellerInfoService {
     List<SellerInfoDTO.findAllResponse> findAllSellerInfoByEmail(String sellerEmail);
 
     boolean existByMemberAndCafe(String cafeId, String memberEmail);
+
+    List<SellerInfo> findSellerInfoByCafeId(String cafeId);
 }
