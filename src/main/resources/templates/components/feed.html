@@ -1,7 +1,7 @@
 
 <article th:fragment="feeds">
     <!-- 비회원 화면 -->
-    <div class="feed_container_non_member" th:if="${feedMember} == null">
+    <div class="feed_container_non_member" th:if="${feedMember} != null">
         <ul class="feed_img_list_non_member">
             <li th:each="feed: ${feedList}"><!-- 반복문 -->
                 <img class="feed_img_non_member" src="/img/feed-default-img-gray.png" alt="피드 첨부 이미지">

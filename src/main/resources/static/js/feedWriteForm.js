@@ -1,47 +1,3 @@
-
-let imgCnt = 0; // 이미지 수 카운트(4개)
-
-// input(type="file") 태그에 이미지 첨부 시
-document.getElementById('file-input').addEventListener('change', function() {
-    let files = this.files;
-    let imgBox = document.querySelector('.img-box');
-    let articleBox = document.querySelector('.article-box');
-
-    // 한 번에 선택한 파일 수가 4개 이하일 때만 처리
-    if (files.length <= 4) {
-        if((imgCnt + files.length) > 4) {
-                alert('최대 4개의 이미지만 첨부할 수 있습니다.');
-                return;
-        }
-        // 선택한 파일 수만큼 반복
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            let reader = new FileReader();
-
-            imgCnt++;
-
-            reader.onload = (function(file) {
-                return function(e) {
-                    let img = document.createElement('img');
-                    img.src = e.target.result;
-                    imgBox.appendChild(img); // 이미지 박스에 이미지 추가
-
-                };
-            })(file);
-
-            reader.readAsDataURL(file);
-        }
-    } else { // 한 번에 4개 이상의 이미지를 첨부 시
-        alert('최대 4개의 이미지만 선택해주세요.');
-        // 파일 입력(input) 초기화
-        this.value = '';
-    }
-});
-
-
-////////////////////////////////////////////////////
-///////////////////// API 연결 //////////////////////
-////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
@@ -49,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
+            NewFeedChangeEvent(); // 변경 이벤트 함수 호출
             NewFeedClickEvent(); // 클릭 이벤트 함수 호출
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
@@ -61,8 +18,61 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     xhr.send(); // 요청을 서버로 보냅니다.
 
-    let selectedTags = [];
     let uploadImages = [];
+    function NewFeedChangeEvent() {
+        let imgCnt = 0; // 이미지 수 카운트(4개)
+
+        document.getElementById('file-input').addEventListener('change', function() {
+            let files = this.files;
+            let imgBox = document.querySelector('.img-box');
+
+            // 한 번에 선택한 파일 수가 4개 이하일 때만 처리
+            if (files.length <= 4) {
+                if ((imgCnt + files.length) > 4) {
+                    alert('최대 4개의 이미지만 첨부할 수 있습니다.');
+                    return;
+                }
+                // 선택한 파일 수만큼 반복
+                for (let i = 0; i < files.length; i++) {
+                    let file = files[i];
+                    let reader = new FileReader();
+
+                    imgCnt++;
+
+                    reader.onload = (function(file) {
+                        return function(e) {
+                            let img = document.createElement('img');
+                            img.src = e.target.result;
+                            img.classList.add('newfeed_upload_img');
+
+                            // 이미지를 클릭하면 해당 이미지 제거
+                            img.addEventListener('click', function() {
+                                if (confirm("이미지를 제거하시겠습니까?")) {
+                                    imgBox.removeChild(img); // 이미지 박스에서 이미지 제거
+                                    const index = uploadImages.indexOf(file);
+                                    if (index !== -1) {
+                                        uploadImages.splice(index, 1); // uploadImages 배열에서 해당 파일 제거
+                                    }
+                                    imgCnt--; // 이미지 수 카운트 감소
+                                }
+                            });
+
+                            imgBox.appendChild(img); // 이미지 박스에 이미지 추가
+                            uploadImages.push(file); // uploadImages 배열에 파일 추가
+                        };
+                    })(file);
+
+                    reader.readAsDataURL(file);
+                }
+            } else { // 한 번에 4개 이상의 이미지를 첨부 시
+                alert('최대 4개의 이미지만 선택해주세요.');
+                // 파일 입력(input) 초기화
+                this.value = '';
+            }
+        });
+    }
+
+    let selectedTags = [];
     function NewFeedClickEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
@@ -121,4 +131,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+
 });
