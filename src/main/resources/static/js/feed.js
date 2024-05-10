@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('feedContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
-            initPage(); // 페이지 초기화 함수 호출
+            FeedClickEvent(); // 클릭 이벤트 함수 호출
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
@@ -18,43 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     xhr.send(); // 요청을 서버로 보냅니다.
 
-    // 페이지 초기화 함수
-    function initPage() {
-        // 톱니바퀴 드롭다운 초기화
-        // initGearDropdown();
-
-        // 피드 삭제 이벤트 설정
-        initFeedEvent();
-    }
-
-    // 톱니바퀴 드롭다운 초기화
-    function initGearDropdown() {
-        const gearBtns = document.querySelectorAll('.feed_gear_btn');
-        gearBtns.forEach(function(btn) {
-            btn.addEventListener('click', function(event) {
-                const dropdown = this.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
-                dropdown.classList.toggle('show');
-
-                // 다른 dropdown이 열려있는 경우 닫음
-                const allDropdowns = document.querySelectorAll('.feed_gear_dropdown');
-                allDropdowns.forEach(function(dropdownItem) {
-                    if (dropdownItem !== dropdown) {
-                        dropdownItem.classList.remove('show');
-                    }
-                });
-
-                // 화면 어느 곳이나 클릭할 때 드롭다운 닫기
-                document.addEventListener('click', function(e) {
-                    if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
-                        dropdown.classList.remove('show');
-                    }
-                });
-            });
-        });
-    }
-
     // 피드 이벤트 설정
-    function initFeedEvent() {
+    function FeedClickEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
 
@@ -136,14 +101,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 let content;
                 let parentCommentId = '';
 
-                // 부모 댓글
-                if (target.classList.contains('feed_parent_comment')) {
+
+                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
                     commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;
-                }
-
-                // 자식 댓글
-                if (target.classList.contains('feed_child_comment')) {
+                } else {    // 자식 댓글
                     const childCommentWriteArea = target.closest('.feed_child_comment_write');
                     childCommentWriteArea.classList.toggle('display_none');
                     commentTextarea = childCommentWriteArea.querySelector('.feed_comment_textarea');
@@ -167,14 +129,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 let commentArea;
                 let commentId;
 
-                // 부모 댓글
-                if (target.classList.contains('feed_parent_comment')) {
+                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
                     commentArea = target.closest('.feed_parent_comment_area');
                     commentId = commentArea.querySelector('.feed_parent_comment_id').value;
-                }
-
-                // 자식 댓글
-                if (target.classList.contains('feed_child_comment')) {
+                } else {    // 자식 댓글
                     commentArea = target.closest('.feed_child_comment_area');
                     commentId = commentArea.querySelector('.feed_child_comment_id').value;
                 }
@@ -189,8 +147,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 let commentContent;
                 let commentUpdateForm;
 
-                // 부모 댓글
-                if (target.classList.contains('feed_parent_comment')) {
+                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
                     commentArea = target.closest('.feed_parent_comment_area');
                     commentContent = commentArea.querySelector('.feed_comment_content, .feed_parent_comment');
                     commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
@@ -198,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // 답글 입력창 닫기
                     const childCommentWriteArea = target.closest('.feed_parent_comment_info').querySelector('.feed_child_comment_write');
                     childCommentWriteArea.classList.add('display_none');
-                } else {
+                } else {    // 자식 댓글
                     commentArea = target.closest('.feed_child_comment_area');
                     commentContent = commentArea.querySelector('.feed_comment_content, .feed_child_comment');
                     commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
@@ -225,8 +182,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 commentUpdateForm.classList.toggle('display_none');
             }
 
-
-
             // 댓글 수정 완료 버튼을 누르면
             if (target.classList.contains('feed_comment_content_update_btn')) {
                 const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
@@ -236,13 +191,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 let commentId;
                 let updatedContent;
 
-                // 부모 댓글
-                if (target.classList.contains('feed_parent_comment')) {
+                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
                     commentArea = target.closest('.feed_parent_comment_area');
                     commentContent = commentArea.querySelector('.feed_comment_content');
                     commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');
                     commentId = commentArea.querySelector('.feed_parent_comment_id').value;
-                } else {
+                } else {    // 자식 댓글
                     commentArea = target.closest('.feed_child_comment_area');
                     commentContent = commentArea.querySelector('.feed_comment_content');
                     commentUpdateForm = commentArea.querySelector('.feed_comment_content_update');

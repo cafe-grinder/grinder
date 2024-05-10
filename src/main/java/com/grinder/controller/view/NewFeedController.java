@@ -1,12 +1,14 @@
 package com.grinder.controller.view;
 
-import ch.qos.logback.core.model.Model;
+import com.grinder.domain.enums.TagName;
 import com.grinder.service.*;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,7 +21,11 @@ public class NewFeedController {
 
     @GetMapping("/feed/newfeed")
     public String newFeed(Model model) {
-
+        List<String> tagList = new ArrayList<>();
+        for (TagName tagName : TagName.values()) {
+            tagList.add(tagName.getValue());
+        }
+        model.addAttribute("tagList", tagList);
 
         return "feedWriteForm";
     }

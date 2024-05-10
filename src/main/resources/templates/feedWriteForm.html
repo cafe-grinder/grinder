@@ -48,12 +48,7 @@
                 <input type="checkbox">
             </div>
             <div class="evaluation-box">
-                <button type="button" onclick="buttonCheck(this, 0)">😄 친절해요</button>
-                <button type="button" onclick="buttonCheck(this, 1)">☕ 커피가 맛있어요</button>
-                <button type="button" onclick="buttonCheck(this, 2)">💖 청결해요</button>
-                <button type="button" onclick="buttonCheck(this, 3)">💕 분위기가 좋아요</button>
-                <button type="button" onclick="buttonCheck(this, 4)">🚀 공간이 넓어요</button>
-                <button type="button" onclick="buttonCheck(this, 5)">💵 가격이 착해요</button>
+                <button class="newfeed_tag_name" type="button" th:each="tagName, tagIdx: ${tagList}" th:text="${tagName}"></button>
             </div>
             <button type="submit" id="register-btn">등록하기</button>
         </form>
