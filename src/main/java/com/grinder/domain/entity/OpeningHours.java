@@ -3,23 +3,27 @@ package com.grinder.domain.entity;
 import com.grinder.domain.enums.Weekday;
 import jakarta.persistence.*;
 import java.time.LocalTime;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Entity
-@Table(name = "opening_hours")
+@Table(name = "opening_hours", indexes = {
+        @Index(name = "idx_weekday", columnList = "weekday")
+})
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class OpeningHours {
 
     @Id
-    @ManyToOne
-    @JoinColumn(name = "cafe_id", updatable = false, nullable = false)
-    private Cafe cafe;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "opening_id", updatable = false)
+    private Long openingId;
+
+    @Column(name = "cafe_id", updatable = false, nullable = false)
+    private String cafeId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "weekday", nullable = false, length = 10)

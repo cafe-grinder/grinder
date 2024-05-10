@@ -10,4 +10,5 @@ import java.util.List;
 public interface SellerInfoRepository extends JpaRepository<SellerInfo, Long> {
     List<SellerInfo> findAllByMember(Member member);
     boolean existsByMemberAndCafe(Member member, Cafe cafe);
+    boolean existsByMember_EmailAndCafe_CafeId(String memberId, String cafeId);
 }

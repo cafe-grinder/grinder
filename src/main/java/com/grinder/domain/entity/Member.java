@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "member")
+@Table(name = "member", indexes = {
+        @Index(name = "idx_role", columnList = "role")
+})
 @Getter
 @Builder
 @NoArgsConstructor
