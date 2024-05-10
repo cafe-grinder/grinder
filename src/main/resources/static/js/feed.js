@@ -101,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 let content;
                 let parentCommentId = '';
 
-
                 if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
                     commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
                     content = commentTextarea.value;

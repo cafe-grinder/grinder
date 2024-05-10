@@ -1,7 +1,3 @@
-// 이미지 첨부 버튼 클릭시 input(type="file") 태그 클릭
-function openFileUploader() {
-    document.getElementById('file-input').click();
-}
 
 let imgCnt = 0; // 이미지 수 카운트(4개)
 
@@ -21,7 +17,6 @@ document.getElementById('file-input').addEventListener('change', function() {
         for (let i = 0; i < files.length; i++) {
             let file = files[i];
             let reader = new FileReader();
-            let img = document.createElement('img');
 
             imgCnt++;
 
@@ -31,12 +26,6 @@ document.getElementById('file-input').addEventListener('change', function() {
                     img.src = e.target.result;
                     imgBox.appendChild(img); // 이미지 박스에 이미지 추가
 
-                    // 이미지 첨부 시 높이 및 마진 조절
-                    img.onload = function() {
-                        imgBox.style.height = '250px';
-                        imgBox.style.marginBottom = '60px';
-                        articleBox.style.height = '1641px';
-                    }
                 };
             })(file);
 
@@ -72,23 +61,63 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     xhr.send(); // 요청을 서버로 보냅니다.
 
-    let tagCount = 0;
+    let selectedTags = [];
+    let uploadImages = [];
     function NewFeedClickEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
 
+            // 태그 클릭
             if (target.classList.contains('newfeed_tag_name')) {
                 if (target.classList.contains('newfeed_tag_name_active')) {
-                    tagCount--;
+                    // 선택 해제
+                    const index = selectedTags.indexOf(target.innerText);
+                    if (index !== -1) {
+                        selectedTags.splice(index, 1);
+                    }
                     target.classList.remove('newfeed_tag_name_active');
                 } else {
-                    if (tagCount >= 3) {
+                    // 선택
+                    if (selectedTags.length >= 3) {
                         alert('3개 이상 선택하실 수 없습니다.');
                     } else {
-                        tagCount++;
+                        selectedTags.push(target.innerText);
                         target.classList.add('newfeed_tag_name_active');
                     }
                 }
+            }
+
+            // 이미지 첨부
+            if (target.classList.contains('newfeed_img_upload')) {
+                document.getElementById('file-input').click();
+            }
+
+            // 등록하기 버튼 클릭
+            if (target.classList.contains('feed_comment_create_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                let commentTextarea;
+                let content;
+                let parentCommentId = '';
+
+                if (target.classList.contains('feed_parent_comment')) { // 부모 댓글
+                    commentTextarea = target.closest('.feed_parent_comment_write').querySelector('.feed_comment_textarea');
+                    content = commentTextarea.value;
+                } else {    // 자식 댓글
+                    const childCommentWriteArea = target.closest('.feed_child_comment_write');
+                    childCommentWriteArea.classList.toggle('display_none');
+                    commentTextarea = childCommentWriteArea.querySelector('.feed_comment_textarea');
+                    content = commentTextarea.value;
+                    parentCommentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
+                }
+
+                // 댓글 내용이 비어있는지 확인
+                if (!content.trim()) {
+                    alert('댓글 내용을 입력하세요.');
+                    return;
+                }
+
+                await saveComment(content, parentCommentId, feedId);
+                commentTextarea.value = '';
             }
         });
     }

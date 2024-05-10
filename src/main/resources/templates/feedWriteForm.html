@@ -8,50 +8,62 @@
 <body>
 <main class="main_container">
     <article class="article-box">
-        <img src="/img/logo_img.png" alt="grinder_logo" id="logo-img">
-        <form action="" method="post">
-            <label for="content">본문 작성</label>
-            <textarea name="" id="content" cols="100" rows="10" placeholder="글을 작성해주세요."></textarea>
-            <span>이미지 첨부하기 (최대 4개)</span>
+        <div class="newfeed_align_center">
+            <img src="/img/logo_img.png" alt="grinder_logo" id="logo-img">
+        </div>
+
+        <section class="newfeed_content_area">
+            <h2 class="newfeed_head_text">본문 작성</h2>
+            <textarea id="content" placeholder="글을 작성해주세요."></textarea>
+        </section>
+
+        <section class="newfeed_img_area">
+            <h2 class="newfeed_head_text">이미지 첨부하기 (최대 4개)</h2>
             <input type="file" id="file-input" accept="image/*" multiple>
-            <button type="button" onclick="openFileUploader()" id="image-btn">이미지 첨부</button>
+            <button class="newfeed_img_upload" type="button" onclick="openFileUploader()" id="image-btn">🛣️ 이미지 첨부
+            </button>
+            <div class="img-box"></div>
+        </section>
 
-            <div class="img-box">
+        <div class="newfeed_divide_line"></div>
 
+        <section class="newfeed_estimate">
+            <img class="newfeed_estimate_img" src="/img/icon/BsLightbulbFill.png" alt="light_bulb_img">
+            <h2 class="newfeed_estimate_head">평가 작성하기</h2>
+            <div class="newfeed_estimate_sub">
+                <p class="newfeed_sub_text">평가 작성은 선택입니다.</p>
+                <p class="newfeed_sub_text">평점과 카테고리를 선택하고싶으시다면 카페를 선택해주세요.</p>
             </div>
+        </section>
 
-            <div class="light-bulb-box">
-                <img src="/img/icon/BsLightbulbFill.png" alt="light_bulb_img">
-                <span>평가 작성하기</span>
-            </div>
-            <hr>
-            <label for="cafe-search">카페명</label>
-            <div class="input-box">
+        <section class="newfeed_cafe_name_area">
+            <h2 class="newfeed_head_text">카페명</h2>
+            <div class="newfeed_input_box">
                 <img src="/img/icon/search.png" alt="magnifier_img">
                 <input type="text" placeholder="카페명 찾기" id="cafe-search">
             </div>
-            <span>평점</span>
+        </section>
+
+        <section class="newfeed_grad_area">
+            <h2 class="newfeed_head_text">평점</h2>
             <div class="star-box">
                 <img src="/img/icon/star-fill.png" alt="starFill_img">
                 <img src="/img/icon/star-fill.png" alt="starFill_img">
                 <img src="/img/icon/star.png" alt="star_img">
             </div>
+        </section>
 
-            <span id="category-span">평가 카테고리</span>
-            <span id="grey-span">적절한 평가를 3개 골라주세요!</span>
-            <div class="check-box">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-            </div>
+        <section class="newfeed_tag_area">
+            <h2 class="newfeed_head_text" id="category-span">평가 카테고리</h2>
+            <p class="newfeed_sub_text">적절한 평가를 3개 골라주세요!</p>
             <div class="evaluation-box">
                 <button class="newfeed_tag_name" type="button" th:each="tagName, tagIdx: ${tagList}" th:text="${tagName}"></button>
             </div>
-            <button type="submit" id="register-btn">등록하기</button>
-        </form>
+        </section>
+
+        <div class="newfeed_align_center">
+            <button class="register-btn" type="submit">등록하기</button>
+        </div>
     </article>
 </main>
 <script src="/js/feedWriteForm.js"></script>

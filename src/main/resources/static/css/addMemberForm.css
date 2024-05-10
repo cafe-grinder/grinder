@@ -55,7 +55,7 @@ input, select {
     2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.input-box input {
+.newfeed_input_box input {
     width: 468px;
     height: 63px;
     margin-right: 31px;

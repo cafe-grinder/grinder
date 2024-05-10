@@ -4,25 +4,14 @@ body {
     background: linear-gradient(to bottom right, #F5FFFA, white);
 }
 
-.main_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10vh;
-    width: 100%;
-}
-
-article {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.article-box {
     background-color: #FFFFFF;
     box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1),
     2px 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     border: 1px solid #D9D9D9;
     padding: 90px;
-    margin: auto;
+    margin: 168px auto;
     width: 1400px;
     box-sizing: border-box;
 }
@@ -39,96 +28,97 @@ label {
     margin-bottom: 16px;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
-
-textarea {
-    font-size: 20px;
-    padding-top: 30px;
-    padding-left: 17px;
+.newfeed_content_area {
     margin-bottom: 42px;
+}
+
+#content {
+    width: 100%;
     height: 213px;
-}
-
-textarea::placeholder {
-    color: lightgrey;
-}
-
-textarea:focus {
-    background-color: #fafffa;
+    font-size: 20px;
+    padding: 13px 14px;
+    box-sizing: border-box;
 }
 
 #file-input {
     display: none;
 }
 
-
-#image-btn {
-    font-size: 25px;
-    font-weight: bold;
-    border-radius: 30px;
-    background-color: #FFFFFF;
-    cursor: pointer;
-    margin-right: 460px;
-    margin-bottom: 55px;
-    width: 166px;
-    height: 52px;
-    border: 1px solid #D9D9D9;
-    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1),
-    2px 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+.newfeed_img_area {
+    margin-bottom: 50px;
 }
 
-span {
+.newfeed_img_upload {
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    width: fit-content;
+    vertical-align: center;
+    font-family: 'GodoM', sans-serif;
+    font-size: 20px;
+    border-radius: 30px;
+    background-color: white;
+    border: 1px solid #D9D9D9;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.newfeed_head_text {
     font-size: 25px;
     font-weight: bold;
     margin-top: 0;
     margin-bottom: 19px;
 }
 
-.img-box {
-    height: 10px;
+.newfeed_align_center {
+    text-align: center;
 }
 
 .img-box img {
-    width: 249px;
-    height: 249px;
-    margin-right: 55px;
+    max-width: 400px;
+    max-height: 250px;
+    margin: 0 20px 20px 0;
+    border-radius: 15px;
+    object-fit: contain;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.newfeed_divide_line {
+    height: 0;
+    border-bottom: #D9D9D9 solid 1px;
+}
+
+.newfeed_estimate {
+    margin: 15px 0 40px;
+    background-color: white;
+    border: none;
     border-radius: 15px;
 }
 
-.light-bulb-box {
-    display: flex;
-    margin-bottom: 36px;
-}
-
-
-.light-bulb-box img{
+.newfeed_estimate_img{
     width: 41px;
     height: 41px;
 }
 
-.light-bulb-box span {
+.newfeed_estimate_head {
+    display: inline-block;
+    margin-top: 4px;
+    margin-left: 5px;
     font-size: 25px;
     font-weight: bold;
-    margin-top: 6px;
-    margin-left: 5px;
 }
 
-hr {
-    border: 1px solid #D2D2D2;
-    margin-top: 0;
-    margin-bottom: 27px;
+.newfeed_estimate_sub {
+    margin: 10px 0 30px;
 }
 
-.input-box {
+.newfeed_cafe_name_area {
+    margin-bottom: 53px;
+}
+
+.newfeed_input_box {
     position: relative;
-    margin-bottom: 28px;
 }
 
-.input-box img {
+.newfeed_input_box img {
     position: absolute;
     width: 37px;
     height: 37px;
@@ -136,7 +126,7 @@ hr {
     left: 9px;
 }
 
-.input-box input {
+.newfeed_input_box input {
     width: 617px;
     height: 60px;
     padding-left: 46px;
@@ -144,12 +134,15 @@ hr {
     2px 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.star-box {
-    margin-top: 9px;
+.newfeed_grad_area {
     margin-bottom: 53px;
 }
 
-.evaluation-box {
+.star-box {
+    margin-top: 9px;
+}
+
+.newfeed_tag_area {
     margin-bottom: 86px;
 }
 
@@ -178,18 +171,13 @@ hr {
     margin-bottom: 10px;
 }
 
-#grey-span {
+.newfeed_sub_text {
+    margin: 10px 0;
     color: grey;
-    font-weight: normal;
     font-size: 20px;
 }
 
-.check-box {
-    display: none;
-}
-
-
-#register-btn {
+.register-btn {
     width: 237px;
     height: 69px;
     font-size: 25px;
