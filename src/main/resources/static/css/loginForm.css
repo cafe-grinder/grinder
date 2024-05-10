@@ -1,3 +1,5 @@
+@import "common.css";
+
 body, html {
     padding: 0;
     margin: 0;
@@ -43,7 +45,7 @@ article input {
     box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
     2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
     font-weight: bold;
-    font-size: 25px;
+    font-size: 20px;
     padding-left: 46px;
 }
 
@@ -129,6 +131,7 @@ span {
 }
 
 .social-box1 button, .social-box2 button {
+    font-family: GodoM;
     border: 1px solid #D9D9D9;
     border-radius: 10px;
     background-color: #ffffff;
@@ -143,5 +146,6 @@ span {
 }
 
 .social-box1 button {
+    font-family: GodoM;
     margin-bottom: 16px;
 }

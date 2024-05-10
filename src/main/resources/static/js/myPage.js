@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
-            reissue();
+            if(xhr.status === 401 || xhr.status === 403) {
+                reissue();
+            }
         }
     };
 
@@ -99,7 +101,9 @@ function fetchContent(url, containerId) {
         } else { // TODO : 403 에러 처리 필요
             console.error('The request failed with status:', xhr.status);
             document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
-            reissue();
+            if(xhr.status === 401 || xhr.status === 403) {
+                reissue();
+            }
         }
     };
 
@@ -119,15 +123,19 @@ function MoreFollowContent(url, insertTag) {
 
     fetch(url, options)
         .then(response => {
-            if (!response.ok) throw new Error('Failed to fetch bookmarks');
-            return response.json();
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
         })
         .then(data => {
             renderFollowList(data, insertTag);
         })
         .catch(error => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
@@ -170,15 +178,19 @@ function MoreContent(url, insertTag) {
 
     fetch(url, options)
         .then(response => {
-            if (!response.ok) throw new Error('Failed to fetch bookmarks');
-            return response.json();
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
         })
         .then(data => {
             renderBookmarkList(data, insertTag);
         })
         .catch(error => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
@@ -231,16 +243,23 @@ function unfollow(email) {
         method: 'DELETE',
     };
 
-    // AJAX 요청 예시
+
     fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
+        })
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
         })
         .catch((error) => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
@@ -254,14 +273,21 @@ function unblock(blackId) {
 
     // AJAX 요청 예시
     fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
+        })
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
         })
         .catch((error) => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
@@ -275,14 +301,21 @@ function unBookmark(cafeId) {
 
     // AJAX 요청 예시
     fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
+        })
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
         })
         .catch((error) => {
             console.error('Error:', error);
-            reissue();
         });
 }
 

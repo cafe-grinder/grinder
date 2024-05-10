@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tag")
+@Table(name = "tag", indexes = {
+        @Index(name = "idx_tag_name", columnList = "tag_name")
+})
 @Getter
 @Builder
 @NoArgsConstructor

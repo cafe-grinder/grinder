@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +48,10 @@ public class ImageServiceImpl implements ImageService {
     public void deleteFeedImage(String contentId, ContentType contentType) {
         List<Image> ImageList = findAllImage(contentId, contentType);
         imageRepository.deleteAll(ImageList);
+    }
+
+    @Override
+    public Image findImageByImageUrl(String imageUrl) {
+        return imageRepository.findByImageUrl(imageUrl).orElseThrow(() -> new NoSuchElementException("Url: " + imageUrl + "에 해당하는 이미지가 존재하지 않습니다."));
     }
 }

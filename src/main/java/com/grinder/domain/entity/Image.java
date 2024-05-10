@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "image")
+@Table(name = "image", indexes = {
+        @Index(name = "idx_content_type", columnList = "content_type")
+})
 @Getter
 @Builder
 @NoArgsConstructor
@@ -33,6 +35,10 @@ public class Image {
     @PrePersist
     public void prePersist() {
         imageId = imageId == null ? UUID.randomUUID().toString() : imageId;
+    }
+
+    public void updateContentId(String contentId) {
+        this.contentId = contentId;
     }
 }
 
