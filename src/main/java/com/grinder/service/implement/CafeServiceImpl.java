@@ -3,6 +3,7 @@ package com.grinder.service.implement;
 import static com.grinder.domain.dto.CafeRegisterDTO.*;
 
 import com.grinder.domain.dto.CafeDTO;
+import com.grinder.domain.dto.CafeDTO.CafeResponseDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.CafeRegister;
 import com.grinder.domain.entity.CafeSummary;
@@ -34,7 +35,7 @@ public class CafeServiceImpl implements CafeService {
     @Override
     @Transactional
     public void saveCafe(String registerId) {
-        CafeRegister register = cafeRegisterRepository.findById(registerId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 신철글입니다."));
+        CafeRegister register = cafeRegisterRepository.findById(registerId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 신청글입니다."));
 
         Optional<Cafe> registeredCafeHasName = cafeRepository.findByName(register.getName());
         if (registeredCafeHasName.isPresent()) {
@@ -65,4 +66,17 @@ public class CafeServiceImpl implements CafeService {
         return new SliceImpl<>(cafeSlice.getContent().stream().map(cafe ->
             new CafeDTO.CafeSearchByAdminDTO(cafe)).toList(), pageable, cafeSlice.hasNext());
     }
+
+    @Override
+    public CafeResponseDTO getCafeInfo(String cafeId) {
+        Cafe cafe = findCafeById(cafeId);
+        return CafeResponseDTO.builder()
+            .cafeId(cafe.getCafeId())
+            .name(cafe.getName())
+            .address(cafe.getAddress())
+            .phoneNum(cafe.getPhoneNum())
+            .averageGrade(cafe.getAverageGrade())
+            .build();
+    }
+
 }
