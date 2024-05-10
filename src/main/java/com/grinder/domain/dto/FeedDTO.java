@@ -30,7 +30,6 @@ public class FeedDTO {
         private String memberEmail;
         private String cafeName;
         private String content;
-        private Integer hits;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
@@ -46,7 +45,6 @@ public class FeedDTO {
             this.memberEmail = feed.getMember().getEmail();
             this.cafeName = feed.getCafe().getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
             this.createdAt = feed.getCreatedAt();
@@ -66,7 +64,6 @@ public class FeedDTO {
         private String memberEmail;
         private String cafeName;
         private String content;
-        private Integer hits;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
@@ -81,7 +78,6 @@ public class FeedDTO {
             this.memberEmail = feed.getMember().getEmail();
             this.cafeName = feed.getCafe().getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
             this.createdAt = feed.getCreatedAt();
@@ -101,7 +97,6 @@ public class FeedDTO {
         private String nickname;
         private String name;
         private String content;
-        private Integer hits;
         private Integer grade;
         private List<String> imageUrls;
         private List<String> tagNames;
@@ -111,7 +106,6 @@ public class FeedDTO {
             this.nickname = member.getNickname();
             this.name = cafe.getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.grade = feed.getGrade();
             this.imageUrls = imageUrls;
             this.tagNames = tagNames;
@@ -128,7 +122,6 @@ public class FeedDTO {
         private String memberEmail;
         private String cafeName;
         private String content;
-        private Integer hits;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
@@ -146,7 +139,6 @@ public class FeedDTO {
             this.memberEmail = feed.getMember().getEmail();
             this.cafeName = feed.getCafe().getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
             this.createdAt = feed.getCreatedAt();

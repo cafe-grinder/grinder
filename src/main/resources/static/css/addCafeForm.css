@@ -64,7 +64,7 @@ input:not(.day-box input:nth-child(5)), select {
     margin-bottom: 46px;
 }
 
-.input-box input {
+.newfeed_input_box input {
     width: 468px;
     height: 63px;
     margin-right: 31px;

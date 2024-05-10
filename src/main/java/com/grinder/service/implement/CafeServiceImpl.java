@@ -20,6 +20,7 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -68,6 +69,10 @@ public class CafeServiceImpl implements CafeService {
     }
 
     @Override
+    public List<Cafe> findCafeList(String cafeName) {
+        return cafeRepository.findByNameContainingIgnoreCase(cafeName);
+    }
+  
     public CafeResponseDTO getCafeInfo(String cafeId) {
         Cafe cafe = findCafeById(cafeId);
         return CafeResponseDTO.builder()
@@ -78,5 +83,4 @@ public class CafeServiceImpl implements CafeService {
             .averageGrade(cafe.getAverageGrade())
             .build();
     }
-
 }
