@@ -41,10 +41,10 @@
             </div>
             <p class="feed_content" th:text="${feed.content}"></p>
             <ul class="feed_attached_img_list">
-                <li><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-                <li><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-                <li><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-                <li><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
+                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
+                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
+                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
+                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
             </ul>
             <ul class="feed_tag_list" th:if="${feed.tagNameList.size() != 0}"><!--반복문-->
                 <li th:each="tag: ${feed.tagNameList}" th:text="${tag}"></li>
