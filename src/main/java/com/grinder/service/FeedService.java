@@ -19,4 +19,6 @@ public interface FeedService {
     void deleteFeed(String feedId);
     //관리자 페이지 피드 조회(신고 처리를 위해 사용)
     FeedDTO.FindFeedDTO findFeedForAdmin(String feedId);
+    //cafeId로 Feed 찾기
+    Feed findFeedByCafeId(String cafeId);
 }

@@ -90,4 +90,10 @@ public class FeedServiceImpl implements FeedService {
         FeedDTO.FindFeedDTO feedDTO = feedQueryRepository.findFeed(feedId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 피드입니다."));
         return feedDTO;
     }
+
+    @Override
+    public Feed findFeedByCafeId(String cafeId) {
+        //작성중ㄱㄷ
+        return null;
+    }
 }

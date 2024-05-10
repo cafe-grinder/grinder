@@ -17,12 +17,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +40,7 @@ public class ComponentsController {
     private final CommentService commentService;
     private final HeartService heartService;
     private final TagService tagService;
+    private final MyMenuService myMenuService;
 
     @GetMapping("/get-header")
     public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -110,6 +111,27 @@ public class ComponentsController {
     @GetMapping("/get-opening")
     public String getOpening() {
         return "components/updateCafeInfo :: updateCafeInfo";
+    }
+
+    @GetMapping("/get-mymenu/{cafe_id}")
+    public String getMyMenu(@PathVariable("cafe_id")String cafeId, Model model) {
+        String email = getEmail();
+        List<MenuDTO.findAllMenuResponse> list = new ArrayList<>();
+        if (email != null && !email.equals("anonymousUser")) {
+            list = myMenuService.findAllMenuWithImage(email,cafeId);
+        }
+        model.addAttribute("myMenus", list);
+        return "components/myCafeMenu :: myCafeMenu";
+    }
+
+    @DeleteMapping("/api/myMenu/{menu_id}")
+    @ResponseBody
+    public ResponseEntity<SuccessResult> deleteMyCafeMenu(@PathVariable("menu_id")String menuId, @RequestParam("cafeId") String cafeId) {
+        if (!myMenuService.deleteMenu(menuId, cafeId)) {
+            throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+        } else {
+            return ResponseEntity.ok().body(new SuccessResult("성공", "삭제되었습니다."));
+        }
     }
 
 

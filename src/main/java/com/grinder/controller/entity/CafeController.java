@@ -1,7 +1,9 @@
 package com.grinder.controller.entity;
 
 import com.grinder.domain.dto.CafeDTO;
+import com.grinder.domain.dto.CafeDTO.CafeResponseDTO;
 import com.grinder.domain.dto.SuccessResult;
+import com.grinder.domain.entity.Cafe;
 import com.grinder.service.CafeRegisterService;
 import com.grinder.service.CafeService;
 import lombok.RequiredArgsConstructor;
@@ -33,4 +35,5 @@ public class CafeController {
         Slice<CafeDTO.CafeSearchByAdminDTO> cafeSlice = cafeService.searchCafeByAdmin(keyword, pageable);
         return ResponseEntity.ok(cafeSlice);
     }
+
 }

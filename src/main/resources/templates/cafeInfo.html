@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>카페 정보 페이지</title>
+    <title id="pageTitle">카페 정보 페이지</title>
     <link rel="icon" type="image/x-icon" href="../static/img/grinder.png"/>
     <!--header css-->
     <link rel="stylesheet" href="../static/css/header.css">
@@ -22,9 +22,9 @@
         <div class="cafe_info_data">
             <img class="cafe_info_logo" src="../static/img/default-cafe-logo.png" th:src="" alt="">
             <div>
-                <h2 th:text="${cafeInfo.name}">카페명 : </h2>
+                <h2 th:text="${cafeInfo.name}" id="cafe-name">카페명 : </h2>
                 <div class="cafe_information">
-                    <address th:text="${cafeInfo.address}">주소 : </address>
+                    <address th:text="${cafeInfo.address}" id="cafe-address">주소 : </address>
                 </div>
                 <div class="cafe_info_score">평균 평점 :
                     <div><span><img src="../static/img/icon/star-fill.png"></span></div>
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <span th:text="${cafeInfo.number}">연락처 :</span>
+        <span th:text="${cafeInfo.number}" id="cafe-phonenum">연락처 :</span>
         </div>
     </div>
 </section>

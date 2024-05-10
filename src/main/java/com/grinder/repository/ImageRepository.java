@@ -14,4 +14,5 @@ public interface ImageRepository extends JpaRepository<Image, String> {
     Optional<Image> findByContentId(String contentId);
     Optional<List<Image>> findAllByContentTypeAndContentId(ContentType type, String contentId);
     Optional<Image> findByContentTypeAndContentId(ContentType type, String contentId);
+    Optional<Image> findByImageUrl(String imageUrl);
 }

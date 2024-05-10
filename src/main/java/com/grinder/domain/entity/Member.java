@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "member")
+@Table(name = "member", indexes = {
+        @Index(name = "idx_role", columnList = "role")
+})
 @Getter
 @Builder
 @NoArgsConstructor
@@ -77,4 +79,8 @@ public class Member extends BaseEntity{
     }
 
     public void setPassword(String password){ this.password = password;}
+
+    public void toSeller() {
+        this.role = Role.SELLER;
+    }
 }

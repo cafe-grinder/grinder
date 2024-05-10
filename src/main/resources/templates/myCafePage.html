@@ -14,6 +14,7 @@
     <!-- css-->
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/updateCafeInfo.css">
+    <link rel="stylesheet" href="/css/MyMenuCard.css">
 </head>
 <body>
 
@@ -25,6 +26,7 @@
         <img class="cafe_info_background_img" alt="">
         <div class="cafe_info_database">
             <div class="cafe_info_data">
+                <input id="cafeId" th:value="${myCafe.cafeId}" type="hidden">
                 <img th:if="${myCafe.cafeImageUrl} == null" class="cafe_info_logo" src="/img/default-cafe-logo.png" alt="">
                 <img th:if="${myCafe.cafeImageUrl} != null" class="cafe_info_logo" th:src="${myCafe.cafeImageUrl}" alt="">
                 <img class="cafe_Update_icon" src="/img/icon/profile-update.png" alt="">
@@ -70,6 +72,7 @@
 
 <!--header js-->
 <script src="/js/header.js"></script>
+
 <script src="/js/myCafePage.js"></script>
 </body>
 </html>
