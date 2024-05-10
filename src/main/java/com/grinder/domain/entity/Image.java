@@ -34,5 +34,9 @@ public class Image {
     public void prePersist() {
         imageId = imageId == null ? UUID.randomUUID().toString() : imageId;
     }
+
+    public void updateContentId(String contentId) {
+        this.contentId = contentId;
+    }
 }
 
