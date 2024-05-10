@@ -23,19 +23,6 @@ public class CafeController {
     private final CafeService cafeService;
     private final CafeRegisterService cafeRegisterService;
 
-    @GetMapping("/{cafeId}")
-    public ResponseEntity<CafeResponseDTO> getCafeInfo(@PathVariable String cafeId) {
-        Cafe cafe = cafeService.findCafeById(cafeId);
-        CafeResponseDTO cafeInfo = CafeResponseDTO.builder()
-            .cafeId(cafe.getCafeId())
-            .name(cafe.getName())
-            .address(cafe.getAddress())
-            .phoneNum(cafe.getPhoneNum())
-            .averageGrade(cafe.getAverageGrade())
-            .build();
-        return ResponseEntity.ok(cafeInfo);
-    }
-
     @PostMapping("/{registerId}")
     public ResponseEntity<SuccessResult> addCafe(@PathVariable String registerId) {
         cafeService.saveCafe(registerId);
