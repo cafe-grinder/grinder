@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // 이미지 첨부
-            if (target.classList.contains('newfeed_img_upload')) {
+            if (target.classList.contains('newfeed_img_upload_btn')) {
                 document.getElementById('file-input').click();
             }
 
