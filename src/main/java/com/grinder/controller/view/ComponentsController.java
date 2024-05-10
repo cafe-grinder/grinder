@@ -124,17 +124,6 @@ public class ComponentsController {
         return "components/myCafeMenu :: myCafeMenu";
     }
 
-    @DeleteMapping("/api/myMenu/{menu_id}")
-    @ResponseBody
-    public ResponseEntity<SuccessResult> deleteMyCafeMenu(@PathVariable("menu_id")String menuId, @RequestParam("cafeId") String cafeId) {
-        if (!myMenuService.deleteMenu(menuId, cafeId)) {
-            throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
-        } else {
-            return ResponseEntity.ok().body(new SuccessResult("성공", "삭제되었습니다."));
-        }
-    }
-
-
     @GetMapping("/get-feed")
     public String getFeed(Model model) {
         // 멤버
