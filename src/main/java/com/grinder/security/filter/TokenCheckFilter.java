@@ -98,6 +98,7 @@ public class TokenCheckFilter extends OncePerRequestFilter {
     private String getAccess(HttpServletRequest request, HttpServletResponse response) {
         String accessToken = null;
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
         for(Cookie cookie : cookies){
             if (cookie.getName().equals("access")) {
                 accessToken = "Bearer " + cookie.getValue();
