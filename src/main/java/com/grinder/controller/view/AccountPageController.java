@@ -19,13 +19,13 @@ public class AccountPageController {
     public String viewSignupPage(@RequestParam(name = "email", required = false) String email){
         return "addMemberForm";
     }
-
-    @GetMapping("/page/find/account")
+    // 비밀번호 변경
+    @GetMapping("/page/change/password")
     public String viewFindAccountPage(){return "findAccountForm";}
 
     @GetMapping("/page/welcome")
     public String viewWelcomePage(){return "welcomeForm";}
 
-    @GetMapping("/page/find/account/finish")
+    @GetMapping("/page/change/password/finish")
     public String viewFindAccountFinishPage(){return "findAccountFinishForm";}
 }
