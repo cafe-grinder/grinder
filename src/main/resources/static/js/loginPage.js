@@ -23,7 +23,11 @@ document.addEventListener('DOMContentLoaded', function() {
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        if (response.status === 401) {
+                            throw new Error('Unauthorized'); // 401 Unauthorized 에러 발생 시에만 에러 throw
+                        } else {
+                            throw new Error('Network response was not ok');
+                        }
                     }
                     // 응답 쿠키에서 "refresh" 쿠키 추출하여 로컬 스토리지에 저장 -> 필요없지만 일단 놔둘게여
                     const cookies = response.headers.get('set-cookie');
@@ -48,8 +52,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = '/'; // 이동할 URL로 수정
                 })
                 .catch(error => {
-                    // 오류 처리
-                    console.error('There has been a problem with your fetch operation:', error);
+                    if (error.message === 'Unauthorized') {
+                        alert("계정과 비밀번호가 일치하지 않습니다. 다시 시도해주세요.");
+                    } else {
+                        console.error('Error:', error);
+                    }
                 });
         });
     });
