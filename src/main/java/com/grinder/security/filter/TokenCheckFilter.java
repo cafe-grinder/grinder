@@ -1,6 +1,6 @@
 package com.grinder.security.filter;
 
-import com.grinder.security.MemberDetailsService;
+import com.grinder.security.service.MemberDetailsService;
 import com.grinder.security.exception.AccessTokenException;
 import com.grinder.utils.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;

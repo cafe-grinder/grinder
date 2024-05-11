@@ -1,4 +1,6 @@
- document.addEventListener('DOMContentLoaded', function() {
+const naverBtn = document.querySelector("#naver-btn");
+const googleBtn = document.querySelector("#google-btn");
+document.addEventListener('DOMContentLoaded', function() {
         const emailInput = document.querySelector('#emailInput');
         const passwordInput = document.querySelector('#pwInput');
         const loginButton = document.querySelector('.btn-login');
@@ -42,7 +44,7 @@
                     // 서버로부터 받은 응답 처리
                     console.log(data);
 
-                    // 성공적으로 로그인되었을 때 특정 URL로 이동
+                    // // 성공적으로 로그인되었을 때 특정 URL로 이동
                     window.location.href = '/'; // 이동할 URL로 수정
                 })
                 .catch(error => {
@@ -52,3 +54,12 @@
         });
     });
 
+naverBtn.addEventListener('click', () => {
+    // GET 요청 보내기
+    window.location.href = '/oauth2/authorization/naver';
+});
+
+googleBtn.addEventListener('click', () => {
+    // GET 요청 보내기
+    window.location.href = '/oauth2/authorization/google';
+});

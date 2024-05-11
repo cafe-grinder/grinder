@@ -16,6 +16,27 @@ let emailCheck = false;
 let emailVerifyCheck = false;
 let passwordCheck = false;
 let nicknameCheck = false;
+
+window.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    if (email) {
+        emailInput.value = email;
+        emailVerifyCheck = true;
+        sendButton.disabled = true;
+        verifyButton.disabled = true;
+        codeInput.disabled = true;
+        sendButton.style.backgroundColor = "gray";
+        verifyButton.style.backgroundColor = "gray";
+        codeInput.placeholder = "인증이 완료되었습니다";
+        verifySpanElement.textContent = "(소셜 로그인)인증된 이메일입니다.";
+        verifySpanElement.style.color ='#00780C';
+        emailSpanElement.textContent = '사용 가능한 이메일입니다.';
+        emailSpanElement.style.color ='#00780C';
+        emailCheck = true;
+    }
+});
+
 // 이메일 중복확인
 emailInput.addEventListener('input', function() {
     const email = emailInput.value;
