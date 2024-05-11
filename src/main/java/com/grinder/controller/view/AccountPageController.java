@@ -3,6 +3,7 @@ package com.grinder.controller.view;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -15,7 +16,9 @@ public class AccountPageController {
     }
 
     @GetMapping("/page/signup")
-    public String viewSignupPage(){return "addMemberForm";}
+    public String viewSignupPage(@RequestParam(name = "email", required = false) String email){
+        return "addMemberForm";
+    }
 
     @GetMapping("/page/find/account")
     public String viewFindAccountPage(){return "findAccountForm";}

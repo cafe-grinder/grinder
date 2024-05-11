@@ -1,7 +1,8 @@
-package com.grinder.security;
+package com.grinder.security.service;
 
 import com.grinder.domain.entity.Member;
 import com.grinder.repository.MemberRepository;
+import com.grinder.security.dto.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

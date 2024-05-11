@@ -1,4 +1,4 @@
-package com.grinder.security;
+package com.grinder.security.dto;
 
 import com.grinder.domain.entity.Member;
 import org.springframework.security.core.GrantedAuthority;
