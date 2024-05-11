@@ -6,28 +6,28 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title id="pageTitle">카페 정보 페이지</title>
-    <link rel="icon" type="image/x-icon" href="../static/img/grinder.png"/>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
     <!--header css-->
-    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="/css/header.css">
     <!--cafeInfo css-->
-    <link rel="stylesheet" href="../static/css/cafeInfo.css">
+    <link rel="stylesheet" href="/css/cafeInfo.css">
     <!-- css-->
 </head>
 <body>
 
 <section class="cafe_info_banner">
     <div class="cafe_info_background">
-        <img class="cafe_info_background_img" th:src="" alt="">
+        <img class="cafe_info_background_img" src="" alt="">
         <div class="cafe_info_database">
         <div class="cafe_info_data">
-            <img class="cafe_info_logo" src="../static/img/default-cafe-logo.png" th:src="" alt="">
+            <img class="cafe_info_logo" src="/img/default-cafe-logo.png"  alt="">
             <div>
                 <h2 th:text="${cafeInfo.name}" id="cafe-name">카페명 : </h2>
                 <div class="cafe_information">
                     <address th:text="${cafeInfo.address}" id="cafe-address">주소 : </address>
                 </div>
                 <div class="cafe_info_score">평균 평점 :
-                    <div><span><img src="../static/img/icon/star-fill.png"></span></div>
+                    <div><span><img src="/img/icon/star-fill.png"></span></div>
                     <!--            <div>-->
                     <!--                <span th:each="star : ${#numbers.sequence(1, ${T(java.lang.Math).floor(cafeInfo.score)})}">-->
                     <!--                    <img src="../static/img/icon/star-fill.png" alt="Full Star"/>-->
@@ -39,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <span th:text="${cafeInfo.number}" id="cafe-phonenum">연락처 :</span>
+        <span th:text="${cafeInfo.phoneNum}" id="cafe-phonenum">연락처 :</span>
         </div>
     </div>
 </section>
@@ -51,8 +51,11 @@
     <div>
         <span>평점 보기</span>
     </div>
+    <div th:data-cafe-id="${cafeInfo.cafeId}" id="seller_apply_button">
+        <span>판매자 신청</span>
+    </div>
     <div class="cafe_info_bookmark">
-        <img th:if="${check} == false" src="../static/img/icon/pin-angle.png">
+<!--        <img th:if="${check} == false" src="../static/img/icon/pin-angle.png">-->
         <!--        <img th:unless="${check} == false" src="../static/img/icon/pin-angle-fill.png">-->
     </div>
 </article>
@@ -62,6 +65,7 @@
 
 
 <!--header js-->
-<script src="../static/js/header.js"></script>
+<script src="/js/header.js"></script>
+<script src="/js/cafeInfo.js"></script>
 </body>
 </html>
