@@ -52,6 +52,29 @@ public class MyPageController {
         return "myCafePage";
     }
 
+    @GetMapping("/myImage")
+    public String modifyMyImage() {
+        String email = getEmail();
+        if (email == null && email.equals("anonymousUser")) {
+            throw new IllegalArgumentException("잘못된 접근입니다.");
+        }
+        return "myImageUpdate";
+    }
+
+    @GetMapping("/myCafeImage/{cafe_id}")
+    public String modifyCafeImage(@PathVariable("cafe_id")String cafeId, Model model) {
+        String email = getEmail();
+        if (email == null && email.equals("anonymousUser")) {
+            throw new IllegalArgumentException("잘못된 접근입니다.");
+        } else {
+            if (!sellerInfoService.existByMemberAndCafe(cafeId, email)) {
+                throw new IllegalArgumentException("잘못된 접근입니다.");
+            }
+        }
+        model.addAttribute("cafeId", cafeId);
+        return "myImageUpdate";
+    }
+
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  Optional.ofNullable(authentication.getName()).orElse(null);
