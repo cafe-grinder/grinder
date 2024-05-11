@@ -25,7 +25,9 @@
                 <img th:case="'인증회원'" src="/img/icon/award-fill.png"/>
                 <img th:case="'판매자'" src="/img/icon/check-fill.png"/>
             </span>
-            <button th:onclick="unfollow('${member.followEmail}')">팔로우 해제</button>
+            <button th:if="${title == 'following'}"
+                    th:follwing="${member.followEmail}"
+                    onclick="unfollow(this.getAttribute('follwing'),event)">팔로우 해제</button>
         </div>
     </article>
 </div>

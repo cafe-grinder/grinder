@@ -6,6 +6,7 @@ import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Tag;
 import com.grinder.domain.enums.ContentType;
+import com.grinder.domain.enums.MenuType;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.service.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -122,6 +123,15 @@ public class ComponentsController {
         }
         model.addAttribute("myMenus", list);
         return "components/myCafeMenu :: myCafeMenu";
+    }
+    @GetMapping("/get-addpage")
+    public String addMenuTab(Model model) {
+        List<String> menuType = new ArrayList<>();
+        for (MenuType typeName : MenuType.values()) {
+            menuType.add(typeName.getValue());
+        }
+        model.addAttribute("typeList", menuType);
+        return "components/menuInfo :: addMenu";
     }
 
     @GetMapping("/get-feed")

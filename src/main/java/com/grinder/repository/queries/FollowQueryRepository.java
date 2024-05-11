@@ -31,7 +31,8 @@ public class FollowQueryRepository {
         long limit = pageable.getPageSize() + 1;
         long offset = pageable.getOffset();
 
-        List<FollowDTO.findAllFollowingResponse> content = queryFactory
+        List<FollowDTO.findAllFollowingResponse> content =
+                queryFactory
                 .select(Projections.constructor(FollowDTO.findAllFollowingResponse.class,
                                 follow,
                                 image.imageUrl))
