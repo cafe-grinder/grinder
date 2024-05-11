@@ -1,30 +1,30 @@
-section {
+.menu_info_section {
     display: flex;
     flex-direction: column;
 }
 
-span {
+.menu_info_section .menu_span {
     font-size: 35px;
     font-weight: bold;
     margin-bottom: 53px;
 }
 
-label {
+.menu_info_section label {
     font-size: 25px;
     font-weight: bold;
 }
 
-#last-span {
+.menu_info_section #last-span {
     font-size: 25px;
     font-weight: bold;
 }
 
-form {
+.menu_info_section form {
     display: flex;
     flex-direction: column;
 }
 
-input:not([type="file"]), select {
+.menu_info_section input:not([type="file"]), select {
     width: 607px;
     height: 64px;
     margin-top: 15px;
@@ -37,32 +37,27 @@ input:not([type="file"]), select {
     2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-select {
-    box-sizing: content-box;
-    cursor: pointer;
-}
-
-#file-input {
+.menu_info_section #file-input {
     display: none;
 }
 
-#img-box {
+.menu_info_section #img-box {
     height: 10px;
 }
 
-#img-box img {
-    width: 214px;
-    height: 239px;
+.menu_info_section #img-box img {
+    width: 200px;
+    height: 200px;
     margin-right: 55px;
     border-radius: 15px;
 }
 
-#last-span {
+.menu_info_section #last-span {
     margin-bottom: 25px;
 }
 
-#image-btn {
-    font-size: 25px;
+.menu_info_section #image-btn {
+    font-size: 20px;
     font-weight: bold;
     border-radius: 30px;
     background-color: #FFFFFF;
@@ -76,7 +71,7 @@ select {
     2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#add-btn {
+.menu_info_section #Menu_add-btn {
     width: 131px;
     height: 69px;
     border-radius: 10px;
@@ -86,4 +81,33 @@ select {
     background-color: #009B55;
     font-weight: bold;
     font-size: 25px;
+}
+
+.menu_info_section .menuInfo_type_area, .menuInfo_Limited_area {
+    margin-bottom: 20px;
+}
+
+.menu_info_section .menuInfo_type_area >p, .menuInfo_Limited_area >p {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.menu_info_section .menuInfo_type_name, .menuInfo_Limited {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 23px;
+    margin-bottom: 15px;
+    padding: 5px 15px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 30px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1),
+    2px 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu_info_section .menuInfo_type_name_active, .menuInfo_Limited_active {
+    background-color: #FAFFFA;
+    border-color: #009B55;
 }

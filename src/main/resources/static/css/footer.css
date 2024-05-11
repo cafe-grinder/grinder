@@ -6,18 +6,19 @@ footer .footer_img {
     text-indent: -9999px;
     opacity: 40%;
     border-radius: 15px;
+    z-index: 0;
 }
 
 footer .footer_logo {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin: 0px 100px 100px 0;
+    margin: 0px 100px 100px 100px;
 }
 
 footer .footer_logo .footer_grinder {
-    width: 254px;
-    height: 83px;
+    width: 240px;
+    height: 60px;
     margin-top: 40px;
     text-indent: -9999px;
     background: url("../img/logo_img.png") no-repeat center/contain;
@@ -26,7 +27,7 @@ footer .footer_logo .footer_grinder {
 footer .footer_logo ul {
     display: flex;
     float: left;
-    margin-top: 49px;
+    margin: 49px 0 0 50px;
 }
 
 footer .footer_logo ul li {

@@ -162,7 +162,7 @@ function renderFollowList(follows, insertTag) {
             <span class="followerList_role">
                 <img src="${followRole}"/>
             </span>
-            <button onclick="unfollow(${followEmail})">팔로우 해제</button>
+            <button onclick="unfollow(${followEmail}, event)">팔로우 해제</button>
         </div>
         `;
 
@@ -235,9 +235,9 @@ function renderBookmarkList(bookmarks, insertTag) {
 //북마크 추가 더보기 끝
 
 //팔로우 취소
-function unfollow(email) {
+function unfollow(email, event) {
     let url = '/api/follow/' + encodeURIComponent(email);
-
+    console.log(url)
     // 기본 요청 설정
     let fetchOptions = {
         method: 'DELETE',
@@ -257,6 +257,10 @@ function unfollow(email) {
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
+            const article = event.target.closest('article');
+            if (article) {
+                article.style.display = "none"; // 부모 article 요소 none
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -264,9 +268,9 @@ function unfollow(email) {
 }
 
 //블랙리스트 해제
-function unblock(blackId) {
+function unblock(blackId, event) {
     let url = '/api/blacklist/' + encodeURIComponent(blackId);
-
+    console.log(url)
     let fetchOptions = {
         method: 'DELETE',
     };
@@ -285,6 +289,10 @@ function unblock(blackId) {
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
+            const article = event.target.closest('article');
+            if (article) {
+                article.style.display = "none"; // 부모 article 요소 none
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -292,8 +300,8 @@ function unblock(blackId) {
 }
 
 //북마크 해제
-function unBookmark(cafeId) {
-    let url = 'api/bookmark/' + encodeURIComponent(cafeId);
+function unBookmark(cafeId, event) {
+    let url = '/api/bookmark/' + encodeURIComponent(cafeId);
 
     let fetchOptions = {
         method: 'DELETE',
@@ -313,6 +321,10 @@ function unBookmark(cafeId) {
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
+            const section = event.target.closest('section');
+            if (section) {
+                section.style.display = "none"; // 부모 section 요소 none
+            }
         })
         .catch((error) => {
             console.error('Error:', error);

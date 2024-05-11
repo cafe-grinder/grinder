@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>grinder</title>
+    <link rel="stylesheet" href="/css/menuInfo.css">
+</head>
+<body>
+    <section class="menu_info_section" th:fragment="addMenu">
+        <span id="first-span" class="menu_span">메뉴 정보 추가</span>
+        <form id="menu-form" action="javascript:void(0);">
+            <input type="text" id="menu-name" name="menuName" placeholder="메뉴명을 입력해 주세요">
+            <input type="text" id="menu-price" name="menuPrice" placeholder="가격을 입력해 주세요">
+            <input type="text" id="menu-volume" name="menuVolume" placeholder="용량을 입력해 주세요">
+            <input type="text" id="menu-allergens" name="menuAllergy" placeholder="알러지 재료를 입력해 주세요">
+            <input type="text" id="menu-description" name="menuDetails" placeholder="설명을 입력해 주세요">
+            <input type="hidden" id="menu-type" name="menuType" value="">
+            <input type="hidden" id="menu-is-limited" name="menuIsLimited" value="false">
+
+            <!-- 메뉴 타입 버튼들 -->
+            <div class="menuInfo_type_area">
+                <p>메뉴 타입</p>
+                <button class="menuInfo_type_name" type="button" th:each="typeName, typeIdx: ${typeList}"
+                        th:text="${typeName}"></button>
+            </div>
+
+            <div class="menuInfo_Limited_area">
+                <p>한정 메뉴 여부</p>
+                <button class="menuInfo_Limited" type="button" value="true">한정 메뉴</button>
+                <button class="menuInfo_Limited" type="button" value="false">상시</button>
+            </div>
+
+            <span id="last-span" class="menu_span">메뉴 이미지 추가</span>
+            <input type="file" id="file-input" name="menuImage" accept="image/*">
+            <button type="button" id="image-btn">🛣️ 이미지 첨부</button>
+            <div id="img-box">
+
+            </div>
+
+            <!-- 추가 버튼 -->
+            <button id="Menu_add-btn" type="submit">추가</button>
+        </form>
+    </section>
+</body>
+</html>

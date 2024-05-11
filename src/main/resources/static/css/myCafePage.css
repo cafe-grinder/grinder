@@ -5,6 +5,10 @@
     border-radius: 0 0 15px 15px;
 }
 
+#myCafeInfoContainer {
+    margin-left: 25px;
+}
+
 .cafe_Update_icon {
     position: relative;
     top: 90px;

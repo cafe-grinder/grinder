@@ -4,13 +4,11 @@
 }
 
 .followerList {
-    width: 1400px;
 }
 
 .followerList .followerList_follower {
     display: flex;
     align-items: center;
-    float: left;
     width: 1400px;
     height: 100px;
 }
@@ -57,7 +55,6 @@
     padding: 6px 18px;
     box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
     margin-top: 50px;
-    transition: all 0.2s;
 }
 .button-container .follow_more:hover {
     background-color: #b6b6b6;
