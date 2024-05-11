@@ -261,6 +261,7 @@ function saveMenuForm() {
             console.log('Success:', data);
             alert('메뉴가 추가되었습니다!');
             //새로고침
+            window.location.reload();
         }).catch(error => {
             console.error('Error:', error);
             alert('메뉴 추가에 실패했습니다.');
