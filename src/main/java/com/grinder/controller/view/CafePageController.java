@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/cafe")
 @RequiredArgsConstructor
 public class CafePageController {
     private final CafeService cafeService;
 
-    @GetMapping("/{cafeId}")
+    @GetMapping("/api/cafe/{cafeId}")
     public String getCafeInfo(Model model, @PathVariable String cafeId) {
         CafeResponseDTO cafeInfo = cafeService.getCafeInfo(cafeId);
         model.addAttribute("cafeInfo", cafeInfo);
         return "cafeInfo";
     }
 
-    @GetMapping("/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
+    @GetMapping("/cafe/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
         model.addAttribute("cafeId", cafeId);
         return "sellerApplicationForm";
     }
