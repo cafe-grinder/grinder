@@ -28,6 +28,8 @@
             <button th:if="${title == 'following'}"
                     th:follwing="${member.followEmail}"
                     onclick="unfollow(this.getAttribute('follwing'),event)">팔로우 해제</button>
+            <button class="move_follow"
+                    th:onclick="'window.location.href=\'' + @{/mypage/{id}(id=${member.followMemberId})} + '\''">이동하기</button>
         </div>
     </article>
 </div>

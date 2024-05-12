@@ -12,6 +12,7 @@ public class FollowDTO {
     @NoArgsConstructor
     public static class findAllFollowingResponse {
         private Long followId;
+        private String followMemberId;
         private String followNickname;
         private String followEmail;
         private String followRole;
@@ -19,6 +20,7 @@ public class FollowDTO {
 
         public findAllFollowingResponse(Follow follow, String imageUrl) {
             followId = follow.getFollowId();
+            followMemberId = follow.getFollowing().getMemberId();
             followNickname = follow.getFollowing().getNickname();
             followEmail = follow.getFollowing().getEmail();
             followRole = follow.getFollowing().getRole().getValue();
@@ -31,6 +33,7 @@ public class FollowDTO {
     @NoArgsConstructor
     public static class findAllFollowerResponse {
         private Long followId;
+        private String followMemberId;
         private String followNickname;
         private String followEmail;
         private String followRole;
@@ -38,6 +41,7 @@ public class FollowDTO {
 
         public findAllFollowerResponse(Follow follow, String imageUrl) {
             followId = follow.getFollowId();
+            followMemberId = follow.getMember().getMemberId();
             followNickname = follow.getMember().getNickname();
             followEmail = follow.getMember().getEmail();
             followRole = follow.getMember().getRole().getValue();
