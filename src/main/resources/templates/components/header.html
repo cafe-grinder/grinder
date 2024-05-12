@@ -3,7 +3,7 @@
         <div class="header_search_box">
             <h1><a class="header_grinder_logo" th:href="@{/}">그라인더 홈페이지</a></h1>
 <!--            폼 태그로 묶어야 하는지?-->
-            <form action="/" method="get" title="검색">
+            <form action="/" method="GET" title="검색">
                 <select title="search_list" name="category">
                     <option value="cafe">카페</option>
                     <option value="feed">피드</option>
@@ -17,7 +17,7 @@
             <ul th:if="${headerMember == null}" class="header_non_login">
                 <li><a th:href="@{/page/login}">로그인</a></li>
                 <li> | </li>
-                <li><a href="#">회원가입</a></li>
+                <li><a th:href="@{/page/signup}">회원가입</a></li>
             </ul>
             <ul th:if="${headerMember} != null" class="header_login">
                 <li><strong th:text="${headerMember.nickname}"></strong>님! 안녕하세요.</li>

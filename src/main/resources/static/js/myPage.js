@@ -11,10 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('headerContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            alarmTab();
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
-            reissue();
+            if(xhr.status === 401 || xhr.status === 403) {
+                reissue();
+            }
         }
     };
 
@@ -25,6 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     xhr.send(); // 요청을 서버로 보냅니다.
 });
+
+function alarmTab() {
+    const alarm = document.querySelector('.header_alarm');
+    let alarm_box = document.querySelector('.header_alarm_box');
+
+    alarm.addEventListener('click', () => {
+        if (alarm_box) {
+            alarm_box.classList.toggle('alarm_active');
+        }
+    });
+}
 
 
 //햄버거 메뉴 불러오기
@@ -99,7 +113,9 @@ function fetchContent(url, containerId) {
         } else { // TODO : 403 에러 처리 필요
             console.error('The request failed with status:', xhr.status);
             document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
-            reissue();
+            if(xhr.status === 401 || xhr.status === 403) {
+                reissue();
+            }
         }
     };
 
@@ -119,15 +135,19 @@ function MoreFollowContent(url, insertTag) {
 
     fetch(url, options)
         .then(response => {
-            if (!response.ok) throw new Error('Failed to fetch bookmarks');
-            return response.json();
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
         })
         .then(data => {
             renderFollowList(data, insertTag);
         })
         .catch(error => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
@@ -154,7 +174,7 @@ function renderFollowList(follows, insertTag) {
             <span class="followerList_role">
                 <img src="${followRole}"/>
             </span>
-            <button onclick="unfollow(${followEmail})">팔로우 해제</button>
+            <button onclick="unfollow(${followEmail}, event)">팔로우 해제</button>
         </div>
         `;
 
@@ -170,15 +190,19 @@ function MoreContent(url, insertTag) {
 
     fetch(url, options)
         .then(response => {
-            if (!response.ok) throw new Error('Failed to fetch bookmarks');
-            return response.json();
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
         })
         .then(data => {
             renderBookmarkList(data, insertTag);
         })
         .catch(error => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
@@ -223,51 +247,73 @@ function renderBookmarkList(bookmarks, insertTag) {
 //북마크 추가 더보기 끝
 
 //팔로우 취소
-function unfollow(email) {
+function unfollow(email, event) {
     let url = '/api/follow/' + encodeURIComponent(email);
-
+    console.log(url)
     // 기본 요청 설정
     let fetchOptions = {
         method: 'DELETE',
     };
 
-    // AJAX 요청 예시
+
     fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
+        })
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
+            const article = event.target.closest('article');
+            if (article) {
+                article.style.display = "none"; // 부모 article 요소 none
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
 //블랙리스트 해제
-function unblock(blackId) {
+function unblock(blackId, event) {
     let url = '/api/blacklist/' + encodeURIComponent(blackId);
-
+    console.log(url)
     let fetchOptions = {
         method: 'DELETE',
     };
 
     // AJAX 요청 예시
     fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
+        })
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
+            const article = event.target.closest('article');
+            if (article) {
+                article.style.display = "none"; // 부모 article 요소 none
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
-            reissue();
         });
 }
 
 //북마크 해제
-function unBookmark(cafeId) {
-    let url = 'api/bookmark/' + encodeURIComponent(cafeId);
+function unBookmark(cafeId, event) {
+    let url = '/api/bookmark/' + encodeURIComponent(cafeId);
 
     let fetchOptions = {
         method: 'DELETE',
@@ -275,14 +321,25 @@ function unBookmark(cafeId) {
 
     // AJAX 요청 예시
     fetch(url, fetchOptions)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) { // 'ok' 상태가 false라면 상태 코드가 200-299 범위에 있지 않다는 것을 의미
+                if (response.status === 401 || response.status === 403) {
+                    reissue(); // 여기서 reissue는 인증 토큰을 재발급 받는 함수로 가정
+                }
+            } else {
+                return response.json(); // 응답을 JSON으로 파싱
+            }
+        })
         .then(data => {
             console.log('Success:', data);
             // 성공 시 UI 업데이트 또는 통지
+            const section = event.target.closest('section');
+            if (section) {
+                section.style.display = "none"; // 부모 section 요소 none
+            }
         })
         .catch((error) => {
             console.error('Error:', error);
-            reissue();
         });
 }
 

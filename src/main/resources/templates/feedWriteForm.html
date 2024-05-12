@@ -2,63 +2,73 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>grinder</title>
+    <title>피드 작성 - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
     <link rel="stylesheet" href="/css/feedWriteForm.css">
 </head>
 <body>
-<main class="main_container">
-    <article class="article-box">
-        <img src="/img/logo_img.png" alt="grinder_logo" id="logo-img">
-        <form action="" method="post">
-            <label for="content">본문 작성</label>
-            <textarea name="" id="content" cols="100" rows="10" placeholder="글을 작성해주세요."></textarea>
-            <span>이미지 첨부하기 (최대 4개)</span>
-            <input type="file" id="file-input" accept="image/*" multiple>
-            <button type="button" onclick="openFileUploader()" id="image-btn">이미지 첨부</button>
+<article class="newfeed_article">
+    <div class="newfeed_align_center">
+        <img class="newfeed_logo_img" src="/img/logo_img.png" alt="grinder_logo">
+    </div>
 
-            <div class="img-box">
+    <section class="newfeed_content_area">
+        <h2 class="newfeed_head_text">본문 작성</h2>
+        <textarea class="newfeed_content" placeholder="글을 작성해주세요."></textarea>
+    </section>
 
-            </div>
+    <section class="newfeed_img_area">
+        <h2 class="newfeed_head_text">이미지 첨부하기 (최대 4개)</h2>
+        <button class="newfeed_img_upload_btn" type="button" onclick="openFileUploader()" id="image-btn">
+            🛣️ 이미지 첨부
+        </button>
+        <input type="file" id="file-input" accept="image/*" multiple>
+        <div class="img-box"></div>
+    </section>
 
-            <div class="light-bulb-box">
-                <img src="/img/icon/BsLightbulbFill.png" alt="light_bulb_img">
-                <span>평가 작성하기</span>
-            </div>
-            <hr>
-            <label for="cafe-search">카페명</label>
-            <div class="input-box">
-                <img src="/img/icon/search.png" alt="magnifier_img">
-                <input type="text" placeholder="카페명 찾기" id="cafe-search">
-            </div>
-            <span>평점</span>
-            <div class="star-box">
-                <img src="/img/icon/star-fill.png" alt="starFill_img">
-                <img src="/img/icon/star-fill.png" alt="starFill_img">
-                <img src="/img/icon/star.png" alt="star_img">
-            </div>
+    <div class="newfeed_divide_line"></div>
 
-            <span id="category-span">평가 카테고리</span>
-            <span id="grey-span">적절한 평가를 3개 골라주세요!</span>
-            <div class="check-box">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
-            </div>
-            <div class="evaluation-box">
-                <button type="button" onclick="buttonCheck(this, 0)">😄 친절해요</button>
-                <button type="button" onclick="buttonCheck(this, 1)">☕ 커피가 맛있어요</button>
-                <button type="button" onclick="buttonCheck(this, 2)">💖 청결해요</button>
-                <button type="button" onclick="buttonCheck(this, 3)">💕 분위기가 좋아요</button>
-                <button type="button" onclick="buttonCheck(this, 4)">🚀 공간이 넓어요</button>
-                <button type="button" onclick="buttonCheck(this, 5)">💵 가격이 착해요</button>
-            </div>
-            <button type="submit" id="register-btn">등록하기</button>
-        </form>
-    </article>
-</main>
+    <section class="newfeed_estimate_area">
+        <img class="newfeed_estimate_img" src="/img/icon/BsLightbulbFill.png" alt="light_bulb_img">
+        <h2 class="newfeed_estimate_head">평가 작성하기</h2>
+        <div class="newfeed_estimate_sub">
+            <p class="newfeed_sub_text">평가 작성은 선택입니다.</p>
+            <p class="newfeed_sub_text">평점과 카테고리를 선택하고싶으시다면 카페를 선택해주세요.</p>
+        </div>
+    </section>
+
+    <section class="newfeed_cafe_name_area">
+        <h2 class="newfeed_head_text">카페명</h2>
+        <div class="newfeed_input_box">
+            <img src="/img/icon/search.png" alt="magnifier_img">
+            <input class="newfeed_input" type="text" placeholder="카페명 찾기">
+        </div>
+    </section>
+
+    <section class="newfeed_grad_area">
+        <h2 class="newfeed_head_text">평점</h2>
+        <div class="newfeed_star_grad">
+            <img src="/img/icon/star.png" alt="star_img" class="star" data-value="1">
+            <img src="/img/icon/star.png" alt="star_img" class="star" data-value="2">
+            <img src="/img/icon/star.png" alt="star_img" class="star" data-value="3">
+            <img src="/img/icon/star.png" alt="star_img" class="star" data-value="4">
+            <img src="/img/icon/star.png" alt="star_img" class="star" data-value="5">
+        </div>
+    </section>
+
+    <section class="newfeed_tag_area">
+        <h2 class="newfeed_head_text">평가 카테고리</h2>
+        <p class="newfeed_sub_text">적절한 평가를 3개 골라주세요!</p>
+        <div class="newfeed_tag_box">
+            <button class="newfeed_tag_name" type="button" th:each="tagName, tagIdx: ${tagList}"
+                    th:text="${tagName}"></button>
+        </div>
+    </section>
+
+    <div class="newfeed_align_center">
+        <button class="register-btn" type="submit">등록하기</button>
+    </div>
+</article>
 <script src="/js/feedWriteForm.js"></script>
 </body>
 </html>

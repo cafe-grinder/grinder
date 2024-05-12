@@ -90,7 +90,7 @@ public class MemberController {
         else return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResult("Verify Email Failed","이메일 인증에 실패했습니다."));
     }
 
-    @PatchMapping("/email/password/")
+    @PatchMapping("/email/password")
     public ResponseEntity<SuccessResult> resetPassword(@RequestParam("email") String email ){
         if(memberService.changePassword(email)){
             return ResponseEntity.status(HttpStatus.OK).body(new SuccessResult("Change Password Success", "비밀번호 변경에 성공했습니다."));

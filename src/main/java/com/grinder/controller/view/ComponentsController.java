@@ -6,6 +6,7 @@ import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
 import com.grinder.domain.entity.Tag;
 import com.grinder.domain.enums.ContentType;
+import com.grinder.domain.enums.MenuType;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.service.*;
 import jakarta.persistence.EntityNotFoundException;
@@ -17,12 +18,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class ComponentsController {
     private final CommentService commentService;
     private final HeartService heartService;
     private final TagService tagService;
+    private final MyMenuService myMenuService;
 
     @GetMapping("/get-header")
     public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -112,6 +114,25 @@ public class ComponentsController {
         return "components/updateCafeInfo :: updateCafeInfo";
     }
 
+    @GetMapping("/get-mymenu/{cafe_id}")
+    public String getMyMenu(@PathVariable("cafe_id")String cafeId, Model model) {
+        String email = getEmail();
+        List<MenuDTO.findAllMenuResponse> list = new ArrayList<>();
+        if (email != null && !email.equals("anonymousUser")) {
+            list = myMenuService.findAllMenuWithImage(email,cafeId);
+        }
+        model.addAttribute("myMenus", list);
+        return "components/myCafeMenu :: myCafeMenu";
+    }
+    @GetMapping("/get-addpage")
+    public String addMenuTab(Model model) {
+        List<String> menuType = new ArrayList<>();
+        for (MenuType typeName : MenuType.values()) {
+            menuType.add(typeName.getValue());
+        }
+        model.addAttribute("typeList", menuType);
+        return "components/menuInfo :: addMenu";
+    }
 
     @GetMapping("/get-feed")
     public String getFeed(Model model) {
@@ -165,6 +186,32 @@ public class ComponentsController {
     @GetMapping("/get-cafeCard")
     public String getCafeCard() {
         return "components/cafeCard";
+    }
+
+    @GetMapping("/get-myFeed/{email}")
+    public String getMyFeed(@PathVariable("email")String memberEmail,
+                            @PageableDefault Pageable pageable,
+                            Model model) {
+        String email = getEmail();
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+        Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findMyPageFeedWithImage(email, memberEmail, pageable);
+        model.addAttribute("hasNext", slice.hasNext());
+        model.addAttribute("feedList", slice.getContent());
+        return "components/feed";
+    }
+
+    @GetMapping("/get-cafeFeed/{cafeId}")
+    public String getCafeFeed(@PathVariable("cafeId")String cafeId,
+                            @PageableDefault Pageable pageable,
+                            Model model) {
+        String email = getEmail();
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+        Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findCafeFeedWithImage(email, cafeId, pageable);
+        model.addAttribute("hasNext", slice.hasNext());
+        model.addAttribute("feedList", slice.getContent());
+        return "components/feed";
     }
 
     private String getEmail() {

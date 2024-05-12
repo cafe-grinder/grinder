@@ -1,8 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>grinder</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>회원가입 - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
     <link rel="stylesheet" href="/css/addMemberForm.css">
 </head>
 <body>
@@ -10,12 +14,12 @@
     <article>
         <img src="/img/logo_img.png" alt="grinder-logo">
         <label for="email">이메일</label>
-        <div class="input-box">
+        <div class="newfeed_input_box">
             <input type="email" id="email" placeholder="이메일을 입력해주세요">
             <button id="email-request-btn" class="btn">코드 발송</button>
         </div>
         <span id="email-check-result">이메일 형식을 지켜주세요.</span>
-        <div class="input-box">
+        <div class="newfeed_input_box">
             <input id="verify-input" type="text" placeholder="코드를 입력해주세요">
             <button id="email-verity-btn" class="btn">인증 확인</button>
         </div>

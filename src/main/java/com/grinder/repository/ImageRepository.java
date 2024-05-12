@@ -15,4 +15,6 @@ public interface ImageRepository extends JpaRepository<Image, String> {
     Optional<List<Image>> findAllByContentTypeAndContentId(ContentType type, String contentId);
     Optional<Image> findByContentTypeAndContentId(ContentType type, String contentId);
     Optional<Image> findByImageUrl(String imageUrl);
+    boolean existsAllByContentTypeAndContentId(ContentType contentType, String ContentId);
+    void deleteByContentTypeAndContentId(ContentType contentType, String contentId);
 }

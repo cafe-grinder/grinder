@@ -187,7 +187,7 @@ public class SearchQueryRepository {
                 .leftJoin(blacklist).on(feed.member.memberId.eq(blacklist.blockedMember.memberId))
                 .where(feed.content.containsIgnoreCase(searchString)
                         .and(blacklist.blacklistId.isNull()))
-                .orderBy(feed.hits.desc())
+                .orderBy(feed.rank.desc())
                 .limit(limit)
                 .offset(offset)
                 .fetch()

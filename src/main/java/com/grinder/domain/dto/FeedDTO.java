@@ -4,6 +4,7 @@ import com.grinder.domain.entity.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedDTO {
@@ -30,7 +31,6 @@ public class FeedDTO {
         private String memberEmail;
         private String cafeName;
         private String content;
-        private Integer hits;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
@@ -46,7 +46,6 @@ public class FeedDTO {
             this.memberEmail = feed.getMember().getEmail();
             this.cafeName = feed.getCafe().getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
             this.createdAt = feed.getCreatedAt();
@@ -66,7 +65,6 @@ public class FeedDTO {
         private String memberEmail;
         private String cafeName;
         private String content;
-        private Integer hits;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
@@ -81,7 +79,6 @@ public class FeedDTO {
             this.memberEmail = feed.getMember().getEmail();
             this.cafeName = feed.getCafe().getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
             this.createdAt = feed.getCreatedAt();
@@ -101,7 +98,6 @@ public class FeedDTO {
         private String nickname;
         private String name;
         private String content;
-        private Integer hits;
         private Integer grade;
         private List<String> imageUrls;
         private List<String> tagNames;
@@ -111,7 +107,6 @@ public class FeedDTO {
             this.nickname = member.getNickname();
             this.name = cafe.getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.grade = feed.getGrade();
             this.imageUrls = imageUrls;
             this.tagNames = tagNames;
@@ -128,7 +123,6 @@ public class FeedDTO {
         private String memberEmail;
         private String cafeName;
         private String content;
-        private Integer hits;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
@@ -140,22 +134,30 @@ public class FeedDTO {
         private int heartNum;       // 해당 댓글의 좋아요 수
 
 
-        public FeedWithImageResponseDTO(Feed feed, List<String> tagNameList ,List<CommentDTO.ParentCommentResponseDTO> parentCommentList, List<String> imageUrls, boolean isHeart, int heartNum) {
+        public FeedWithImageResponseDTO(Feed feed, List<Tag> tagNameList ,List<CommentDTO.ParentCommentResponseDTO> parentCommentList, List<String> imageUrls, Boolean isHeart, Long heartNum) {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
             this.cafeName = feed.getCafe().getName();
             this.content = feed.getContent();
-            this.hits = feed.getHits();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
             this.createdAt = feed.getCreatedAt();
             this.updatedAt = feed.getUpdatedAt();
-            this.tagNameList = tagNameList;
+            //태그처리
+            List<String> list = new ArrayList<>();
+            for (Tag tag : tagNameList) list.add(tag.getTagName().getValue());
+            this.tagNameList = list;
             this.parentCommentList = parentCommentList;
             this.imageUrls = imageUrls;
             this.isHeart = isHeart;
-            this.heartNum = heartNum;
+            this.heartNum = Math.toIntExact(heartNum);
+        }
+
+        public FeedWithImageResponseDTO(Feed feed, List<String> imageUrls, Long heartNum) {
+            this.isVisible = feed.getIsVisible();
+            this.imageUrls = imageUrls;
+            this.heartNum = Math.toIntExact(heartNum);
         }
     }
 }

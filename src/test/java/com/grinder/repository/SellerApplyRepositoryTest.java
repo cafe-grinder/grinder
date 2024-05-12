@@ -5,8 +5,11 @@ import com.grinder.domain.entity.Member;
 import com.grinder.domain.entity.SellerApply;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,6 +27,7 @@ class SellerApplyRepositoryTest {
 
     @Autowired
     private CafeRepository cafeRepository;
+
 
     @DisplayName("판매자 신청 내역 전체 조회")
     @Test

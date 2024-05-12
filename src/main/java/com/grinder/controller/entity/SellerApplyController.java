@@ -1,7 +1,7 @@
 package com.grinder.controller.entity;
 
 import com.grinder.domain.dto.SuccessResult;
-import com.grinder.security.CustomUserDetails;
+import com.grinder.security.dto.CustomUserDetails;
 import com.grinder.service.SellerApplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import java.util.List;
+
 import static com.grinder.domain.dto.SellerApplyDTO.*;
 
 @RestController

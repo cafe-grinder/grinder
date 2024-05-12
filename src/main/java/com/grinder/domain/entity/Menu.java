@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "menu")
+@Table(name = "menu", indexes = {
+        @Index(name = "idx_menu_type", columnList = "menu_type")
+})
 @Getter
 @Builder
 @NoArgsConstructor

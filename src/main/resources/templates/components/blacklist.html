@@ -11,17 +11,17 @@
 
 <div th:fragment="blackList(title)">
     <p th:if="${blackMembers.isEmpty()}" class="myPage_title" >등록된 정보가 없습니다.</p>
-    <p th:unless="${blackMembers.isEmpty()}" class="myPage_title" th:text="${title}"></p>
     <article class="followerList" th:each="member : ${blackMembers}">
         <div class="followerList_follower">
             <img th:if="${member.blockedImageUrl} == null" src="/img/basic-user.png">
-            <img th:if="${member.blockedImageUrl} != null" src="${member.image}">
+            <img th:if="${member.blockedImageUrl} != null" th:src="${member.image}">
             <p th:text="${member.blockedNickname} + ' (' + ${member.blockedEmail} + ')'">강아지 (aaa@aaa.com)</p>
             <span class="followerList_role" th:switch="${member.blockedRole}">
                 <img th:case="'VERIFIED_MEMBER'" src="/img/icon/award-fill.png"/>
                 <img th:case="'SELLER'" src="/img/icon/check-fill.png"/>
             </span>
-            <button th:onclick="unblock('${member.blockedId}')">차단 해제</button>
+            <button th:memberId="${member.blockedId}"
+                    onclick="unblock(this.getAttribute('memberId'), event)">차단 해제</button>
         </div>
     </article>
 </div>

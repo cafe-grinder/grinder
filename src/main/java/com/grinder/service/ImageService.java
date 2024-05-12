@@ -1,5 +1,6 @@
 package com.grinder.service;
 
+import com.grinder.domain.dto.ImageDTO;
 import com.grinder.domain.entity.Image;
 import com.grinder.domain.enums.ContentType;
 
@@ -16,4 +17,7 @@ public interface ImageService {
     void deleteFeedImage(String contentId, ContentType contentType);
     String findImageUrlByContentId(String id);
     Image findImageByImageUrl(String imageUrl);
+    boolean saveProfile(ImageDTO.UpdateRequest request, String email);
+    boolean deleteCafeProfile(String cafeId);
+    boolean deleteProfile(String email);
 }

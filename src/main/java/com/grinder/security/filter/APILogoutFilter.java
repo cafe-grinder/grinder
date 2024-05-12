@@ -13,6 +13,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.filter.GenericFilterBean;
@@ -82,7 +83,16 @@ public class APILogoutFilter extends GenericFilterBean {
         //DB에 저장되어 있는지 확인
         Boolean isExist = refreshRepository.existsByRefresh(refresh);
         if (!isExist) {
+            Cookie reCookie = new Cookie("refresh", null);
+            reCookie.setMaxAge(0);
+            reCookie.setPath("/");
 
+            Cookie acCookie = new Cookie("access", null);
+            acCookie.setMaxAge(0);
+            acCookie.setPath("/");
+
+            response.addCookie(reCookie);
+            response.addCookie(acCookie);
             //response status code
             throw new RefreshTokenException(RefreshTokenException.ErrorCase.OLD_REFRESH);
         }
@@ -112,6 +122,7 @@ public class APILogoutFilter extends GenericFilterBean {
     private String getAccess(HttpServletRequest request, HttpServletResponse response) {
         String accessToken = null;
         Cookie[] cookies = request.getCookies();
+        if (cookies == null) return null;
         for(Cookie cookie : cookies){
             if (cookie.getName().equals("access")) {
                 accessToken = "Bearer " + cookie.getValue();
