@@ -25,7 +25,7 @@ public class SellerApplyDTO {
             this.nickname = apply.getMember().getNickname();
             this.cafeId = apply.getCafe().getCafeId();
             this.cafeName = apply.getCafe().getName();
-            this.phoneNum = apply.getCafe().getPhoneNum().substring(0,3) + "-" + apply.getCafe().getPhoneNum().substring(3,7) + "-" + apply.getCafe().getPhoneNum().substring(7,11);
+            this.phoneNum = apply.getCafe().getPhoneNum();
             this.regImageUrl = apply.getRegImageUrl();
         }
     }

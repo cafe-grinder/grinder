@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>판매자 등록 신청 - Grinder</title>
     <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/sellerApplicationForm.css">
 </head>
 <body>
 <main class="main_container">
@@ -19,17 +20,15 @@
         </p>
         <hr>
         <span>사업자 등록증 사본</span>
-        <form action="" method="post">
-            <input type="file" id="file-input" accept="image/*">
+        <form action="" method="post" enctype="multipart/form-data" id="apply_form">
+            <input type="hidden" th:value="${cafeId}" disabled id="save_cafe_id">
+            <input type="file" id="file-input" accept="image/*" required>
             <button type="button" onclick="openFileUploader()" id="image-btn">이미지 첨부</button>
+            <div id="image-box"></div>
             <button id="application-btn">판매자 신청</button>
         </form>
     </article>
 </main>
-<script>
-    function openFileUploader() {
-        document.getElementById('file-input').click();
-    }
-</script>
+<script src="/js/sellerApplicationForm.js"></script>
 </body>
 </html>

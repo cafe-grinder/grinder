@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.grinder.domain.dto.SellerApplyDTO.*;
@@ -54,9 +55,13 @@ public class SellerApplyServiceImpl implements SellerApplyService {
     @Transactional
     public void saveSellerApply(String memberId, String cafeId, MultipartFile file) {
         List<SellerInfo> sellerInfoList = sellerInfoRepository.findAllByCafe_CafeId(cafeId);
-
         if (sellerInfoList.size() != 0) {
             throw new AlreadyExistException("이미 판매자가 등록된 카페입니다.");
+        }
+
+        Optional<SellerApply> existApply = sellerApplyRepository.findByMember_MemberIdAndCafe_CafeId(memberId, cafeId);
+        if (existApply.isPresent()) {
+            throw new AlreadyExistException("이미 신청한 내역이 존재합니다.");
         }
 
         String sellerApplyId = UUID.randomUUID().toString();
