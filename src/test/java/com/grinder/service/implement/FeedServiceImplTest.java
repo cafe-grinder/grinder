@@ -81,7 +81,6 @@ class FeedServiceImplTest {
                 .member(member1)
                 .cafe(cafe1)
                 .content("Great coffee and atmosphere!")
-                .hits(100)
                 .isVisible(true)
                 .grade(5)
                 .build();
@@ -90,7 +89,6 @@ class FeedServiceImplTest {
                 .member(member1)
                 .cafe(cafe2)
                 .content("Nice place to hang out with friends.")
-                .hits(50)
                 .isVisible(true)
                 .grade(4)
                 .build();
@@ -99,7 +97,6 @@ class FeedServiceImplTest {
                 .member(member2)
                 .cafe(cafe3)
                 .content("Excellent service and desserts.")
-                .hits(80)
                 .isVisible(false)
                 .grade(5)
                 .build();

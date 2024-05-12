@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/updateCafeInfo.css">
     <link rel="stylesheet" href="/css/MyMenuCard.css">
+    <link rel="stylesheet" href="/css/menuInfo.css">
 </head>
 <body>
 
@@ -29,7 +30,7 @@
                 <input id="cafeId" th:value="${myCafe.cafeId}" type="hidden">
                 <img th:if="${myCafe.cafeImageUrl} == null" class="cafe_info_logo" src="/img/default-cafe-logo.png" alt="">
                 <img th:if="${myCafe.cafeImageUrl} != null" class="cafe_info_logo" th:src="${myCafe.cafeImageUrl}" alt="">
-                <img class="cafe_Update_icon" src="/img/icon/profile-update.png" alt="">
+                <a class="cafe_Update_icon" th:href="@{/myCafeImage/{cafeId}(cafeId=${myCafe.cafeId})}"></a>
                 <div>
                     <h2 th:text="${myCafe.cafeName}">카페명 : </h2>
                     <div class="cafe_information">
@@ -72,7 +73,6 @@
 
 <!--header js-->
 <script src="/js/header.js"></script>
-
 <script src="/js/myCafePage.js"></script>
 </body>
 </html>

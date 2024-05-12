@@ -4,10 +4,27 @@ import com.grinder.domain.entity.Menu;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.format.DateTimeFormatter;
 
 public class MenuDTO {
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class saveMenuRequest {
+        private String cafeId;
+        private String menuId;
+        private String menuName;
+        private String menuPrice;
+        private String menuVolume;
+        private String menuAllergy;
+        private String menuDetails;
+        private String menuType;
+        private String menuIsLimited;
+        private MultipartFile menuImage;
+    }
 
     @Getter
     @Setter

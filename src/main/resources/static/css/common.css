@@ -47,11 +47,41 @@ body{
     width: 1400px;
     margin: 0 auto;
     font-family: 'GodoM', sans-serif;
+    zoom: 67%;
+
+
 }
 img {
     vertical-align: top; /* 이미지 아래 비는 공간 제거 */
 }
 button {
     cursor: pointer;
+}
+
+textarea, input {
+    outline-color: #009B55;
+    border: 1px solid #B4B4B4;
+    border-radius: 10px;
+    font-family: 'GodoM', sans-serif;
+    font-size: 20px;
+}
+textarea::placeholder,
+input::placeholder {
+    color: lightgrey;
+}
+textarea:focus,
+input:focus {
+    background-color: #fafffa;
+}
+
+.animation, button {
+    transition: transform 0.1s ease;
+}
+.animation:hover, button:hover {
+    cursor: pointer;
+    transform: scale(1.06); /* 이미지 커지는 애니메이션 */
+}
+.animation:active, button:active {
+    transform: scale(1.02);
 }
 /*공통요소*/

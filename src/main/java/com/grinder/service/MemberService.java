@@ -35,5 +35,6 @@ public interface MemberService {
     boolean verifiedCode(String email, String authCode);
 
     boolean changePassword(String email);
+    boolean existEmail(String email);
 
 }

@@ -7,27 +7,25 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>이미지 수정</title>
     <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/myImageUpdate.css">
 </head>
 <body>
 <main class="main_container">
     <article>
+        <input th:if="${cafeId != null}" id="cafeId" th:value="${cafeId}" type="hidden">
         <img src="/img/logo_img.png" alt="grinder_logo" id="logo-img">
-        <p>
-            이미지 수정 페이지
-        </p>
+        <p class="title">이미지 수정 페이지</p>
         <hr>
-        <span>이미지 수정</span>
-        <form action="" method="post">
-            <input type="file" id="file-input" accept="image/*">
+        <form id="image-form" action="javascript:void(0);">
+            <input type="file" id="file-input" name="profileImage" accept="image/*">
             <button type="button" onclick="openFileUploader()" id="image-btn">이미지 첨부</button>
-            <button id="application-btn">등록하기</button>
+            <div id="img-box">
+            </div>
+            <button th:if="${cafeId != null}" id="summit_cafe" class="application-btn" type="submit">등록하기</button>
+            <button th:if="${cafeId == null}" id="summit_member" class="application-btn" type="submit">등록하기</button>
         </form>
     </article>
 </main>
-<script>
-    function openFileUploader() {
-        document.getElementById('file-input').click();
-    }
-</script>
+<script src="/js/updateImage.js"></script>
 </body>
 </html>

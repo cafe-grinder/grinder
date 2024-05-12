@@ -2,7 +2,8 @@ package com.grinder.config;
 
 import com.grinder.repository.MemberRepository;
 import com.grinder.repository.RefreshRepository;
-import com.grinder.security.MemberDetailsService;
+import com.grinder.security.service.CustomOAuth2MemberService;
+import com.grinder.security.service.MemberDetailsService;
 import com.grinder.security.filter.APILoginFilter;
 import com.grinder.security.filter.APILogoutFilter;
 import com.grinder.security.filter.RefreshTokenFilter;
@@ -11,6 +12,7 @@ import com.grinder.security.handler.APILoginFailureHandler;
 import com.grinder.security.handler.APILoginSuccessHandler;
 import com.grinder.utils.JWTUtil;
 import com.grinder.utils.RedisUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +34,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @Slf4j
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final MemberDetailsService memberDetailsService;
@@ -39,14 +42,8 @@ public class SecurityConfig {
     private final RefreshRepository refreshRepository;
     private final JWTUtil jwtUtil;
     private final RedisUtil redisUtil;
+    private final CustomOAuth2MemberService customOAuth2MemberService;
 
-    public SecurityConfig(MemberDetailsService memberDetailsService, MemberRepository memberRepository, RefreshRepository refreshRepository, JWTUtil jwtUtil, RedisUtil redisUtil) {
-        this.memberDetailsService = memberDetailsService;
-        this.memberRepository = memberRepository;
-        this.refreshRepository = refreshRepository;
-        this.jwtUtil = jwtUtil;
-        this.redisUtil = redisUtil;
-    }
 
     @Bean
     public WebSecurityCustomizer configure() {      // 1) 스프링 시큐리티 기능 비활성화
@@ -56,7 +53,8 @@ public class SecurityConfig {
     }
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-
+        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil,refreshRepository);
+        APILoginFailureHandler failureHandler = new APILoginFailureHandler();
         //AuthenticationManager 설정
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
         // 인증 유저 관련
@@ -67,6 +65,12 @@ public class SecurityConfig {
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         // 설정 저장 필수
         http.authenticationManager(authenticationManager);
+        //oauth2
+        http.oauth2Login((oauth2)-> oauth2
+                .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                        .userService(customOAuth2MemberService))
+                .successHandler(successHandler)
+                .failureHandler(failureHandler));
 
         //APILOGINFilter
         APILoginFilter apiLoginFilter = new APILoginFilter("/api/login");
@@ -74,11 +78,8 @@ public class SecurityConfig {
 
         //APILoginFilter의 위치 조정
         http.addFilterBefore(apiLoginFilter, UsernamePasswordAuthenticationFilter.class);
-        // 인증 성공 후처리 담당
-        APILoginSuccessHandler successHandler = new APILoginSuccessHandler(jwtUtil,refreshRepository);
+        // 인증 후처리 담당
         apiLoginFilter.setAuthenticationSuccessHandler(successHandler);
-
-        APILoginFailureHandler failureHandler = new APILoginFailureHandler();
         apiLoginFilter.setAuthenticationFailureHandler(failureHandler);
 
         http.addFilterBefore(

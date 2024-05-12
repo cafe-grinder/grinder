@@ -172,4 +172,9 @@ public class MemberServiceImpl implements MemberService {
         mailService.sendEmail(email, title, content);
         return true;
     }
+
+    @Override
+    public boolean existEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
 }

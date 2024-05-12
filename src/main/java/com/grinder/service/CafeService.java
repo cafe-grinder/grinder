@@ -6,6 +6,10 @@ import com.grinder.domain.entity.Cafe;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
+import java.util.List;
+
+import static com.grinder.domain.dto.CafeRegisterDTO.*;
+
 public interface CafeService {
 
     void saveCafe(String registerId);
@@ -14,5 +18,6 @@ public interface CafeService {
 
     Slice<CafeDTO.CafeSearchByAdminDTO> searchCafeByAdmin(String keyword, Pageable pageable);
 
+    List<Cafe> findCafeList(String cafeName);
     CafeResponseDTO getCafeInfo(String cafeId);
 }

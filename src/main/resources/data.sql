@@ -9,9 +9,9 @@ VALUES ('3', 'Cafe A', '123 Street A', '1112223333', 4, 'https://example.com/caf
        ('4', 'Cafe B', '456 Street B', '4445556666', 5, 'https://example.com/cafeB.jpg', now(), now());
 
 -- Feed
-INSERT INTO feed (feed_id, member_id, cafe_id, content, hits, is_visible, grade, rank, created_at, updated_at)
-VALUES ('5', '1', '3', 'Great coffee at Cafe A!', 0, TRUE, 4, 0, now(), now()),
-       ('6', '2', '4', 'Lovely ambiance at Cafe B!', 0, TRUE, 5, 0, now(), now());
+INSERT INTO feed (feed_id, member_id, cafe_id, content, is_visible, grade, rank, created_at, updated_at)
+VALUES ('5', '1', '3', 'Great coffee at Cafe A!', TRUE, 4, 0, now(), now()),
+       ('6', '2', '4', 'Lovely ambiance at Cafe B!', TRUE, 5, 0, now(), now());
 
 -- Comment
 INSERT INTO comment (comment_id, parent_comment_id, feed_id, member_id, content, is_visible, created_at, updated_at)

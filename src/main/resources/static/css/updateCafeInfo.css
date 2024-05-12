@@ -29,7 +29,7 @@
     margin-right: 10px;
 }
 
-input:not(.day-box input:nth-child(5)) {
+.update_opening_section input:not(.day-box input:nth-child(5)) {
     margin: 10px 10px 10px 0;
     font-size: 20px;
     font-family: GodoM;

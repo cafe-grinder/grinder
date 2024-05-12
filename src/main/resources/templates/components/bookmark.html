@@ -14,7 +14,7 @@
 
 <article class="bookmarkList" th:fragment="bookmarkList">
     <button class="bookmark_more">더보기</button>
-    <div class="bookmark" th:each="bookmark : ${bookmarks}">
+    <section class="bookmark" th:each="bookmark : ${bookmarks}">
         <img th:if="${bookmark.cafeImageUrl} == null" src="/img/default-cafe-logo.png">
         <img th:if="${bookmark.cafeImageUrl} != null" src="${bookmark.cafeImageUrl}">
         <ul class="bookmarkList_cafeInfo">
@@ -30,8 +30,9 @@
                 </span>
             </li>
         </ul>
-        <button th:onclick="unBookmark('${bookmark.cafeId}')">삭제하기</button>
-    </div>
+        <button th:cafeId="${bookmark.cafeId}"
+                onclick="unBookmark(this.getAttribute('cafeId'),event)">삭제하기</button>
+    </section>
 </article>
 </body>
 </html>
