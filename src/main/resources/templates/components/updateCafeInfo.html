@@ -8,7 +8,7 @@
 <body>
     <section class="update_opening_section" th:fragment="updateCafeInfo">
         <span class="update_opening_title">카페 정보 변경</span>
-        <form class="update_opening_form">
+        <form class="update_opening_form" action="javascript:void(0);">
             <span>영업시간</span>
             <div class="day-container">
                 <div class="day-box">
@@ -53,7 +53,8 @@
                     <input type="time" class="cafe_close" name="sunday_close" placeholder="영업 마감 시간">
                     <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="sunday_holiday" checked>
                 </div>
-            <button id="cafe-btn" type="submit">수정</button>
+                <button id="cafe-btn" type="submit">수정</button>
+            </div>
         </form>
     </section>
     <script src="/js/attachImage.js"></script>

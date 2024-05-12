@@ -47,7 +47,7 @@ public class CommentDTO {
             this.heartNum = 0;
         }
 
-        public ParentCommentResponseDTO(Comment comment, List<CommentDTO.ChildCommentResponseDTO> childCommentList, boolean isHeart, int heartNum) {
+        public ParentCommentResponseDTO(Comment comment, List<CommentDTO.ChildCommentResponseDTO> childCommentList, Boolean isHeart, Long heartNum) {
             this.commentId = comment.getCommentId();
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
@@ -58,7 +58,7 @@ public class CommentDTO {
             this.feedId = comment.getFeed().getFeedId();
             this.childCommentList = childCommentList;
             this.isHeart = isHeart;
-            this.heartNum = heartNum;
+            this.heartNum = Math.toIntExact(heartNum);
         }
     }
 
@@ -93,7 +93,7 @@ public class CommentDTO {
             this.heartNum = 0;
         }
 
-        public ChildCommentResponseDTO(Comment comment, boolean isHeart, int heartNum) {
+        public ChildCommentResponseDTO(Comment comment, Boolean isHeart, Long heartNum) {
             this.commentId = comment.getCommentId();
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
@@ -104,7 +104,7 @@ public class CommentDTO {
             this.feedId = comment.getFeed().getFeedId();
             this.parentCommentId = comment.getParentComment().getCommentId();
             this.isHeart = isHeart;
-            this.heartNum = heartNum;
+            this.heartNum = Math.toIntExact(heartNum);
         }
     }
 

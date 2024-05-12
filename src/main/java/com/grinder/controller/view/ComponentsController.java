@@ -188,6 +188,32 @@ public class ComponentsController {
         return "components/cafeCard";
     }
 
+    @GetMapping("/get-myFeed/{email}")
+    public String getMyFeed(@PathVariable("email")String memberEmail,
+                            @PageableDefault Pageable pageable,
+                            Model model) {
+        String email = getEmail();
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+        Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findMyPageFeedWithImage(email, memberEmail, pageable);
+        model.addAttribute("hasNext", slice.hasNext());
+        model.addAttribute("feedList", slice.getContent());
+        return "components/feed";
+    }
+
+    @GetMapping("/get-cafeFeed/{cafeId}")
+    public String getCafeFeed(@PathVariable("cafeId")String cafeId,
+                            @PageableDefault Pageable pageable,
+                            Model model) {
+        String email = getEmail();
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+        Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findCafeFeedWithImage(email, cafeId, pageable);
+        model.addAttribute("hasNext", slice.hasNext());
+        model.addAttribute("feedList", slice.getContent());
+        return "components/feed";
+    }
+
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  Optional.ofNullable(authentication.getName()).orElse(null);
