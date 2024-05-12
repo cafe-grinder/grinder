@@ -27,7 +27,7 @@ public class Feed extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cafe_id")
     private Cafe cafe;
 

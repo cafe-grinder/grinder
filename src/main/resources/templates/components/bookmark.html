@@ -16,7 +16,7 @@
     <button class="bookmark_more">더보기</button>
     <section class="bookmark" th:each="bookmark : ${bookmarks}">
         <img th:if="${bookmark.cafeImageUrl} == null" src="/img/default-cafe-logo.png">
-        <img th:if="${bookmark.cafeImageUrl} != null" src="${bookmark.cafeImageUrl}">
+        <img th:if="${bookmark.cafeImageUrl} != null" th:src="${bookmark.cafeImageUrl}">
         <ul class="bookmarkList_cafeInfo">
             <li class="bookmark_name" th:text="${bookmark.cafeName}">스타벅스</li>
             <li class="bookmark_address" th:text="${bookmark.cafeAddress} + ' (' + ${bookmark.CafePhoneNum} + ')'">서울 서초구 신나동 (02-504-1546)</li>

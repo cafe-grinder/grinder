@@ -1,12 +1,16 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.Cafe;
+import com.grinder.domain.entity.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CafeDTO {
     @Data
@@ -66,6 +70,47 @@ public class CafeDTO {
             cafePhoneNum = cafe.getPhoneNum();
             averageGrade = cafe.getAverageGrade();
             cafeImageUrl = imageUrl;
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class findAllWithImageAndTagResponse {
+        private String cafeId;
+        private String cafeName;
+        private String cafeAddress;
+        private String cafePhoneNum;
+        private Integer averageGrade;
+        private String cafeImageUrl;
+        private List<String> tagList;
+
+
+        public findAllWithImageAndTagResponse(Cafe cafe, String imageUrl, List<Tag> tagList) {
+            cafeId = cafe.getCafeId();
+            cafeName = cafe.getName();
+            cafeAddress = cafe.getAddress();
+            cafePhoneNum = cafe.getPhoneNum();
+            averageGrade = cafe.getAverageGrade();
+            cafeImageUrl = imageUrl;
+            List<String> list = new ArrayList<>();
+            for (Tag tag : tagList) {
+                list.add(tag.getTagName().getValue());
+            }
+            this.tagList = list;
+        }
+
+        public findAllWithImageAndTagResponse(findAllWithImageResponse cafe, List<Tag> tagList) {
+            cafeId = cafe.getCafeId();
+            cafeName = cafe.getCafeName();
+            cafeAddress = cafe.getCafeAddress();
+            cafePhoneNum = cafe.getCafePhoneNum();
+            averageGrade = cafe.getAverageGrade();
+            cafeImageUrl = cafe.cafeImageUrl;
+            List<String> list = new ArrayList<>();
+            for (Tag tag : tagList) {
+                list.add(tag.getTagName().getValue());
+            }
+            this.tagList = list;
         }
     }
 }

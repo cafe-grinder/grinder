@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('headerContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            alarmTab();
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
@@ -27,6 +28,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     xhr.send(); // 요청을 서버로 보냅니다.
 });
+
+function alarmTab() {
+    const alarm = document.querySelector('.header_alarm');
+    let alarm_box = document.querySelector('.header_alarm_box');
+
+    alarm.addEventListener('click', () => {
+        if (alarm_box) {
+            alarm_box.classList.toggle('alarm_active');
+        }
+    });
+}
 
 
 //햄버거 메뉴 불러오기

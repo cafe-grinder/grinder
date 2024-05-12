@@ -3,6 +3,8 @@ package com.grinder.service;
 import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.dto.FeedDTO.FeedResponseDTO;
 import com.grinder.domain.entity.Feed;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -21,5 +23,10 @@ public interface FeedService {
     //관리자 페이지 피드 조회(신고 처리를 위해 사용)
     FeedDTO.FindFeedDTO findFeedForAdmin(String feedId);
     //cafeId로 Feed 찾기
+    Feed findFeedByCafeId(String cafeId);
+
     List<FeedResponseDTO> findFeedsByCafeId(String cafeId);
+
+    Slice<FeedDTO.FeedWithImageResponseDTO> findMyPageFeedWithImage(String connectEmail, String myPageEmail, Pageable pageable);
+    Slice<FeedDTO.FeedWithImageResponseDTO> findCafeFeedWithImage(String connectEmail, String cafeId, Pageable pageable);
 }

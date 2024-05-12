@@ -14,14 +14,14 @@
     <article class="followerList" th:each="member : ${blackMembers}">
         <div class="followerList_follower">
             <img th:if="${member.blockedImageUrl} == null" src="/img/basic-user.png">
-            <img th:if="${member.blockedImageUrl} != null" src="${member.image}">
+            <img th:if="${member.blockedImageUrl} != null" th:src="${member.image}">
             <p th:text="${member.blockedNickname} + ' (' + ${member.blockedEmail} + ')'">강아지 (aaa@aaa.com)</p>
             <span class="followerList_role" th:switch="${member.blockedRole}">
                 <img th:case="'VERIFIED_MEMBER'" src="/img/icon/award-fill.png"/>
                 <img th:case="'SELLER'" src="/img/icon/check-fill.png"/>
             </span>
             <button th:memberId="${member.blockedId}"
-                    th:onclick="unblock('this.getAttribute(memberId)', event)">차단 해제</button>
+                    onclick="unblock(this.getAttribute('memberId'), event)">차단 해제</button>
         </div>
     </article>
 </div>

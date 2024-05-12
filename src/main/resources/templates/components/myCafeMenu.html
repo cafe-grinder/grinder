@@ -35,7 +35,7 @@
     </div>
     <section class="myMenu_image">
         <img class="menu_card_img" th:if="${myMenu.menuImage == null}" src="/img/feed-default-img-gray.png" alt="">
-        <img class="menu_card_img" th:if="${myMenu.menuImage != null}" src="${myMenu.menuImage}" alt="">
+        <img class="menu_card_img" th:if="${myMenu.menuImage != null}" th:src="${myMenu.menuImage}" alt="">
         <button class="menu_delete" th:data-menuid="${myMenu.menuId}">삭제</button>
     </section>
 </article>
