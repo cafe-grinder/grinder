@@ -11,6 +11,8 @@ import com.grinder.service.ImageService;
 import com.grinder.service.MemberService;
 import com.grinder.service.TagService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -95,5 +97,15 @@ public class FeedServiceImpl implements FeedService {
     public Feed findFeedByCafeId(String cafeId) {
         //작성중ㄱㄷ
         return null;
+    }
+
+    @Override
+    public Slice<FeedDTO.FeedWithImageResponseDTO> findMyPageFeedWithImage(String connectEmail, String myPageEmail, Pageable pageable) {
+        return feedQueryRepository.FindMemberFeedWithImage(connectEmail, myPageEmail, pageable);
+    }
+
+    @Override
+    public Slice<FeedDTO.FeedWithImageResponseDTO> findCafeFeedWithImage(String connectEmail, String cafeId, Pageable pageable) {
+        return feedQueryRepository.FindCafeFeedWithImage(connectEmail, cafeId, pageable);
     }
 }

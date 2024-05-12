@@ -29,6 +29,15 @@ public enum TagName {
     SMOKING_AREA("🚬흡연 구역이 있어요");
 
     private final String value;
+
+    public static TagName fromString(String text) {
+        for (TagName type : TagName.values()) {
+            if (type.getValue().equals(text)) {
+                return type;
+            }
+        }
+        throw new IllegalArgumentException("No constant with text " + text + " found");
+    }
 }
 
 
