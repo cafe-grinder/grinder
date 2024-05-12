@@ -30,6 +30,14 @@ public class CafeDTO {
         String address;
         String phoneNum;
         Integer averageGrade;
+
+        CafeResponseDTO(Cafe cafe) {
+            this.cafeId = cafe.getCafeId();
+            this.name = cafe.getName();
+            this.address = cafe.getAddress();
+            this.phoneNum = cafe.getPhoneNum();
+            this.averageGrade = cafe.getAverageGrade();
+        }
     }
 
     @Getter

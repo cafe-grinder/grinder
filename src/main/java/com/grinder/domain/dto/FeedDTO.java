@@ -1,9 +1,12 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.*;
+import com.grinder.service.ImageService;
+import com.grinder.service.TagService;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeedDTO {
@@ -85,6 +88,30 @@ public class FeedDTO {
             this.isHeart = false;
             this.heartNum = 0;
             this.image = image;
+        }
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NewFeedResponseDTO {
+        private ImageService imageService;
+        private TagService tagService;
+        private String feedId;
+        private String content;
+        private List<String> imageUrlList;
+        private CafeDTO.CafeResponseDTO cafe;
+        private Integer grade;
+        private List<String> tagNameList;
+
+        public NewFeedResponseDTO(Feed feed) {
+            this.feedId = feed.getFeedId();
+            this.content = feed.getContent();
+            this.imageUrlList = new ArrayList<>();
+            this.cafe = new CafeDTO.CafeResponseDTO(feed.getCafe());
+            this.grade = feed.getGrade();
+            this.tagNameList = new ArrayList<>();
         }
     }
 
