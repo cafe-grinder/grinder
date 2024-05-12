@@ -1,7 +1,6 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.CafeDTO.CafeResponseDTO;
-import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.dto.FeedDTO.FeedResponseDTO;
 import com.grinder.service.CafeService;
 import com.grinder.service.FeedService;
@@ -21,7 +20,7 @@ public class CafePageController {
     private final FeedService feedService;
 
     @GetMapping("/{cafeId}")
-    public String getCafeInfo(Model model, @PathVariable String cafeId) {
+    public String getCafeInfo(Model model, @PathVariable("cafeId") String cafeId) {
         CafeResponseDTO cafeInfo = cafeService.getCafeInfo(cafeId);
         model.addAttribute("cafeInfo", cafeInfo);
         return "cafeInfo";
