@@ -38,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
     throw new Error('Network response was not ok.');
   })
   .then(data => {
-    // 책갈피 상태에 따라 UI 업데이트
     if (data === true) {
       document.getElementById('bookmark_fill').style.display = 'block';
       document.getElementById('bookmark_null').style.display = 'none';
@@ -113,10 +112,35 @@ function deleteBookmark() {
   });
 }
 
+const showAiBtn = document.getElementById('show_ai_button');
+const showMenuBtn = document.getElementById('show_menu_button');
 const showFeedBtn = document.getElementById('show_feed_button');
+showAiBtn.addEventListener('click', () => {
+  if(document.getElementById('aiContainer').style.display === 'none') {
+    const containers = document.getElementsByClassName('container');
+    for (let i = 0; i < containers.length; i++) {
+      containers[i].style.display = 'none';
+    }
+    document.getElementById('aiContainer').style.display = 'block';
+  }
+})
+showMenuBtn.addEventListener('click', () => {
+  if(document.getElementById('menuContainer').style.display === 'none') {
+    const containers = document.getElementsByClassName('container');
+    for (let i = 0; i < containers.length; i++) {
+      containers[i].style.display = 'none';
+    }
+    document.getElementById('menuContainer').style.display = 'block';
+  }
+})
 showFeedBtn.addEventListener('click', () => {
-  if(document.getElementById('feedContainer').style.display === 'none')
+  if(document.getElementById('feedContainer').style.display === 'none') {
+    const containers = document.getElementsByClassName('container');
+    for (let i = 0; i < containers.length; i++) {
+      containers[i].style.display = 'none';
+    }
     document.getElementById('feedContainer').style.display = 'block';
+  }
 })
 
 const sellerApplyBtn = document.getElementById('seller_apply_button');
