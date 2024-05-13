@@ -1,7 +1,9 @@
+
+let pageNum = 0
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-    xhr.open('GET', '/get-feed', true); // 요청을 초기화합니다.
+    xhr.open('GET', '/get-feed2', true); // 요청을 초기화합니다.
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
@@ -221,6 +223,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 commentUpdateForm.classList.add('display_none');
                 commentContent.textContent = updatedContent;
                 commentContent.classList.remove('display_none');
+            }
+
+            // 피드 더보기 버튼 클릭
+            if (target.classList.contains('feed_more_load_btn')) {
+
+                // AJAX를 이용하여 다음 페이지의 피드를 가져옴
+                const xhr = new XMLHttpRequest();
+                xhr.open('GET', `/get-feed2?page=` + pageNum++, true);
+                console.log(pageNum);
+                xhr.onload = function() {
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // 요청이 성공적으로 완료되면 실행됩니다.
+                        const newFeeds = xhr.responseText;
+                        document.getElementById('feedContainer').insertAdjacentHTML('beforeend', newFeeds); // 새로운 피드를 추가합니다.
+                    } else {
+                        // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
+                        console.error('The request failed!');
+                    }
+                };
+                xhr.onerror = function() {
+                    // 요청이 네트워크 문제로 실패했을 때 실행됩니다.
+                    console.error('The request failed due to a network error!');
+                };
+                xhr.send(); // 요청을 서버로 보냅니다.
             }
         });
     }
