@@ -1,0 +1,27 @@
+@import "common.css";
+
+.error_container {
+    text-align: center;
+    padding: 50px;
+}
+
+.error_container h1 {
+    font-family: GodoB;
+    font-size: 50px;
+    padding: 50px 0;
+}
+
+.error_container p {
+    padding: 20px 0;
+}
+
+.error_btn {
+    position: fixed;
+    top : 70%;
+    left: 45%;
+    margin-top: 25px;
+    border: 1px solid #8A8A8A;
+    border-radius: 15px;
+    padding: 10px;
+    box-shadow: 4px 2px 4px 0px rgba(0,0,0,25%);
+}

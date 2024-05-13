@@ -1,0 +1,83 @@
+.myPage_title {
+    padding: 34px 0 45px 18px;
+    font-size: 35px;
+}
+
+.followerList {
+}
+
+.followerList .followerList_follower {
+    display: flex;
+    align-items: center;
+    width: 1400px;
+    height: 100px;
+}
+
+.followerList .followerList_follower img {
+    width: 78px;
+    height: 78px;
+    margin: 0 0 0 27px;
+}
+
+.followerList .followerList_follower p {
+    margin-left: 25px;
+    font-family: GodoB;
+    font-size: 20px;
+}
+
+.followerList .followerList_follower span img {
+    width: 30px;
+    height: 30px;
+}
+
+.followerList .followerList_follower button {
+    font-family: GodoM;
+    font-size: 20px;
+    color: #FF2E2E;
+    background-color: white;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    padding: 6px 18px;
+    box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
+    margin-left: 35px;
+}
+
+.followerList .followerList_follower .move_follow {
+    color: white;
+    background-color : #009B55;
+    border: 0;
+}
+
+.button-container {
+    text-align: center;
+}
+
+.button-container .follow_more {
+    font-family: GodoM;
+    font-size: 25px;
+    background-color: white;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    padding: 6px 18px;
+    box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
+    margin-top: 50px;
+}
+.button-container .follow_more:hover {
+    background-color: #b6b6b6;
+}
+
+.follower_more, .following_more {
+    position: fixed;
+    top: 80%;
+    left: 50%;
+    font-family: GodoM;
+    font-size: 30px;
+    color: black;
+    background-color: white;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    padding: 6px 18px;
+    box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
+    margin-left: 35px;
+    z-index: 1;
+}

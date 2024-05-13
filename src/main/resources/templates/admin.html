@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>관리자 - Grinder</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+
+<h1>관리자 페이지</h1>
+<hr />
+
+<article class="admin_article">
+    <div class="admin_article_head">
+        <h2 class="admin_article_title">회원 목록</h2>
+        <form action="" method="GET" name="member" class="admin_article_form" id="member_form">
+            <input type="text" name="nickname" placeholder="닉네임 검색" class="admin_article_search" id="member_nickname">
+        </form>
+    </div>
+
+    <table class="admin_list">
+        <thead>
+            <tr class="admin_list_row_head">
+                <th>이메일</th>
+                <th></th>
+                <th>닉네임</th>
+                <th></th>
+                <th>
+                    <select id="member_role">
+                        <option value="" selected>권한</option>
+                        <option value="MEMBER">일반회원</option>
+                        <option value="VERIFIED_MEMBER">인증회원</option>
+                        <option value="SELLER">판매자</option>
+                        <option value="ADMIN">관리자</option>
+                    </select>
+                </th>
+                <th></th>
+                <th >상태</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="member_list">
+
+        </tbody>
+    </table>
+    <button id="more_member_button" class="add_list_button">더보기</button>
+</article>
+
+<article class="admin_article">
+    <div class="admin_article_head">
+        <h2 class="admin_article_title">신고 목록</h2>
+        <form action="" method="GET" name="member" class="admin_article_form" id="report_form">
+            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search" id="report_keyword">
+        </form>
+    </div>
+
+    <table class="admin_list">
+        <thead>
+        <tr class="admin_list_row_head">
+            <th>신고자</th>
+            <th></th>
+            <th>
+                <select id="report_content_type">
+                    <option value="" selected>타입</option>
+                    <option value="FEED">피드</option>
+                    <option value="COMMENT">댓글</option>
+                </select>
+            </th>
+            <th></th>
+            <th>내용</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="report_list">
+
+        </tbody>
+    </table>
+    <button id="more_report_button" class="add_list_button">더보기</button>
+</article>
+
+<article class="admin_article">
+    <div class="admin_article_head">
+        <h2 class="admin_article_title">신규 장소 신청 목록</h2>
+        <form action="" method="GET" name="member" class="admin_article_form" id="register_form">
+            <input type="text" name="nickname" class="admin_article_search" disabled>
+        </form>
+    </div>
+
+    <table class="admin_list">
+        <thead>
+        <tr class="admin_list_row_head">
+            <th>작성자</th>
+            <th></th>
+            <th>카페 이름</th>
+            <th></th>
+            <th>카페 주소</th>
+            <th></th>
+            <th>카페 전화번호</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="register_list">
+
+        </tbody>
+    </table>
+    <button id="more_register_button" class="add_list_button">더보기</button>
+</article>
+
+<article class="admin_article">
+    <div class="admin_article_head">
+        <h2 class="admin_article_title">판매자 신청 목록</h2>
+        <form action="" method="GET" name="member" class="admin_article_form" id="apply_form">
+            <input type="text" name="nickname" class="admin_article_search" disabled>
+        </form>
+    </div>
+
+    <table class="admin_list">
+        <thead>
+        <tr class="admin_list_row_head">
+            <th>신청자</th>
+            <th></th>
+            <th>카페 이름</th>
+            <th></th>
+            <th>카페 주소</th>
+            <th></th>
+            <th>카페 전화번호</th>
+            <th></th>
+            <th>사업자등록증</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="apply_list">
+
+        </tbody>
+    </table>
+    <button id="more_apply_button" class="add_list_button">더보기</button>
+</article>
+
+<article class="admin_article">
+    <div class="admin_article_head">
+        <h2 class="admin_article_title">카페 조회</h2>
+        <form action="" method="GET" name="member" class="admin_article_form" id="cafe_form">
+            <input type="text" name="nickname" placeholder="검색하기" class="admin_article_search" id="cafe_keyword">
+        </form>
+    </div>
+
+    <table class="admin_list">
+        <thead>
+        <tr class="admin_list_row_head">
+            <th>이름</th>
+            <th></th>
+            <th>주소</th>
+            <th></th>
+            <th>전화번호</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="cafe_list">
+
+        </tbody>
+    </table>
+    <button id="more_cafe_button" class="add_list_button">더보기</button>
+</article>
+
+
+<dialog id="modal" class="reg_modal"></dialog>
+<script src="/js/admin.js"></script>
+</body>
+</html>

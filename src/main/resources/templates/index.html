@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+
+    <!--swiper css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.4.1/swiper-bundle.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/7.4.1/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="/css/swiper_config.css">
+    <!--index css-->
+    <link rel="stylesheet" href="/css/index.css">
+    <!--header css-->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <!--feed css-->
+    <link rel="stylesheet" href="/css/feed.css">
+    <!--cafeCard css-->
+    <link rel="stylesheet" href="/css/cafeCard.css">
+</head>
+<body>
+
+<div id="headerContainer"></div>
+
+<!-- Slider main container -->
+<div class="swiper">
+    <!-- Additional required wrapper -->
+    <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+            <a href="#">
+                <div class="text-wrap">
+                    <p>✨광고</p>
+                    <h2>실시간 정보로 더 정확하게, 앨런!</h2>
+                    <p>실시간으로 똑똑해지는 앨런을 만나보세요!</p>
+                </div>
+                <img src="/img/Alan_backGround.png" alt="">
+            </a>
+        </div>
+        <div class="swiper-slide">
+            <a href="#">
+                <div class="text-wrap">
+                    <p>✨광고</p>
+                    <h2>카페 정보를 찾고 싶다면</h2>
+                    <p>그라인드에서 확인해보세요!</p>
+                </div>
+                <img src="/img/background_one.png" alt="">
+            </a>
+        </div>
+        <div class="swiper-slide">
+            <a href="#">
+                <div class="text-wrap">
+                    <p>✨광고</p>
+                    <h2>카페 정보를 찾고 싶다면</h2>
+                    <p>그라인드에서 확인해보세요!</p>
+                </div>
+                <img src="/img/background.png" alt="">
+            </a>
+        </div>
+    </div>
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-box"></div>
+</div>
+<!-- Slider main container -->
+
+<div class="index-hot-cafe">지금 뜨는 카페</div>
+<div class="index-divide-line"></div>
+<div id="cafeCardContainer"></div>
+<div class="index-divide-line"></div>
+<div id="feedContainer"></div>
+<div class="feed_more_load_align">
+    <button class="feed_more_load_btn">더보기</button>
+</div>
+
+<footer th:replace="components/footer :: footers"></footer>
+
+<script src="/js/index.js"></script>
+<!--swiper js-->
+<script src="/js/swiper_config.js"></script>
+<!--feed js-->
+<script src="/js/feed.js"></script>
+<!--cafeCard js-->
+<script src="/js/cafeCard.js"></script>
+</body>
+</html>

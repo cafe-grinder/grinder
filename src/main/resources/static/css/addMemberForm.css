@@ -1,0 +1,139 @@
+@import "common.css";
+
+body {
+    background: linear-gradient(to bottom right, #F5FFFA, #FFFFFF);
+}
+
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+    width: 100%;
+}
+
+article {
+    display: flex;
+    flex-direction: column;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid #D9D9D9;
+    padding: 20px 65px 50px 65px;
+    width: 650px;
+    background-color: #FFFFFF;
+    margin-bottom: 60px;
+}
+
+img {
+    width: 289px;
+    height: 101px;
+    margin-bottom: 59px;
+    margin-left: 180px;
+}
+
+label {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 14px;
+}
+
+input, select {
+    font-color: lightgrey;
+    font-size: 20px;
+    padding-left: 25px;
+    width: 607px;
+    height: 64px;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.newfeed_input_box input {
+    width: 468px;
+    height: 63px;
+    margin-right: 31px;
+}
+
+.btn {
+    font-family: GodoM;
+    color: #FFFFFF;
+    font-size: 17px;
+    font-weight: 600;
+    background-color: #009B55;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    width: 107px;
+    height: 64px;
+}
+
+.input-group {
+    margin-bottom: 46px;
+}
+
+select {
+    box-sizing: content-box;
+    cursor: pointer;
+    color: grey;
+}
+
+span {
+    color: #E10000;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 14px;
+    margin-bottom: 22px;
+}
+
+#gender-label {
+    margin_top: 9px;
+}
+
+.contact-box {
+    display: flex;
+    margin-bottom: 48px;
+}
+
+.contact-box select {
+    width: 157px;
+    height: 64px;
+    font-color: lightgrey;
+    font-size: 20px;
+    padding-left: 25px;
+    margin-right: 42px;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-box input {
+    width: 157px;
+    height: 64px;
+    font-size: 20px;
+    padding-left: 25px;
+    border-radius: 10px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-box input:nth-child(2) {
+    margin-right: 43px;
+}
+
+#join-btn {
+    width: 640px;
+    height: 69px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+#update-btn {
+    width: 640px;
+    height: 69px;
+    font-weight: bold;
+    font-size: 25px;
+}

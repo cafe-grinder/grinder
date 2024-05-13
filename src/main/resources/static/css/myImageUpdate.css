@@ -1,0 +1,95 @@
+@import "common.css";
+
+body {
+    background: linear-gradient(to bottom right, #F5FFFA, white);
+}
+
+.main_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10vh;
+    width: 100%;
+}
+
+.main_container article {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #FFFFFF;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    border: 1px solid #D9D9D9;
+    padding: 20px;
+    width: 650px;
+}
+
+#logo-img {
+    width: 289px;
+    height: 101px;
+    margin-bottom: 20px;
+}
+
+.main_container article .title {
+    font-family: GodoB;
+    font-weight: bold;
+    font-size: 40px;
+    margin-bottom: 15px;
+    width: 632px;
+    text-align: center;
+    line-height: 1.68;
+}
+
+.main_container article hr {
+    border-top: 1px solid #d3d3d3;
+    width: 632px;
+}
+
+.main_container span {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input {
+    display: none;
+}
+
+#image-btn {
+    font-family: GodoB;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    padding: 10px 20px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0px 4px rgba(0, 0, 0, 0.1),
+    2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 40px 40px;
+}
+
+.application-btn {
+    width: 632px;
+    height: 69px;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 600;
+    background-color: #009B55;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+}
+
+#img-box img {
+    width: 200px;
+    height: 200px;
+    border-radius: 15px;
+}

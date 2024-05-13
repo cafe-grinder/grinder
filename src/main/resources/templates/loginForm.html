@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>로그인 - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/loginForm.css">
+</head>
+<body>
+<main class="main_container">
+    <article>
+        <img src="/img/logo_img.png" alt="grinder_logo" class="logo-img">
+        <div class="email-box">
+            <img src="/img/icon/BsPersonCircle.png" alt="member_img">
+            <input id="emailInput" type="email" placeholder="이메일" required>
+        </div>
+        <div class="pw-box">
+            <img src="/img/icon/BsFillLockFill.png" alt="">
+            <input id="pwInput" type="password" placeholder="비밀번호" required>
+        </div>
+        <button class="btn-login">로그인</button>
+        <div class="a-wrap">
+            <a href="/page/signup">회원가입</a>
+            <a href="/page/change/password">비밀번호를 잊어버리셨나요?</a>
+        </div>
+        <hr>
+        <span>다른 계정으로 로그인</span>
+        <div class="social-box1">
+            <button id="google-btn">
+                <img src="/img/icon/icon_google.png" alt="icon_google">
+                구글 계정으로 로그인</button>
+        </div>
+        <div class="social-box2">
+
+            <button id="naver-btn">
+                <img src="/img/icon/icon_naver.png" alt="icon_naver">
+                네이버 계정으로 로그인</button>
+        </div>
+    </article>
+</main>
+<script src="/js/loginPage.js"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>회원가입 - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/addMemberForm.css">
+</head>
+<body>
+<main class="main-container">
+    <article>
+        <img src="/img/logo_img.png" alt="grinder-logo">
+        <label for="email">이메일</label>
+        <div class="newfeed_input_box">
+            <input type="email" id="email" placeholder="이메일을 입력해주세요">
+            <button id="email-request-btn" class="btn">코드 발송</button>
+        </div>
+        <span id="email-check-result">이메일 형식을 지켜주세요.</span>
+        <div class="newfeed_input_box">
+            <input id="verify-input" type="text" placeholder="코드를 입력해주세요">
+            <button id="email-verity-btn" class="btn">인증 확인</button>
+        </div>
+        <span id="email-verify-result">인증 코드를 입력해주세요.</span>
+        <label for="pw" id="pw-label">비밀번호</label>
+        <input type="password" placeholder="비밀번호를 입력해주세요" id="pw" class="input-group">
+
+        <label for="pwCheck">비밀번호 재확인</label>
+        <input type="password" placeholder="비밀번호를 다시 입력해주세요" id="pwCheck" >
+        <span id="password-recheck">비밀번호를 다시 입력해주세요.</span>
+
+        <label for="nick-name">닉네임</label>
+        <input type="text" id="nick-name" placeholder="닉네임을 입력해 주세요" >
+        <span id="nickname-check-result">닉네임을 입력해 주세요.</span>
+
+        <label for="contact">연락처</label>
+        <div class="contact-box">
+            <select name="" id="contact">
+                <option value="010">010</option>
+            </select>
+            <input type="text" id="phonenum1">
+            <input type="text" id="phonenum2">
+        </div>
+        <button class="btn" id="join-btn">회원가입</button>
+    </article>
+</main>
+<script src="/js/addMemberForm.js"></script>
+</body>
+</html>

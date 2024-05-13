@@ -1,0 +1,195 @@
+@import "common.css";
+
+header {
+    position: relative;
+    font-family: GodoM;
+}
+
+header .header_bar {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    width: 1280px;
+    height: 74px;
+    border-radius: 0 0 15px 15px;
+    box-shadow: 0 4px 11px 0 rgba(0,0,0,25%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    z-index: 100;
+}
+
+header .header_bar .header_search_box {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+}
+
+header .header_bar .header_search_box form {
+    float: left;
+}
+
+header .header_bar .header_search_box .header_grinder_logo {
+    float: left;
+    display: block;
+    height: 53px;
+    width: 157px;
+    background: url("../img/grinder-logo.png") no-repeat center;
+    background-size: contain;
+    text-indent: -9999px;
+    margin-right: 31px;
+}
+
+header .header_bar .header_search_box select {
+    width: 97px;
+    height: 41px;
+    border-radius: 25px 0 0 25px;
+    box-shadow: inset 0 0 5px 0 rgba(0,0,0,25%);
+    border: 0;
+    font-family: GodoM;
+    font-size: 15px;
+    color: #666666;
+    padding: 12px 12px 12px 26px;
+    -webkit-appearance: none;
+    background: url("../img/icon/caret-down.png") no-repeat right 13px center;
+}
+header .header_bar .header_search_box .header_search {
+    position: relative;
+    right: 5px;
+    width: 250px;
+    height: 17px;
+    border-radius: 0 25px 25px 0;
+    box-shadow: inset 0 0 5px 0 rgba(0,0,0,25%);
+    border: 0;
+    padding: 12px 12px 12px 32px;
+    font-family: GodoM;
+    font-size: 15px;
+    color: #666666;
+    background: url("../img/icon/search.png") no-repeat left 8px center;
+}
+
+header .header_bar .header_btn {
+    padding: 16px 12px 15px 0;
+}
+
+header .header_bar .header_btn ul {
+    display:flex;
+    align-items:center;
+}
+
+header .header_bar .header_btn .header_non_login li {
+    float: left;
+    margin-left: 10px;
+}
+
+header .header_bar .header_btn .header_login li {
+    float: left;
+    margin-left: 22px;
+    align-items: center;
+}
+
+header .header_bar .header_btn .header_login .header_alarm {
+    height: 24px;
+    width: 24px;
+    background: url("../img/icon/Bell.png") no-repeat center;
+    background-size: contain;
+    text-indent: -9999px;
+    cursor : pointer;
+    border: 0;
+    margin-left: 10px;
+}
+
+header .header_bar .header_btn .header_login .header_alarm:hover {
+    animation: shakeBell 1s infinite;
+}
+
+header .header_bar .header_btn .header_login .header_profile {
+    height: 42px;
+    width: 42px;
+    background: url("../img/basic-user-img.png") no-repeat center;
+    background-size: contain;
+    text-indent: -9999px;
+    cursor : pointer;
+    border: 0;
+    margin-left: 15px;
+}
+
+/*알림창*/
+.header_alarm_box {
+    position: absolute;
+    top: -300px;
+    right: 60px;
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,25%);
+    border-radius: 25px;
+    z-index: 1;
+    padding-top: 74px;
+    transition: all 0.5s;
+}
+
+.alarm_active {
+    top: 0;
+}
+
+.header_alarm_box ul li {
+    width: 270px;
+    height: 76px;
+}
+
+.header_alarm_box .header_alarm_list li {
+    padding: 12px 16px 12px 14px;
+}
+
+.header_alarm_box .header_alarm_list .non_read {
+    background-color: rgba(99,174,115,25%);
+}
+
+.header_alarm_box .header_alarm_list li div {
+    display: flex;
+    float: left;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.header_alarm_box .header_alarm_list li div img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+.header_alarm_box .header_alarm_list li div +p {
+    font-size: 16px;
+    font-family: GodoB;
+}
+
+.header_alarm_box .header_alarm_list li span {
+    display: inline-block;
+    font-size: 13px;
+}
+
+.header_alarm_box .header_alarm_line {
+    width: 300px;
+    border-top: 1px solid #D9D9D9;
+}
+
+.header_alarm_box .header_alarm_more {
+    width: 43px;
+    height: 18px;
+    margin: 8px 128px 8px 129px;
+}
+
+.header_alarm_box .header_non_alarm {
+    margin: 42px 63px;
+}
+/*알림창*/
+
+
+
+@-webkit-keyframes shakeBell {
+    0% {rotate: 0deg}
+    20% {rotate: -20deg}
+    40% {rotate: 10deg}
+    100% {rotate: 0deg}
+}

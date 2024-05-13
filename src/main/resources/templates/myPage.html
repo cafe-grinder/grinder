@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>마이 페이지 - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <!--header css-->
+    <link rel="stylesheet" href="/css/header.css">
+    <!--my page css-->
+    <link rel="stylesheet" href="/css/myPage.css">
+    <link rel="stylesheet" href="/css/follower.css">
+    <link rel="stylesheet" href="/css/bookmark.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/myCafeList.css">
+    <link rel="stylesheet" href="/css/feed.css">
+</head>
+<body>
+
+<div id="headerContainer"></div>
+
+<div class="mypage_banner">
+    <input id="memberEmail" th:value="${myPageMember.email}" type="hidden">
+    <img th:if="${myPageMember.image} == null" src="/img/basic-user.png">
+    <img th:if="${myPageMember.image} != null" src="${member.image}">
+    <a th:if="${connectEmail == myPageMember.email}" th:href="@{/myImage}"></a>
+    <p><span th:text="${myPageMember.nickname}">강아지</span>님</p>
+    <div th:switch="${myPageMember.role}">
+        <img th:case="'인증회원'" src="/img/icon/award-fill.png"/>
+        <img th:case="'판매자'" src="/img/icon/check-fill.png"/>
+        <img th:case="*" src=""/>
+    </div>
+    <button th:if="${isFollow == false}" class="add_follow">팔로우</button>
+    <button th:if="${isFollow == true}" class="add_follow">팔로우 취소</button>
+</div>
+
+<div class="mypage_banner_line"></div>
+
+<p class="myPage_title">작성한 피드</p>
+<div id="myPageMenuContainer"></div>
+
+<div class="feed_more_load_align">
+    <button class="feed_more_load_btn">더보기</button>
+</div>
+
+<div th:if="${connectEmail == myPageMember.email}" class="mypage_menu">
+    <ul class="mypage_menu_list">
+        <li class="mypage_menu_user">
+            <img th:if="${myPageMember.image} == null" src="/img/basic-user-img.png">
+            <img th:if="${myPageMember.image} != null" src="${member.image}">
+            <p th:text="${myPageMember.nickname} + ' (' + ${myPageMember.email} + ')'">강아지</p>
+        </li>
+        <li class="mypage_menu_list_line"></li>
+        <li><button id="view_follower">😀 팔로워 보기</button></li>
+        <li><button id="view_following">😁 팔로잉 보기</button></li>
+        <li><button th:onclick="|window.location.href='@{/page/change/memberInfo/{member_id}(member_id=${myPageMember.memberId})}'|">😜 회원 정보 변경</button></li>
+        <li><button id="view_bookmark">😍 북마크 보기</button></li>
+        <li><button id="view_blacklist">😡 차단목록 보기</button></li>
+        <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
+        <li><button th:onclick="logout()">🙋‍♂️ 로그아웃</button></li>
+    </ul>
+    <button class="mypage_menu_button"></button>
+</div>
+
+<footer th:replace="components/footer :: footers"></footer>
+
+<!--mypage js-->
+<script src="/js/myPage.js"></script>
+<script src="/js/myFeed.js"></script>
+</body>
+</html>

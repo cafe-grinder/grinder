@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<!--<p th:if="${bookmarks.isEmpty()}" class="bookmark_title" >등록된 정보가 없습니다.</p>-->
+<!--<p th:unless="${bookmarks.isEmpty()}" class="bookmark_title">북마크 보기</p>-->
+
+<article class="bookmarkList" th:fragment="bookmarkList">
+    <button class="bookmark_more">더보기</button>
+    <section class="bookmark" th:each="bookmark : ${bookmarks}">
+        <img th:if="${bookmark.cafeImageUrl} == null" src="/img/default-cafe-logo.png">
+        <img th:if="${bookmark.cafeImageUrl} != null" th:src="${bookmark.cafeImageUrl}">
+        <ul class="bookmarkList_cafeInfo">
+            <li class="bookmark_name" th:text="${bookmark.cafeName}">스타벅스</li>
+            <li class="bookmark_address" th:text="${bookmark.cafeAddress} + ' (' + ${bookmark.CafePhoneNum} + ')'">서울 서초구 신나동 (02-504-1546)</li>
+            <li class="bookmark_score">평균 평점 :
+                <span id="starsContainer">
+                    <img th:if="${bookmark.averageGrade >= 1}" src="/img/icon/star-fill.png">
+                    <img th:if="${bookmark.averageGrade >= 2}" src="/img/icon/star-fill.png">
+                    <img th:if="${bookmark.averageGrade >= 3}" src="/img/icon/star-fill.png">
+                    <img th:if="${bookmark.averageGrade >= 4}" src="/img/icon/star-fill.png">
+                    <img th:if="${bookmark.averageGrade >= 5}" src="/img/icon/star-fill.png">
+                </span>
+            </li>
+        </ul>
+        <button th:cafeId="${bookmark.cafeId}"
+                onclick="unBookmark(this.getAttribute('cafeId'),event)">삭제하기</button>
+    </section>
+</article>
+</body>
+</html>
+
+

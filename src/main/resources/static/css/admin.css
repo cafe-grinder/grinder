@@ -1,0 +1,130 @@
+@import "common.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    margin: 60px auto 36px auto;
+    font-size: 32px;
+}
+
+button {
+    font-family: 'GodoM', sans-serif;
+}
+
+.admin_article {
+    margin: 60px auto;
+}
+
+.admin_article .admin_article_head {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.admin_article .admin_article_title {
+    font-size: 32px;
+}
+
+.admin_article .admin_article_search {
+    width: 460px;
+    height: 80px;
+    border: 1px solid black;
+}
+
+.admin_article .admin_list {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 100%;
+    display: block;
+    max-height: 300px;
+    overflow: auto;
+}
+
+.admin_list thead {
+    position: sticky;
+    top: 0;
+    background-color: white; /* 필요에 따라 배경색 설정 */
+    z-index: 1; /* 다른 콘텐츠 위에 위치하도록 설정 */
+}
+
+.admin_list td {
+    border-bottom: 1px solid black;
+}
+
+.admin_list .admin_list_data {
+    padding: 10px;
+    width: 1%;
+    white-space: nowrap;
+}
+
+.admin_list .admin_list_blank {
+    width: 100%;
+}
+
+.admin_list .admin_list_button_container {
+    white-space: nowrap;
+}
+
+.admin_list .admin_list_button {
+    margin: 10px;
+    width: 80px;
+    height: 36px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #009B55;
+    color: white;
+}
+
+/*사업자 등록증 확인*/
+.reg_image_button {
+    border: none;
+    background-color: #fff;
+    color: black;
+}
+
+/*더보기 버튼*/
+.admin_article .add_list_button {
+    position: relative;
+    left: 50%;
+    bottom: 10%;
+    transform: translate(-50%, 50%);
+    width: 80px;
+    height: 36px;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: none;
+    background-color: #009B55;
+    color: white;
+}
+
+/*모달*/
+.reg_modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: 800px;
+    border:none;
+    border-radius: 30px;
+}
+.reg_modal img {
+    display: block;
+}
+.reg_modal .modal_button {
+    width: 80px;
+    height: 36px;
+    font-size: 15px;
+    border-radius: 10px;
+    border: none;
+    background-color: #009B55;
+    color: white;
+    position: sticky;
+    left: 50%;
+    bottom: 5%;
+    transform: translateX(-50%);
+}

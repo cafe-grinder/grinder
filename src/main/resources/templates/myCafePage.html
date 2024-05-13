@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>내 카페 - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <!--header css-->
+    <link rel="stylesheet" href="/css/header.css">
+    <!--cafeInfo css-->
+    <link rel="stylesheet" href="/css/myCafePage.css">
+    <!-- css-->
+    <link rel="stylesheet" href="/css/footer.css">
+    <link rel="stylesheet" href="/css/updateCafeInfo.css">
+    <link rel="stylesheet" href="/css/MyMenuCard.css">
+    <link rel="stylesheet" href="/css/menuInfo.css">
+    <link rel="stylesheet" href="/css/feed.css">
+</head>
+<body>
+
+<div id="headerContainer"></div>
+
+
+<section class="cafe_info_banner">
+    <div class="cafe_info_background">
+        <img class="cafe_info_background_img" alt="">
+        <div class="cafe_info_database">
+            <div class="cafe_info_data">
+                <input id="cafeId" th:value="${myCafe.cafeId}" type="hidden">
+                <img th:if="${myCafe.cafeImageUrl} == null" class="cafe_info_logo" src="/img/default-cafe-logo.png" alt="">
+                <img th:if="${myCafe.cafeImageUrl} != null" class="cafe_info_logo" th:src="${myCafe.cafeImageUrl}" alt="">
+                <a class="cafe_Update_icon" th:href="@{/myCafeImage/{cafeId}(cafeId=${myCafe.cafeId})}"></a>
+                <div>
+                    <h2 th:text="${myCafe.cafeName}">카페명 : </h2>
+                    <div class="cafe_information">
+                        <address th:text="${myCafe.cafeAddress}">주소 : </address>
+                    </div>
+                    <div class="cafe_info_score">평균 평점 :
+                        <div><span>
+                            <img th:if="${myCafe.averageGrade >= 1}" src="/img/icon/star-fill.png">
+                            <img th:if="${myCafe.averageGrade >= 2}" src="/img/icon/star-fill.png">
+                            <img th:if="${myCafe.averageGrade >= 3}" src="/img/icon/star-fill.png">
+                            <img th:if="${myCafe.averageGrade >= 4}" src="/img/icon/star-fill.png">
+                            <img th:if="${myCafe.averageGrade >= 5}" src="/img/icon/star-fill.png">
+                        </span></div>
+                    </div>
+                </div>
+            </div>
+            <span th:text="${myCafe.cafePhoneNum}">연락처 :</span>
+        </div>
+    </div>
+</section>
+
+<article class="cafe_info_tab">
+    <div>
+        <span class="myCafe_info_modify">카페 정보 변경</span>
+    </div>
+    <div>
+        <span class="myCafe_menu_list">메뉴 정보 목록</span>
+    </div>
+    <div>
+        <span class="myCafe_menu_add">메뉴 추가</span>
+    </div>
+
+</article>
+
+<div class="cafe_info_line"></div>
+
+<div id="myCafeInfoContainer"></div>
+
+<div class="feed_more_load_align">
+    <button class="feed_more_load_btn">더보기</button>
+</div>
+
+<footer th:replace="components/footer :: footers"></footer>
+
+<script src="/js/myCafePage.js"></script>
+<script src="/js/cafeFeed.js"></script>
+</body>
+</html>

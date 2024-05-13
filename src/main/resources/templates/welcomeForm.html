@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>환영합니다! - Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/welcomeForm.css">
+</head>
+<body>
+<main class="main_container">
+    <article>
+        <img src="/img/logo_img.png" alt="grinder_logo" id="logo-img">
+        <img src="/img/icon/award-fill.png" alt="award_img" id="award-img">
+        <h1>환영합니다!</h1>
+        <p>
+            카페 커뮤니티 사이트 그라인드에 오신 것을 환영합니다!<br>
+            인증 회원이 될 수 있도록 다양한 인증을 남기고 여러 사람<br>
+            들을 만나보세요!
+        </p>
+        <button th:href="@{/page/login}">로그인으로 이동</button>
+    </article>
+</main>
+</body>
+</html>
