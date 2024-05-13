@@ -1,11 +1,5 @@
 @import "common.css";
 
-body, html {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-}
-
 body {
     background: linear-gradient(to bottom right, #F5FFFA, white);
 }

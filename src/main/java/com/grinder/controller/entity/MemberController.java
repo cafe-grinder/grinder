@@ -56,6 +56,13 @@ public class MemberController {
         else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<SuccessResult> updateMember(@RequestBody MemberDTO.MemberUpdateRequestDto request) {
+        if (memberService.updateMember(request))
+            return ResponseEntity.ok(new SuccessResult("Add Success", "추가되었습니다."));
+        else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
+    }
+
     @GetMapping("/email/check")
     public ResponseEntity<SuccessResult> checkEmail(@RequestParam String email){
         System.out.println(email);
@@ -97,5 +104,7 @@ public class MemberController {
         }
         else throw new IllegalArgumentException("비밀번호 변경에 실패했습니다.");
     }
+
+
 }
 

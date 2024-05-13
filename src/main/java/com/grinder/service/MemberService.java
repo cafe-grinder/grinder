@@ -37,4 +37,6 @@ public interface MemberService {
     boolean changePassword(String email);
     boolean existEmail(String email);
 
+    boolean updateMember(MemberDTO.MemberUpdateRequestDto request);
+
 }

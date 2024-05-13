@@ -11,6 +11,7 @@ import com.grinder.repository.queries.MemberQueryRepository;
 import com.grinder.service.MailService;
 import com.grinder.service.MemberService;
 import com.grinder.utils.RedisUtil;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.beans.factory.annotation.Value;
@@ -107,6 +108,20 @@ public class MemberServiceImpl implements MemberService {
                 .phoneNum(request.getPhoneNum())
                 .build();
         memberRepository.save(member);
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateMember(MemberDTO.MemberUpdateRequestDto request) {
+        Member member = memberRepository.findById(request.getMemberId()).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
+        if (!passwordEncoder.matches(request.getNowPassword(), member.getPassword())) {
+            throw new IllegalArgumentException("현재 비밀번호가 일치하지 않습니다.");
+        }
+        memberRepository.updateMemberInfo(request.getMemberId()
+        ,request.getNickname()
+        ,passwordEncoder.encode(request.getPassword())
+        ,request.getPhoneNum());
         return true;
     }
 

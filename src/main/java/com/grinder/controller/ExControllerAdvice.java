@@ -21,31 +21,27 @@ public class ExControllerAdvice {
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorResult illegalExHandle(IllegalArgumentException e, Model model) {
         log.error("[exceptionHandle] illegalExHandle", e);
-        model.addAttribute("message", e.getMessage());
         return new ErrorResult("실패", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MaximumRangeAlreadyAddedException.class)
-    public String MaximumRangeExHandle(MaximumRangeAlreadyAddedException e, Model model) {
+    public ErrorResult MaximumRangeExHandle(MaximumRangeAlreadyAddedException e, Model model) {
         log.error("[exceptionHandle] MaximumRangeExHandle", e);
-        model.addAttribute("message", e.getMessage());
-        return "error";
+        return new ErrorResult("실패", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(HasNotBeenAddedException.class)
-    public String HasNotBeenAddedExHandle(HasNotBeenAddedException e, Model model) {
+    public ErrorResult HasNotBeenAddedExHandle(HasNotBeenAddedException e, Model model) {
         log.error("[exceptionHandle] HasNotBeenAddedExHandle", e);
-        model.addAttribute("message", e.getMessage());
-        return "error";
+        return new ErrorResult("실패", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(LoginRequiredException.class)
-    public String LoginRequiredExHandle(LoginRequiredException e, Model model) {
+    public ErrorResult LoginRequiredExHandle(LoginRequiredException e, Model model) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
-        model.addAttribute("message", e.getMessage());
-        return "error";
+        return new ErrorResult("실패", e.getMessage());
     }
 }

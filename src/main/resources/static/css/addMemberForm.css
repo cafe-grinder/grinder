@@ -1,11 +1,5 @@
 @import "common.css";
 
-body, html {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-}
-
 body {
     background: linear-gradient(to bottom right, #F5FFFA, #FFFFFF);
 }
@@ -25,9 +19,8 @@ article {
     2px 0px 4px rgba(0, 0, 0, 0.1), 0px 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
     border: 1px solid #D9D9D9;
-    padding: 20px 65px 0px 65px;
+    padding: 20px 65px 50px 65px;
     width: 650px;
-    height: 1240px;
     background-color: #FFFFFF;
     margin-bottom: 60px;
 }
@@ -132,6 +125,13 @@ span {
 }
 
 #join-btn {
+    width: 640px;
+    height: 69px;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+#update-btn {
     width: 640px;
     height: 69px;
     font-weight: bold;
