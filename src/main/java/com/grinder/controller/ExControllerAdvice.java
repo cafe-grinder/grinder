@@ -5,6 +5,7 @@ import com.grinder.exception.HasNotBeenAddedException;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.MaximumRangeAlreadyAddedException;
 import com.grinder.exception.NoMoreContentException;
+import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +52,12 @@ public class ExControllerAdvice {
     public ResponseEntity<ErrorResult> NoMoreContentExHandle(NoMoreContentException e) {
         log.error("[exceptionHandle] NoMoreContentExHandle", e);
         return ResponseEntity.status(204).body(new ErrorResult("컨텐츠 없음", e.getMessage()));
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(NoSuchElementException.class)
+    public ErrorResult NoSuchElementExceptionExHandle(NoSuchElementException e, Model model) {
+        log.error("[exceptionHandle] LoginRequiredExHandle", e);
+        return new ErrorResult("실패", e.getMessage());
     }
 }
