@@ -20,7 +20,7 @@ public class CafePageController {
     private final CafeService cafeService;
     private final FeedService feedService;
 
-    @GetMapping("/cafe/{cafeId}")
+    @GetMapping("/{cafeId}")
     public String getCafeInfo(Model model, @PathVariable("cafeId") String cafeId) {
         CafeResponseDTO cafeInfo = cafeService.getCafeInfo(cafeId);
         model.addAttribute("cafeInfo", cafeInfo);
@@ -32,6 +32,10 @@ public class CafePageController {
         return "addCafeForm";
     }
 
+    //TODO: 앨런AI 요약 GET 작성 필요
+
+    //TODO: 카페 메뉴 GET 작성 필요
+
     @GetMapping("/{cafeId}/feed")
     public String getCafeFeed(Model model, @PathVariable String cafeId) {
         List<FeedResponseDTO> feedList = feedService.findFeedsByCafeId(cafeId);
@@ -40,7 +44,7 @@ public class CafePageController {
         return "";
     }
 
-    @GetMapping("/cafe/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
+    @GetMapping("/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
         model.addAttribute("cafeId", cafeId);
         return "sellerApplicationForm";
     }

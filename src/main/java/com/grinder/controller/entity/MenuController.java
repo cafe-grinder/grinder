@@ -28,7 +28,7 @@ public class MenuController {
     private final SellerInfoService sellerInfoService;
 
     @GetMapping("/cafe/{cafeId}/menu")
-    public ResponseEntity<List<Menu>> findAllMenusByCafeId(@PathVariable String cafeId) {
+    public ResponseEntity<List<Menu>> findAllMenusByCafeId(@PathVariable("cafeId") String cafeId) {
         List<Menu> menus = menuService.findAllMenusByCafeId(cafeId);
         if (menus.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
