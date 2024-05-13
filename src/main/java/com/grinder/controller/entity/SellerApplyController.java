@@ -34,8 +34,8 @@ public class SellerApplyController {
         return ResponseEntity.ok(new SuccessResult("Delete seller_apply", "판매자 신청이 삭제되었습니다."));
     }
 
-    @PostMapping
-    public ResponseEntity<SuccessResult> saveSellerApply(@RequestParam String cafeId, @RequestPart(value = "file")MultipartFile file, Authentication authentication) {
+    @PostMapping("/{cafeId}")
+    public ResponseEntity<SuccessResult> saveSellerApply(@PathVariable String cafeId, @RequestPart(value = "file")MultipartFile file, Authentication authentication) {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         String memberId = userDetails.getMemberId();
 

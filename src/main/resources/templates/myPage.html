@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>마이 페이지</title>
+    <title>마이 페이지 - Grinder</title>
     <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
     <!--header css-->
     <link rel="stylesheet" href="/css/header.css">
@@ -15,12 +15,14 @@
     <link rel="stylesheet" href="/css/bookmark.css">
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/myCafeList.css">
+    <link rel="stylesheet" href="/css/feed.css">
 </head>
 <body>
 
 <div id="headerContainer"></div>
 
 <div class="mypage_banner">
+    <input id="memberEmail" th:value="${myPageMember.email}" type="hidden">
     <img th:if="${myPageMember.image} == null" src="/img/basic-user.png">
     <img th:if="${myPageMember.image} != null" src="${member.image}">
     <a th:if="${connectEmail == myPageMember.email}" th:href="@{/myImage}"></a>
@@ -30,11 +32,13 @@
         <img th:case="'판매자'" src="/img/icon/check-fill.png"/>
         <img th:case="*" src=""/>
     </div>
+    <button th:if="${isFollow == false}" class="add_follow">팔로우</button>
+    <button th:if="${isFollow == true}" class="add_follow">팔로우 취소</button>
 </div>
 
 <div class="mypage_banner_line"></div>
 
-<p class="myPage_title"></p>
+<p class="myPage_title">작성한 피드</p>
 <div id="myPageMenuContainer"></div>
 
 <div th:if="${connectEmail == myPageMember.email}" class="mypage_menu">
@@ -50,7 +54,6 @@
         <li><button >😜 회원 정보 변경</button></li>
         <li><button id="view_bookmark">😍 북마크 보기</button></li>
         <li><button id="view_blacklist">😡 차단목록 보기</button></li>
-        <li><button >️😎 판매자 신청</button></li>
         <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
         <li><button th:onclick="logout()">🙋‍♂️ 로그아웃</button></li>
     </ul>
@@ -59,9 +62,8 @@
 
 <footer th:replace="components/footer :: footers"></footer>
 
-<!--header js-->
-<script src="/js/header.js"></script>
 <!--mypage js-->
 <script src="/js/myPage.js"></script>
+<script src="/js/myFeed.js"></script>
 </body>
 </html>

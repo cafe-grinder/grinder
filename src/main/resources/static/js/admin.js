@@ -109,7 +109,6 @@ function loadMemberList(memberPageNum) {
         if (!response.ok) {
             // 200 이외라면 토큰 재발급
                 reissue();
-
         } else {
             return response.json(); // 응답을 JSON으로 파싱
         }

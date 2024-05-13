@@ -97,6 +97,7 @@ header .header_bar .header_btn .header_login .header_alarm {
     text-indent: -9999px;
     cursor : pointer;
     border: 0;
+    margin-left: 10px;
 }
 
 header .header_bar .header_btn .header_login .header_alarm:hover {
@@ -188,7 +189,7 @@ header .header_bar .header_btn .header_login .header_profile {
 
 @-webkit-keyframes shakeBell {
     0% {rotate: 0deg}
-    20% {rotate: -10deg}
+    20% {rotate: -20deg}
     40% {rotate: 10deg}
     100% {rotate: 0deg}
 }

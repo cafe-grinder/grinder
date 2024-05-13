@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface FollowRepository extends JpaRepository<Follow, Long> {
     Optional<Follow> findByMemberAndFollowing(Member follower, Member following);
+    boolean existsByMember_EmailAndFollowing_Email(String email, String following);
 }

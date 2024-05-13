@@ -23,7 +23,7 @@ public class SellerApply {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "cafe_id", nullable = false)
     private Cafe cafe;
 

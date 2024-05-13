@@ -1,5 +1,6 @@
 let myPageMenu = document.querySelector('.mypage_menu_list');
 let myMenuButton = document.querySelector('.mypage_menu_button');
+let followButton = document.querySelector('.add_follow');
 let nextPage = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('headerContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            alarmTab();
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
@@ -26,10 +28,34 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     xhr.send(); // 요청을 서버로 보냅니다.
+
+    //팔로우 취소 버튼
+    followButton.addEventListener('click', function () {
+        let method = 'GET';
+        let url = '/api/follow/' + memberEmail;
+        if (followButton.innerText === "팔로우") {
+            method = 'POST';
+        } else if (followButton.innerText === "팔로우 취소") {
+            method = 'DELETE';
+        }
+        MemberPageFollow(method, url);
+    });
 });
+
+function alarmTab() {
+    const alarm = document.querySelector('.header_alarm');
+    let alarm_box = document.querySelector('.header_alarm_box');
+
+    alarm.addEventListener('click', () => {
+        if (alarm_box) {
+            alarm_box.classList.toggle('alarm_active');
+        }
+    });
+}
 
 
 //햄버거 메뉴 불러오기
+if (document.querySelector('.mypage_menu')) {
 document.addEventListener('DOMContentLoaded', function() {
     // 팔로워 보기 버튼 이벤트 리스너 추가
     document.getElementById('view_follower').addEventListener('click', function() {
@@ -89,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 });
+}
 
 // 공통 함수로 비동기 요청 및 내용 업데이트 처리
 function fetchContent(url, containerId) {
@@ -378,4 +405,38 @@ function reissue() {
             console.error('Error:', error);
             window.location.href = "/";
         });
+}
+
+//마이페이지 팔로우 버튼
+function MemberPageFollow(method, url) {
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url, true);
+
+    xhr.onload = function () {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            alert("완료되었습니다.")
+            if (followButton.innerText === "팔로우") {
+                followButton.innerText = '팔로우 취소';
+            } else if (followButton.innerText === "팔로우 취소") {
+                followButton.innerText = '팔로우';
+            }
+            window.location.reload();
+        } else { // TODO : 403 에러 처리 필요
+            let response = JSON.parse(xhr.responseText);
+            alert(response.message);
+            console.error('The request failed with status:', xhr.status);
+            document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
+            if(xhr.status === 401 || xhr.status === 403) {
+                reissue();
+            }
+            window.location.reload();
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('The request failed due to a network error!');
+        document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
+    };
+
+    xhr.send();
 }
