@@ -47,8 +47,8 @@ public class ExControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(LoginRequiredException.class)
-    public ErrorResult LoginRequiredExHandle(NoSuchElementException e, Model model) {
+    @ExceptionHandler(NoSuchElementException.class)
+    public ErrorResult NoSuchElementExceptionExHandle(NoSuchElementException e, Model model) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
         return new ErrorResult("실패", e.getMessage());
     }
