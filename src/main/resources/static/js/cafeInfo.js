@@ -25,3 +25,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+
+const sellerApplyBtn = document.getElementById('seller_apply_button');
+sellerApplyBtn.addEventListener('click', () => {
+    let cafeId = sellerApplyBtn.dataset.cafeId
+    window.location.href = '/cafe/seller_apply/' + cafeId;
+})

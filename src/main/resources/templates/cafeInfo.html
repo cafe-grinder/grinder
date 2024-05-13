@@ -47,10 +47,13 @@
 
 <article class="cafe_info_tab">
     <div>
-        <span>피드 보기</span>
+        <span>메뉴 보기</span>
     </div>
     <div>
-        <span>메뉴 보기</span>
+        <span>평점 보기</span>
+    </div>
+    <div th:data-cafe-id="${cafeInfo.cafeId}" id="seller_apply_button">
+        <span>판매자 신청</span>
     </div>
     <div class="cafe_info_bookmark">
         <img th:if="${check} == false" src="../static/img/icon/pin-angle.png">
@@ -61,5 +64,8 @@
 <div class="cafe_info_line"></div>
 
 
+
+
+<script src="/js/cafeInfo.js"></script>
 </body>
 </html>
