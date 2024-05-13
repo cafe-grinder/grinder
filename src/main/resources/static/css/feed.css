@@ -231,7 +231,7 @@
 }
 
 /* 드롭다운 리스트 아이템 호버 효과 */
-.feed_gear_dropdown button:hover {
+.feed_gear_dropdown li:hover {
     background-color: #f0f0f0;
 }
 /* 기어 버튼 드롭다운 */

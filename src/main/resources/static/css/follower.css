@@ -42,6 +42,12 @@
     margin-left: 35px;
 }
 
+.followerList .followerList_follower .move_follow {
+    color: white;
+    background-color : #009B55;
+    border: 0;
+}
+
 .button-container {
     text-align: center;
 }

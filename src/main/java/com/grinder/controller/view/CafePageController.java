@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/cafe")
 @RequiredArgsConstructor
 public class CafePageController {
     private final CafeService cafeService;
@@ -24,6 +25,11 @@ public class CafePageController {
         CafeResponseDTO cafeInfo = cafeService.getCafeInfo(cafeId);
         model.addAttribute("cafeInfo", cafeInfo);
         return "cafeInfo";
+    }
+
+    @GetMapping("/add")
+    public String addCafeInfo(){
+        return "addCafeForm";
     }
 
     @GetMapping("/{cafeId}/feed")

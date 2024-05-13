@@ -60,4 +60,9 @@ public class FollowServiceImpl implements FollowService {
         followRepository.delete(follow);
         return true;
     }
+
+    @Override
+    public boolean existFollow(String email, String followEmail) {
+        return followRepository.existsByMember_EmailAndFollowing_Email(email, followEmail);
+    }
 }

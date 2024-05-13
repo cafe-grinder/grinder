@@ -5,6 +5,7 @@ import com.grinder.domain.dto.MemberDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Image;
 import com.grinder.domain.enums.ContentType;
+import com.grinder.service.FollowService;
 import com.grinder.service.ImageService;
 import com.grinder.service.MemberService;
 import com.grinder.service.SellerInfoService;
@@ -31,12 +32,13 @@ public class MyPageController {
     private final CafeServiceImpl cafeService;
     private final SellerInfoService sellerInfoService;
     private final ImageService imageService;
+    private final FollowService followService;
 
     @GetMapping("/mypage/{member_id}")
     public String viewMyPage(@PathVariable("member_id")String memberId, Model model) {
         MemberDTO.FindMemberAndImageDTO member = memberService.findMemberAndImageById(memberId);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String email = Optional.ofNullable(authentication.getName()).orElse(null);
+        String email = getEmail();
+        model.addAttribute("isFollow", followService.existFollow(email, member.getEmail()));
         model.addAttribute("myPageMember", member);
         model.addAttribute("connectEmail", email);
         return "myPage";
