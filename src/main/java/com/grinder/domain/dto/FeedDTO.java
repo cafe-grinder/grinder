@@ -1,6 +1,7 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.*;
+import com.grinder.domain.enums.TagName;
 import com.grinder.service.ImageService;
 import com.grinder.service.TagService;
 import lombok.*;
@@ -38,6 +39,7 @@ public class FeedDTO {
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<String> tagNameList;
+        private List<String> imageUrlList;
         private List<CommentDTO.ParentCommentResponseDTO> parentCommentList;
         private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
         private int heartNum;       // 해당 댓글의 좋아요 수
@@ -46,7 +48,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe().getName();
+            this.cafeName = feed.getCafe() == null? null : feed.getCafe().getName();
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
@@ -79,7 +81,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe().getName();
+            this.cafeName = feed.getCafe() == null? null : feed.getCafe().getName();
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();

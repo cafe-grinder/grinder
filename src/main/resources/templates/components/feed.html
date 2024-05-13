@@ -24,7 +24,7 @@
                              alt="피드 작성자 프로필 이미지">
                     </div>
                     <div class="feed_writer_info">
-                        <span class="feed_cafe_name" th:text="${feed.cafeName}">스타벅스 (StarBucks)</span>
+                        <span class="feed_cafe_name" th:if="${feed.cafeName != null}" th:text="${feed.cafeName}"></span>
                         <span class="feed_writer_name feed_grey_info" th:text="'작성자 : ' + ${feed.memberNickname} + ' ' + ${feed.memberEmail}">aaa (강아지)</span>
                         <div class="feed_grade">
                             <img th:if="${feed.grade >= 1}" src="/img/icon/star-fill.png">

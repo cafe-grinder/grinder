@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>피드 작성 - Grinder</title>
@@ -14,7 +14,7 @@
 
     <section class="newfeed_content_area">
         <h2 class="newfeed_head_text">본문 작성</h2>
-        <textarea class="newfeed_content" placeholder="글을 작성해주세요."></textarea>
+        <textarea class="newfeed_content" placeholder="글을 작성해주세요." th:text="${newfeed.content}"></textarea>
     </section>
 
     <section class="newfeed_img_area">
@@ -45,6 +45,7 @@
         </div>
     </section>
 
+    <input class="newfeed_grade_init" type="hidden" th:value="${newfeed.grade}">
     <section class="newfeed_grad_area">
         <h2 class="newfeed_head_text">평점</h2>
         <div class="newfeed_star_grad">
@@ -56,17 +57,19 @@
         </div>
     </section>
 
+    <input type="hidden" th:value="${newfeed.tagNameList}">
     <section class="newfeed_tag_area">
         <h2 class="newfeed_head_text">평가 카테고리</h2>
         <p class="newfeed_sub_text">적절한 평가를 3개 골라주세요!</p>
         <div class="newfeed_tag_box">
-            <button class="newfeed_tag_name" type="button" th:each="tagName, tagIdx: ${tagList}"
-                    th:text="${tagName}"></button>
+            <button class="newfeed_tag_name" type="button" th:each="tagName: ${tagList}"
+                    th:text="${tagName.value}" th:value="${tagName}"></button>
         </div>
     </section>
 
     <div class="newfeed_align_center">
-        <button class="register-btn" type="submit">등록하기</button>
+        <button class="newfeed_create_btn" type="submit" th:if="${newfeed.feedId == null}">등록하기</button>
+        <button class="newfeed_update_btn" type="submit" th:if="${newfeed.feedId != null}">수정하기</button>
     </div>
 </article>
 <script src="/js/feedWriteForm.js"></script>

@@ -203,7 +203,8 @@ label {
     font-weight: normal;
 }
 
-.register-btn {
+.newfeed_create_btn,
+.newfeed_update_btn {
     width: 237px;
     height: 69px;
     font-family: 'GodoB', sans-serif;
