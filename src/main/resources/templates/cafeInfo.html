@@ -35,11 +35,11 @@
                         <address th:text="${cafeInfo.address}" id="cafe-address">주소 : </address>
                     </div>
                     <div class="cafe_info_score">평균 평점 :
-                        <img th:if="${cafeInfo.averageGrade >= 1}" src="/img/icon/star-fill.png">
-                        <img th:if="${cafeInfo.averageGrade >= 2}" src="/img/icon/star-fill.png">
-                        <img th:if="${cafeInfo.averageGrade >= 3}" src="/img/icon/star-fill.png">
-                        <img th:if="${cafeInfo.averageGrade >= 4}" src="/img/icon/star-fill.png">
-                        <img th:if="${cafeInfo.averageGrade >= 5}" src="/img/icon/star-fill.png">
+                        <img th:if="${cafeInfo.averageGrade >= 1}" src="/img/icon/star-fill.png" alt="">
+                        <img th:if="${cafeInfo.averageGrade >= 2}" src="/img/icon/star-fill.png" alt="">
+                        <img th:if="${cafeInfo.averageGrade >= 3}" src="/img/icon/star-fill.png" alt="">
+                        <img th:if="${cafeInfo.averageGrade >= 4}" src="/img/icon/star-fill.png" alt="">
+                        <img th:if="${cafeInfo.averageGrade >= 5}" src="/img/icon/star-fill.png" alt="">
                     </div>
                 </div>
             </div>
@@ -61,11 +61,11 @@
     <div th:data-cafe-id="${cafeInfo.cafeId}" id="seller_apply_button">
         <span>판매자 신청</span>
     </div>
-    <div class="cafe_info_bookmark" id="bookmark_null" onclick="addBookmark('cafeId')">
-        <img src="/img/icon/pin-angle.png">
+    <div class="cafe_info_bookmark" id="bookmark_null" onclick="addBookmark()" style="display: none;">
+        <img src="/img/icon/pin-angle.png" alt="">
     </div>
-    <div class="cafe_info_bookmark" id="bookmark_fill" onclick="deleteBookmark('cafeId')" style="display: none;">
-        <img src="/img/icon/pin-angle-fill.png">
+    <div class="cafe_info_bookmark" id="bookmark_fill" onclick="deleteBookmark()" style="display: none;">
+        <img src="/img/icon/pin-angle-fill.png" alt="">
     </div>
 
 
