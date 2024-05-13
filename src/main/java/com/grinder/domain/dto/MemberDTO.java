@@ -61,4 +61,17 @@ public class MemberDTO {
             this.image = image;
         }
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class MemberUpdateRequestDto {
+        private String memberId;
+        private String nowPassword;
+        private String nickname;
+        private String password;
+        private String phoneNum;
+
+    }
 }

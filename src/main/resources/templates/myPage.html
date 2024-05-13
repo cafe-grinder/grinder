@@ -51,7 +51,7 @@
         <li class="mypage_menu_list_line"></li>
         <li><button id="view_follower">😀 팔로워 보기</button></li>
         <li><button id="view_following">😁 팔로잉 보기</button></li>
-        <li><button >😜 회원 정보 변경</button></li>
+        <li><button th:onclick="|window.location.href='@{/page/change/memberInfo/{member_id}(member_id=${myPageMember.memberId})}'|">😜 회원 정보 변경</button></li>
         <li><button id="view_bookmark">😍 북마크 보기</button></li>
         <li><button id="view_blacklist">😡 차단목록 보기</button></li>
         <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
