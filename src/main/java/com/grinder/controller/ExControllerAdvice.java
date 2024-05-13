@@ -4,8 +4,10 @@ import com.grinder.domain.dto.ErrorResult;
 import com.grinder.exception.HasNotBeenAddedException;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.MaximumRangeAlreadyAddedException;
+import com.grinder.exception.NoMoreContentException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -43,5 +45,11 @@ public class ExControllerAdvice {
     public ErrorResult LoginRequiredExHandle(LoginRequiredException e, Model model) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
         return new ErrorResult("실패", e.getMessage());
+    }
+
+    @ExceptionHandler(NoMoreContentException.class)
+    public ResponseEntity<ErrorResult> NoMoreContentExHandle(NoMoreContentException e) {
+        log.error("[exceptionHandle] NoMoreContentExHandle", e);
+        return ResponseEntity.status(204).body(new ErrorResult("컨텐츠 없음", e.getMessage()));
     }
 }
