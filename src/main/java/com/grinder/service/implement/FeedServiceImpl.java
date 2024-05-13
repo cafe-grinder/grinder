@@ -1,6 +1,7 @@
 package com.grinder.service.implement;
 
 import com.grinder.domain.dto.FeedDTO;
+import com.grinder.domain.dto.FeedDTO.FeedResponseDTO;
 import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.repository.CafeRepository;
@@ -10,6 +11,7 @@ import com.grinder.service.FeedService;
 import com.grinder.service.ImageService;
 import com.grinder.service.MemberService;
 import com.grinder.service.TagService;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -96,9 +98,17 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public Feed findFeedByCafeId(String cafeId) {
-        //작성중ㄱㄷ
-        return null;
+    public List<FeedResponseDTO> findFeedsByCafeId(String cafeId) {
+        List<Feed> feedList = feedRepository.findFeedsByCafe_CafeId(cafeId);
+
+        // 조회된 피드 리스트를 FeedResponseDTO로 변환합니다.
+        List<FeedResponseDTO> feedDTOList = new ArrayList<>();
+        for (Feed feed : feedList) {
+            FeedResponseDTO responseDTO = new FeedResponseDTO(feed);
+            feedDTOList.add(responseDTO);
+        }
+
+        return feedDTOList;
     }
 
     @Override
