@@ -339,13 +339,13 @@
 }
 
 .feed_more_load_btn {
-    width: 200px;
-    height: 50px;
+    width: 166px;
+    height: 52px;
     background-color: white;
     font-family: 'GodoB', sans-serif;
-    font-size: 20px;
+    font-size: 25px;
     border: 2px solid #009b55;
-    border-radius: 15px;
+    border-radius: 30px;
 }
 
 .feed_more_load_btn:hover {
