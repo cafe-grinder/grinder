@@ -26,7 +26,8 @@ public class CafePageController {
     @GetMapping("/add")
     public String addCafeInfo(){
         return "addCafeForm";
-
+    }
+    
     @GetMapping("/cafe/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
         model.addAttribute("cafeId", cafeId);
         return "sellerApplicationForm";
