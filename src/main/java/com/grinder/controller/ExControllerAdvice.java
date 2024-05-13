@@ -4,6 +4,7 @@ import com.grinder.domain.dto.ErrorResult;
 import com.grinder.exception.HasNotBeenAddedException;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.MaximumRangeAlreadyAddedException;
+import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -41,6 +42,13 @@ public class ExControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(LoginRequiredException.class)
     public ErrorResult LoginRequiredExHandle(LoginRequiredException e, Model model) {
+        log.error("[exceptionHandle] LoginRequiredExHandle", e);
+        return new ErrorResult("실패", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(LoginRequiredException.class)
+    public ErrorResult LoginRequiredExHandle(NoSuchElementException e, Model model) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
         return new ErrorResult("실패", e.getMessage());
     }
