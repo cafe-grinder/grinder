@@ -223,15 +223,12 @@ async function addFeed(cafeId, content, imageUrlList, tagNameList, grade) {
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
             location.replace('/');
-            alert('1');
         } else {
             // 실패했을 때의 처리
             console.error('피드 등록에 실패했습니다.');
-            alert('2');
         }
     } catch (error) {
         console.error('피드 등록 중 오류가 발생했습니다:', error);
-        alert('3');
     }
 }
 
@@ -256,14 +253,11 @@ async function updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, gr
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
             location.replace('/');
-            alert('1');
         } else {
             // 실패했을 때의 처리
             console.error('피드 수정에 실패했습니다.');
-            alert('2');
         }
     } catch (error) {
         console.error('피드 수정 중 오류가 발생했습니다:', error);
-        alert('3');
     }
 }
