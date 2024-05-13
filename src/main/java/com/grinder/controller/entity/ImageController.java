@@ -2,6 +2,7 @@ package com.grinder.controller.entity;
 
 import com.grinder.domain.dto.ImageDTO;
 import com.grinder.domain.dto.SuccessResult;
+import com.grinder.service.AwsS3Service;
 import com.grinder.service.ImageService;
 import com.grinder.service.MemberService;
 import com.grinder.service.SellerInfoService;
@@ -14,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Slf4j
@@ -24,6 +26,8 @@ public class ImageController {
     private final ImageService imageService;
     private final SellerInfoService sellerInfoService;
     private final MemberService memberService;
+
+    private final AwsS3Service awsS3Service;
 
     @PostMapping("/image")
     public ResponseEntity<SuccessResult> saveAndDeleteImage(@ModelAttribute ImageDTO.UpdateRequest request) {
@@ -65,4 +69,5 @@ public class ImageController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  Optional.ofNullable(authentication.getName()).orElse(null);
     }
+
 }

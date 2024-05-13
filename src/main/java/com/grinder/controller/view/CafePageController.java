@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@Controller
+
+@RequestMapping("page/cafe")
 @RequiredArgsConstructor
 public class CafePageController {
     private final CafeService cafeService;
@@ -22,6 +23,11 @@ public class CafePageController {
         return "cafeInfo";
     }
 
+    @GetMapping("/add")
+    public String addCafeInfo(){
+        return "addCafeForm";
+    }
+    
     @GetMapping("/cafe/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
         model.addAttribute("cafeId", cafeId);
         return "sellerApplicationForm";
