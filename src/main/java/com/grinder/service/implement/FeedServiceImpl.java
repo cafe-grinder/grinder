@@ -38,13 +38,15 @@ public class FeedServiceImpl implements FeedService {
     public Feed saveFeed(FeedDTO.FeedRequestDTO request, String memberEmail, MultipartFile file){
         // Feed 저장
         Member member = memberService.findMemberByEmail(memberEmail);
-        Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정
+        Cafe cafe = cafeRepository.findById(request.getCafeId()).orElse(null);
         Feed feed = Feed.builder()
                 .content(request.getContent())
                 .grade(request.getGrade())
                 .member(member)
                 .cafe(cafe)
                 .build();
+
+        feed = feedRepository.save(feed);
 
         // Tag 저장
         tagService.saveTag(feed, request.getTagNameList());
@@ -64,7 +66,7 @@ public class FeedServiceImpl implements FeedService {
     public Feed updateFeed(String feedId, FeedDTO.FeedRequestDTO request) {
         // 피드 수정
         Feed feed = findFeed(feedId);
-        Cafe cafe = cafeRepository.findById(request.getCafeId()).orElseThrow(() -> new IllegalArgumentException("cafe id를 찾울 수 없습니다.")); // todo: CafeService로 수정
+        Cafe cafe = cafeRepository.findById(request.getCafeId()).orElse(null);
         feed.updateFeed(cafe, request.getContent(), request.getGrade());
 
         // 태그 수정
