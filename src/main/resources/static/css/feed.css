@@ -333,6 +333,26 @@
 }
 /* ---------------- */
 
+/* 피드 더보기 버튼 */
+.feed_more_load_align {
+    text-align: center;
+}
+
+.feed_more_load_btn {
+    width: 200px;
+    height: 50px;
+    background-color: white;
+    font-family: 'GodoB', sans-serif;
+    font-size: 20px;
+    border: 2px solid #009b55;
+    border-radius: 15px;
+}
+
+.feed_more_load_btn:hover {
+    background-color: #FAFFFA;
+}
+
+
 .display_none {
     display: none;
 }

@@ -183,6 +183,22 @@ public class ComponentsController {
         return "components/feed";
     }
 
+    @GetMapping("get-feed2")
+    public String getFeed2(
+            Model model,
+            @PageableDefault(size = 5) Pageable pageable
+    ) {
+        // 멤버
+        String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.findRecentFeedWithImage(email, pageable);
+        model.addAttribute("feedSlice", feedSlice);
+
+        return "components/feed2";
+    }
+
     @GetMapping("/get-cafeCard")
     public String getCafeCard() {
         return "components/cafeCard";

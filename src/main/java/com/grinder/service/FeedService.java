@@ -26,4 +26,5 @@ public interface FeedService {
 
     Slice<FeedDTO.FeedWithImageResponseDTO> findMyPageFeedWithImage(String connectEmail, String myPageEmail, Pageable pageable);
     Slice<FeedDTO.FeedWithImageResponseDTO> findCafeFeedWithImage(String connectEmail, String cafeId, Pageable pageable);
+    Slice<FeedDTO.FeedWithImageResponseDTO> findRecentFeedWithImage(String email, Pageable pageable);
 }

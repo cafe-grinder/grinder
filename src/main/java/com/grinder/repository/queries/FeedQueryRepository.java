@@ -136,17 +136,11 @@ public class FeedQueryRepository {
         QComment comment = QComment.comment;
         QComment subComment = QComment.comment;
         QHeart heart = QHeart.heart;
-        QMember member = QMember.member;
-        QCafe cafe = QCafe.cafe;
 
         List<Feed> feeds = queryFactory
                 .selectFrom(feed)
-                .leftJoin(feed.member, member)
-                .leftJoin(feed.cafe, cafe)
                 .where(feed.isVisible.isTrue())
                 .orderBy(feed.updatedAt.desc())
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
                 .fetch();
 
         return FindCommentInfo(feeds,email,pageable,tag,image,comment,subComment,heart);
@@ -264,6 +258,8 @@ public class FeedQueryRepository {
             List<CommentDTO.ParentCommentResponseDTO> parentComments = queryFactory
                     .selectFrom(comment)
                     .where(comment.feed.eq(result), comment.parentComment.isNull())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize() + 1)
                     .fetch()
                     .stream()
                     .map(parent -> {

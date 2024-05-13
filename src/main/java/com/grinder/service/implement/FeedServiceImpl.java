@@ -110,4 +110,9 @@ public class FeedServiceImpl implements FeedService {
     public Slice<FeedDTO.FeedWithImageResponseDTO> findCafeFeedWithImage(String connectEmail, String cafeId, Pageable pageable) {
         return feedQueryRepository.FindCafeFeedWithImage(connectEmail, cafeId, pageable);
     }
+
+    @Override
+    public Slice<FeedDTO.FeedWithImageResponseDTO> findRecentFeedWithImage(String email, Pageable pageable) {
+        return feedQueryRepository.findRecentFeedWithImage(email, pageable);
+    }
 }
