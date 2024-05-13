@@ -1,3 +1,5 @@
+const cafeId = window.location.pathname.substring(6);
+
 document.addEventListener('DOMContentLoaded', function() {
   let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
   xhr.open('GET', '/get-header', true); // 요청을 초기화합니다.
@@ -22,6 +24,32 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   xhr.send(); // 요청을 서버로 보냅니다.
+
+
+  fetch(`/api/bookmark/${cafeId}`)
+  .then(response => {
+    console.log(response);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error('Network response was not ok.');
+  })
+  .then(data => {
+    // 책갈피 상태에 따라 UI 업데이트
+    if (data === true) {
+      document.getElementById('bookmark_fill').style.display = 'block';
+      document.getElementById('bookmark_null').style.display = 'none';
+    } else {
+      document.getElementById('bookmark_fill').style.display = 'none';
+      document.getElementById('bookmark_null').style.display = 'block';
+    }
+  })
+  .catch(error => {
+    console.error('There has been a problem with your fetch operation:', error);
+    // 예상치 못한 에러가 발생한 경우
+    alert('예상치 못한 에러가 발생했습니다.');
+  });
+
 });
 
 function alarmTab() {
@@ -35,9 +63,11 @@ function alarmTab() {
   });
 }
 
-function addBookmark(cafeId) {
+
+
+function addBookmark() {
   // AJAX 요청을 보냄
-  fetch(`/bookmark/${cafeId}`, {
+  fetch(`/api/bookmark/${cafeId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -65,9 +95,9 @@ function addBookmark(cafeId) {
   });
 }
 
-function deleteBookmark(cafeId) {
+function deleteBookmark() {
   // AJAX 요청을 보냄
-  fetch(`/bookmark/${cafeId}`, {
+  fetch(`/api/bookmark/${cafeId}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

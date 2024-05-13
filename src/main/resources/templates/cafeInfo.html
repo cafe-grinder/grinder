@@ -61,10 +61,10 @@
     <div th:data-cafe-id="${cafeInfo.cafeId}" id="seller_apply_button">
         <span>판매자 신청</span>
     </div>
-    <div class="cafe_info_bookmark" id="bookmark_null" onclick="addBookmark('cafeId')">
+    <div class="cafe_info_bookmark" id="bookmark_null" onclick="addBookmark()" style="display: none;">
         <img src="/img/icon/pin-angle.png">
     </div>
-    <div class="cafe_info_bookmark" id="bookmark_fill" onclick="deleteBookmark('cafeId')" style="display: none;">
+    <div class="cafe_info_bookmark" id="bookmark_fill" onclick="deleteBookmark()" style="display: none;">
         <img src="/img/icon/pin-angle-fill.png">
     </div>
 
