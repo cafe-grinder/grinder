@@ -1,4 +1,4 @@
-# grinder
+# Cafe Grinder
 ### ☕ 카페 정보와 메뉴에 대한 정보가 있는 커뮤니티
 - 추후 수정
 
@@ -90,12 +90,16 @@
 
 ## 📄 Project Docs
 ### 사용자 요구사항 명세서
-
+<img width="850" alt="요구사항명세서" src="https://github.com/cafe-grinder/grinder/assets/94281256/1d952d96-3553-4b18-9d61-1ddc64a90275">
 </br>
 
-### erd 다이어그램
+### ERD 다이어그램
+![Untitled](https://github.com/cafe-grinder/grinder/assets/94281256/368ad222-ccb4-4cfa-b8bc-e099654dceab)
 </br>
 
 ### api 설계서
+</br>
 
 ### 시스템 아키텍쳐
+<img width="890" alt="시스템 아키텍쳐" src="https://github.com/cafe-grinder/grinder/assets/94281256/3a005e16-1192-413e-a014-a51a12abd4f7">
+</br>

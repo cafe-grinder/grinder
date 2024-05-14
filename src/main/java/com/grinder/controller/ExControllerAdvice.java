@@ -82,4 +82,11 @@ public class ExControllerAdvice {
         log.error("[exceptionHandle] permissionDeniedDataAccessExHandle", e);
         return new ErrorResult("has_not_authority", e.getMessage());
     }
+  
+    @ExceptionHandler(RecentAddedTagException.class)
+    public ResponseEntity<ErrorResult> RecentAddedTagExHandle(RecentAddedTagException e) {
+        log.error("[exceptionHandle] RecentAddedTagExHandle", e);
+        return ResponseEntity.status(406).body(new ErrorResult("최근 추가됨", e.getMessage()));
+
+    }
 }

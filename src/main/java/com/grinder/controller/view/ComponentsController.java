@@ -1,7 +1,10 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.*;
+import com.grinder.domain.entity.*;
+import com.grinder.domain.enums.ContentType;
 import com.grinder.domain.enums.MenuType;
+import com.grinder.domain.enums.TagName;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.NoMoreContentException;
 import com.grinder.service.*;
@@ -35,17 +38,34 @@ public class ComponentsController {
     private final HeartService heartService;
     private final TagService tagService;
     private final MyMenuService myMenuService;
+    private final MessageService messageService;
+    private final AnalysisTagService analysisTagService;
     private final CafeService cafeService;
+
 
     @GetMapping("/get-header")
     public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
         String email = getEmail();
         MemberDTO.FindMemberDTO member = null;
+        boolean checkMessage = false;
         if (email != null && !email.equals("anonymousUser")) {
             member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+            checkMessage = messageService.existNonCheckMessage(email);
         }
+        List<Message> message = messageService.findAllByEmail(email);
+        model.addAttribute("AlanMessages", message);
         model.addAttribute("headerMember",member);
+        model.addAttribute("checkMessage", checkMessage);
         return "components/header :: headers";
+    }
+
+    @GetMapping("/get-alan")
+    public String getAlanMessage(Model model) {
+        String email = getEmail();
+        List<Message> message = messageService.findAllByEmail(email);
+        model.addAttribute("AlanMessages", message);
+        model.addAttribute("tagList", TagName.values());
+        return "components/alanTab :: alan_tab";
     }
 
     @GetMapping("/get-follower")
