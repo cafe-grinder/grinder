@@ -154,6 +154,33 @@ label {
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
 }
 
+.newfeed_cafe_list {
+    display: none;
+    position: absolute;
+    max-height: 150px;
+    width: calc(100% - 14px);
+    background-color: white;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 5px;
+    z-index: 1;
+}
+
+.cafe-item {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.cafe-item:hover {
+    background-color: #f0f0f0;
+}
+
+.cafe-item-address {
+    color: #A3A3A3;
+}
+
 .newfeed_grad_area {
     margin-bottom: 53px;
 }

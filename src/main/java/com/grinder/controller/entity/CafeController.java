@@ -15,6 +15,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("api/cafe")
 @RequiredArgsConstructor
@@ -34,6 +37,24 @@ public class CafeController {
     public ResponseEntity<Slice<CafeDTO.CafeSearchByAdminDTO>> searchCafeByAdmin(@RequestParam String keyword,@PageableDefault(size = 5) Pageable pageable) {
         Slice<CafeDTO.CafeSearchByAdminDTO> cafeSlice = cafeService.searchCafeByAdmin(keyword, pageable);
         return ResponseEntity.ok(cafeSlice);
+    }
+
+    @GetMapping("/search-cafe")
+    public ResponseEntity<List<CafeResponseDTO>> searchCafes(@RequestParam String query) {
+        if (query == null || query.trim().length() < 3) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        try {
+            List<Cafe> cafes = cafeService.findCafeList(query);
+            List<CafeDTO.CafeResponseDTO> cafeDTOs = cafes.stream()
+                    .map(cafe -> cafeService.getCafeInfo(cafe.getCafeId()))
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(cafeDTOs);
+        } catch (Exception e) {
+            // 예외 발생 시 로그를 출력하고 500 Internal Server Error 응답 반환
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 
 }
