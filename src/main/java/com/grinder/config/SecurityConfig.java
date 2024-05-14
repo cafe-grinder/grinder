@@ -101,15 +101,16 @@ public class SecurityConfig {
 
         //Swagger UI
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("**/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
-                                "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
-                                "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
-                                "/api/follower", "/api/follow/**", "/heart", "/api/image", "/api/member/update",
-                                "/api/report/", "/api/seller_apply").hasAnyRole("SELLER", "VERIFIED_MEMBER", "MEMBER")
-                        .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("SELLER")
-                        .requestMatchers("/feed/newfeed").hasAnyRole("VERIFIED_MEMBER", "MEMBER")
+                            .requestMatchers("/").permitAll()
+                        // .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                        // .requestMatchers("**/admin/**").hasRole("ADMIN")
+                        // .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
+                        //         "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
+                        //         "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
+                        //         "/api/follower", "/api/follow/**", "/heart", "/api/image", "/api/member/update",
+                        //         "/api/report/", "/api/seller_apply").hasAnyRole("SELLER", "VERIFIED_MEMBER", "MEMBER")
+                        // .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("SELLER")
+                        // .requestMatchers("/feed/newfeed").hasAnyRole("VERIFIED_MEMBER", "MEMBER")
                         .anyRequest().permitAll())
                 .csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
