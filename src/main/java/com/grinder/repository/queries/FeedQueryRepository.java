@@ -4,10 +4,7 @@ import com.grinder.domain.dto.CommentDTO;
 import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.CaseBuilder;
-import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -16,14 +13,10 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import static com.querydsl.core.types.dsl.Expressions.cases;
 
 
 @Repository
@@ -136,15 +129,12 @@ public class FeedQueryRepository {
         QComment comment = QComment.comment;
         QComment subComment = QComment.comment;
         QHeart heart = QHeart.heart;
-        QMember member = QMember.member;
-        QCafe cafe = QCafe.cafe;
 
         List<Feed> feeds = queryFactory
                 .selectFrom(feed)
-                .leftJoin(feed.member, member)
-                .leftJoin(feed.cafe, cafe)
                 .where(feed.isVisible.isTrue())
                 .orderBy(feed.updatedAt.desc())
+                .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -264,6 +254,8 @@ public class FeedQueryRepository {
             List<CommentDTO.ParentCommentResponseDTO> parentComments = queryFactory
                     .selectFrom(comment)
                     .where(comment.feed.eq(result), comment.parentComment.isNull())
+                    .offset(pageable.getOffset())
+                    .limit(pageable.getPageSize() + 1)
                     .fetch()
                     .stream()
                     .map(parent -> {

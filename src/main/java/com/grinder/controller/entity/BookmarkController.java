@@ -36,6 +36,14 @@ public class BookmarkController {
         return ResponseEntity.ok().body(list);
     }
 
+    @GetMapping("/bookmark/{cafeId}")
+    public ResponseEntity<Boolean> isBookmarked(@PathVariable("cafeId") String cafeId) {
+        String email = getEmail();
+        boolean isBookmarked = bookmarkService.existsBookmarkByEmailAndCafeId(email, cafeId);
+        return ResponseEntity.ok(isBookmarked);
+    }
+
+
     @PostMapping("/bookmark/{cafeId}")
     public ResponseEntity<SuccessResult> addBookmark(
             @PathVariable("cafeId")String cafeId) {

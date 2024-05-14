@@ -1,8 +1,4 @@
-body, html {
-    padding: 0;
-    margin: 0;
-    height: 100%;
-}
+@import "common.css";
 
 body {
     background: linear-gradient(to bottom right, #F5FFFA, white);

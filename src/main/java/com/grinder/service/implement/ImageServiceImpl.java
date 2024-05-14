@@ -14,12 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
-public class ImageServiceImpl implements ImageService {
+public class ImageServiceImpl implements ImageService{
     private final ImageRepository imageRepository;
     private final ImageQueryRepository imageQueryRepository;
     private final AwsS3Service awsS3Service;
@@ -55,6 +56,13 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void deleteFeedImage(String contentId, ContentType contentType) {
         List<Image> ImageList = findAllImage(contentId, contentType);
+        for(Image image : ImageList){
+            try {
+                awsS3Service.deleteFile(image.getImageUrl());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
         imageRepository.deleteAll(ImageList);
     }
 
@@ -97,6 +105,11 @@ public class ImageServiceImpl implements ImageService {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
         Image image = imageRepository.findByContentTypeAndContentId(ContentType.CAFE, member.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException("이미 존재하지 않습니다."));
+        try {
+            awsS3Service.deleteFile(image.getImageUrl());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         imageRepository.delete(image);
         return true;
     }

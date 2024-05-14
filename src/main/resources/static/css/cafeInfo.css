@@ -1,7 +1,7 @@
 .cafe_info_background {
     width: 1400px;
     height: 200px;
-    background-color: black;
+    /*background-color: black;*/
     border-radius: 0 0 15px 15px;
 }
 
@@ -41,7 +41,7 @@
 
 .cafe_info_background .cafe_info_data h2 {
     position: relative;
-    font-family: GodoB;
+    font-family: 'GodoB', sans-serif;
     font-size: 55px;
     color: #FFFFFF;
     margin-bottom: 15px;
@@ -90,7 +90,7 @@
 }
 
 .cafe_info_tab div span {
-    font-family: GodoM;
+    font-family: 'GodoB', sans-serif;
     font-size: 25px;
 }
 

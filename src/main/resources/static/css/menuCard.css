@@ -52,11 +52,11 @@
     border-radius: 15px;
 }
 
-ul {
+.menu_card_container ul {
     display: inline-block;
 }
 
-li{
+.menu_card_container li {
     font-family: 'NanumGothic Light', sans-serif;
     font-size: 20px;
     color: #666666;

@@ -1,24 +1,16 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.*;
-import com.grinder.domain.entity.Cafe;
-import com.grinder.domain.entity.Comment;
-import com.grinder.domain.entity.Feed;
-import com.grinder.domain.entity.Tag;
-import com.grinder.domain.enums.ContentType;
 import com.grinder.domain.enums.MenuType;
 import com.grinder.exception.LoginRequiredException;
+import com.grinder.exception.NoMoreContentException;
 import com.grinder.service.*;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -136,7 +128,7 @@ public class ComponentsController {
         return "components/menuInfo :: addMenu";
     }
 
-    @GetMapping("/get-feed")
+    /*@GetMapping("/get-feed")
     public String getFeed(Model model) {
         // 멤버
         String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
@@ -182,6 +174,25 @@ public class ComponentsController {
         }
         model.addAttribute("feedList", feedResponseList);
 
+        return "components/feed2";
+    }*/
+
+    @GetMapping("get-feed")
+    public String getFeed2(
+            Model model,
+            @PageableDefault(size = 5) Pageable pageable
+    ) {
+        // 멤버
+        String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.findRecentFeedWithImage(email, pageable);
+        model.addAttribute("feedSlice", feedSlice);
+
+        if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
         return "components/feed";
     }
 
@@ -209,8 +220,10 @@ public class ComponentsController {
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
         Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findMyPageFeedWithImage(email, memberEmail, pageable);
-        model.addAttribute("hasNext", slice.hasNext());
-        model.addAttribute("feedList", slice.getContent());
+        if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
+        model.addAttribute("feedList", slice);
         return "components/feed";
     }
 
@@ -222,8 +235,10 @@ public class ComponentsController {
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
         Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findCafeFeedWithImage(email, cafeId, pageable);
-        model.addAttribute("hasNext", slice.hasNext());
-        model.addAttribute("feedList", slice.getContent());
+        if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
+        model.addAttribute("feedList", slice);
         return "components/feed";
     }
 

@@ -1,6 +1,7 @@
 package com.grinder.service.implement;
 
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -147,5 +148,14 @@ public class AwsS3ServiceImpl implements AwsS3Service {
                 .contentType(contentType)
                 .build();
         return imageRepository.save(image);
+    }
+
+    @Override
+    public void deleteFile(String fileURL) throws IOException {
+        try{
+            s3Client.deleteObject(awsProperties.getBucket(),fileURL);
+        }catch (SdkClientException e){
+            throw new IOException("Error deleting file from S3");
+        }
     }
 }

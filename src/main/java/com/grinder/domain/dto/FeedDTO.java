@@ -1,7 +1,10 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.*;
+import com.grinder.service.ImageService;
+import com.grinder.service.TagService;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -16,7 +19,6 @@ public class FeedDTO {
         // 피드 내용, 이미지, 카페, 평점, 태그
         private String cafeId;
         private String content;
-        private List<String> imageUrlList;
         private List<String> tagNameList;
         private Integer grade;
     }
@@ -29,13 +31,14 @@ public class FeedDTO {
         private String feedId;
         private String memberNickname;
         private String memberEmail;
-        private String cafeName;
+        private CafeDTO.CafeResponseDTO cafe;
         private String content;
         private Boolean isVisible;
         private Integer grade;
         private LocalDateTime createdAt;
         private LocalDateTime updatedAt;
         private List<String> tagNameList;
+        private List<String> imageUrlList;
         private List<CommentDTO.ParentCommentResponseDTO> parentCommentList;
         private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
         private int heartNum;       // 해당 댓글의 좋아요 수
@@ -44,7 +47,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe().getName();
+            this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
@@ -77,7 +80,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe().getName();
+            this.cafeName = feed.getCafe() == null? null : feed.getCafe().getName();
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
@@ -86,6 +89,30 @@ public class FeedDTO {
             this.isHeart = false;
             this.heartNum = 0;
             this.image = image;
+        }
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class NewFeedResponseDTO {
+        private ImageService imageService;
+        private TagService tagService;
+        private String feedId;
+        private String content;
+        private List<String> imageUrlList;
+        private CafeDTO.CafeResponseDTO cafe;
+        private Integer grade;
+        private List<String> tagNameList;
+
+        public NewFeedResponseDTO(Feed feed) {
+            this.feedId = feed.getFeedId();
+            this.content = feed.getContent();
+            this.imageUrlList = new ArrayList<>();
+            this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
+            this.grade = feed.getGrade();
+            this.tagNameList = new ArrayList<>();
         }
     }
 
@@ -121,7 +148,7 @@ public class FeedDTO {
         private String feedId;
         private String memberNickname;
         private String memberEmail;
-        private String cafeName;
+        private CafeDTO.CafeResponseDTO cafe;
         private String content;
         private Boolean isVisible;
         private Integer grade;
@@ -138,7 +165,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe().getName();
+            this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();

@@ -41,6 +41,10 @@
 <p class="myPage_title">작성한 피드</p>
 <div id="myPageMenuContainer"></div>
 
+<div class="feed_more_load_align">
+    <button class="feed_more_load_btn">더보기</button>
+</div>
+
 <div th:if="${connectEmail == myPageMember.email}" class="mypage_menu">
     <ul class="mypage_menu_list">
         <li class="mypage_menu_user">
@@ -51,7 +55,7 @@
         <li class="mypage_menu_list_line"></li>
         <li><button id="view_follower">😀 팔로워 보기</button></li>
         <li><button id="view_following">😁 팔로잉 보기</button></li>
-        <li><button >😜 회원 정보 변경</button></li>
+        <li><button th:onclick="|window.location.href='@{/page/change/memberInfo/{member_id}(member_id=${myPageMember.memberId})}'|">😜 회원 정보 변경</button></li>
         <li><button id="view_bookmark">😍 북마크 보기</button></li>
         <li><button id="view_blacklist">😡 차단목록 보기</button></li>
         <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
