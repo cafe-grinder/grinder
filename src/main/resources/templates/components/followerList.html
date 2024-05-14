@@ -16,6 +16,7 @@
 <div th:fragment="followList(title)">
     <button th:if="${title == 'follower'}" class="follower_more">더보기</button>
     <button th:if="${title == 'following'}" class="following_more">더보기</button>
+    <input type="hidden" th:if="${title == 'search'}" th:value="${hasNext}" id="member_hasNext">
     <article class="followerList" th:each="member : ${followMembers}">
         <div class="followerList_follower">
             <img th:if="${member.followImage} == null" src="/img/basic-user.png">
@@ -33,6 +34,7 @@
         </div>
     </article>
 </div>
+
 
 </body>
 </html>

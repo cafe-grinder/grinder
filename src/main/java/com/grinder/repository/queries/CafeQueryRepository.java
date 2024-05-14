@@ -59,7 +59,7 @@ public class CafeQueryRepository {
      * @return "query"에 해당하는 값을 찾고
      *          가장 많이 참조된 Tag2개와 카페 대표 이미지, 카페 정보를 반환합니다.
      */
-    public Slice<CafeDTO.findAllWithImageAndTagResponse> SearchCafes(String query, Pageable pageable) {
+    public Slice<CafeDTO.findAllWithImageAndTagResponse> searchCafes(String query, Pageable pageable) {
         QCafe cafe = QCafe.cafe;
         QImage image = QImage.image;
         QTag tag = QTag.tag;
@@ -71,7 +71,7 @@ public class CafeQueryRepository {
                 .leftJoin(image).on(cafe.cafeId.eq(image.contentId))
                 .where(cafe.name.containsIgnoreCase(query)
                         .or(cafe.address.containsIgnoreCase(query)))
-                .orderBy(feed.updatedAt.desc())
+                .orderBy(cafe.name.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -79,7 +79,7 @@ public class CafeQueryRepository {
         List<CafeDTO.findAllWithImageAndTagResponse> cafeList = list.stream().map(result -> {
             List<Tag> tagNames = queryFactory
                     .select(tag)
-                    .from(feed)
+                    .from(tag)
                     .join(tag.feed, feed)
                     .where(feed.cafe.cafeId.eq(result.getCafeId()))
                     .groupBy(tag.tagName)

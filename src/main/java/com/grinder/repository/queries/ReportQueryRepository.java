@@ -31,7 +31,6 @@ public class ReportQueryRepository {
         QComment comment = QComment.comment;
 
         BooleanExpression keywordExpression = null;
-
         if (keyword != null && keyword != "") {
             keywordExpression = report.contentId.in(
                     JPAExpressions
@@ -39,8 +38,7 @@ public class ReportQueryRepository {
                             .from(comment)
                             .where(comment.content.contains(keyword))
                     )
-                    .or(
-                            report.contentId.in(
+                    .or(report.contentId.in(
                                     JPAExpressions
                                             .select(feed.feedId)
                                             .from(feed)
@@ -48,6 +46,7 @@ public class ReportQueryRepository {
                             )
                     );
         }
+
         BooleanExpression typeExpression = null;
         if (contentType != "") {
             typeExpression = report.contentType.eq(ContentType.valueOf(contentType));
@@ -64,7 +63,6 @@ public class ReportQueryRepository {
         if (hasNext) {
             reportList.remove(reportList.size() - 1);
         }
-
         return new SliceImpl<>(reportList, pageable, hasNext);
     }
 }

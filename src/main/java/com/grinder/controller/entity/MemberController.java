@@ -22,13 +22,13 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PutMapping("/{memberId}/role")
+    @PutMapping("/admin/{memberId}/role")
     public ResponseEntity<SuccessResult> updateMemberRole(@PathVariable String memberId) {
         memberService.updateMemberRole(memberId);
-        return ResponseEntity.ok(new SuccessResult("Success", "요청이 성공적으로 처리되었습니다."));
+        return ResponseEntity.ok(new SuccessResult("Success", "회원 인증 상태가 변경되었습니다."));
     }
 
-    @DeleteMapping("/{memberId}")
+    @DeleteMapping("/admin/{memberId}")
     public ResponseEntity<SuccessResult> deleteMember(@PathVariable String memberId) {
         if (!memberService.deleteMember(memberId)) {
             return ResponseEntity.ok(new SuccessResult("Already deleted", "이미 삭제된 회원입니다."));
@@ -36,7 +36,7 @@ public class MemberController {
         return ResponseEntity.ok(new SuccessResult("Delete member", "회원이 삭제 처리되었습니다."));
     }
 
-    @PutMapping("/{memberId}/recovery")
+    @PutMapping("/admin/{memberId}/recovery")
     public ResponseEntity<SuccessResult> recoverMember(@PathVariable String memberId) {
         if (!memberService.recoverMember(memberId)) {
             return ResponseEntity.ok(new SuccessResult("Alive member", "정상 회원입니다."));
@@ -44,7 +44,7 @@ public class MemberController {
         return ResponseEntity.ok(new SuccessResult("Recover member", "회원 삭제가 취소되었습니다."));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/admin/search")
     public ResponseEntity<Slice<FindMemberDTO>> searchMemberByNicknameAndRole(@RequestParam String nickname, @RequestParam String role,@PageableDefault(size = 5) Pageable pageable) {
         Slice<FindMemberDTO> memberSlice = memberService.searchMemberSlice(role, nickname, pageable);
         return ResponseEntity.ok(memberSlice);

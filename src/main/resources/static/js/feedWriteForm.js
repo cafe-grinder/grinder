@@ -21,8 +21,37 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     xhr.send(); // 요청을 서버로 보냅니다.
 
-
     function InitNewFeed() {
+        // 이미지 초기화
+        /*imageUrlList.forEach(imageUrl => {
+            addImageUrlToImageList(imageUrl);
+        });
+        function addImageUrlToImageList(imageUrl) {
+            fetch(imageUrl)
+                .then(response => response.blob())
+                .then(blob => {
+                    const file = new File([blob], "imageFileName");
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        let imgBox = document.querySelector('.img-box');
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.classList.add('newfeed_upload_img');
+
+                        img.addEventListener('click', function() {
+                            removeImage(img, file);
+                        });
+
+                        imgBox.appendChild(img);
+                        imageList.push(file);
+                    };
+
+                    reader.readAsDataURL(blob);
+                })
+                .catch(error => console.error('Error fetching image:', error));
+        }*/
+
         // 평점 초기화
         const stars = document.querySelectorAll('.star');
         stars.forEach(star => {
@@ -46,15 +75,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let imageUrlList = [];
+    document.querySelectorAll('.newfeed_img_init').forEach(imageUrl => {
+        imageUrlList.push(imageUrl.value);
+    });
+
+    let imageList = [];
     function ImageSelectEvent() {
-        let imgCnt = 0; // 이미지 수 카운트(4개)
         document.getElementById('file-input').addEventListener('change', function() {
             let files = this.files;
             let imgBox = document.querySelector('.img-box');
 
             // 한 번에 선택한 파일 수가 4개 이하일 때만 처리
             if (files.length <= 4) {
-                if ((imgCnt + files.length) > 4) {
+                if ((imageList.length + files.length) > 4) {
                     alert('최대 4개의 이미지만 첨부할 수 있습니다.');
                     return;
                 }
@@ -62,8 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 for (let i = 0; i < files.length; i++) {
                     let file = files[i];
                     let reader = new FileReader();
-
-                    imgCnt++;
 
                     reader.onload = (function(file) {
                         return function(e) {
@@ -73,18 +104,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                             // 이미지를 클릭하면 해당 이미지 제거
                             img.addEventListener('click', function() {
-                                if (confirm("이미지를 제거하시겠습니까?")) {
-                                    imgBox.removeChild(img); // 이미지 박스에서 이미지 제거
-                                    const index = imageUrlList.indexOf(file);
-                                    if (index !== -1) {
-                                        imageUrlList.splice(index, 1); // uploadImages 배열에서 해당 파일 제거
-                                    }
-                                    imgCnt--; // 이미지 수 카운트 감소
-                                }
+                                removeImage(img, file);
                             });
 
                             imgBox.appendChild(img); // 이미지 박스에 이미지 추가
-                            imageUrlList.push(file); // uploadImages 배열에 파일 추가
+                            imageList.push(file); // uploadImages 배열에 파일 추가
                         };
                     })(file);
 
@@ -97,10 +121,65 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    function removeImage(img, file) {
+        if (confirm("이미지를 제거하시겠습니까?")) {
+            img.parentNode.removeChild(img); // 이미지 박스에서 이미지 제거
+            const index = imageList.indexOf(file);
+            if (index !== -1) {
+                imageList.splice(index, 1); // uploadImages 배열에서 해당 파일 제거
+            }
+        }
+    }
 
     let cafeId = '';
     function CafeSelectEvent() {
+        const input = document.querySelector('.newfeed_input');
+        const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+        if (cafeListContainer)
 
+        input.addEventListener('input', async () => {
+            const input = document.querySelector('.newfeed_input');
+            const keyword = input.value;
+            console.log(`Searching for cafes with keyword: ${keyword}`);
+            const cafes = await searchCafes(keyword);
+            displayCafes(cafes);
+        });
+
+        function displayCafes(cafes) {
+            const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+            cafeListContainer.innerHTML = '';
+            if (cafes.length === 0) {
+                cafeListContainer.style.display = 'none'; // 카페 데이터가 없으면 숨김
+                return;
+            }
+            cafeListContainer.style.display = 'block'; // 카페 데이터가 있으면 보이도록 설정
+            cafes.forEach(cafe => {
+                const cafeItem = document.createElement('div');
+                cafeItem.textContent = cafe.name;
+                cafeItem.classList.add('cafe-item');
+                cafeItem.addEventListener('click', () => {
+                    selectCafe(cafe);
+                });
+
+                const addressSpan = document.createElement('span');
+                addressSpan.textContent = ` (${cafe.address})`; // 카페 주소 설정
+                addressSpan.classList.add('cafe-item-address');
+
+                cafeItem.appendChild(addressSpan);
+                cafeListContainer.appendChild(cafeItem);
+            });
+        }
+
+        function selectCafe(cafe) {
+            const input = document.querySelector('.newfeed_input');
+            const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+            cafeId = cafe['cafeId'];
+            input.value = cafe.name;
+            cafeListContainer.innerHTML = ''; // 선택 후 카페 목록 지우기
+            cafeListContainer.style.display = 'none';
+            console.log('선택된 카페:', cafe);
+            console.log('선택된 카페:', cafeId);
+        }
     }
 
     let grade = document.querySelector('.newfeed_grade_init').value;
@@ -130,7 +209,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    let tagNameList = [];
+    let tagNameList = []
+    document.querySelectorAll('.newfeed_tag_init').forEach(tagName => {
+        tagNameList.push(tagName.value);
+    });
+    console.log(tagNameList);
     function NewFeedClickEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
@@ -157,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         target.classList.add('newfeed_tag_name_active');
                     }
                 }
+                console.log(tagNameList);
             }
 
             // 이미지 첨부
@@ -178,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                await addFeed(cafeId, content, imageUrlList, tagNameList, grade);
+                await addFeed(content, cafeId, tagNameList, grade, imageList);
             }
 
             // 수정하기 버튼 클릭
@@ -196,27 +280,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                await updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, grade);
+                await updateFeed(feedId, content, cafeId, tagNameList, grade, imageList);
             }
         });
     }
 });
 
 // 피드 등록
-async function addFeed(cafeId, content, imageUrlList, tagNameList, grade) {
+async function addFeed(content, cafeId, tagNameList, grade, imageList) {
     try {
+        let formData = new FormData();
+        formData.append('content', content);
+        formData.append('cafeId', cafeId);
+        for (let i = 0; i < tagNameList.length; i++) {
+            formData.append('tagNameList', tagNameList[i]);
+        }
+        formData.append('grade', grade);
+        for (let i = 0; i < imageList.length; i++) {
+            formData.append('imageList', imageList[i]);
+        }
+
         const response = await fetch(`/feed/newfeed`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cafeId: cafeId,
-                content: content,
-                imageUrlList: imageUrlList,
-                tagNameList: tagNameList,
-                grade: grade
-            }),
+            body: formData
         });
 
         if (response.ok) {
@@ -233,20 +319,29 @@ async function addFeed(cafeId, content, imageUrlList, tagNameList, grade) {
 }
 
 // 피드 수정
-async function updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, grade) {
+async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList) {
+    console.log("feedId: " + feedId);
+    console.log("content: " + content);
+    console.log("cafeId: " + cafeId);
+    console.log("tagNameList: " + tagNameList);
+    console.log("grade: " + grade);
+    console.log("imageList: " + imageList);
     try {
+        let formData = new FormData();
+        formData.append('feedId', feedId);
+        formData.append('content', content);
+        formData.append('cafeId', cafeId);
+        for (let i = 0; i < tagNameList.length; i++) {
+            formData.append('tagNameList', tagNameList[i]);
+        }
+        formData.append('grade', grade);
+        for (let i = 0; i < imageList.length; i++) {
+            formData.append('imageList', imageList[i]);
+        }
+
         const response = await fetch(`/feed/${feedId}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cafeId: cafeId,
-                content: content,
-                imageUrlList: imageUrlList,
-                tagNameList: tagNameList,
-                grade: grade
-            }),
+            body: formData
         });
 
         if (response.ok) {
@@ -259,5 +354,29 @@ async function updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, gr
         }
     } catch (error) {
         console.error('피드 수정 중 오류가 발생했습니다:', error);
+    }
+}
+
+async function searchCafes(keyword) {
+    try {
+        if (keyword.length > 2) { // 최소 3글자가 입력되었을 때 요청 실행
+            const response = await fetch(`/api/cafe/search-cafe?query=${encodeURIComponent(keyword)}`);
+            if (response.ok) {
+                const cafes = await response.json();
+                return cafes;
+            } else if (response.status === 204) {
+                console.warn('No cafes found.');
+                return [];
+            } else {
+                console.error('카페 검색에 실패했습니다.');
+                return [];
+            }
+        } else {
+            console.warn('검색어는 최소 3글자 이상이어야 합니다.');
+            return [];
+        }
+    } catch (error) {
+        console.error('카페 검색 중 오류가 발생했습니다:', error);
+        return [];
     }
 }

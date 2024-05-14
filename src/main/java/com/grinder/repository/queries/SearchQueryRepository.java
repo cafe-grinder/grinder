@@ -223,17 +223,27 @@ public class SearchQueryRepository {
     }
 
     //회원 닉네임이나 이메일 검색
-    public List<MemberDTO.FindMemberAndImageDTO> searchMembersByNicknameOrEmail(String searchString) {
+    public Slice<MemberDTO.FindMemberAndImageDTO> searchMembersByNicknameOrEmail(String query, Pageable pageable) {
         QMember member = QMember.member;
         QImage image = QImage.image;
 
-        return queryFactory
+        long limit = pageable.getPageSize() + 1;
+        long offset = pageable.getOffset();
+
+        List<MemberDTO.FindMemberAndImageDTO> content =  queryFactory
                 .select(Projections.constructor(MemberDTO.FindMemberAndImageDTO.class, member, image.imageUrl))
                 .from(member)
                 .leftJoin(image).on(image.contentId.eq(member.memberId))
-                .where(member.nickname.containsIgnoreCase(searchString)
-                        .or(member.email.containsIgnoreCase(searchString)))
+                .where(member.nickname.containsIgnoreCase(query)
+                        .or(member.email.containsIgnoreCase(query)))
+                .offset(offset)
+                .limit(limit)
                 .fetch();
+        boolean hasNext = content.size() > pageable.getPageSize();
+        if (hasNext) {
+            content.remove(content.size() - 1);
+        }
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     /**

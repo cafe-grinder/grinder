@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "image", indexes = {
-        @Index(name = "idx_content_type", columnList = "content_type")
+        @Index(name = "idx_image_content_type", columnList = "content_type")
 })
 @Getter
 @Builder

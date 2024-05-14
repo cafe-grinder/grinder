@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/common.css">
+    <!--header css-->
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/footer.css">
+    <!--cafeCard css-->
+    <link rel="stylesheet" href="/css/cafeCard.css">
+    <link rel="stylesheet" href="/css/search.css">
+    <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/follower.css">
+</head>
+<body>
+<div id="headerContainer"></div>
+<input type="hidden" th:value="${query}" disabled id="hidden_query" style="display: none">
+<h2 th:if="${category}=='cafe'">검색 관련 카페</h2>
+<h2 th:if="${category}=='feed'">검색 관련 피드</h2>
+<h2 th:if="${category}=='member'">검색 관련 회원</h2>
+<hr>
+<div id="contents_container">
+    <div id="cafeCardContainer"></div>
+    <div id="feedContainer"></div>
+    <div id="memberContainer"></div>
+    <button id="more_contents_button" class="feed_more_load_btn">더보기</button>
+</div>
+
+<footer th:replace="components/footer :: footers"></footer>
+<!--cafeCard js-->
+<script src="/js/cafeCard.js"></script>
+<!--header js-->
+<script src="/js/search.js"></script>
+<script src="/js/feed.js"></script>
+</body>
+</html>

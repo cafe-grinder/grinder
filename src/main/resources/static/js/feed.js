@@ -1,12 +1,30 @@
 let pageNum = 1
+let searchPage = 0;
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-    xhr.open('GET', '/get-feed2', true); // 요청을 초기화합니다.
+    const queryString = window.location.search;
+    if (queryString == null || queryString == '') {
+        xhr.open('GET', '/get-feed', true); // 요청을 초기화합니다.
+        xhr.send(); // 요청을 서버로 보냅니다.
+    } else {
+        const urlParams = new URLSearchParams(queryString);
+        let query = urlParams.get('query');
+        let category = urlParams.get('category')
+        if (category == 'feed') {
+            let url = '/get-search-feed?query=' + query + '&page=' + searchPage;
+            xhr.open('GET', url, true);
+            xhr.send(); // 요청을 서버로 보냅니다.
+        }
+    }
+
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('feedContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            if (document.querySelectorAll('.feed_container').length == 0) {
+                document.getElementById('feedContainer').innerHTML = `<div class="no_cafe_container"> <p class="no_cafe_message">관련 피드가 존재하지 않습니다.</p></div>`
+            }
             FeedClickEvent(); // 클릭 이벤트 함수 호출
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
@@ -17,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 요청이 네트워크 문제로 실패했을 때 실행됩니다.
         console.error('The request failed due to a network error!');
     };
-    xhr.send(); // 요청을 서버로 보냅니다.
+
 
     // 피드 이벤트 설정
     function FeedClickEvent() {
@@ -33,6 +51,18 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target.classList.contains('feed_gear_btn')) {
                 const dropdown = target.closest('.feed_gear_btn_parent').querySelector('.feed_gear_dropdown');
                 dropdown.classList.toggle('display_none');
+            }
+
+            // 피드 이미지 클릭
+            if (target.classList.contains('feed_img')) {
+                let modalContainer = document.querySelector(".feed_modal_container");
+                let modal = document.querySelector(".feed_modal");
+                modal.innerHTML = `<img src="${target.src}" class="feed_modal_content">`
+                modalContainer.style.display = "block";
+            }
+
+            if (target.classList.contains('feed_modal_container')) {
+                document.querySelector(".feed_modal_container").style.display = "none";
             }
 
             // 좋아요 버튼 클릭
@@ -228,8 +258,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target.classList.contains('feed_more_load_btn')) {
 
                 // AJAX를 이용하여 다음 페이지의 피드를 가져옴
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', `/get-feed2?page=` + pageNum++, true);
+
+                if (queryString == null || queryString == '') {
+                    xhr.open('GET', `/get-feed?page=` + pageNum++, true);
+                } else {
+                    const urlParams = new URLSearchParams(queryString);
+                    let query = urlParams.get('query');
+                    let category = urlParams.get('category')
+                    if (category == 'feed') {
+                        let url = '/get-search-feed?query=' + query + '&page=' + ++searchPage;
+                        xhr.open('GET', url, true);
+                    }
+                }
+
+
                 console.log(pageNum);
                 xhr.onload = function() {
                     console.log(xhr.status);
