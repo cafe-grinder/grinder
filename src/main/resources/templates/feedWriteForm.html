@@ -57,13 +57,13 @@
         </div>
     </section>
 
-    <input type="hidden" th:value="${newfeed.tagNameList}">
+    <input class="newfeed_tag_init" type="hidden" th:each="tagName: ${newfeed.tagNameList}" th:value="${tagName}">
     <section class="newfeed_tag_area">
         <h2 class="newfeed_head_text">평가 카테고리</h2>
         <p class="newfeed_sub_text">적절한 평가를 3개 골라주세요!</p>
         <div class="newfeed_tag_box">
             <button class="newfeed_tag_name" type="button" th:each="tagName: ${tagList}"
-                    th:text="${tagName.value}" th:value="${tagName}"></button>
+                    th:text="${tagName.value}" th:value="${tagName.toString()}"></button>
         </div>
     </section>
 
