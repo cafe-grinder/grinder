@@ -101,7 +101,7 @@ public class SecurityConfig {
 
         //Swagger UI
         http.authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/").permitAll()
+                            // .requestMatchers("/").permitAll()
                         // .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                         // .requestMatchers("**/admin/**").hasRole("ADMIN")
                         // .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
