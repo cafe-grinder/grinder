@@ -62,8 +62,6 @@ function alarmTab() {
     });
 }
 
-
-
 function reissue() {
     let url = '/api/reissue';
 
