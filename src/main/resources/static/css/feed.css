@@ -346,21 +346,87 @@
     text-align: center;
 }
 
-.feed_more_load_btn {
-    width: 166px;
-    height: 52px;
-    background-color: white;
-    font-family: 'GodoB', sans-serif;
-    font-size: 25px;
-    border: 2px solid #009b55;
-    border-radius: 30px;
-}
+/*.feed_more_load_btn {*/
+/*    width: 166px;*/
+/*    height: 52px;*/
+/*    background-color: white;*/
+/*    font-family: 'GodoB', sans-serif;*/
+/*    font-size: 25px;*/
+/*    border: 2px solid #009b55;*/
+/*    border-radius: 30px;*/
+/*}*/
 
-.feed_more_load_btn:hover {
-    background-color: #FAFFFA;
-}
+/*.feed_more_load_btn:hover {*/
+/*    background-color: #FAFFFA;*/
+/*}*/
 
 
 .display_none {
     display: none;
+}
+
+:root {
+    --bg: #fff;
+    --text: white;
+    --light-green: #e0f5ec;
+    --green: #b4e2d0;
+    --dark-green: #009b55;
+    --green-border: #007b43;
+    --green-shadow: #cce5dc;
+}
+
+.feed_more_load_btn {
+    font-weight: bold;
+    font-family: GodoB;
+    letter-spacing: 3px;
+    font-size: 20px;
+    background-color: #009B55;
+    margin-left: 50px;
+    margin-bottom: 10px;
+}
+
+.feed_more_load_btn {
+    color: var(--text);
+    text-transform: uppercase;
+    padding: 10px 10px;
+    border: 2px solid var(--green-border);
+    border-radius: 0.75em;
+    transform-style: preserve-3d;
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), background 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.feed_more_load_btn::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--dark-green);
+    border-radius: inherit;
+    box-shadow: 0 0 0 2px var(--green-border), 0 0.625em 0 0 var(--green-shadow);
+    transform: translate3d(0, 0.75em, -1em);
+    transition: transform 150ms cubic-bezier(0, 0, 0.58, 1), box-shadow 150ms cubic-bezier(0, 0, 0.58, 1);
+}
+
+.feed_more_load_btn:hover {
+    background: var(--green);
+    transform: translate(0, 0.25em);
+}
+
+.feed_more_load_btn:hover::before {
+    box-shadow: 0 0 0 2px var(--green-border), 0 0.5em 0 0 var(--green-shadow);
+    transform: translate3d(0, 0.5em, -1em);
+}
+
+.feed_more_load_btn:active {
+    background: var(--green);
+    transform: translate(0em, 0.75em);
+}
+
+.feed_more_load_btn:active::before {
+    box-shadow: 0 0 0 2px var(--green-border), 0 0 var(--green-shadow);
+    transform: translate3d(0, 0, -1em);
 }

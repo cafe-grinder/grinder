@@ -1,6 +1,7 @@
 let cafeId = document.getElementById('cafeId').value;
 let url = '/get-cafeFeed/'+ cafeId;
 let containerName = 'myCafeInfoContainer';
+let pageNum = 1;
 
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
@@ -225,6 +226,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 commentUpdateForm.classList.add('display_none');
                 commentContent.textContent = updatedContent;
                 commentContent.classList.remove('display_none');
+            }
+
+            // 피드 더보기 버튼 클릭
+            if (target.classList.contains('feed_more_load_btn')) {
+
+                // AJAX를 이용하여 다음 페이지의 피드를 가져옴
+                const xhr = new XMLHttpRequest();
+                let pageUrl = url + '?page=' + pageNum++;
+                console.log(pageUrl)
+                xhr.open('GET', pageUrl , true);
+                console.log(pageNum);
+                xhr.onload = function() {
+                    console.log(xhr.status);
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        // 요청이 성공적으로 완료되면 실행됩니다.
+                        if (xhr.status === 204) {
+                            document.querySelector('.feed_more_load_btn').style.display='none';
+                        }
+                        const newFeeds = xhr.responseText;
+                        document.getElementById(containerName).insertAdjacentHTML('beforeend', newFeeds); // 새로운 피드를 추가합니다.
+
+                    } else {
+                        // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
+                        console.error('The request failed!');
+                    }
+                };
+                xhr.onerror = function() {
+                    // 요청이 네트워크 문제로 실패했을 때 실행됩니다.
+                    console.error('The request failed due to a network error!');
+                };
+                xhr.send(); // 요청을 서버로 보냅니다.
             }
         });
     }

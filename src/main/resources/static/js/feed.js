@@ -1,5 +1,4 @@
-
-let pageNum = 0
+let pageNum = 1
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
@@ -233,10 +232,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 xhr.open('GET', `/get-feed?page=` + pageNum++, true);
                 console.log(pageNum);
                 xhr.onload = function() {
+                    console.log(xhr.status);
                     if (xhr.status >= 200 && xhr.status < 300) {
                         // 요청이 성공적으로 완료되면 실행됩니다.
+                        if (xhr.status === 204) {
+                            document.querySelector('.feed_more_load_btn').style.display='none';
+                        }
                         const newFeeds = xhr.responseText;
                         document.getElementById('feedContainer').insertAdjacentHTML('beforeend', newFeeds); // 새로운 피드를 추가합니다.
+
                     } else {
                         // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
                         console.error('The request failed!');

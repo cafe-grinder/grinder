@@ -102,17 +102,8 @@
     border-radius: 50%;
 }
 
-:root {
-    --bg: #fff;
-    --text: white;
-    --light-green: #e0f5ec;
-    --green: #b4e2d0;
-    --dark-green: #009b55;
-    --green-border: #007b43;
-    --green-shadow: #cce5dc;
-}
 
-.mypage_banner .add_follow {
+.mypage_banner .add_follow, .feed_more_load_btn {
     font-weight: bold;
     font-family: GodoB;
     letter-spacing: 3px;
@@ -122,7 +113,7 @@
     margin-bottom: 10px;
 }
 
-.add_follow {
+.add_follow, .feed_more_load_btn {
     color: var(--text);
     text-transform: uppercase;
     padding: 10px 10px;

@@ -2,6 +2,8 @@ package com.grinder.controller.view;
 
 import com.grinder.domain.dto.*;
 import com.grinder.domain.enums.MenuType;
+import com.grinder.exception.LoginRequiredException;
+import com.grinder.exception.NoMoreContentException;
 import com.grinder.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -186,6 +188,9 @@ public class ComponentsController {
         Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.findRecentFeedWithImage(email, pageable);
         model.addAttribute("feedSlice", feedSlice);
 
+        if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
         return "components/feed";
     }
 
@@ -202,8 +207,10 @@ public class ComponentsController {
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
         Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findMyPageFeedWithImage(email, memberEmail, pageable);
-        model.addAttribute("hasNext", slice.hasNext());
-        model.addAttribute("feedList", slice.getContent());
+        if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
+        model.addAttribute("feedList", slice);
         return "components/feed";
     }
 
@@ -215,8 +222,10 @@ public class ComponentsController {
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
         Slice<FeedDTO.FeedWithImageResponseDTO> slice = feedService.findCafeFeedWithImage(email, cafeId, pageable);
-        model.addAttribute("hasNext", slice.hasNext());
-        model.addAttribute("feedList", slice.getContent());
+        if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
+        model.addAttribute("feedList", slice);
         return "components/feed";
     }
 

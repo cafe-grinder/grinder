@@ -49,17 +49,17 @@
 </section>
 
 <article class="cafe_info_tab">
-    <div>
-        <span>AI요약 보기</span>
+    <div id="show_ai_button">
+        <span>🤖AI요약 보기</span>
     </div>
-    <div>
-        <span>메뉴 보기</span>
+    <div id="show_menu_button">
+        <span>📋메뉴 보기</span>
     </div>
-    <div>
-        <span>평점 보기</span>
+    <div id="show_feed_button">
+        <span>💬피드 보기</span>
     </div>
-    <div th:data-cafe-id="${cafeInfo.cafeId}" id="seller_apply_button">
-        <span>판매자 신청</span>
+    <div id="seller_apply_button">
+        <span>👷판매자 신청</span>
     </div>
     <div class="cafe_info_bookmark" id="bookmark_null" onclick="addBookmark()" style="display: none;">
         <img src="/img/icon/pin-angle.png" alt="">
@@ -67,10 +67,10 @@
     <div class="cafe_info_bookmark" id="bookmark_fill" onclick="deleteBookmark()" style="display: none;">
         <img src="/img/icon/pin-angle-fill.png" alt="">
     </div>
-
-
 </article>
 <div class="cafe_info_line"></div>
+
+<div id="feedContainer" style="display: none"></div>
 
 <footer th:replace="components/footer :: footers"></footer>
 
