@@ -22,6 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('feedContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            if (document.querySelectorAll('.feed_container').length == 0) {
+                document.getElementById('feedContainer').innerHTML = `<div class="no_cafe_container"> <p class="no_cafe_message">관련 피드가 존재하지 않습니다.</p></div>`
+            }
             FeedClickEvent(); // 클릭 이벤트 함수 호출
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
