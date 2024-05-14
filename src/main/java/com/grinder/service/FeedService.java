@@ -13,11 +13,11 @@ public interface FeedService {
     // feedId로 피드 찾기
     Feed findFeed(String feedId);
     // 피드 생성
-    Feed saveFeed(FeedDTO.FeedRequestDTO request, String memberEmail, MultipartFile file);
+    Feed saveFeed(FeedDTO.FeedRequestDTO request, String memberEmail, List<MultipartFile> imageList);
     // 피드 조회 (비회원)
     List<Feed> findAllFeed();
     // 피드 수정
-    Feed updateFeed(String feedId, FeedDTO.FeedRequestDTO request);
+    Feed updateFeed(String feedId, FeedDTO.FeedRequestDTO request, List<MultipartFile> imageList);
     // 피드 삭제(isVisible == false)
     void deleteFeed(String feedId);
     //관리자 페이지 피드 조회(신고 처리를 위해 사용)
