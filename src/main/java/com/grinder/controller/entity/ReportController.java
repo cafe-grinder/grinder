@@ -31,20 +31,20 @@ public class ReportController {
         return ResponseEntity.ok(reportList);
     }
 
-    @DeleteMapping("/{reportId}")
+    @DeleteMapping("/admin/{reportId}")
     public ResponseEntity<SuccessResult> deleteReport(@PathVariable String reportId) {
         reportService.deleteReport(reportId);
         return ResponseEntity.ok(new SuccessResult("Success", "신고 요청이 삭제되었습니다."));
     }
 
-    @DeleteMapping("/{reportId}/accepted")
+    @DeleteMapping("/admin/{reportId}/accepted")
     public ResponseEntity<SuccessResult> deleteContent(@PathVariable String reportId) {
         reportService.deleteContent(reportId);
 
         return ResponseEntity.ok(new SuccessResult("report_accepted", "신고된 컨텐츠가 삭제되었습니다."));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/admin/search")
     public ResponseEntity<Slice<FindReportDTO>> searchReportByContentAndType(@RequestParam String keyword, @RequestParam String contentType, @PageableDefault(size = 5) Pageable pageable) {
         Slice<FindReportDTO> reportList = reportService.searchReportByContentAndType(keyword, contentType, pageable);
 

@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('cafeCardContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
                 if (document.querySelectorAll('.cafe_card_info').length == 0) {
                     document.getElementById('cafeCardContainer').innerHTML = `<div class="no_cafe_container"> <p class="no_cafe_message">관련 카페가 존재하지 않습니다. <br> 해당 카페를 추가해주세요!</p>
-                        <button onclick="location.href=" class="cafe_register_button">신규 장소 신청</button></div>`
+                        <button onclick="location.href='/cafe/add'" class="cafe_register_button">신규 장소 신청</button></div>`
                     document.getElementById('more_contents_button').classList.add('display_none')
                     } else {
                     const moreBtn = document.getElementById('more_contents_button');
@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             method: 'GET'
                         })
                                 .then(response => {
+                                    if (response.status == 204) {
+                                        document.getElementById('more_contents_button').classList.add('display_none')
+                                    }
                                     return response.text()
                                 })
                                 .then(data => {

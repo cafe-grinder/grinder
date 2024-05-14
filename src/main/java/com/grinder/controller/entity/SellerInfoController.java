@@ -16,7 +16,7 @@ public class SellerInfoController {
     private final SellerInfoService sellerInfoService;
     private final SellerApplyService sellerApplyService;
 
-    @PostMapping("/{applyId}")
+    @PostMapping("/admin/{applyId}")
     public ResponseEntity<SuccessResult> saveSellerInfo(@PathVariable String applyId) {
         sellerInfoService.saveSellerInfo(applyId);
         sellerApplyService.deleteSellerApply(applyId);

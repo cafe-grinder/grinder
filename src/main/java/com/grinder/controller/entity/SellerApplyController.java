@@ -22,13 +22,13 @@ public class SellerApplyController {
 
     private final SellerApplyService sellerApplyService;
 
-    @GetMapping
+    @GetMapping("/admin")
     public ResponseEntity<Slice<FindSellerApplyDTO>> findAllSellerApplies(@PageableDefault(size = 5)Pageable pageable) {
         Slice<FindSellerApplyDTO> sellerApplySlice = sellerApplyService.findAllSellerApplies(pageable);
         return ResponseEntity.ok(sellerApplySlice);
     }
 
-    @DeleteMapping("/{applyId}")
+    @DeleteMapping("/admin/{applyId}")
     public ResponseEntity<SuccessResult> deleteSellerApply(@PathVariable String applyId) {
         sellerApplyService.deleteSellerApply(applyId);
         return ResponseEntity.ok(new SuccessResult("Delete seller_apply", "판매자 신청이 삭제되었습니다."));

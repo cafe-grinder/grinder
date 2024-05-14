@@ -57,8 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function alarmTab() {
-    const alarm = document.querySelector('.header_alarm');
-    let alarm_box = document.querySelector('.header_alarm_box');
+    if (document.querySelector('.header_alarm')) {
+        const alarm = document.querySelector('.header_alarm');
+        let alarm_box = document.querySelector('.header_alarm_box');
+
 
     alarm.addEventListener('click', () => {
         if (alarm_box) {

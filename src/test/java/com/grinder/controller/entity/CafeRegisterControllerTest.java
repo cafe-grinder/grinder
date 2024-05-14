@@ -56,7 +56,7 @@ class CafeRegisterControllerTest {
         doNothing().when(cafeRegisterService).deleteCafeRegister(cafeRegisterId);
 
 
-        mockMvc.perform(delete("/api/cafe_register/" + cafeRegisterId))
+        mockMvc.perform(delete("/api/cafe_register/admin/" + cafeRegisterId))
                 .andExpect(status().isOk());
 
     }

@@ -102,7 +102,7 @@ function loadMemberList(memberPageNum) {
 
     const nickname = document.getElementById('member_nickname').value;
 
-    const url = '/api/member/search?nickname=' + nickname + '&role=' + role + '&page=' + memberPageNum;
+    const url = '/api/member/admin/search?nickname=' + nickname + '&role=' + role + '&page=' + memberPageNum;
     fetch(url, {
         method: 'GET'
     }).then(response => {
@@ -125,7 +125,7 @@ function loadReportList(reportPageNum) {
 
     const contentType = reportSelect.options[reportSelect.selectedIndex].value;
 
-    const url = '/api/report/search?keyword='+ keyword +'&contentType=' + contentType +'&page=' + reportPageNum
+    const url = '/api/report/admin/search?keyword='+ keyword +'&contentType=' + contentType +'&page=' + reportPageNum
     fetch(url , {
         method: 'GET'
     })
@@ -146,7 +146,7 @@ function loadReportList(reportPageNum) {
             });
 };
 function loadRegisterList(registerPageNum) {
-    const url = '/api/cafe_register?page=' + registerPageNum;
+    const url = '/api/cafe_register/admin?page=' + registerPageNum;
     fetch(url, {
         method: 'GET'
     })
@@ -167,7 +167,7 @@ function loadRegisterList(registerPageNum) {
             });
 };
 function loadApplyList(applyPageNum) {
-    const url = '/api/seller_apply?page=' + applyPageNum;
+    const url = '/api/seller_apply/admin?page=' + applyPageNum;
     fetch(url, {
         method: "GET"
     })
@@ -239,7 +239,7 @@ function renderMemberList(memberList) {
         let select = row.querySelector('.change_role');
         select.addEventListener('change', () => {
             let memberId = select.dataset.memberId;
-            let url = '/api/member/' + memberId + '/role'
+            let url = '/api/member/admin/' + memberId + '/role'
             fetch(url, {
                 method: 'PUT'
             })
@@ -259,7 +259,7 @@ function renderMemberList(memberList) {
         let deleteMember = row.querySelector('.member_delete_button');
         deleteMember.addEventListener('click', () => {
             let memberId = deleteMember.dataset.memberId;
-            let url = '/api/member/'+ memberId
+            let url = '/api/member/admin/'+ memberId
             fetch(url, {
                 method: 'DELETE'
             })
@@ -279,7 +279,7 @@ function renderMemberList(memberList) {
         let recoverMember = row.querySelector('.member_recover_button');
         recoverMember.addEventListener('click', () => {
             let memberId = recoverMember.dataset.memberId;
-            let url = '/api/member/'+ memberId + '/recovery'
+            let url = '/api/member/admin/'+ memberId + '/recovery'
             fetch(url, {
                 method: 'PUT'
             })
@@ -314,7 +314,7 @@ function renderReportList(reportList) {
         let reportAccept = row.querySelector('.report_accept_button');
         reportAccept.addEventListener('click', () => {
             let reportId = reportAccept.dataset.reportId;
-            let url = '/api/report/' + reportId + '/accepted'
+            let url = '/api/report/admin/' + reportId + '/accepted'
             fetch(url, {
                 method: 'DELETE'
             })
@@ -334,7 +334,7 @@ function renderReportList(reportList) {
         let reportDelete = row.querySelector('.report_delete_button');
         reportDelete.addEventListener('click', () => {
             let reportId = reportDelete.dataset.reportId;
-            let url = '/api/report/' + reportId
+            let url = '/api/report/admin/' + reportId
             fetch(url, {
                 method: 'DELETE'
             })
@@ -371,7 +371,7 @@ function renderRegisterList(registerList) {
         let registerAccept = row.querySelector('.register_accept_button');
         registerAccept.addEventListener('click', () => {
             let registerId = registerAccept.dataset.registerId;
-            let url = '/api/cafe/' + registerId
+            let url = '/api/cafe/admin/' + registerId
             fetch(url, {
                 method: 'POST'
             })
@@ -391,7 +391,7 @@ function renderRegisterList(registerList) {
         let registerDelete = row.querySelector('.register_delete_button');
         registerDelete.addEventListener('click', () => {
             let registerId = registerDelete.dataset.registerId;
-            let url = '/api/cafe_register/' + registerId
+            let url = '/api/cafe_register/admin/' + registerId
             fetch(url, {
                 method: 'DELETE'
             })
@@ -430,7 +430,7 @@ function renderApplyList(applyList) {
         let applyAccept = row.querySelector('.apply_accept_button');
         applyAccept.addEventListener('click', () => {
             let applyId = applyAccept.dataset.applyId;
-            let url = '/api/seller_info/' + applyId
+            let url = '/api/seller_info/admin/' + applyId
             fetch(url, {
                 method: 'POST'
             })
@@ -451,7 +451,7 @@ function renderApplyList(applyList) {
         let applyDelete = row.querySelector('.apply_delete_button');
         applyDelete.addEventListener('click', () => {
             let applyId = applyDelete.dataset.applyId;
-            let url = '/api/seller_apply/' + applyId
+            let url = '/api/seller_apply/admin' + applyId
             fetch(url, {
                 method: 'DELETE'
             })

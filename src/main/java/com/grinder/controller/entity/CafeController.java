@@ -26,7 +26,7 @@ public class CafeController {
     private final CafeService cafeService;
     private final CafeRegisterService cafeRegisterService;
 
-    @PostMapping("/{registerId}")
+    @PostMapping("/admin/{registerId}")
     public ResponseEntity<SuccessResult> addCafe(@PathVariable String registerId) {
         cafeService.saveCafe(registerId);
         cafeRegisterService.deleteCafeRegister(registerId);
