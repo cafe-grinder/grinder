@@ -8,6 +8,7 @@ import com.grinder.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -16,7 +17,7 @@ public class TagServiceImpl implements TagService {
     private final TagRepository tagRepository;
 
     public Tag findTag(String tagId) {
-        return tagRepository.findById(tagId).orElseThrow(() -> new IllegalArgumentException("tag id(" + tagId + ")를 찾울 수 없습니다."));
+        return tagRepository.findById(tagId).orElse(null);
     }
 
     public List<Tag> findAllTag(String feedId) {
@@ -24,6 +25,9 @@ public class TagServiceImpl implements TagService {
     }
 
     public void saveTag(Feed feed, List<String> tagNameList) {
+        if (tagNameList == null || tagNameList.isEmpty()) {
+            tagNameList = new ArrayList<>();
+        }
         for (String tagName : tagNameList) {
             tagRepository.save(
                     Tag.builder()

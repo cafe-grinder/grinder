@@ -1,10 +1,10 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.*;
-import com.grinder.domain.enums.TagName;
 import com.grinder.service.ImageService;
 import com.grinder.service.TagService;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +19,6 @@ public class FeedDTO {
         // 피드 내용, 이미지, 카페, 평점, 태그
         private String cafeId;
         private String content;
-        private List<String> imageUrlList;
         private List<String> tagNameList;
         private Integer grade;
     }
@@ -111,7 +110,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.content = feed.getContent();
             this.imageUrlList = new ArrayList<>();
-            this.cafe = new CafeDTO.CafeResponseDTO(feed.getCafe());
+            this.cafe = feed.getCafe() == null? null :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.grade = feed.getGrade();
             this.tagNameList = new ArrayList<>();
         }
@@ -166,7 +165,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe().getName();
+            this.cafeName = feed.getCafe()==null? null : feed.getCafe().getName();
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
