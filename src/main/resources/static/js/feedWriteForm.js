@@ -21,10 +21,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     xhr.send(); // 요청을 서버로 보냅니다.
 
-
     function InitNewFeed() {
         // 이미지 초기화
-
         // 평점 초기화
         const stars = document.querySelectorAll('.star');
         stars.forEach(star => {
@@ -102,7 +100,53 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let cafeId = '';
     function CafeSelectEvent() {
+        const input = document.querySelector('.newfeed_input');
+        const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+        if (cafeListContainer)
 
+        input.addEventListener('input', async () => {
+            const input = document.querySelector('.newfeed_input');
+            const keyword = input.value;
+            console.log(`Searching for cafes with keyword: ${keyword}`);
+            const cafes = await searchCafes(keyword);
+            displayCafes(cafes);
+        });
+
+        function displayCafes(cafes) {
+            const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+            cafeListContainer.innerHTML = '';
+            if (cafes.length === 0) {
+                cafeListContainer.style.display = 'none'; // 카페 데이터가 없으면 숨김
+                return;
+            }
+            cafeListContainer.style.display = 'block'; // 카페 데이터가 있으면 보이도록 설정
+            cafes.forEach(cafe => {
+                const cafeItem = document.createElement('div');
+                cafeItem.textContent = cafe.name;
+                cafeItem.classList.add('cafe-item');
+                cafeItem.addEventListener('click', () => {
+                    selectCafe(cafe);
+                });
+
+                const addressSpan = document.createElement('span');
+                addressSpan.textContent = ` (${cafe.address})`; // 카페 주소 설정
+                addressSpan.classList.add('cafe-item-address');
+
+                cafeItem.appendChild(addressSpan);
+                cafeListContainer.appendChild(cafeItem);
+            });
+        }
+
+        function selectCafe(cafe) {
+            const input = document.querySelector('.newfeed_input');
+            const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+            cafeId = cafe['cafeId'];
+            input.value = cafe.name;
+            cafeListContainer.innerHTML = ''; // 선택 후 카페 목록 지우기
+            cafeListContainer.style.display = 'none';
+            console.log('선택된 카페:', cafe);
+            console.log('선택된 카페:', cafeId);
+        }
     }
 
     let grade = document.querySelector('.newfeed_grade_init').value;
@@ -279,5 +323,29 @@ async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList
         }
     } catch (error) {
         console.error('피드 수정 중 오류가 발생했습니다:', error);
+    }
+}
+
+async function searchCafes(keyword) {
+    try {
+        if (keyword.length > 2) { // 최소 3글자가 입력되었을 때 요청 실행
+            const response = await fetch(`/api/cafe/search-cafe?query=${encodeURIComponent(keyword)}`);
+            if (response.ok) {
+                const cafes = await response.json();
+                return cafes;
+            } else if (response.status === 204) {
+                console.warn('No cafes found.');
+                return [];
+            } else {
+                console.error('카페 검색에 실패했습니다.');
+                return [];
+            }
+        } else {
+            console.warn('검색어는 최소 3글자 이상이어야 합니다.');
+            return [];
+        }
+    } catch (error) {
+        console.error('카페 검색 중 오류가 발생했습니다:', error);
+        return [];
     }
 }

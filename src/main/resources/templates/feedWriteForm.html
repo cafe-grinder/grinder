@@ -17,6 +17,7 @@
         <textarea class="newfeed_content" placeholder="글을 작성해주세요." th:text="${newfeed.content}"></textarea>
     </section>
 
+    <input class="newfeed_img_init" type="hidden" th:each="imageUrl: ${newfeed.imageUrlList}" th:value="${imageUrl}">
     <section class="newfeed_img_area">
         <h2 class="newfeed_head_text">이미지 첨부하기 (최대 4개)</h2>
         <button class="newfeed_img_upload_btn" type="button" id="image-btn">
@@ -42,6 +43,7 @@
         <div class="newfeed_input_box">
             <img src="/img/icon/search.png" alt="magnifier_img">
             <input class="newfeed_input" type="text" placeholder="카페명 찾기">
+            <div class="newfeed_cafe_list" id="cafe-list"></div>
         </div>
     </section>
 
