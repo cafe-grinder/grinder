@@ -156,6 +156,7 @@
     height: 249px;
     object-fit: cover;
     border-radius: 15px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .feed_tag_list li {
@@ -429,4 +430,29 @@
 .feed_more_load_btn:active::before {
     box-shadow: 0 0 0 2px var(--green-border), 0 0 var(--green-shadow);
     transform: translate3d(0, 0, -1em);
+}
+
+/* 모달 스타일 */
+.feed_modal_container {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.feed_modal {
+    border-radius: 30px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.feed_modal_content {
+    max-width: 80vw;
+    max-height: 90vh;   /* 보이는 화면에서 최대 90% 높이 적용 */
 }
