@@ -66,6 +66,14 @@
     width: 71px;
 }
 
+.feed_cafe_address {
+    margin-left: 10px
+}
+
+.feed_create_date {
+    text-align: end;
+}
+
 .feed_parent_comment_area {
     margin-bottom: 30px;
 }

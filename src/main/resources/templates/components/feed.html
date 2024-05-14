@@ -3,7 +3,7 @@
     <!-- 비회원 화면 -->
     <div class="feed_container_non_member" th:if="${feedMember} == null">
         <ul class="feed_img_list_non_member">
-            <li th:each="feed: ${feedList}"><!-- 반복문 -->
+            <li th:each="feed: ${feedSlice}"><!-- 반복문 -->
                 <img class="feed_img_non_member" src="/img/feed-default-img-gray.png" alt="피드 첨부 이미지">
                 <div class="feed_like_info_non_member">
                     <img src="/img/icon/suit-heart.png" alt="좋아요">
@@ -14,175 +14,173 @@
     </div>
 
     <!-- 회원 화면 -->
-    <div th:if="${feedMember} != null">
-        <div class="feed_container" th:each="feed: ${feedList}"><!-- 반복문 -->
-            <input class="feed_feed_id" type="hidden" th:value="${feed.feedId}">
-            <div class="feed_review_info feed_space_between">
-                <div class="feed_space_between">
-                    <div class="feed_writer_profile_img">
-                        <img src="/img/not_use/basic_profile_img.png"
-                             alt="피드 작성자 프로필 이미지">
-                    </div>
-                    <div class="feed_writer_info">
-                        <span class="feed_cafe_name" th:if="${feed.cafeName != null}" th:text="${feed.cafeName}"></span>
-                        <span class="feed_writer_name feed_grey_info" th:text="'작성자 : ' + ${feed.memberNickname} + ' ' + ${feed.memberEmail}">aaa (강아지)</span>
-                        <div class="feed_grade">
-                            <img th:if="${feed.grade >= 1}" src="/img/icon/star-fill.png">
-                            <img th:if="${feed.grade >= 2}" src="/img/icon/star-fill.png">
-                            <img th:if="${feed.grade >= 3}" src="/img/icon/star-fill.png">
-                            <img th:if="${feed.grade >= 4}" src="/img/icon/star-fill.png">
-                            <img th:if="${feed.grade >= 5}" src="/img/icon/star-fill.png">
-                        </div>
-                    </div>
+    <article class="feed_container" th:if="${feedMember} != null" th:each="feed: ${feedSlice}"><!-- 반복문 -->
+        <input class="feed_feed_id" type="hidden" th:value="${feed.feedId}">
+        <div class="feed_review_info feed_space_between">
+            <div class="feed_space_between">
+                <div class="feed_writer_profile_img">
+                    <img src="/img/not_use/basic_profile_img.png"
+                         alt="피드 작성자 프로필 이미지">
                 </div>
-                <div>
-                <span class="feed_grey_info" th:text="${#temporals.format(feed.createdAt, 'yyyy-MM-dd')}"></span>
+                <div class="feed_writer_info">
+                    <span class="feed_cafe_name" th:text="${feed.cafe.name}"></span>
+                    <span class="feed_cafe_address feed_grey_info" th:text="${feed.cafe.address}"></span>
+                    <div class="feed_grade">
+                        <img th:if="${feed.grade >= 1}" src="/img/icon/star-fill.png">
+                        <img th:if="${feed.grade >= 2}" src="/img/icon/star-fill.png">
+                        <img th:if="${feed.grade >= 3}" src="/img/icon/star-fill.png">
+                        <img th:if="${feed.grade >= 4}" src="/img/icon/star-fill.png">
+                        <img th:if="${feed.grade >= 5}" src="/img/icon/star-fill.png">
+                    </div>
                 </div>
             </div>
-            <p class="feed_content" th:text="${feed.content}"></p>
-            <ul class="feed_attached_img_list">
-                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-                <li class="animation"><img src="/img/not_use/dog_img.png" alt="피드 첨부 이미지"></li>
-            </ul>
-            <ul class="feed_tag_list" th:if="${feed.tagNameList.size() != 0}"><!--반복문-->
-                <li th:each="tag: ${feed.tagNameList}" th:text="${tag}"></li>
-            </ul>
-            <ul class="feed_function_list">
-                <li class="feed_like_num_align">
-                    <button class="feed_like_yet" th:if="${not feed.heart}"></button>
-                    <button class="feed_like" th:if="${feed.heart}"></button>
-                    <span class="feed_like_num" th:text="${feed.heartNum}"></span>
-                </li>
-                <li>
-                    <button class="feed_comment_view_btn"></button>
-                </li>
-                <li class="feed_gear_btn_parent">
-                    <button class="feed_gear_btn"></button>
-                    <ul class="feed_gear_dropdown display_none">
-                        <li th:if="${feed.memberEmail} == ${feedMember.email}">
-                            <button class="feed_update_btn" th:onclick="|location.href='@{/feed/newfeed?feedId={feedId}(feedId=${feed.feedId})}'|">✍️ 수정</button>
-                        </li>
-                        <li th:if="${feed.memberEmail} == ${feedMember.email}"><button class="feed_delete_btn">✊ 삭제</button></li>
-                        <li th:if="${feed.memberEmail} != ${feedMember.email}"><button class="feed_report_btn">🤛 신고</button></li>
-                        <li th:if="${feed.memberEmail} != ${feedMember.email}"><button class="feed_follow_btn">😍 팔로우</button></li>
-                        <li th:if="${feed.memberEmail} != ${feedMember.email}"><button class="feed_black_btn">😡 차단</button></li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="feed_divide_line"></div>
+            <div>
+                <div class="feed_grey_info" th:text="${feed.memberNickname} + ' (' + ${feed.memberEmail} +')'"></div>
+                <div class="feed_create_date feed_grey_info" th:text="${#temporals.format(feed.createdAt, 'yyyy-MM-dd')}"></div>
+            </div>
+        </div>
+        <p class="feed_content" th:text="${feed.content}"></p>
+        <ul class="feed_attached_img_list">
+            <li class="animation" th:each="imageUrl: ${feed.imageUrls}">
+                <img th:src="${imageUrl}">
+            </li>
+        </ul>
+        <ul class="feed_tag_list" th:if="${feed.tagNameList.size() != 0}"><!--반복문-->
+            <li th:each="tag: ${feed.tagNameList}" th:text="${tag}"></li>
+        </ul>
+        <ul class="feed_function_list">
+            <li class="feed_like_num_align">
+                <button class="feed_like_yet" th:if="${not feed.heart}"></button>
+                <button class="feed_like" th:if="${feed.heart}"></button>
+                <span class="feed_like_num" th:text="${feed.heartNum}"></span>
+            </li>
+            <li>
+                <button class="feed_comment_view_btn"></button>
+            </li>
+            <li class="feed_gear_btn_parent">
+                <button class="feed_gear_btn"></button>
+                <ul class="feed_gear_dropdown display_none">
+                    <li th:if="${feed.memberEmail} == ${feedMember.email}">
+                        <button class="feed_update_btn" th:onclick="|location.href='@{/feed/newfeed?feedId={feedId}(feedId=${feed.feedId})}'|">✍️ 수정</button>
+                    </li>
+                    <li th:if="${feed.memberEmail} == ${feedMember.email}"><button class="feed_delete_btn">✊ 삭제</button></li>
+                    <li th:if="${feed.memberEmail} != ${feedMember.email}"><button class="feed_report_btn">🤛 신고</button></li>
+                    <li th:if="${feed.memberEmail} != ${feedMember.email}"><button class="feed_follow_btn">😍 팔로우</button></li>
+                    <li th:if="${feed.memberEmail} != ${feedMember.email}"><button class="feed_black_btn">😡 차단</button></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="feed_divide_line"></div>
 
-            <!-- 댓글 -->
-            <div class="feed_comment_container display_none">
-                <div class="feed_parent_comment_write feed_space_between">
-                    <textarea class="feed_comment_textarea" placeholder="댓글을 입력해 주세요"></textarea>
-                    <button class="feed_comment_create_btn feed_parent_comment">작성</button>
-                </div>
-                <div class="feed_parent_comment_area" th:each="parentComment: ${feed.parentCommentList}"><!--반복문-->
-                    <input class="feed_parent_comment_id" type="hidden" th:value="${parentComment.commentId}">
-                    <div class="feed_space_between">
-                        <div class="feed_comment_profile_img">
-                            <img src="/img/not_use/basic_profile_img.png"
-                                 alt="댓글 작성자 프로필 이미지">
-                        </div>
-                        <div class="feed_parent_comment_info">
-                            <div class="feed_space_between">
-                                <div class="feed_writer_comment">
-                                    <div class="feed_grey_info" th:text="'작성자 : ' + ${parentComment.nickname} + ' (' + ${parentComment.email} + ')'"></div>
-                                    <div class="feed_comment_content" th:text="${parentComment.content}"></div>
-                                    <div class="feed_comment_content_update display_none">
-                                        <textarea class="feed_comment_content_update_textarea"></textarea>
-                                        <div class="feed_comment_content_btns">
-                                            <button class="feed_comment_content_update_cancel feed_parent_comment">취소</button>
-                                            <button class="feed_comment_content_update_btn feed_parent_comment">수정</button>
-                                        </div>
+        <!-- 댓글 -->
+        <div class="feed_comment_container display_none">
+            <div class="feed_parent_comment_write feed_space_between">
+                <textarea class="feed_comment_textarea" placeholder="댓글을 입력해 주세요"></textarea>
+                <button class="feed_comment_create_btn feed_parent_comment">작성</button>
+            </div>
+            <div class="feed_parent_comment_area" th:each="parentComment: ${feed.parentCommentList}"><!--반복문-->
+                <input class="feed_parent_comment_id" type="hidden" th:value="${parentComment.commentId}">
+                <div class="feed_space_between">
+                    <div class="feed_comment_profile_img">
+                        <img src="/img/not_use/basic_profile_img.png"
+                             alt="댓글 작성자 프로필 이미지">
+                    </div>
+                    <div class="feed_parent_comment_info">
+                        <div class="feed_space_between">
+                            <div class="feed_writer_comment">
+                                <div class="feed_grey_info" th:text="'작성자 : ' + ${parentComment.nickname} + ' (' + ${parentComment.email} + ')'"></div>
+                                <div class="feed_comment_content" th:text="${parentComment.content}"></div>
+                                <div class="feed_comment_content_update display_none">
+                                    <textarea class="feed_comment_content_update_textarea"></textarea>
+                                    <div class="feed_comment_content_btns">
+                                        <button class="feed_comment_content_update_cancel feed_parent_comment">취소</button>
+                                        <button class="feed_comment_content_update_btn feed_parent_comment">수정</button>
                                     </div>
                                 </div>
-                                <div class="feed_comment_side">
-                                    <span class="feed_grey_info"
-                                          th:text="${#temporals.format(parentComment.updatedAt, 'yyyy-MM-dd')}"></span>
-                                    <ul class="feed_comment_function_list">
-                                        <li class="feed_like_num_align">
-                                            <button class="feed_like_yet feed_parent_comment" th:if="${not parentComment.heart}"></button>
-                                            <button class="feed_like feed_parent_comment" th:if="${parentComment.heart}"></button>
-                                            <span class="feed_like_num" th:text="${parentComment.heartNum}"></span></li>
-                                        <li>
-                                            <button class="feed_child_comment_textarea_view_btn"></button>
-                                        </li>
-                                        <li class="feed_gear_btn_parent">
-                                            <button class="feed_gear_btn"></button>
-                                            <ul class="feed_gear_dropdown display_none">
-                                                <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_comment_update_btn feed_parent_comment">✍️ 수정</button></li>
-                                                <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_comment_delete_btn feed_parent_comment">✊ 삭제</button></li>
-                                                <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_report_btn">🤛 신고</button></li>
-                                                <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_follow_btn">😍 팔로우</button></li>
-                                                <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_black_btn">😡 차단</button></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
+                            <div class="feed_comment_side">
+                                <span class="feed_grey_info"
+                                      th:text="${#temporals.format(parentComment.updatedAt, 'yyyy-MM-dd')}"></span>
+                                <ul class="feed_comment_function_list">
+                                    <li class="feed_like_num_align">
+                                        <button class="feed_like_yet feed_parent_comment" th:if="${not parentComment.heart}"></button>
+                                        <button class="feed_like feed_parent_comment" th:if="${parentComment.heart}"></button>
+                                        <span class="feed_like_num" th:text="${parentComment.heartNum}"></span></li>
+                                    <li>
+                                        <button class="feed_child_comment_textarea_view_btn"></button>
+                                    </li>
+                                    <li class="feed_gear_btn_parent">
+                                        <button class="feed_gear_btn"></button>
+                                        <ul class="feed_gear_dropdown display_none">
+                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_comment_update_btn feed_parent_comment">✍️ 수정</button></li>
+                                            <li th:if="${parentComment.email} == ${feedMember.email}"><button class="feed_comment_delete_btn feed_parent_comment">✊ 삭제</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_report_btn">🤛 신고</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_follow_btn">😍 팔로우</button></li>
+                                            <li th:if="${parentComment.email} != ${feedMember.email}"><button class="feed_comment_black_btn">😡 차단</button></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
 
-                            <!-- 자식 댓글 -->
-                            <div class="feed_child_comment_write feed_space_between display_none">
-                                <textarea class="feed_comment_textarea" placeholder="답글을 입력해 주세요"></textarea>
-                                <button class="feed_comment_create_btn feed_child_comment">작성</button>
-                            </div>
-                            <details class="feed_show_child_comment"
-                                     th:if="${parentComment.childCommentList.size()} != 0">
-                                <summary>답글</summary>
-                                <div class="feed_child_comment_area"
-                                     th:each="childComment: ${parentComment.childCommentList}"><!--반복문-->
-                                    <input class="feed_child_comment_id" type="hidden"
-                                           th:value="${childComment.commentId}">
-                                    <div class="feed_space_between">
-                                        <div class="feed_comment_profile_img">
-                                            <img src="/img/not_use/basic_profile_img.png"
-                                                 alt="댓글 작성자 프로필 이미지">
-                                        </div>
-                                        <div class="feed_child_comment_info feed_space_between">
-                                            <div class="feed_writer_comment">
-                                                <div class="feed_grey_info"
-                                                     th:text="'작성자 : ' + ${childComment.nickname} + ' (' + ${childComment.email} + ')'"></div>
-                                                <div class="feed_comment_content" th:text="${childComment.content}"></div>
-                                                <div class="feed_comment_content_update display_none">
-                                                    <textarea class="feed_comment_content_update_textarea"></textarea>
-                                                    <div class="feed_comment_content_btns">
-                                                        <button class="feed_comment_content_update_cancel feed_child_comment">취소</button>
-                                                        <button class="feed_comment_content_update_btn feed_child_comment">수정</button>
-                                                    </div>
+                        <!-- 자식 댓글 -->
+                        <div class="feed_child_comment_write feed_space_between display_none">
+                            <textarea class="feed_comment_textarea" placeholder="답글을 입력해 주세요"></textarea>
+                            <button class="feed_comment_create_btn feed_child_comment">작성</button>
+                        </div>
+                        <details class="feed_show_child_comment"
+                                 th:if="${parentComment.childCommentList.size()} != 0">
+                            <summary>답글</summary>
+                            <div class="feed_child_comment_area"
+                                 th:each="childComment: ${parentComment.childCommentList}"><!--반복문-->
+                                <input class="feed_child_comment_id" type="hidden"
+                                       th:value="${childComment.commentId}">
+                                <div class="feed_space_between">
+                                    <div class="feed_comment_profile_img">
+                                        <img src="/img/not_use/basic_profile_img.png"
+                                             alt="댓글 작성자 프로필 이미지">
+                                    </div>
+                                    <div class="feed_child_comment_info feed_space_between">
+                                        <div class="feed_writer_comment">
+                                            <div class="feed_grey_info"
+                                                 th:text="'작성자 : ' + ${childComment.nickname} + ' (' + ${childComment.email} + ')'"></div>
+                                            <div class="feed_comment_content" th:text="${childComment.content}"></div>
+                                            <div class="feed_comment_content_update display_none">
+                                                <textarea class="feed_comment_content_update_textarea"></textarea>
+                                                <div class="feed_comment_content_btns">
+                                                    <button class="feed_comment_content_update_cancel feed_child_comment">취소</button>
+                                                    <button class="feed_comment_content_update_btn feed_child_comment">수정</button>
                                                 </div>
                                             </div>
-                                            <div class="feed_comment_side">
-                                                <span class="feed_grey_info"
-                                                      th:text="${#temporals.format(childComment.updatedAt, 'yyyy-MM-dd')}"></span>
-                                                <ul class="feed_comment_function_list">
-                                                    <li class="feed_like_num_align">
-                                                        <button class="feed_like_yet feed_child_comment" th:if="${not childComment.heart}"></button>
-                                                        <button class="feed_like feed_child_comment" th:if="${childComment.heart}"></button>
-                                                        <span class="feed_like_num" th:text="${childComment.heartNum}"></span>
-                                                    </li>
-                                                    <li class="feed_gear_btn_parent">
-                                                        <button class="feed_gear_btn"></button>
-                                                        <ul class="feed_gear_dropdown display_none">
-                                                            <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_comment_update_btn feed_child_comment">✍️ 수정</button></li>
-                                                            <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_comment_delete_btn feed_child_comment">✊ 삭제</button></li>
-                                                            <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_report_btn">🤛 신고</button></li>
-                                                            <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_follow_btn">😍 팔로우</button></li>
-                                                            <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_black_btn">😡 차단</button></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                        </div>
+                                        <div class="feed_comment_side">
+                                            <span class="feed_grey_info"
+                                                  th:text="${#temporals.format(childComment.updatedAt, 'yyyy-MM-dd')}"></span>
+                                            <ul class="feed_comment_function_list">
+                                                <li class="feed_like_num_align">
+                                                    <button class="feed_like_yet feed_child_comment" th:if="${not childComment.heart}"></button>
+                                                    <button class="feed_like feed_child_comment" th:if="${childComment.heart}"></button>
+                                                    <span class="feed_like_num" th:text="${childComment.heartNum}"></span>
+                                                </li>
+                                                <li class="feed_gear_btn_parent">
+                                                    <button class="feed_gear_btn"></button>
+                                                    <ul class="feed_gear_dropdown display_none">
+                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_comment_update_btn feed_child_comment">✍️ 수정</button></li>
+                                                        <li th:if="${childComment.email} == ${feedMember.email}"><button class="feed_comment_delete_btn feed_child_comment">✊ 삭제</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_report_btn">🤛 신고</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_follow_btn">😍 팔로우</button></li>
+                                                        <li th:if="${childComment.email} != ${feedMember.email}"><button class="feed_comment_black_btn">😡 차단</button></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
-                            </details>
-                        </div>
+                            </div>
+                        </details>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </article>
 </article>

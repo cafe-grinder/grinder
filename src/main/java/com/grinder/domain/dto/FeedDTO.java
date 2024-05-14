@@ -31,7 +31,7 @@ public class FeedDTO {
         private String feedId;
         private String memberNickname;
         private String memberEmail;
-        private String cafeName;
+        private CafeDTO.CafeResponseDTO cafe;
         private String content;
         private Boolean isVisible;
         private Integer grade;
@@ -47,7 +47,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe() == null? null : feed.getCafe().getName();
+            this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
@@ -110,7 +110,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.content = feed.getContent();
             this.imageUrlList = new ArrayList<>();
-            this.cafe = feed.getCafe() == null? null :  new CafeDTO.CafeResponseDTO(feed.getCafe());
+            this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.grade = feed.getGrade();
             this.tagNameList = new ArrayList<>();
         }
@@ -148,7 +148,7 @@ public class FeedDTO {
         private String feedId;
         private String memberNickname;
         private String memberEmail;
-        private String cafeName;
+        private CafeDTO.CafeResponseDTO cafe;
         private String content;
         private Boolean isVisible;
         private Integer grade;
@@ -165,7 +165,7 @@ public class FeedDTO {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
-            this.cafeName = feed.getCafe()==null? null : feed.getCafe().getName();
+            this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();
             this.grade = feed.getGrade();
