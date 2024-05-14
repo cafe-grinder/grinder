@@ -28,6 +28,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
 
@@ -90,7 +95,10 @@ public class SecurityConfig {
                 TokenCheckFilter.class);
 
         http.addFilterBefore(new APILogoutFilter(jwtUtil, refreshRepository,redisUtil), LogoutFilter.class);
-        http.csrf(csrf->csrf.disable())
+
+        //Swagger UI
+        http.authorizeHttpRequests(auth -> auth.requestMatchers("/v3/**","/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll())
+                .csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->              // 인증, 인가 설정
                         auth.requestMatchers("/").permitAll() //TODO: url 추가
@@ -98,6 +106,11 @@ public class SecurityConfig {
 //                                .requestMatchers("/api/admin/").hasRole("관리자")
                                 .anyRequest().permitAll());
         http.logout(log -> log.deleteCookies());
+
+        //cors 설정
+        http.cors(httpSecurityCorsConfigurer -> {
+            httpSecurityCorsConfigurer.configurationSource(configurationSource());
+        });
         return http.build();
 
     }
@@ -108,4 +121,20 @@ public class SecurityConfig {
     private TokenCheckFilter tokenCheckFilter(JWTUtil jwtUtil){
         return new TokenCheckFilter(jwtUtil,memberDetailsService);
     }
+
+    //CORS 설정
+    @Bean
+    public CorsConfigurationSource configurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:8080");
+        configuration.addAllowedOrigin("http://3.36.39.108:8080");
+        configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
 }
