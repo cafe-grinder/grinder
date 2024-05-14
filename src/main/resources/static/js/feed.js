@@ -2,7 +2,22 @@ let pageNum = 1
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
-    xhr.open('GET', '/get-feed2', true); // 요청을 초기화합니다.
+    const queryString = window.location.search;
+    if (queryString == null || queryString == '') {
+        xhr.open('GET', '/get-feed', true); // 요청을 초기화합니다.
+        xhr.send(); // 요청을 서버로 보냅니다.
+    } else {
+        const urlParams = new URLSearchParams(queryString);
+        let query = urlParams.get('query');
+        let category = urlParams.get('category')
+        if (category == 'feed') {
+            let page = 0;
+            let url = '/get-search-feed?query=' + query + '&page=' + page;
+            xhr.open('GET', url, true);
+            xhr.send(); // 요청을 서버로 보냅니다.
+        }
+    }
+
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
@@ -17,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // 요청이 네트워크 문제로 실패했을 때 실행됩니다.
         console.error('The request failed due to a network error!');
     };
-    xhr.send(); // 요청을 서버로 보냅니다.
+
 
     // 피드 이벤트 설정
     function FeedClickEvent() {
@@ -229,7 +244,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 // AJAX를 이용하여 다음 페이지의 피드를 가져옴
                 const xhr = new XMLHttpRequest();
-                xhr.open('GET', `/get-feed2?page=` + pageNum++, true);
+                xhr.open('GET', `/get-feed?page=` + pageNum++, true);
                 console.log(pageNum);
                 xhr.onload = function() {
                     console.log(xhr.status);

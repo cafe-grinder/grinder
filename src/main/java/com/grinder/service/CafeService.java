@@ -20,4 +20,6 @@ public interface CafeService {
 
     List<Cafe> findCafeList(String cafeName);
     CafeResponseDTO getCafeInfo(String cafeId);
+
+    Slice<CafeDTO.findAllWithImageAndTagResponse> searchCafes(String query, Pageable pageable);
 }

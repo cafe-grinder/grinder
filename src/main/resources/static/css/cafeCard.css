@@ -1,22 +1,22 @@
+@import "common.css";
+
 .cafe_card_container {
     display: grid;
-    margin: 43px 18px;
+    /*margin: 43px 18px;*/
     grid-template-columns: repeat(3, 1fr);
-    grid-row-gap: 63px;
+    /*grid-row-gap:30px;*/
 }
 
 .cafe_card_info {
     display: flex;
     align-items: center;
+    margin: 43px 18px;
 }
 
-.cafe_card_info img {
-    max-width: 100%;
-}
 
 .cafe_card_side {
-    width: 284px;
-    margin-left: 25px;
+    width: 320px;
+    /*margin-left: 25px;*/
 }
 
 .cafe_card_name {
@@ -36,8 +36,42 @@
 
 .cafe_card_tag_list li {
     display: inline-block;
-    padding: 7px 15px;
+    padding: 7px 5px;
     border: #D9D9D9 solid 1px;
     border-radius: 30px;
     box-shadow: 3px 3px 5px 0 #D9D9D9;
+    /*width: 103px;*/
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
+}
+
+.cafe_image {
+    border-radius: 50%;
+    height: 105px;
+    width: 105px;
+}
+
+.no_cafe_message {
+    margin: 51px auto 0 auto;
+    text-align: center;
+    font-size: 30px;
+}
+
+.cafe_register_button {
+    font-family: GodoM;
+    font-size: 30px;
+    color: #000;
+    background-color: white;
+    border: 1px solid #D9D9D9;
+    border-radius: 30px;
+    padding: 6px 18px;
+    box-shadow: 3px 2px 4px 0 rgba(0,0,0,25%);
+    margin: 78px auto;
+    text-align: center;
+    display: inline-block;
+}
+
+.no_cafe_container {
+    text-align: center;
 }

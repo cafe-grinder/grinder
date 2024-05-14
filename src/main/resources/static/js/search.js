@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(url)
                 location.href = url
             }
+
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');
@@ -63,26 +64,7 @@ function alarmTab() {
     });
 }
 
-function logout() {
-    let url = '/api/logout';
 
-    // 기본 요청 설정
-    let fetchOptions = {
-        method: 'POST',
-    };
-
-    // AJAX 요청 예시
-    fetch(url, fetchOptions)
-        .then(data => {
-            console.log('Success:', data);
-            window.location.href="/";
-
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            window.location.href = "/";
-        });
-}
 
 function reissue() {
     let url = '/api/reissue';
@@ -94,12 +76,12 @@ function reissue() {
 
     // AJAX 요청 예시
     fetch(url, fetchOptions)
-        .then(data => {
-            console.log('Success:', data);
-            window.location.href = "/";
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            window.location.href = "/";
-        });
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                window.location.href = "/";
+            });
 }
