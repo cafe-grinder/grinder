@@ -9,6 +9,34 @@ document.addEventListener('DOMContentLoaded', function() {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('headerContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
             alarmTab();
+
+            const searchForm = document.getElementById('search_form')
+            const input = document.getElementById('search_query')
+            const select = document.getElementById('search_category')
+            const queryString = window.location.search;
+            const urlParams = new URLSearchParams(queryString);
+            let query = decodeURIComponent(urlParams.get('query'));
+            let category = urlParams.get('category')
+
+            if (query != null && query != 'null') {
+                input.value = query
+            }
+            if (category != null) {
+                select.value = category
+            }
+            searchForm.addEventListener('submit', (e) => {
+                e.preventDefault()
+                search()
+            });
+
+            function search() {
+
+                query = input.value
+                category = select.value
+                let url = '/search?category=' + category + '&query=' + query
+                console.log(url)
+                location.href = url
+            }
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');

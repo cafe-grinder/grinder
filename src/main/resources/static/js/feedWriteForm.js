@@ -23,6 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function InitNewFeed() {
+        // 이미지 초기화
+
         // 평점 초기화
         const stars = document.querySelectorAll('.star');
         stars.forEach(star => {
@@ -171,6 +173,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }*/
 
                 let content = document.querySelector('.newfeed_content').value;
+                let imageList = document.getElementById('file-input');
 
                 // 댓글 내용이 비어있는지 확인
                 if (content === '') {
@@ -178,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                await addFeed(cafeId, content, imageUrlList, tagNameList, grade);
+                await addFeed(content, cafeId, tagNameList, grade, imageList);
             }
 
             // 수정하기 버튼 클릭
@@ -189,6 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const feedId = new URLSearchParams(window.location.search).get('feedId');
                 let content = document.querySelector('.newfeed_content').value;
+                let imageList = document.getElementById('file-input');
 
                 // 댓글 내용이 비어있는지 확인
                 if (!content.trim()) {
@@ -196,27 +200,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     return;
                 }
 
-                await updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, grade);
+                await updateFeed(feedId, content, cafeId, tagNameList, grade, imageList);
             }
         });
     }
 });
 
 // 피드 등록
-async function addFeed(cafeId, content, imageUrlList, tagNameList, grade) {
+async function addFeed(content, cafeId, tagNameList, grade, imageList) {
     try {
+        let formData = new FormData();
+        formData.append('content', content);
+        formData.append('cafeId', cafeId);
+        for (let i = 0; i < tagNameList.length; i++) {
+            formData.append('tagNameList', tagNameList[i]);
+        }
+        formData.append('grade', grade);
+        for (let i = 0; i < imageList.files.length; i++) {
+            formData.append('imageList', imageList.files[i]);
+        }
+
         const response = await fetch(`/feed/newfeed`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cafeId: cafeId,
-                content: content,
-                imageUrlList: imageUrlList,
-                tagNameList: tagNameList,
-                grade: grade
-            }),
+            body: formData
         });
 
         if (response.ok) {
@@ -233,20 +239,23 @@ async function addFeed(cafeId, content, imageUrlList, tagNameList, grade) {
 }
 
 // 피드 수정
-async function updateFeed(feedId, cafeId, content, imageUrlList, tagNameList, grade) {
+async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList) {
     try {
+        let formData = new FormData();
+        formData.append('feedId', feedId);
+        formData.append('content', content);
+        formData.append('cafeId', cafeId);
+        for (let i = 0; i < tagNameList.length; i++) {
+            formData.append('tagNameList', tagNameList[i]);
+        }
+        formData.append('grade', grade);
+        for (let i = 0; i < imageList.files.length; i++) {
+            formData.append('imageList', imageList.files[i]);
+        }
+
         const response = await fetch(`/feed/${feedId}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cafeId: cafeId,
-                content: content,
-                imageUrlList: imageUrlList,
-                tagNameList: tagNameList,
-                grade: grade
-            }),
+            body: formData
         });
 
         if (response.ok) {

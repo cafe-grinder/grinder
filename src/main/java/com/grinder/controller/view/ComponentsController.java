@@ -8,18 +8,15 @@ import com.grinder.domain.enums.TagName;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.NoMoreContentException;
 import com.grinder.service.*;
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +40,8 @@ public class ComponentsController {
     private final MyMenuService myMenuService;
     private final MessageService messageService;
     private final AnalysisTagService analysisTagService;
+    private final CafeService cafeService;
+
 
     @GetMapping("/get-header")
     public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -149,7 +148,7 @@ public class ComponentsController {
         return "components/menuInfo :: addMenu";
     }
 
-    @GetMapping("/get-feed")
+    /*@GetMapping("/get-feed")
     public String getFeed(Model model) {
         // 멤버
         String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
@@ -195,10 +194,10 @@ public class ComponentsController {
         }
         model.addAttribute("feedList", feedResponseList);
 
-        return "components/feed";
-    }
+        return "components/feed2";
+    }*/
 
-    @GetMapping("get-feed2")
+    @GetMapping("get-feed")
     public String getFeed2(
             Model model,
             @PageableDefault(size = 5) Pageable pageable
@@ -214,12 +213,23 @@ public class ComponentsController {
         if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
             throw new NoMoreContentException("존재하지 않음");
         }
-        return "components/feed2";
+        return "components/feed";
     }
 
     @GetMapping("/get-cafeCard")
-    public String getCafeCard() {
+    public String getCafeCard(@RequestParam String query, @PageableDefault(size = 6) Pageable pageable ,Model model) {
+        Slice<CafeDTO.findAllWithImageAndTagResponse> cafeSlice =  cafeService.searchCafes(query, pageable);
+        model.addAttribute("cafeSlice", cafeSlice);
         return "components/cafeCard";
+    }
+
+    @GetMapping("/get-search-feed")
+    public String getSearchFeed(@RequestParam String query, @PageableDefault Pageable pageable, Authentication authentication, Model model) {
+        UserDetails loginMember =  (UserDetails)authentication.getPrincipal();
+        String email = loginMember.getUsername();
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.searchFeed(email, query, pageable);
+        model.addAttribute("feedSlice", feedSlice);
+        return "components/feed";
     }
 
     @GetMapping("/get-myFeed/{email}")

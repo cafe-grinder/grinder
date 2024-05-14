@@ -1,56 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/common.css">
 
-</head>
-<body>
-
-<!-- 여기부터 위로 제거 -->
 <article class="cafe_card_container" th:fragment="cafeCards">
-    <div class="cafe_card_info"><!--반복문-->
-        <img src="/img/not_use/starbucks_logo.png" alt="">
+    <input type="hidden" th:value="${cafeSlice.getContent().size()}" id="has_next">
+    <div class="cafe_card_info" th:each="cafe: ${cafeSlice.getContent()}"><!--반복문-->
+        <img th:if="${cafe.cafeImageUrl}==null" src="/img/default-cafe-logo.png" class="cafe_image" alt="">
+        <img th:unless="${cafe.cafeImageUrl}==null" th:src="${cafe.cafeImageUrl}" class="cafe_image" alt="">
         <div class="cafe_card_side">
-            <div class="cafe_card_name">스타벅스 (StarBucks)</div>
+            <div class="cafe_card_name" th:text="${cafe.cafeName}"></div>
             <div>
-                <div class="cafe_card_address">서울, 서초구</div>
+                <div class="cafe_card_address" th:text="${cafe.cafeAddress}"></div>
                 <ul class="cafe_card_tag_list"><!--반복문-->
-                    <li>🚀친절해요</li>
-                    <li>🚀친절해요</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="cafe_card_info">
-        <img src="/img/not_use/starbucks_logo.png" alt="">
-        <div class="cafe_card_side">
-            <div class="cafe_card_name">스타벅스 (StarBucks)</div>
-            <div>
-                <div class="cafe_card_address">서울, 서초구</div>
-                <ul class="cafe_card_tag_list"><!--반복문-->
-                    <li>🚀친절해요</li>
-                    <li>🚀친절해요</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div class="cafe_card_info">
-        <img src="/img/not_use/starbucks_logo.png" alt="">
-        <div class="cafe_card_side">
-            <div class="cafe_card_name">스타벅스 (StarBucks)</div>
-            <div>
-                <div class="cafe_card_address">서울, 서초구</div>
-                <ul class="cafe_card_tag_list"><!--반복문-->
-                    <li>🚀친절해요</li>
-                    <li>🚀친절해요</li>
+                    <li th:each="tag: ${cafe.tagList}" th:text="${tag}"></li>
                 </ul>
             </div>
         </div>
     </div>
 </article>
-<!-- 여기부터 아래로 제거 -->
-
-</body>
-</html>
