@@ -62,60 +62,60 @@ function alarmTab() {
         let alarm_box = document.querySelector('.header_alarm_box');
 
 
-    alarm.addEventListener('click', () => {
-        if (alarm_box) {
-            alarm_box.classList.toggle('alarm_active');
-        }
-    });
-
-    document.getElementById('aiFriendListItem').addEventListener('click', function() {
-        let modal = document.getElementById('alanModal');
-        getAlanMessage('/get-alan');
-    });
-}
-
-function logout() {
-    let url = '/api/logout';
-
-    // 기본 요청 설정
-    let fetchOptions = {
-        method: 'POST',
-    };
-
-    // AJAX 요청 예시
-    fetch(url, fetchOptions)
-        .then(data => {
-            console.log('Success:', data);
-            window.location.href="/";
-
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            window.location.href = "/";
+        alarm.addEventListener('click', () => {
+            if (alarm_box) {
+                alarm_box.classList.toggle('alarm_active');
+            }
         });
-}
 
-function reissue() {
-    let url = '/api/reissue';
-
-    // 기본 요청 설정
-    let fetchOptions = {
-        method: 'GET',
-    };
-
-    // AJAX 요청 예시
-    fetch(url, fetchOptions)
-        .then(data => {
-            console.log('Success:', data);
-            window.location.href = "/";
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            window.location.href = "/";
+        document.getElementById('aiFriendListItem').addEventListener('click', function () {
+            let modal = document.getElementById('alanModal');
+            getAlanMessage('/get-alan');
         });
-}
+    }
 
-function getAlanMessage(url) {
+    function logout() {
+        let url = '/api/logout';
+
+        // 기본 요청 설정
+        let fetchOptions = {
+            method: 'POST',
+        };
+
+        // AJAX 요청 예시
+        fetch(url, fetchOptions)
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = "/";
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                window.location.href = "/";
+            });
+    }
+
+    function reissue() {
+        let url = '/api/reissue';
+
+        // 기본 요청 설정
+        let fetchOptions = {
+            method: 'GET',
+        };
+
+        // AJAX 요청 예시
+        fetch(url, fetchOptions)
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                window.location.href = "/";
+            });
+    }
+
+    function getAlanMessage(url) {
         let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
         xhr.open('GET', url, true); // 요청을 초기화합니다.
 
@@ -146,18 +146,18 @@ function getAlanMessage(url) {
         };
 
         xhr.send(); // 요청을 서버로 보냅니다.
-}
+    }
 
-function closeAlan() {
-    document.getElementById('modalBackdrop').addEventListener('click', function() {
-        let modal = document.getElementById('alanContainer');
-        let backdrop = document.getElementById('modalBackdrop');
-        modal.style.display = 'none';
-        backdrop.style.display = 'none';
-    });
-}
+    function closeAlan() {
+        document.getElementById('modalBackdrop').addEventListener('click', function () {
+            let modal = document.getElementById('alanContainer');
+            let backdrop = document.getElementById('modalBackdrop');
+            modal.style.display = 'none';
+            backdrop.style.display = 'none';
+        });
+    }
 
-function checkTagBox() {
+    function checkTagBox() {
         const aiFriendListItem = document.getElementById('aiFriendListItem');
         const modal = document.getElementById('alanContainer');
         const backdrop = document.getElementById('modalBackdrop');
@@ -214,11 +214,12 @@ function checkTagBox() {
                 .then(data => {
                     console.log('Success:', data);
 
-                    modal.style.display= 'none';
+                    modal.style.display = 'none';
                     backdrop.style.display = 'none';
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
         });
+    }
 }
