@@ -50,6 +50,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 dropdown.classList.toggle('display_none');
             }
 
+            // 피드 이미지 클릭
+            if (target.classList.contains('feed_img')) {
+                let modalContainer = document.querySelector(".feed_modal_container");
+                let modal = document.querySelector(".feed_modal");
+                modal.innerHTML = `<img src="${target.src}" class="feed_modal_content">`
+                modalContainer.style.display = "block";
+            }
+
+            if (target.classList.contains('feed_modal_container')) {
+                document.querySelector(".feed_modal_container").style.display = "none";
+            }
+
             // 좋아요 버튼 클릭
             if (target.classList.contains('feed_like') || target.classList.contains('feed_like_yet')) {
                 let contentId;
