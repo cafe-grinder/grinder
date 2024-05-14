@@ -1,12 +1,13 @@
 package com.grinder.controller;
 
 import com.grinder.domain.dto.ErrorResult;
-import com.grinder.exception.HasNotBeenAddedException;
-import com.grinder.exception.LoginRequiredException;
-import com.grinder.exception.MaximumRangeAlreadyAddedException;
-import com.grinder.exception.NoMoreContentException;
+import com.grinder.exception.*;
+
 import java.util.NoSuchElementException;
+
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -59,5 +60,26 @@ public class ExControllerAdvice {
     public ErrorResult NoSuchElementExceptionExHandle(NoSuchElementException e, Model model) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
         return new ErrorResult("실패", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ErrorResult entityNotFoundExHandle(EntityNotFoundException e) {
+        log.error("[exceptionHandle] entityNotFoundExHandle", e);
+        return new ErrorResult("no_entity", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(AlreadyExistException.class)
+    public ErrorResult alreadyExistExHandle(AlreadyExistException e) {
+        log.error("[exceptionHandle] alreadyExistExHandle", e);
+        return new ErrorResult("already_exist", e.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(PermissionDeniedDataAccessException.class)
+    public ErrorResult permissionDeniedDataAccessExHandle(PermissionDeniedDataAccessException e) {
+        log.error("[exceptionHandle] permissionDeniedDataAccessExHandle", e);
+        return new ErrorResult("has_not_authority", e.getMessage());
     }
 }

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/cafeCard.css">
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/follower.css">
 </head>
 <body>
 <div id="headerContainer"></div>
@@ -23,10 +24,11 @@
 <h2 th:if="${category}=='feed'">검색 관련 피드</h2>
 <h2 th:if="${category}=='member'">검색 관련 회원</h2>
 <hr>
-<div>
+<div id="contents_container">
     <div id="cafeCardContainer"></div>
     <div id="feedContainer"></div>
-    <button id="more_contents_button">더보기</button>
+    <div id="memberContainer"></div>
+    <button id="more_contents_button" class="feed_more_load_btn">더보기</button>
 </div>
 
 <footer th:replace="components/footer :: footers"></footer>

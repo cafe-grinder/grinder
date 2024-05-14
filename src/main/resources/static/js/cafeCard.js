@@ -28,6 +28,9 @@ document.addEventListener('DOMContentLoaded', function() {
                             method: 'GET'
                         })
                                 .then(response => {
+                                    if (response.status == 204) {
+                                        document.getElementById('more_contents_button').classList.add('display_none')
+                                    }
                                     return response.text()
                                 })
                                 .then(data => {

@@ -74,4 +74,26 @@ public class MemberDTO {
         private String phoneNum;
 
     }
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SearchMemberDTO {
+        private String followId;
+        private String followMemberId;
+        private String followNickname;
+        private String followEmail;
+        private String followRole;
+        private String followImage;
+
+        public SearchMemberDTO(String memberId, FindMemberAndImageDTO dto) {
+            this.followId = memberId;
+            this.followMemberId = dto.getMemberId();
+            this.followNickname = dto.getNickname();
+            this.followEmail = dto.getEmail();
+            this.followRole = dto.getRole();
+            this.followImage = dto.getImage();
+        }
+    }
 }

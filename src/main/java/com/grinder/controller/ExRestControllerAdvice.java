@@ -25,6 +25,7 @@ public class ExRestControllerAdvice {
         return new ErrorResult("wrong_input", e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoSuchElementException.class)
     public ErrorResult noSuchElementExHandle(NoSuchElementException e) {
         log.error("[exceptionHandle] noSuchElementExHandle", e);
@@ -52,18 +53,21 @@ public class ExRestControllerAdvice {
         return new ErrorResult("Login_Require", e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(EntityNotFoundException.class)
     public ErrorResult entityNotFoundExHandle(EntityNotFoundException e) {
         log.error("[exceptionHandle] entityNotFoundExHandle", e);
         return new ErrorResult("no_entity", e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(AlreadyExistException.class)
     public ErrorResult alreadyExistExHandle(AlreadyExistException e) {
         log.error("[exceptionHandle] alreadyExistExHandle", e);
         return new ErrorResult("already_exist", e.getMessage());
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(PermissionDeniedDataAccessException.class)
     public ErrorResult permissionDeniedDataAccessExHandle(PermissionDeniedDataAccessException e) {
         log.error("[exceptionHandle] permissionDeniedDataAccessExHandle", e);

@@ -1,4 +1,5 @@
 let pageNum = 1
+let searchPage = 0;
 document.addEventListener('DOMContentLoaded', function() {
     // 백엔드에서 피드를 가져오는 XMLHttpRequest
     let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
@@ -11,8 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let query = urlParams.get('query');
         let category = urlParams.get('category')
         if (category == 'feed') {
-            let page = 0;
-            let url = '/get-search-feed?query=' + query + '&page=' + page;
+            let url = '/get-search-feed?query=' + query + '&page=' + searchPage;
             xhr.open('GET', url, true);
             xhr.send(); // 요청을 서버로 보냅니다.
         }
@@ -243,8 +243,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (target.classList.contains('feed_more_load_btn')) {
 
                 // AJAX를 이용하여 다음 페이지의 피드를 가져옴
-                const xhr = new XMLHttpRequest();
-                xhr.open('GET', `/get-feed?page=` + pageNum++, true);
+
+                if (queryString == null || queryString == '') {
+                    xhr.open('GET', `/get-feed?page=` + pageNum++, true);
+                } else {
+                    const urlParams = new URLSearchParams(queryString);
+                    let query = urlParams.get('query');
+                    let category = urlParams.get('category')
+                    if (category == 'feed') {
+                        let url = '/get-search-feed?query=' + query + '&page=' + ++searchPage;
+                        xhr.open('GET', url, true);
+                    }
+                }
+
+
                 console.log(pageNum);
                 xhr.onload = function() {
                     console.log(xhr.status);

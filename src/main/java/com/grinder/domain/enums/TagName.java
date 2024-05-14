@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum TagName {
-    CLEAN("🫧매장이 깨끗해요"),
+    CLEAN("🧹매장이 깨끗해요"),
     KIND("💌직원들이 친절해요"),
     GOOD_INTERIOR("✨인테리어가 좋아요"),
     GOOD_COFFEE("☕커피가 맛있어요"),

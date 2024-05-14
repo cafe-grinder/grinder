@@ -200,15 +200,22 @@ public class ComponentsController {
     public String getCafeCard(@RequestParam String query, @PageableDefault(size = 6) Pageable pageable ,Model model) {
         Slice<CafeDTO.findAllWithImageAndTagResponse> cafeSlice =  cafeService.searchCafes(query, pageable);
         model.addAttribute("cafeSlice", cafeSlice);
+        if (!cafeSlice.hasNext() && cafeSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
         return "components/cafeCard";
     }
 
     @GetMapping("/get-search-feed")
-    public String getSearchFeed(@RequestParam String query, @PageableDefault Pageable pageable, Authentication authentication, Model model) {
-        UserDetails loginMember =  (UserDetails)authentication.getPrincipal();
-        String email = loginMember.getUsername();
+    public String getSearchFeed(@RequestParam String query, @PageableDefault(size = 5) Pageable pageable, Model model) {
+        String email = getEmail();
         Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.searchFeed(email, query, pageable);
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
         model.addAttribute("feedSlice", feedSlice);
+        if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
         return "components/feed";
     }
 
@@ -240,6 +247,19 @@ public class ComponentsController {
         }
         model.addAttribute("feedList", slice);
         return "components/feed";
+    }
+
+    @GetMapping("/get-search-member")
+    public String getSearchMember(@RequestParam String query, @PageableDefault Pageable pageable, Model model) {
+        String email = getEmail();
+        String memberId = memberService.findMemberByEmail(email).getMemberId();
+        Slice<MemberDTO.SearchMemberDTO> memberSlice = memberService.searchMember(memberId, query, pageable);
+        model.addAttribute("followMembers", memberSlice.getContent());
+        model.addAttribute("hasNext", memberSlice.hasNext());
+        if (!memberSlice.hasNext() && memberSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
+        return "components/followerList :: followList(title='search')";
     }
 
     private String getEmail() {

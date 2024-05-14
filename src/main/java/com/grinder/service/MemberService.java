@@ -39,4 +39,6 @@ public interface MemberService {
 
     boolean updateMember(MemberDTO.MemberUpdateRequestDto request);
 
+    Slice<SearchMemberDTO> searchMember(String memberId, String query, Pageable pageable);
+
 }
