@@ -1,6 +1,6 @@
 # Cafe Grinder
 ### ☕ 카페 정보와 메뉴에 대한 정보가 있는 커뮤니티
-> 카페 정보 제공 소셜네트워크 기반 커뮤니티 웹사이트
+> 카페 정보 제공 소셜네트워크 기반 커뮤니티 웹사이트 👉[[링크](http://cafegrinder.duckdns.org:8080)]
 
 ![img.png](readme/grinder_banner.png)
 
@@ -20,10 +20,10 @@
 
 ## 💫 Team Members
 
-| 김요한                                               | 김중석                                    | 유호준                                                                    | 윤인선                                | 이은지           | 정인우                                                    |
-|---------------------------------------------------|----------------------------------------|------------------------------------------------------------------------|------------------------------------|------------------|--------------------------------------------------------|
-| ![img.png](readme/member1.png)                    | ![img.png](readme/member3.png)         | ![img.png](readme/member4.png)                                         | ![img.png](readme/member5.png)     |![img.png](readme/member6.png) | ![img.png](readme/member2.png)                         |
-| - 마이페이지(블랙리스트, 팔로우, 북마크) <br/> - 추천 기능(GPT, 스케줄링) | - 관리자 페이지(회원 관리, 신고 관리, 카페 관리, 판매자 관리) | - 로그인 / 회원가입 화면 개발 <br/> - 카페 추가 신청 / 피드 작성 외 6 화면 개발| - 카페 정보(피드 조회, 메뉴 조회, 판매자 신청, 북마크) | - 추후 수정      | - 피드(등록, 수정, 삭제, 좋아요, 태그)<br/>- 댓글(등록 수정 삭제, 대댓글, 좋아요) |
+| 김요한                                               | 김중석                                    | 유호준                                                                    | 윤인선                                | 이은지                                                    | 정인우                                                    |
+|---------------------------------------------------|----------------------------------------|------------------------------------------------------------------------|------------------------------------|--------------------------------------------------------|--------------------------------------------------------|
+| ![img.png](readme/member1.png)                    | ![img.png](readme/member8.png)         | ![img.png](readme/member9.png)   | ![img.png](readme/member10.png)     | ![img.png](readme/member6.png)                         | ![img.png](readme/member7.png)                         |
+| - 마이페이지(블랙리스트, 팔로우, 북마크) <br/> - 추천 기능(GPT, 스케줄링) | - 관리자 페이지(회원 관리, 신고 관리, 카페 관리, 판매자 관리) | - 로그인 / 회원가입 화면 개발 <br/> - 카페 추가 신청 / 피드 작성 외 6 화면 개발| - 카페 정보(피드 조회, 메뉴 조회, 판매자 신청, 북마크) | - 로그인/회원가입(회원가입, JWT, 소셜 로그인, 이메일 인증), S3와 CI/CD 환경 구성 | - 피드(등록, 수정, 삭제, 좋아요, 태그)<br/>- 댓글(등록 수정 삭제, 대댓글, 좋아요) |
 
 
 
@@ -31,7 +31,7 @@
 ### Back-end
 |   Java   |   Spring   |   Spring Boot   |   PostgreSQL   |   AWS   |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <div style="display: flex; align-items: flex-start;"><img src=“https://github.com/cafe-grinder/grinder/assets/94281256/dc931298-a2d8-46f0-8159-bf4fab1f0264” alt="postgresql" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> |
+| <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | ![img.png](readme/Postgres.png) | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> |
 
 
 
@@ -340,28 +340,28 @@
 
 ## ✨UI(화면) 설계서
 
-|                                     |                                    |
-|-------------------------------------|------------------------------------|
-| Main Page (Member)                  | Main Page (Guest)                  |
-| ![img.png](main.png)                | ![img.png](main(guest).png)        |
-| Login Page                          | SignUp Page                        |
-| ![img.png](readme/login.png)        | ![img.png](readme/signup.png)      |
-| SignUp complete Page                | Modify-info Page                   |
-| ![img.png](readme/signupfinish.png) | ![img.png](readme/updatemember.png) |
-| Find Password Page                  | Change Password Page               |
-| ![img.png](readme/findpassword.png) | ![img.png](readme/changefinish.png) |
-| Feed Write Page                     | Admin Page                         |
-| ![img.png](readme/feedadd.png)      | ![img.png](readme/admin.png)       |
-| my Page                             | follow Page                        |
-| ![img.png](readme/myPage.png)       | ![img.png](readme/follow.png)      |
-| bookmark Page                       | my Cafe List Page                  |
-| ![img.png](readme/bookmark.png)     | ![img.png](readme/myCafeList.png)  |
-| myCafe Page                         | myCafe menu add Page               |
-| ![img.png](readme/myCafe.png)       | ![img.png](readme/myCafemenu.png)  |
-| CafeInfo Page                       | CafeInfoMenu Page                  |
-| ![img.png](readme/cafeInfoPage.png)        | ![img.png](readme/cafeInfoMenu.png)       |
-| Alan Recommend Page                 | Alan cafe Summary Page             |
-| ![img.png](readme/alan_recommend.png)      | ![img.png](readme/Alan%20cafe%20Summary.png)        |
+|                                                   |                                    |
+|---------------------------------------------------|------------------------------------|
+| Main Page (Member)                                | Main Page (Guest)                  |
+| ![img.png](readme/memberMain.png)                 | ![img.png](readme/GuestMain.png)        |
+| Login Page                                        | SignUp Page                        |
+| ![img.png](readme/login.png)                      | ![img.png](readme/signup.png)      |
+| SignUp complete Page                              | Modify-info Page                   |
+| ![img.png](readme/signupfinish.png)               | ![img.png](readme/updatemember.png) |
+| Find Password Page                                | Change Password Page               |
+| ![img.png](readme/findpassword.png)               | ![img.png](readme/changefinish.png) |
+| Feed Write Page                                   | Admin Page                         |
+| ![img.png](readme/feedadd.png)                    | ![img.png](readme/admin.png)       |
+| my Page                                           | follow Page                        |
+| ![img.png](readme/myPage.png)                     | ![img.png](readme/follow.png)      |
+| bookmark Page                                     | my Cafe List Page                  |
+| ![img.png](readme/bookmark.png)                   | ![img.png](readme/myCafeList.png)  |
+| myCafe Page                                       | myCafe menu add Page               |
+| ![img.png](readme/myCafe.png)                     | ![img.png](readme/myCafemenu.png)  |
+| CafeInfo Page                                     | CafeInfoMenu Page                  |
+| ![img.png](readme/cafeInfoPage.png)               | ![img.png](readme/cafeInfoMenu.png)       |
+| Alan Recommend Page                               | Alan cafe Summary Page             |
+| ![img.png](readme/alan_recommend.png)             | ![img.png](readme/Alan%20cafe%20Summary.png)        |
 
 
 ## 📂Project Structure
@@ -434,6 +434,135 @@
 ![img.png](readme/ERD.png)
 
 ## 🎈API 명세서
+
+### 📁 Member
+| 🏷NAME          | ⚙METHOD | 📎URL                                | 📖DESCRIPTION              |
+|-----------------|---------|--------------------------------------|----------------------------|
+| updateMember    | PUT     | /api/member/update                   | 회원 정보 수정             |
+| updateMemberRole| PUT     | /api/member/admin/{memberId}/role    | 회원 역할 수정             |
+| recoverMember   | PUT     | /api/member/admin/{memberId}/recovery| 회원 복구                  |
+| addMember       | POST    | /api/member/signup                   | 회원 가입                  |
+| sendMessage     | POST    | /api/member/email/verification-requests | 이메일 인증 요청           |
+| resetPassword   | PATCH   | /api/member/email/password           | 비밀번호 재설정            |
+| checkNickname   | GET     | /api/member/nickname/check           | 닉네임 중복 확인           |
+| verificationEmail| GET     | /api/member/email/verifications      | 이메일 인증                |
+| checkEmail      | GET     | /api/member/email/check              | 이메일 중복 확인           |
+| searchMemberByNicknameAndRole | GET | /api/member/admin/search | 닉네임과 역할로 회원 검색   |
+| deleteMember    | DELETE  | /api/member/admin/{memberId}         | 회원 삭제                  |
+
+### 📁 Feed
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| updateFeed      | PUT     | /feed/{feed_id}               | 피드 수정                  |
+| deleteFeed      | DELETE  | /feed/{feed_id}               | 피드 삭제                  |
+| addFeed         | POST    | /feed/newfeed                 | 새 피드 추가               |
+| findFeedForAdmin| GET     | /feed/admin/{feed_id}         | 관리자용 피드 조회         |
+
+### 📁 Comment
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| updateComment   | PUT     | /comment/{feed_id}/{comment_id} | 댓글 수정                  |
+| deleteComment   | DELETE  | /comment/{feed_id}/{comment_id} | 댓글 삭제                  |
+| addComment      | POST    | /comment/{feed_id}/newcomment | 새 댓글 추가               |
+| findCommentForAdmin | GET | /comment/{feed_id}/admin/{comment_id} | 관리자용 댓글 조회         |
+
+### 📁 Analysis Tag
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| saveAlanTag     | POST    | /saveAlanTag                  | Alan 태그 저장             |
+
+### 📁 Heart
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| addHeart        | POST    | /heart                        | 좋아요 추가                |
+| deleteHeart     | DELETE  | /heart                        | 좋아요 삭제                |
+
+### 📁 Seller Info
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| saveSellerInfo  | POST    | /api/seller_info/admin/{applyId} | 판매자 정보 저장           |
+| deleteSellerInfo| DELETE  | /api/seller_info/{seller_info_id} | 판매자 정보 삭제           |
+
+### 📁 Seller Apply
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| saveSellerApply | POST    | /api/seller_apply/{cafeId}    | 판매자 신청 저장           |
+| findAllSellerApplies | GET | /api/seller_apply/admin       | 모든 판매자 신청 조회       |
+| deleteSellerApply | DELETE | /api/seller_apply/admin/{applyId} | 판매자 신청 삭제            |
+
+### 📁 Opening Hours
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| saveOpeningHours | POST   | /api/saveOpeningHours/{cafe_id} | 영업 시간 저장            |
+
+### 📁 Menu
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| saveMyCafeMenu  | POST    | /api/menu                     | 카페 메뉴 저장             |
+| deleteMyCafeMenu| DELETE  | /api/myMenu/{menu_id}         | 카페 메뉴 삭제             |
+
+### 📁 Image
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| saveAndDeleteImage | POST | /api/image                    | 이미지 저장 및 삭제        |
+| deleteImage     | DELETE  | /api/image                    | 이미지 삭제                |
+| deleteCafeImage | DELETE  | /api/image/{cafeId}           | 카페 이미지 삭제           |
+
+### 📁 Follow
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| addFollow       | POST    | /api/follow/{email}           | 팔로우 추가                |
+| deleteFollow    | DELETE  | /api/follow/{email}           | 팔로우 삭제                |
+| findAllFollowingSlice | GET | /api/following             | 팔로잉 목록 조회            |
+| findAllFollowerSlice | GET | /api/follower               | 팔로워 목록 조회            |
+
+### 📁 File
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| uploadImageList | POST    | /api/file/upload/{contentType}/{contentId} | 이미지 목록 업로드       |
+| downloadFile    | GET     | /api/file/download            | 파일 다운로드             |
+
+### 📁 Cafe
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| addCafe         | POST    | /api/cafe/admin/{registerId}  | 카페 추가                  |
+| searchCafes     | GET     | /api/cafe/search-cafe         | 카페 검색                  |
+| searchCafeByAdmin | GET   | /api/cafe/admin               | 관리자용 카페 검색          |
+
+### 📁 Cafe Summary
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| findCafeSummary | GET     | /api/cafe_summary/{cafeId}    | 카페 요약 정보 조회        |
+
+### 📁 Cafe Register
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| findAllCafeRegisters | GET | /api/cafe_register/admin      | 모든 카페 등록 정보 조회    |
+| denyCafeRegister | DELETE | /api/cafe_register/admin/{registerId} | 카페 등록 거부           |
+
+### 📁 Bookmark
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| isBookmarked    | GET     | /api/bookmark/{cafeId}        | 북마크 여부 확인           |
+| addBookmark     | POST    | /api/bookmark/{cafeId}        | 북마크 추가                |
+| deleteBookmark  | DELETE  | /api/bookmark/{cafeId}        | 북마크 삭제                |
+| findAllBookmarksSlice | GET | /api/bookmark               | 북마크 목록 조회           |
+
+### 📁 Blacklist
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| findAllBlacklist | GET    | /api/blacklist                | 블랙리스트 조회            |
+| addBlacklist    | POST    | /api/blacklist                | 블랙리스트 추가            |
+| deleteBlacklist | DELETE  | /api/blacklist/{id}           | 블랙리스트 삭제            |
+
+### 📁 Report
+| 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
+|-----------------|---------|-------------------------------|----------------------------|
+| findAllReports  | GET     | /api/report                   | 모든 신고 조회             |
+| searchReportByContentAndType | GET | /api/report/admin/search | 내용과 타입으로 신고 검색 |
+| deleteReport    | DELETE  | /api/report/admin/{reportId}  | 신고 삭제                  |
+| deleteContent   | DELETE  | /api/report/admin/{reportId}/accepted | 신고된 내용 삭제       |
+
 
 
 ## 🏭System Structure
