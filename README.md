@@ -31,7 +31,7 @@
 ### Back-end
 |   Java   |   Spring   |   Spring Boot   |   PostgreSQL   |   AWS   |
 | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | <div style="display: flex; align-items: flex-start;"><img src=“https://github.com/cafe-grinder/grinder/assets/94281256/dc931298-a2d8-46f0-8159-bf4fab1f0264” alt="postgresql" width="65" height="65" /></div> | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> |
+| <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/java-icon.svg" alt="icon" width="65" height="65" /></div> | <img alt="spring logo" src="https://www.vectorlogo.zone/logos/springio/springio-icon.svg" height="50" width="50" > | <img alt="spring-boot logo" src="https://t1.daumcdn.net/cfile/tistory/27034D4F58E660F616" width="65" height="65" > | ![img.png](readme/Postgres.png) | <div style="display: flex; align-items: flex-start;"><img src="https://techstack-generator.vercel.app/aws-icon.svg" alt="icon" width="65" height="65" /></div> |
 
 
 
@@ -340,28 +340,28 @@
 
 ## ✨UI(화면) 설계서
 
-|                                     |                                    |
-|-------------------------------------|------------------------------------|
-| Main Page (Member)                  | Main Page (Guest)                  |
-| ![img.png](main.png)                | ![img.png](main(guest).png)        |
-| Login Page                          | SignUp Page                        |
-| ![img.png](readme/login.png)        | ![img.png](readme/signup.png)      |
-| SignUp complete Page                | Modify-info Page                   |
-| ![img.png](readme/signupfinish.png) | ![img.png](readme/updatemember.png) |
-| Find Password Page                  | Change Password Page               |
-| ![img.png](readme/findpassword.png) | ![img.png](readme/changefinish.png) |
-| Feed Write Page                     | Admin Page                         |
-| ![img.png](readme/feedadd.png)      | ![img.png](readme/admin.png)       |
-| my Page                             | follow Page                        |
-| ![img.png](readme/myPage.png)       | ![img.png](readme/follow.png)      |
-| bookmark Page                       | my Cafe List Page                  |
-| ![img.png](readme/bookmark.png)     | ![img.png](readme/myCafeList.png)  |
-| myCafe Page                         | myCafe menu add Page               |
-| ![img.png](readme/myCafe.png)       | ![img.png](readme/myCafemenu.png)  |
-| CafeInfo Page                       | CafeInfoMenu Page                  |
-| ![img.png](readme/cafeInfoPage.png)        | ![img.png](readme/cafeInfoMenu.png)       |
-| Alan Recommend Page                 | Alan cafe Summary Page             |
-| ![img.png](readme/alan_recommend.png)      | ![img.png](readme/Alan%20cafe%20Summary.png)        |
+|                                                   |                                    |
+|---------------------------------------------------|------------------------------------|
+| Main Page (Member)                                | Main Page (Guest)                  |
+| ![img.png](readme/memberMain.png)                 | ![img.png](readme/GuestMain.png)        |
+| Login Page                                        | SignUp Page                        |
+| ![img.png](readme/login.png)                      | ![img.png](readme/signup.png)      |
+| SignUp complete Page                              | Modify-info Page                   |
+| ![img.png](readme/signupfinish.png)               | ![img.png](readme/updatemember.png) |
+| Find Password Page                                | Change Password Page               |
+| ![img.png](readme/findpassword.png)               | ![img.png](readme/changefinish.png) |
+| Feed Write Page                                   | Admin Page                         |
+| ![img.png](readme/feedadd.png)                    | ![img.png](readme/admin.png)       |
+| my Page                                           | follow Page                        |
+| ![img.png](readme/myPage.png)                     | ![img.png](readme/follow.png)      |
+| bookmark Page                                     | my Cafe List Page                  |
+| ![img.png](readme/bookmark.png)                   | ![img.png](readme/myCafeList.png)  |
+| myCafe Page                                       | myCafe menu add Page               |
+| ![img.png](readme/myCafe.png)                     | ![img.png](readme/myCafemenu.png)  |
+| CafeInfo Page                                     | CafeInfoMenu Page                  |
+| ![img.png](readme/cafeInfoPage.png)               | ![img.png](readme/cafeInfoMenu.png)       |
+| Alan Recommend Page                               | Alan cafe Summary Page             |
+| ![img.png](readme/alan_recommend.png)             | ![img.png](readme/Alan%20cafe%20Summary.png)        |
 
 
 ## 📂Project Structure
