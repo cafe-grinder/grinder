@@ -21,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +43,7 @@ public class ComponentsController {
     private final HeartService heartService;
     private final TagService tagService;
     private final MyMenuService myMenuService;
+    private final CafeService cafeService;
 
     @GetMapping("/get-header")
     public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -184,8 +186,19 @@ public class ComponentsController {
     }
 
     @GetMapping("/get-cafeCard")
-    public String getCafeCard() {
+    public String getCafeCard(@RequestParam String query, @PageableDefault(size = 6) Pageable pageable ,Model model) {
+        Slice<CafeDTO.findAllWithImageAndTagResponse> cafeSlice =  cafeService.searchCafes(query, pageable);
+        model.addAttribute("cafeSlice", cafeSlice);
         return "components/cafeCard";
+    }
+
+    @GetMapping("/get-search-feed")
+    public String getSearchFeed(@RequestParam String query, @PageableDefault Pageable pageable, Authentication authentication, Model model) {
+        UserDetails loginMember =  (UserDetails)authentication.getPrincipal();
+        String email = loginMember.getUsername();
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.searchFeed(email, query, pageable);
+        model.addAttribute("feedSlice", feedSlice);
+        return "components/feed";
     }
 
     @GetMapping("/get-myFeed/{email}")
