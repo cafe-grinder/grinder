@@ -134,8 +134,13 @@ header .header_bar .header_btn .header_login .header_profile {
 }
 
 .header_alarm_box ul li {
+    cursor: pointer;
     width: 270px;
-    height: 76px;
+    height: 100px;
+}
+
+.header_alarm_box ul li:hover {
+    background-color: #D8EADC;
 }
 
 .header_alarm_box .header_alarm_list li {
@@ -157,9 +162,11 @@ header .header_bar .header_btn .header_login .header_profile {
     width: 30px;
     height: 30px;
     margin-right: 10px;
+    border-radius: 50%;
 }
 
 .header_alarm_box .header_alarm_list li div +p {
+    display: inline-block;
     font-size: 16px;
     font-family: GodoB;
 }
@@ -176,7 +183,7 @@ header .header_bar .header_btn .header_login .header_profile {
 
 .header_alarm_box .header_alarm_more {
     width: 43px;
-    height: 18px;
+    height: 10px;
     margin: 8px 128px 8px 129px;
 }
 

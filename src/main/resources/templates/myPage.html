@@ -39,11 +39,14 @@
 <div class="mypage_banner_line"></div>
 
 <p class="myPage_title">작성한 피드</p>
-<div id="myPageMenuContainer"></div>
+<div id="myPageMenuContainer">
 
-<div class="feed_more_load_align">
-    <button class="feed_more_load_btn">더보기</button>
+    <div class="feed_more_load_align">
+        <button class="feed_more_load_btn">더보기</button>
+    </div>
 </div>
+
+
 
 <div th:if="${connectEmail == myPageMember.email}" class="mypage_menu">
     <ul class="mypage_menu_list">

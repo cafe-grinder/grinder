@@ -1,3 +1,5 @@
+@import "common.css";
+
 .index-hot-cafe {
     margin-top: 35px;
     font-size: 25px;
@@ -6,5 +8,135 @@
 .index-divide-line {
     margin: 16px 0;
     height: 0;
-    border-bottom: #D9D9D9 solid 1px;
+    border-bottom: #d0d0d0 solid 1px;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    z-index: 999;
+}
+
+.alan_tab {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    background-color: white;
+    border: #BABABA;
+    border-radius: 25px;
+    box-shadow: 3px 1px 1px 4px rgba(0,0,0,25%);
+    padding: 0;
+    z-index: 1000;
+}
+
+.alan_tab .alan_info {
+    display: flex;
+    float: left;
+    align-items: center;
+}
+
+.alan_tab .alan_info >img {
+    width: 75px;
+    height: 75px;
+    border-radius: 15px;
+    margin: 15px 0 13px 30px;
+}
+
+.alan_tab .alan_info span {
+    display: flex;
+    flex-direction: column;
+    margin: 0 0 15px 15px;
+}
+
+.alan_tab .alan_info span .alan_name {
+    font-family: GodoM;
+    font-weight: bold;
+    font-size: 30px;
+    margin: 15px 0 15px;
+}
+
+.alan_tab .alan_info span .alan_who {
+    font-size: 20px;
+    color: #797979;
+}
+
+
+.alan_tab .alan_inner_line {
+    display: inline-block;
+    width: 800px;
+    border-top: 1px #D9D9D9 solid;
+}
+
+.alan_tab article .message_box {
+    background-color: #EEEEEE;
+    border-radius: 25px 25px 25px 5px;
+    margin: 25px 26px 0 26px;
+    padding: 13px 23px;
+}
+
+.alan_tab article .message_box >p {
+    font-family: GodoM;
+    font-size: 17px;
+    line-height: 115%;
+}
+
+.alan_tab article .message_date {
+    font-family: GodoM;
+    font-size: 15px;
+    color: #666666;
+    margin: 9px 0 24px 27px;
+}
+
+.message_tag_area {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 27px 21px 27px;
+}
+
+.message_tag_area .message_tag_text {
+    font-family: GodoM;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.message_tag_name {
+    font-size: 15px;
+    font-weight: bold;
+    height: 31px;
+    margin-right: 23px;
+    margin-bottom: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    border-radius: 30px;
+    border: 1px solid #D9D9D9;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1),
+    2px 0 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message_tag_box .message_tag_name_active {
+    background-color: #FAFFFA;
+    border-color: #009B55;
+}
+
+.alan_choice {
+    width: 81px;
+    height: 35px;
+    font-family: 'GodoB', sans-serif;
+    font-size: 20px;
+    background-color: #009B55;
+    color: #FFFFFF;
+    margin: 0 auto;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
 }

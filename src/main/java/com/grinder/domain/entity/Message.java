@@ -21,21 +21,22 @@ public class Message extends BaseEntity {
     private String messageId;
 
     @ManyToOne
-    @JoinColumn(name = "send_member_id", nullable = false)
+    @JoinColumn(name = "send_member_id")
     private Member sendMember;
 
     @ManyToOne
     @JoinColumn(name = "receive_member_id", nullable = false)
     private Member receiveMember;
 
-    @Column(name = "content", nullable = false, length = 200)
+    @Column(name = "content", nullable = false, length = 2000)
     private String content;
 
     @Column(name = "is_checked", nullable = false)
     private Boolean isChecked;
 
-    @Column(name = "url")
-    private String Url;
+    @Column(name = "admin_name")
+    private String adminName;
+
 
     @PrePersist
     public void prePersist() {

@@ -1,10 +1,8 @@
 package com.grinder.controller;
 
 import com.grinder.domain.dto.ErrorResult;
-import com.grinder.exception.HasNotBeenAddedException;
-import com.grinder.exception.LoginRequiredException;
-import com.grinder.exception.MaximumRangeAlreadyAddedException;
-import com.grinder.exception.NoMoreContentException;
+import com.grinder.exception.*;
+
 import java.util.NoSuchElementException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -59,5 +57,11 @@ public class ExControllerAdvice {
     public ErrorResult NoSuchElementExceptionExHandle(NoSuchElementException e, Model model) {
         log.error("[exceptionHandle] LoginRequiredExHandle", e);
         return new ErrorResult("실패", e.getMessage());
+    }
+
+    @ExceptionHandler(RecentAddedTagException.class)
+    public ResponseEntity<ErrorResult> RecentAddedTagExHandle(RecentAddedTagException e) {
+        log.error("[exceptionHandle] RecentAddedTagExHandle", e);
+        return ResponseEntity.status(406).body(new ErrorResult("최근 추가됨", e.getMessage()));
     }
 }

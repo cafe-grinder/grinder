@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Grinder</title>
+    <link rel="icon" type="image/x-icon" href="/img/grinder.png"/>
+    <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+
+<dialog class="alan_tab" th:fragment="alan_tab">
+    <div class="alan_info">
+        <img src="/img/Alan.png">
+        <span>
+            <p class="alan_name">Alan (앨런)</p>
+            <p class="alan_who">좋아하는 카페를 분석하고 알려주는 AI 추천 친구 앨런입니다.</p>
+        </span>
+    </div>
+    <div class="alan_inner_line"></div>
+    <article th:if="${AlanMessages.size() > 0}" th:each="message : ${AlanMessages}">
+        <div class="message_box">
+            <p th:text="${message.content}">Contrary to popular belief, Lorem Ipsum is not simply random text.Contrary to popular belief, Lorem Ipsum is not simply random text.
+                Contrary to popular belief, Lorem Ipsum is not simply random text.Contrary to popular belief, Lorem Ipsum is not simply random text.
+                Contrary to popular belief, Lorem Ipsum is not simply random text.Contrary to popular belief, Lorem Ipsum is not simply random text.
+                Contrary to popular belief, Lorem Ipsum is not simply random text.Contrary to popular belief, Lorem Ipsum is not simply random text.</p>
+        </div>
+        <p class="message_date" th:text="${#temporals.format(message.updatedAt, 'yyyy년 MM월 dd일')} + ' 기준'">2024년 5월 30일 기준</p>
+    </article>
+    <article th:unless="${AlanMessages.size() > 0}">
+        <div class="message_box">
+            <p>아직 앨런이 정보를 모으지 못했어요! 다양한 피드에 좋아요를 눌러보고, 좋아하는 카페에 북마크를 해보세요!
+            빠른 시일 내에 앨런이 취향을 분석해드릴게요!</p>
+        </div>
+    </article>
+    <div class="alan_inner_line"></div>
+    <section class="message_tag_area">
+        <div>
+            <p class="message_tag_text">관심있는 태그를 선택해주시면 다음 추천에 반영해서 알려드릴게요!!</p>
+            <div class="message_tag_box">
+                <button class="message_tag_name" type="button" th:each="tagName: ${tagList}"
+                        th:text="${tagName.value}" th:value="${tagName}"></button>
+            </div>
+        </div>
+        <div>
+            <button class="alan_choice">선택</button>
+        </div>
+    </section>
+</dialog>
+
+
+</body>
+</html>
