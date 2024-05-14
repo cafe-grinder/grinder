@@ -103,7 +103,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(auth -> auth
                          .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
                         .requestMatchers("/api/report/admin/**","/api/member/admin/**","/api/seller_apply/admin/**","/api/seller_info/admin/"
-                        ,"/feed/admin/","/comment/{feed_id}/admin/","/api/cafe_register/admin/**","/api/cafe/admin/**","/admin").hasRole("ADMIN")
+                        ,"/feed/admin/","/api/cafe_register/admin/**","/api/cafe/admin/**","/admin").hasRole("ADMIN")
                         .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
                                 "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
                                 "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
