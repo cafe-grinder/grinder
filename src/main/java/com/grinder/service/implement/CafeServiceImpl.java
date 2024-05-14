@@ -83,4 +83,9 @@ public class CafeServiceImpl implements CafeService {
             .averageGrade(cafe.getAverageGrade())
             .build();
     }
+
+    @Override
+    public Slice<CafeDTO.findAllWithImageAndTagResponse> searchCafes(String query, Pageable pageable) {
+        return cafeQueryRepository.searchCafes(query, pageable);
+    }
 }
