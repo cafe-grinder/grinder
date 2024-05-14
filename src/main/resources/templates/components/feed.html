@@ -42,7 +42,7 @@
         <p class="feed_content" th:text="${feed.content}"></p>
         <ul class="feed_attached_img_list">
             <li class="animation" th:each="imageUrl: ${feed.imageUrls}">
-                <img th:src="${imageUrl}">
+                <img class="feed_img" th:src="${imageUrl}">
             </li>
         </ul>
         <ul class="feed_tag_list" th:if="${feed.tagNameList.size() != 0}"><!--반복문-->
