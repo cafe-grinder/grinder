@@ -4,7 +4,8 @@
     <div class="feed_container_non_member" th:if="${feedMember} == null">
         <ul class="feed_img_list_non_member">
             <li th:each="feed: ${feedSlice}"><!-- 반복문 -->
-                <img class="feed_img_non_member" src="/img/feed-default-img-gray.png" alt="피드 첨부 이미지">
+                <img class="feed_img_non_member" th:if="${feed.imageUrls.size()} >= 1" th:src="${feed.imageUrls[0]}">
+                <img class="feed_img_non_member" th:if="${feed.imageUrls.size()} == 0" src="/img/feed-default-img-gray.png">
                 <div class="feed_like_info_non_member">
                     <img src="/img/icon/suit-heart.png" alt="좋아요">
                     <span th:text="${feed.heartNum}"></span>

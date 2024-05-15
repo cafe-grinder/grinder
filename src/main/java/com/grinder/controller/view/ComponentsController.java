@@ -198,18 +198,24 @@ public class ComponentsController {
     }*/
 
     @GetMapping("get-feed")
-    public String getFeed2(
+    public String getFeed(
             Model model,
             @PageableDefault(size = 4) Pageable pageable
     ) {
         // 멤버
         String email = getEmail();
-        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
-        model.addAttribute("feedMember", member);
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice;
+        if (email != null && !email.equals("anonymousUser")) {
+            MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+            feedSlice = feedService.RecommendFeedWithImage(email, pageable);
+            model.addAttribute("feedSlice", feedSlice);
+            model.addAttribute("feedMember", member);
 
-        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.RecommendFeedWithImage(email, pageable);
-        model.addAttribute("feedSlice", feedSlice);
-
+        } else  {
+            model.addAttribute("feedMember", null);
+            feedSlice = feedService.RecommendFeedWithImage("", pageable);
+            model.addAttribute("feedSlice", feedSlice);
+        }
         if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
             throw new NoMoreContentException("존재하지 않음");
         }
