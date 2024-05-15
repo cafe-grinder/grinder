@@ -80,13 +80,4 @@ public class FeedController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
-
-    @GetMapping("/admin/{feed_id}")
-    public ResponseEntity<FeedDTO.FindFeedDTO> findFeedForAdmin(@PathVariable String feed_id, Authentication authentication) {
-        if(!authentication.getAuthorities().contains("ADMIN")) {
-            throw new PermissionDeniedDataAccessException("관리자 권한이 필요합니다", null);
-        }
-        FeedDTO.FindFeedDTO feedDTO = feedService.findFeedForAdmin(feed_id);
-        return ResponseEntity.ok(feedDTO);
-    }
 }

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
-            document.getElementById(containerName).innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
+            document.getElementById(containerName).insertAdjacentHTML("afterbegin", xhr.responseText); // 응답을 headerContainer에 삽입
             FeedClickEvent(); // 클릭 이벤트 함수 호출
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.

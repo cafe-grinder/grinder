@@ -154,8 +154,9 @@
     max-width: 100%;
     width: 249px;
     height: 249px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 15px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .feed_tag_list li {
@@ -429,4 +430,56 @@
 .feed_more_load_btn:active::before {
     box-shadow: 0 0 0 2px var(--green-border), 0 0 var(--green-shadow);
     transform: translate3d(0, 0, -1em);
+}
+
+/*---feed.html 외부 태그들---*/
+/* 피드 생성 버튼 */
+.feed_create_btn_container {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    right: -189px;
+}
+
+.feed_create_btn {
+    position: sticky;
+    top: 80%;
+    right: -150px;
+    width: 95px;
+    height: 95px;
+    border: #009b55;
+    border-radius: 50%;
+    background: url("../img/feed-create-btn.png") no-repeat center;
+    transition: box-shadow 0.2s ease, opacity 0.3s ease;
+    opacity: 0.1;
+}
+
+.feed_create_btn:hover {
+    box-shadow: 5px 5px 3px rgba(0,0,0,0.2);
+    opacity: 1;
+}
+
+/* 모달 스타일 */
+.feed_modal_container {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.feed_modal {
+    border-radius: 30px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.feed_modal_content {
+    max-width: 80vw;
+    max-height: 90vh;   /* 보이는 화면에서 최대 90% 높이 적용 */
 }

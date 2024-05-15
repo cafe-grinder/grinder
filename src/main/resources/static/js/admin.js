@@ -45,19 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // 검색 시 목록을 새로 불러옴
-memberForm.addEventListener('submit', () => {
+memberForm.addEventListener('submit', (event) => {
     event.preventDefault();
     memberTableBody.innerHTML = '';
     memberPageNum = 0;
     loadMemberList(memberPageNum);
 });
-reportForm.addEventListener('submit', () => {
+reportForm.addEventListener('submit', (event) => {
     event.preventDefault();
     reportTableBody.innerHTML = '';
     reportPageNum = 0;
     loadReportList(reportPageNum);
 });
-cafeForm.addEventListener('submit', () => {
+cafeForm.addEventListener('submit', (event) => {
     event.preventDefault();
     cafeTableBody.innerHTML = '';
     cafePageNum = 0;
@@ -102,16 +102,14 @@ function loadMemberList(memberPageNum) {
 
     const nickname = document.getElementById('member_nickname').value;
 
-    const url = '/api/member/search?nickname=' + nickname + '&role=' + role + '&page=' + memberPageNum;
+    const url = '/admin/api/member/search?nickname=' + nickname + '&role=' + role + '&page=' + memberPageNum;
     fetch(url, {
         method: 'GET'
     }).then(response => {
-        if (!response.ok) {
-            // 200 이외라면 토큰 재발급
-                reissue();
-        } else {
-            return response.json(); // 응답을 JSON으로 파싱
+        if (response.status === 401 || response.status === 403) {
+            reissue();
         }
+        return response.json();
     })
             .then(data => {
                 renderMemberList(data.content);
@@ -119,24 +117,21 @@ function loadMemberList(memberPageNum) {
             .catch(error => {
                 console.error('The request failed', error);
             });
-};
+}
 function loadReportList(reportPageNum) {
     const keyword = document.getElementById('report_keyword').value;
 
     const contentType = reportSelect.options[reportSelect.selectedIndex].value;
 
-    const url = '/api/report/search?keyword='+ keyword +'&contentType=' + contentType +'&page=' + reportPageNum
+    const url = '/admin/api/report/search?keyword='+ keyword +'&contentType=' + contentType +'&page=' + reportPageNum
     fetch(url , {
         method: 'GET'
     })
             .then(response => {
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        reissue();
-                    }
-                } else {
-                    return response.json();
+                if (response.status === 401 || response.status === 403) {
+                    reissue();
                 }
+                return response.json();
             })
             .then(data => {
                 renderReportList(data.content);
@@ -144,20 +139,17 @@ function loadReportList(reportPageNum) {
             .catch(error => {
                 console.error('The request failed', error);
             });
-};
+}
 function loadRegisterList(registerPageNum) {
-    const url = '/api/cafe_register?page=' + registerPageNum;
+    const url = '/admin/api/cafe_register?page=' + registerPageNum;
     fetch(url, {
         method: 'GET'
     })
             .then(response => {
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        reissue();
-                    }
-                } else {
-                    return response.json();
+                if (response.status === 401 || response.status === 403) {
+                    reissue();
                 }
+                return response.json();
             })
             .then(data => {
                 renderRegisterList(data.content);
@@ -165,20 +157,17 @@ function loadRegisterList(registerPageNum) {
             .catch(error => {
                 console.error('The request failed', error);
             });
-};
+}
 function loadApplyList(applyPageNum) {
-    const url = '/api/seller_apply?page=' + applyPageNum;
+    const url = '/admin/api/seller_apply?page=' + applyPageNum;
     fetch(url, {
         method: "GET"
     })
             .then(response => {
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        reissue();
-                    }
-                } else {
-                    return response.json();
+                if (response.status === 401 || response.status === 403) {
+                    reissue();
                 }
+                return response.json();
             })
             .then(data => {
                 renderApplyList(data.content);
@@ -189,18 +178,15 @@ function loadApplyList(applyPageNum) {
 }
 function loadCafeList(cafePageNum) {
     let keyword = document.getElementById('cafe_keyword').value;
-    const url = '/api/cafe/admin?keyword=' + keyword + '&page=' + cafePageNum;
+    const url = '/admin/api/cafe?keyword=' + keyword + '&page=' + cafePageNum;
     fetch(url, {
         method: 'GET'
     })
             .then(response => {
-                if (!response.ok) {
-                    if (response.status === 401 || response.status === 403) {
-                        reissue();
-                    }
-                } else {
-                    return response.json();
+                if (response.status === 401 || response.status === 403) {
+                    reissue();
                 }
+                return response.json();
             })
             .then(data => {
                 renderCafeList(data.content);
@@ -232,67 +218,64 @@ function renderMemberList(memberList) {
                  <td>|</td>
                  <td class="admin_list_data">${member.isDeleted ? '사용불가' : '정상'}</td>
                  <td class="admin_list_blank"></td>
-                 <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button" data-member-id="${member.memberId}")">정지</button> <button class="admin_list_button member_recover_button" data-member-id="${member.memberId}">해제</button> </td>`;
+                 <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button" data-member-id="${member.memberId}">정지</button> <button class="admin_list_button member_recover_button" data-member-id="${member.memberId}">해제</button> </td>`;
         memberTableBody.appendChild(row);
 
         // 회원 권한을 변경하면 수정
         let select = row.querySelector('.change_role');
         select.addEventListener('change', () => {
             let memberId = select.dataset.memberId;
-            let url = '/api/member/' + memberId + '/role'
+            let url = '/admin/api/member/' + memberId + '/role'
             fetch(url, {
                 method: 'PUT'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
                         console.log(data.code)
                         alert(data.message)
-                    })
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
         });
 
         // 정지 버튼 누르면 회원 삭제
         let deleteMember = row.querySelector('.member_delete_button');
         deleteMember.addEventListener('click', () => {
             let memberId = deleteMember.dataset.memberId;
-            let url = '/api/member/'+ memberId
+            let url = '/admin/api/member/'+ memberId
             fetch(url, {
                 method: 'DELETE'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
                         console.log(data.code)
                         alert(data.message)
-                    })
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
         })
 
         // 해제 버튼 누르면 회원 정보 복구
         let recoverMember = row.querySelector('.member_recover_button');
         recoverMember.addEventListener('click', () => {
             let memberId = recoverMember.dataset.memberId;
-            let url = '/api/member/'+ memberId + '/recovery'
+            let url = '/admin/api/member/'+ memberId + '/recovery'
             fetch(url, {
                 method: 'PUT'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
                         console.log(data.code)
                         alert(data.message)
-                    })
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
         })
     })
 }
@@ -314,40 +297,38 @@ function renderReportList(reportList) {
         let reportAccept = row.querySelector('.report_accept_button');
         reportAccept.addEventListener('click', () => {
             let reportId = reportAccept.dataset.reportId;
-            let url = '/api/report/' + reportId + '/accepted'
+            let url = '/admin/api/report/' + reportId + '/accepted'
             fetch(url, {
                 method: 'DELETE'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
                         console.log(data.code)
                         alert(data.message)
-                    })
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
         })
 
         // 해당 신고 요청 삭제
         let reportDelete = row.querySelector('.report_delete_button');
         reportDelete.addEventListener('click', () => {
             let reportId = reportDelete.dataset.reportId;
-            let url = '/api/report/' + reportId
+            let url = '/admin/api/report/' + reportId
             fetch(url, {
                 method: 'DELETE'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
                         console.log(data.code)
                         alert(data.message)
-                    })
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
         })
     })
 }
@@ -371,14 +352,11 @@ function renderRegisterList(registerList) {
         let registerAccept = row.querySelector('.register_accept_button');
         registerAccept.addEventListener('click', () => {
             let registerId = registerAccept.dataset.registerId;
-            let url = '/api/cafe/' + registerId
+            let url = '/admin/api/cafe/' + registerId
             fetch(url, {
                 method: 'POST'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
@@ -391,14 +369,11 @@ function renderRegisterList(registerList) {
         let registerDelete = row.querySelector('.register_delete_button');
         registerDelete.addEventListener('click', () => {
             let registerId = registerDelete.dataset.registerId;
-            let url = '/api/cafe_register/' + registerId
+            let url = '/admin/api/cafe_register/' + registerId
             fetch(url, {
                 method: 'DELETE'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
@@ -430,14 +405,11 @@ function renderApplyList(applyList) {
         let applyAccept = row.querySelector('.apply_accept_button');
         applyAccept.addEventListener('click', () => {
             let applyId = applyAccept.dataset.applyId;
-            let url = '/api/seller_info/' + applyId
+            let url = '/admin/api/seller_info/' + applyId
             fetch(url, {
                 method: 'POST'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
@@ -451,14 +423,11 @@ function renderApplyList(applyList) {
         let applyDelete = row.querySelector('.apply_delete_button');
         applyDelete.addEventListener('click', () => {
             let applyId = applyDelete.dataset.applyId;
-            let url = '/api/seller_apply/' + applyId
+            let url = '/admin/api/seller_apply/' + applyId
             fetch(url, {
                 method: 'DELETE'
             })
                     .then(response => {
-                        if (!response.ok) {
-                            throw new Error('The request failed');
-                        }
                         return response.json();
                     })
                     .then(data => {
@@ -495,7 +464,7 @@ function renderCafeList(cafeList) {
     })
 }
 
-// 토큰 재발급
+//토큰 재발급
 function reissue() {
     let url = '/api/reissue';
 
@@ -518,3 +487,4 @@ function reissue() {
                 console.error('Error:', error);
             });
 }
+

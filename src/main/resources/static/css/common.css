@@ -44,12 +44,11 @@ ol, ul {
     color: black;
 }
 body{
+    position: relative;
     width: 1400px;
     margin: 0 auto;
     font-family: 'GodoM', sans-serif;
     zoom: 67%;
-
-
 }
 img {
     vertical-align: top; /* 이미지 아래 비는 공간 제거 */

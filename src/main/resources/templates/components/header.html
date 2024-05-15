@@ -2,7 +2,6 @@
     <nav class="header_bar">
         <div class="header_search_box">
             <h1><a class="header_grinder_logo" th:href="@{/}">그라인더 홈페이지</a></h1>
-<!--            폼 태그로 묶어야 하는지?-->
             <form title="검색" id="search_form">
                 <select title="search_list" name="category" id="search_category">
                     <option value="cafe">카페</option>
@@ -28,21 +27,24 @@
     </nav>
 
     <article th:if="${headerMember} != null" class="header_alarm_box">
-<!--        <ul th:if="${message} != null" class="header_alarm_list">-->
-<!--            <li th:each="message: ${message}" th:classappend="${message.read == false} ? 'non_read'">-->
+        <ul class="header_alarm_list">
+        <li id="aiFriendListItem">
+            <div>
+                <img src="/img/Alan.png">
+                <p>AI 추천 친구, 앨런</p>
+            </div>
+            <p th:text="${headerMember.nickname} + '님의 최근 관심있는 카페를 보고 분석해봤어요! 이런 카페는 어떠세요?'"></p>
+        </li>
+        </ul>
+<!--        <ul th:if="${checkMessage} == true" class="header_alarm_list">-->
+<!--            <li th:each="message: ${AlanMessages}">-->
 <!--                <div>-->
-<!--                    <img th:src="message.url">-->
-<!--                    <p th:text="message.cafename"></p>-->
+<!--                    <img src="/img/Alan.png">-->
+<!--                    <p>AI 추천 친구, 앨런</p>-->
 <!--                </div>-->
-<!--                <p th:text="message.content"></p>-->
+<!--                <p></p>-->
 <!--            </li>-->
 <!--        </ul>-->
-
-        <ul th:if="${message} == null" class="header_non_alarm">
-            <p>도착한 메세지가 없습니다.</p>
-        </ul>
-
-        <div class="header_alarm_line"></div>
-        <p class="header_alarm_more"><a href="#">더보기</a></p>
+        <p class="header_alarm_more"></p>
     </article>
 </header>

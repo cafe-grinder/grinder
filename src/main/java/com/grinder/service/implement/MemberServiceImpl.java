@@ -8,6 +8,7 @@ import com.grinder.domain.enums.Role;
 import com.grinder.repository.ImageRepository;
 import com.grinder.repository.MemberRepository;
 import com.grinder.repository.queries.MemberQueryRepository;
+import com.grinder.repository.queries.SearchQueryRepository;
 import com.grinder.service.MailService;
 import com.grinder.service.MemberService;
 import com.grinder.utils.RedisUtil;
@@ -15,6 +16,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.SliceImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,8 @@ public class MemberServiceImpl implements MemberService {
     private final MemberQueryRepository memberQueryRepository;
     private final MailService mailService;
     private final RedisUtil redisUtil;
+    private final SearchQueryRepository searchQueryRepository;
+
     public Member findMemberById(String memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(() -> new NoSuchElementException("회원 아이디: " + memberId + " 인 회원이 존재하지 않습니다."));
         return member;
@@ -191,5 +195,11 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean existEmail(String email) {
         return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Slice<MemberDTO.SearchMemberDTO> searchMember(String memberId ,String query, Pageable pageable) {
+        Slice<FindMemberAndImageDTO> findMemberDto = searchQueryRepository.searchMembersByNicknameOrEmail(query, pageable);
+        return new SliceImpl<>(findMemberDto.getContent().stream().map(dto -> new SearchMemberDTO(memberId, dto)).toList(), pageable, findMemberDto.hasNext());
     }
 }

@@ -1,7 +1,10 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.*;
+import com.grinder.domain.entity.*;
+import com.grinder.domain.enums.ContentType;
 import com.grinder.domain.enums.MenuType;
+import com.grinder.domain.enums.TagName;
 import com.grinder.exception.LoginRequiredException;
 import com.grinder.exception.NoMoreContentException;
 import com.grinder.service.*;
@@ -35,17 +38,34 @@ public class ComponentsController {
     private final HeartService heartService;
     private final TagService tagService;
     private final MyMenuService myMenuService;
+    private final MessageService messageService;
+    private final AnalysisTagService analysisTagService;
     private final CafeService cafeService;
+
 
     @GetMapping("/get-header")
     public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
         String email = getEmail();
         MemberDTO.FindMemberDTO member = null;
+        boolean checkMessage = false;
         if (email != null && !email.equals("anonymousUser")) {
             member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+            checkMessage = messageService.existNonCheckMessage(email);
         }
+        List<Message> message = messageService.findAllByEmail(email);
+        model.addAttribute("AlanMessages", message);
         model.addAttribute("headerMember",member);
+        model.addAttribute("checkMessage", checkMessage);
         return "components/header :: headers";
+    }
+
+    @GetMapping("/get-alan")
+    public String getAlanMessage(Model model) {
+        String email = getEmail();
+        List<Message> message = messageService.findAllByEmail(email);
+        model.addAttribute("AlanMessages", message);
+        model.addAttribute("tagList", TagName.values());
+        return "components/alanTab :: alan_tab";
     }
 
     @GetMapping("/get-follower")
@@ -180,7 +200,7 @@ public class ComponentsController {
     @GetMapping("get-feed")
     public String getFeed2(
             Model model,
-            @PageableDefault(size = 5) Pageable pageable
+            @PageableDefault(size = 4) Pageable pageable
     ) {
         // 멤버
         String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
@@ -200,15 +220,22 @@ public class ComponentsController {
     public String getCafeCard(@RequestParam String query, @PageableDefault(size = 6) Pageable pageable ,Model model) {
         Slice<CafeDTO.findAllWithImageAndTagResponse> cafeSlice =  cafeService.searchCafes(query, pageable);
         model.addAttribute("cafeSlice", cafeSlice);
+        if (!cafeSlice.hasNext() && cafeSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
         return "components/cafeCard";
     }
 
     @GetMapping("/get-search-feed")
-    public String getSearchFeed(@RequestParam String query, @PageableDefault Pageable pageable, Authentication authentication, Model model) {
-        UserDetails loginMember =  (UserDetails)authentication.getPrincipal();
-        String email = loginMember.getUsername();
+    public String getSearchFeed(@RequestParam String query, @PageableDefault(size = 5) Pageable pageable, Model model) {
+        String email = getEmail();
         Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.searchFeed(email, query, pageable);
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
         model.addAttribute("feedSlice", feedSlice);
+        if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
         return "components/feed";
     }
 
@@ -240,6 +267,19 @@ public class ComponentsController {
         }
         model.addAttribute("feedList", slice);
         return "components/feed";
+    }
+
+    @GetMapping("/get-search-member")
+    public String getSearchMember(@RequestParam String query, @PageableDefault Pageable pageable, Model model) {
+        String email = getEmail();
+        String memberId = memberService.findMemberByEmail(email).getMemberId();
+        Slice<MemberDTO.SearchMemberDTO> memberSlice = memberService.searchMember(memberId, query, pageable);
+        model.addAttribute("followMembers", memberSlice.getContent());
+        model.addAttribute("hasNext", memberSlice.hasNext());
+        if (!memberSlice.hasNext() && memberSlice.getNumberOfElements() == 0) {
+            throw new NoMoreContentException("존재하지 않음");
+        }
+        return "components/followerList :: followList(title='search')";
     }
 
     private String getEmail() {

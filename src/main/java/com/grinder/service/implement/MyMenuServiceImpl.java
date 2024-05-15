@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +28,7 @@ public class MyMenuServiceImpl implements MyMenuService {
     public List<MenuDTO.findAllMenuResponse> findAllMenuWithImage(String email, String cafeId) {
         if (!sellerInfoRepository.existsByMember_EmailAndCafe_CafeId(email, cafeId)) throw new EntityNotFoundException("관리자만 수정할 수 있습니다.");
         List<MenuDTO.findAllMenuResponse> list = menuQueryRepository.findAllMenuWithImage(cafeId);
-        if (list.isEmpty()) throw new IllegalArgumentException("메뉴 정보가 없습니다");
+        if (list.isEmpty()) throw new NoSuchElementException("메뉴 정보가 없습니다");
         else return list;
     }
 

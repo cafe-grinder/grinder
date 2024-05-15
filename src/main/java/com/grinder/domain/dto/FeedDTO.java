@@ -97,8 +97,6 @@ public class FeedDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class NewFeedResponseDTO {
-        private ImageService imageService;
-        private TagService tagService;
         private String feedId;
         private String content;
         private List<String> imageUrlList;
@@ -106,13 +104,13 @@ public class FeedDTO {
         private Integer grade;
         private List<String> tagNameList;
 
-        public NewFeedResponseDTO(Feed feed) {
+        public NewFeedResponseDTO(Feed feed, List<Image> imageList, List<Tag> tagNameList) {
             this.feedId = feed.getFeedId();
             this.content = feed.getContent();
-            this.imageUrlList = new ArrayList<>();
+            this.imageUrlList = imageList == null ? new ArrayList<>() : imageList.stream().map(Image::getImageUrl).toList();
             this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.grade = feed.getGrade();
-            this.tagNameList = new ArrayList<>();
+            this.tagNameList = tagNameList == null? new ArrayList<>() : tagNameList.stream().map(x->x.getTagName().toString()).toList();
         }
     }
 

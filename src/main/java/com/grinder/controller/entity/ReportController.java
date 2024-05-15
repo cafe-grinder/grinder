@@ -24,31 +24,4 @@ public class ReportController {
 
     private final ReportService reportService;
 
-    @GetMapping
-    public ResponseEntity<List<FindReportDTO>> findAllReports() {
-        List<FindReportDTO> reportList = reportService.findAllReports();
-
-        return ResponseEntity.ok(reportList);
-    }
-
-    @DeleteMapping("/{reportId}")
-    public ResponseEntity<SuccessResult> deleteReport(@PathVariable String reportId) {
-        reportService.deleteReport(reportId);
-        return ResponseEntity.ok(new SuccessResult("Success", "신고 요청이 삭제되었습니다."));
-    }
-
-    @DeleteMapping("/{reportId}/accepted")
-    public ResponseEntity<SuccessResult> deleteContent(@PathVariable String reportId) {
-        reportService.deleteContent(reportId);
-
-        return ResponseEntity.ok(new SuccessResult("report_accepted", "신고된 컨텐츠가 삭제되었습니다."));
-    }
-
-    @GetMapping("/search")
-    public ResponseEntity<Slice<FindReportDTO>> searchReportByContentAndType(@RequestParam String keyword, @RequestParam String contentType, @PageableDefault(size = 5) Pageable pageable) {
-        Slice<FindReportDTO> reportList = reportService.searchReportByContentAndType(keyword, contentType, pageable);
-
-        return ResponseEntity.ok(reportList);
-    }
-
 }
