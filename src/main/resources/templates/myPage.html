@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/footer.css">
     <link rel="stylesheet" href="/css/myCafeList.css">
     <link rel="stylesheet" href="/css/feed.css">
+    <link rel="stylesheet" href="/css/alan_message.css">
 </head>
 <body>
 
@@ -67,9 +68,13 @@
     <button class="mypage_menu_button"></button>
 </div>
 
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div id="alanContainer"></div>
+
 <footer th:replace="components/footer :: footers"></footer>
 
 <!--mypage js-->
+<script src="/js/header.js"></script>
 <script src="/js/myPage.js"></script>
 <script src="/js/myFeed.js"></script>
 </body>

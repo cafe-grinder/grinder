@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="/css/search.css">
     <link rel="stylesheet" href="/css/feed.css">
     <link rel="stylesheet" href="/css/follower.css">
+    <link rel="stylesheet" href="/css/alan_message.css">
 </head>
 <body>
 <div id="headerContainer"></div>
@@ -31,11 +32,15 @@
     <button id="more_contents_button" class="feed_more_load_btn">더보기</button>
 </div>
 
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div id="alanContainer"></div>
+
 <footer th:replace="components/footer :: footers"></footer>
 <!--cafeCard js-->
 <script src="/js/cafeCard.js"></script>
 <!--header js-->
 <script src="/js/search.js"></script>
+<script src="/js/header.js"></script>
 <script src="/js/feed.js"></script>
 </body>
 </html>
