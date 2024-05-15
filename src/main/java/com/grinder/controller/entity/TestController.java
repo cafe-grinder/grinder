@@ -136,4 +136,11 @@ public class TestController {
                     .build());
         }
     }
+
+    @GetMapping("/test5")
+    private void addTest5() {
+        Member member = memberRepository.findByEmail("test@test.com").orElse(new Member());
+        Cafe cafe = cafeRepository.findAll().get(0);
+        sellerInfoRepository.save(SellerInfo.builder().cafe(cafe).member(member).build());
+    }
 }

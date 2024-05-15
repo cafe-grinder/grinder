@@ -50,4 +50,3 @@ document.addEventListener('DOMContentLoaded', function() {
         xhr.send(); // 요청을 서버로 보냅니다.
     }
 });
-

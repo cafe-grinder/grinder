@@ -198,8 +198,10 @@ public class ComponentsController {
     }*/
 
     @GetMapping("get-feed")
-    public String getFeed2(Model model,
-                           @PageableDefault(size = 4) Pageable pageable
+
+    public String getFeed(
+            Model model,
+            @PageableDefault(size = 4) Pageable pageable
     ) {
         // 멤버
         String email = getEmail();

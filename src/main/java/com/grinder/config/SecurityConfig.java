@@ -54,7 +54,8 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer configure() {      // 1) 스프링 시큐리티 기능 비활성화
-        return web -> web.ignoring().requestMatchers(toH2Console())
+        return web -> web.ignoring()
+            // .requestMatchers(toH2Console())
                 .requestMatchers("/static/**", "/img/**", "/js/**", "/css/**", "/fonts/**")
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
     }
@@ -100,15 +101,15 @@ public class SecurityConfig {
 
         //Swagger UI
         http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("관리자")
-                        .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
-                                "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
-                                "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
-                                "/api/follower", "/api/follow/**", "/heart", "/api/image", "/api/member/update",
-                                "/api/report/", "/api/seller_apply").hasAnyRole("판매자", "인증회원", "일반회원")
-                        .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("판매자")
-                        .requestMatchers("/feed/newfeed").hasAnyRole("인증회원", "일반회원")
+                       .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
+                       .requestMatchers("/admin/**").hasRole("관리자")
+                       .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
+                               "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
+                               "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
+                               "/api/follower", "/api/follow/**", "/heart", "/api/image", "/api/member/update",
+                               "/api/report/", "/api/seller_apply").hasAnyRole("판매자", "인증회원", "일반회원")
+                       .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("판매자")
+                       .requestMatchers("/feed/newfeed").hasAnyRole("인증회원", "일반회원")
                         .anyRequest().permitAll())
                 .csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

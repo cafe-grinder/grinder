@@ -28,7 +28,7 @@ public class CafeController {
 
     @GetMapping("/search-cafe")
     public ResponseEntity<List<CafeResponseDTO>> searchCafes(@RequestParam String query) {
-        if (query == null || query.trim().length() < 3) {
+        if (query == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
         try {
