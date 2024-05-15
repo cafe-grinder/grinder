@@ -2,6 +2,7 @@ package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Tag;
+import com.grinder.domain.enums.TagName;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -107,7 +108,21 @@ public class CafeDTO {
             this.tagList = list;
         }
 
-        public findAllWithImageAndTagResponse(findAllWithImageResponse cafe, List<Tag> tagList) {
+//        public findAllWithImageAndTagResponse(findAllWithImageResponse cafe, List<Tag> tagList) {
+//            cafeId = cafe.getCafeId();
+//            cafeName = cafe.getCafeName();
+//            cafeAddress = cafe.getCafeAddress().split(" ")[0] + " " + cafe.getCafeAddress().split(" ")[1];
+//            cafePhoneNum = cafe.getCafePhoneNum();
+//            averageGrade = cafe.getAverageGrade();
+//            cafeImageUrl = cafe.cafeImageUrl;
+//            List<String> list = new ArrayList<>();
+//            for (Tag tag : tagList) {
+//                list.add(tag.getTagName().getValue());
+//            }
+//            this.tagList = list;
+//        }
+
+        public findAllWithImageAndTagResponse(findAllWithImageResponse cafe, List<TagName> tagList) {
             cafeId = cafe.getCafeId();
             cafeName = cafe.getCafeName();
             cafeAddress = cafe.getCafeAddress().split(" ")[0] + " " + cafe.getCafeAddress().split(" ")[1];
@@ -115,8 +130,8 @@ public class CafeDTO {
             averageGrade = cafe.getAverageGrade();
             cafeImageUrl = cafe.cafeImageUrl;
             List<String> list = new ArrayList<>();
-            for (Tag tag : tagList) {
-                list.add(tag.getTagName().getValue());
+            for (TagName tag : tagList) {
+                list.add(tag.getValue());
             }
             this.tagList = list;
         }

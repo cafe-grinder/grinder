@@ -63,6 +63,7 @@
         <li><button id="view_bookmark">😍 북마크 보기</button></li>
         <li><button id="view_blacklist">😡 차단목록 보기</button></li>
         <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
+        <li th:if="${myPageMember.role} == '관리자'" id="view_admin_page"><button onclick="window.location.href='/admin'">😎 관리자 페이지</button></li>
         <li><button th:onclick="logout()">🙋‍♂️ 로그아웃</button></li>
     </ul>
     <button class="mypage_menu_button"></button>

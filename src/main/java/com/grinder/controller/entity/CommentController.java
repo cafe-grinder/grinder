@@ -10,7 +10,10 @@ import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -21,12 +24,10 @@ public class CommentController {
 
     @PostMapping("/newcomment")
     public ResponseEntity<SuccessResult> addComment(
-            Authentication authentication,
             @PathVariable String feed_id,
             @RequestBody CommentDTO.CommentRequestDTO request
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        String memberEmail = getEmail();
         Comment comment = commentService.saveComment(request, memberEmail, feed_id);
 
         if (comment != null) {
@@ -38,12 +39,10 @@ public class CommentController {
 
     @PutMapping("/{comment_id}")
     public ResponseEntity<SuccessResult> updateComment(
-            Authentication authentication,
             @PathVariable String comment_id,
             @RequestBody CommentDTO.CommentRequestDTO request
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        String memberEmail = getEmail();
         Comment comment = commentService.findComment(comment_id);
         if (memberEmail.equals(comment.getMember().getEmail())) {
             comment = commentService.updateComment(comment_id, request.getContent());
@@ -59,11 +58,9 @@ public class CommentController {
 
     @DeleteMapping("/{comment_id}")
     public ResponseEntity<SuccessResult> deleteComment(
-            Authentication authentication,
             @PathVariable String comment_id
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        String memberEmail = getEmail();
         Comment comment = commentService.findComment(comment_id);
         if (memberEmail.equals(comment.getMember().getEmail())) {
             commentService.deleteComment(comment_id);
@@ -85,5 +82,10 @@ public class CommentController {
         CommentDTO.FindCommentDTO commentDTO = commentService.findCommentForAdmin(comment_id);
 
         return ResponseEntity.ok(commentDTO);
+    }
+
+    private String getEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return  Optional.ofNullable(authentication.getName()).orElse(null);
     }
 }

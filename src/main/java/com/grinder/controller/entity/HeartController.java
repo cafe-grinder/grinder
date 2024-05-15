@@ -9,7 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -20,11 +23,9 @@ public class HeartController {
 
     @PostMapping
     public ResponseEntity<SuccessResult> addHeart(
-            Authentication authentication,
             @RequestBody HeartDTO.HeartRequestDTO request
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";   // TODO: 테스트용. 나중에 지울 것!
+        String memberEmail = getEmail();
         Heart heart = heartService.addHeart(memberEmail, request);
 
         if (heart != null) {
@@ -36,11 +37,9 @@ public class HeartController {
 
     @DeleteMapping
     public ResponseEntity<SuccessResult> deleteHeart(
-            Authentication authentication,
             @RequestBody HeartDTO.HeartRequestDTO request
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";   // TODO: 테스트용. 나중에 지울 것!
+        String memberEmail = getEmail();
         Heart heart = heartService.findHeart(memberEmail, request);
         if (memberEmail.equals(heart.getMember().getEmail())) {
             heartService.deleteHeart(memberEmail, request);
@@ -52,5 +51,10 @@ public class HeartController {
         } else {    // 403에러 (회원 불일치)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    }
+
+    private String getEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return  Optional.ofNullable(authentication.getName()).orElse(null);
     }
 }

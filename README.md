@@ -439,16 +439,16 @@
 | 🏷NAME          | ⚙METHOD | 📎URL                                | 📖DESCRIPTION              |
 |-----------------|---------|--------------------------------------|----------------------------|
 | updateMember    | PUT     | /api/member/update                   | 회원 정보 수정             |
-| updateMemberRole| PUT     | /api/member/admin/{memberId}/role    | 회원 역할 수정             |
-| recoverMember   | PUT     | /api/member/admin/{memberId}/recovery| 회원 복구                  |
+| updateMemberRole| PUT     | /admin/api/member/{memberId}/role    | 회원 역할 수정             |
+| recoverMember   | PUT     | /admin/api/member/{memberId}/recovery| 회원 복구                  |
 | addMember       | POST    | /api/member/signup                   | 회원 가입                  |
 | sendMessage     | POST    | /api/member/email/verification-requests | 이메일 인증 요청           |
 | resetPassword   | PATCH   | /api/member/email/password           | 비밀번호 재설정            |
 | checkNickname   | GET     | /api/member/nickname/check           | 닉네임 중복 확인           |
 | verificationEmail| GET     | /api/member/email/verifications      | 이메일 인증                |
 | checkEmail      | GET     | /api/member/email/check              | 이메일 중복 확인           |
-| searchMemberByNicknameAndRole | GET | /api/member/admin/search | 닉네임과 역할로 회원 검색   |
-| deleteMember    | DELETE  | /api/member/admin/{memberId}         | 회원 삭제                  |
+| searchMemberByNicknameAndRole | GET | /admin/api/member/search | 닉네임과 역할로 회원 검색   |
+| deleteMember    | DELETE  | /admin/api/member/{memberId}         | 회원 삭제                  |
 
 ### 📁 Feed
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
@@ -456,7 +456,7 @@
 | updateFeed      | PUT     | /feed/{feed_id}               | 피드 수정                  |
 | deleteFeed      | DELETE  | /feed/{feed_id}               | 피드 삭제                  |
 | addFeed         | POST    | /feed/newfeed                 | 새 피드 추가               |
-| findFeedForAdmin| GET     | /feed/admin/{feed_id}         | 관리자용 피드 조회         |
+| findFeedForAdmin| GET     | /admin/feed/{feed_id}         | 관리자용 피드 조회         |
 
 ### 📁 Comment
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
@@ -464,7 +464,7 @@
 | updateComment   | PUT     | /comment/{feed_id}/{comment_id} | 댓글 수정                  |
 | deleteComment   | DELETE  | /comment/{feed_id}/{comment_id} | 댓글 삭제                  |
 | addComment      | POST    | /comment/{feed_id}/newcomment | 새 댓글 추가               |
-| findCommentForAdmin | GET | /comment/{feed_id}/admin/{comment_id} | 관리자용 댓글 조회         |
+| findCommentForAdmin | GET | /admin/comment/{comment_id} | 관리자용 댓글 조회         |
 
 ### 📁 Analysis Tag
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
@@ -480,15 +480,15 @@
 ### 📁 Seller Info
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
 |-----------------|---------|-------------------------------|----------------------------|
-| saveSellerInfo  | POST    | /api/seller_info/admin/{applyId} | 판매자 정보 저장           |
+| saveSellerInfo  | POST    | /admin/api/seller_info/{applyId} | 판매자 정보 저장           |
 | deleteSellerInfo| DELETE  | /api/seller_info/{seller_info_id} | 판매자 정보 삭제           |
 
 ### 📁 Seller Apply
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
 |-----------------|---------|-------------------------------|----------------------------|
 | saveSellerApply | POST    | /api/seller_apply/{cafeId}    | 판매자 신청 저장           |
-| findAllSellerApplies | GET | /api/seller_apply/admin       | 모든 판매자 신청 조회       |
-| deleteSellerApply | DELETE | /api/seller_apply/admin/{applyId} | 판매자 신청 삭제            |
+| findAllSellerApplies | GET | /admin/api/seller_apply       | 모든 판매자 신청 조회       |
+| deleteSellerApply | DELETE | /admin/api/seller_apply/{applyId} | 판매자 신청 삭제            |
 
 ### 📁 Opening Hours
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
@@ -527,7 +527,7 @@
 |-----------------|---------|-------------------------------|----------------------------|
 | addCafe         | POST    | /api/cafe/admin/{registerId}  | 카페 추가                  |
 | searchCafes     | GET     | /api/cafe/search-cafe         | 카페 검색                  |
-| searchCafeByAdmin | GET   | /api/cafe/admin               | 관리자용 카페 검색          |
+| searchCafeByAdmin | GET   | /admin/api/cafe               | 관리자용 카페 검색          |
 
 ### 📁 Cafe Summary
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
@@ -537,8 +537,8 @@
 ### 📁 Cafe Register
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
 |-----------------|---------|-------------------------------|----------------------------|
-| findAllCafeRegisters | GET | /api/cafe_register/admin      | 모든 카페 등록 정보 조회    |
-| denyCafeRegister | DELETE | /api/cafe_register/admin/{registerId} | 카페 등록 거부           |
+| findAllCafeRegisters | GET | /admin/api/cafe_register      | 모든 카페 등록 정보 조회    |
+| denyCafeRegister | DELETE | /admin/api/cafe_register/{registerId} | 카페 등록 거부           |
 
 ### 📁 Bookmark
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
@@ -558,10 +558,9 @@
 ### 📁 Report
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
 |-----------------|---------|-------------------------------|----------------------------|
-| findAllReports  | GET     | /api/report                   | 모든 신고 조회             |
-| searchReportByContentAndType | GET | /api/report/admin/search | 내용과 타입으로 신고 검색 |
-| deleteReport    | DELETE  | /api/report/admin/{reportId}  | 신고 삭제                  |
-| deleteContent   | DELETE  | /api/report/admin/{reportId}/accepted | 신고된 내용 삭제       |
+| searchReportByContentAndType | GET | /admin/api/report/search | 내용과 타입으로 신고 검색 |
+| deleteReport    | DELETE  | /admin/api/report/{reportId}  | 신고 삭제                  |
+| deleteContent   | DELETE  | /admin/api/report/{reportId}/accepted | 신고된 내용 삭제       |
 
 
 
