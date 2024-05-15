@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CafeRegisterControllerTest {
 
     @InjectMocks
-    CafeRegisterController cafeRegisterController;
+    AdminController adminController;
 
     @Mock
     CafeRegisterServiceImpl cafeRegisterService;
@@ -39,8 +40,9 @@ class CafeRegisterControllerTest {
 
     @BeforeEach
     void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(cafeRegisterController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(adminController).build();
     }
+
 
     @DisplayName("신규 장소 등록신청 삭제")
     @Test
@@ -53,10 +55,10 @@ class CafeRegisterControllerTest {
         }
 
 
-        doNothing().when(cafeRegisterService).deleteCafeRegister(cafeRegisterId);
+        doNothing().when(cafeRegisterService).deleteCafeRegister(anyString());
 
 
-        mockMvc.perform(delete("/api/cafe_register/admin/" + cafeRegisterId))
+        mockMvc.perform(delete("/admin/api/cafe_register/" + cafeRegisterId))
                 .andExpect(status().isOk());
 
     }
