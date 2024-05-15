@@ -1,6 +1,6 @@
 
 <article class="cafe_card_container" th:fragment="cafeCards">
-    <div class="cafe_card_info" th:each="cafe: ${cafeSlice.getContent()}"><!--반복문-->
+    <div class="cafe_card_info" th:each="cafe: ${cafeSlice}" th:onclick="|location.href='@{/cafe/{cafeId}(cafeId=${cafe.cafeId})}'|"><!--반복문-->
         <img th:if="${cafe.cafeImageUrl}==null" src="/img/default-cafe-logo.png" class="cafe_image" alt="">
         <img th:unless="${cafe.cafeImageUrl}==null" th:src="${cafe.cafeImageUrl}" class="cafe_image" alt="">
         <div class="cafe_card_side">

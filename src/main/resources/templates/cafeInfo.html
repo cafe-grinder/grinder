@@ -27,7 +27,7 @@
 <section class="cafe_info_banner">
     <div class="cafe_info_background">
 <!--TODO: th:src 태그 붙은곳 default 이미지 설정하기-->
-        <img class="cafe_info_background_img" src="/img/background_one.png" alt="">
+        <img class="cafe_info_background_img" alt="">
         <div class="cafe_info_database">
             <div class="cafe_info_data">
                 <img class="cafe_info_logo" src="/img/default-cafe-logo.png" alt="">
@@ -36,7 +36,6 @@
                     <div class="cafe_information">
                         <address th:text="${cafeInfo.address}" id="cafe-address">주소 : </address>
                     </div>
-<!--TODO: 운영시간 어디다 넣을지 고민하기-->
                     <div class="cafe_info_score">평균 평점 :
                         <img th:if="${cafeInfo.averageGrade >= 1}" src="/img/icon/star-fill.png" alt="">
                         <img th:if="${cafeInfo.averageGrade >= 2}" src="/img/icon/star-fill.png" alt="">
@@ -73,10 +72,7 @@
 </article>
 <div class="cafe_info_line"></div>
 
-<div class="container" id="aiContainer" style="display: none"></div>
-<div class="container" id="menuContainer" style="display: none"></div>
-<div class="container" id="feedContainer" style="display: none"></div>
-
+<div id="feedContainer"></div>
 <div class="modal-backdrop" id="modalBackdrop"></div>
 <div id="alanContainer"></div>
 

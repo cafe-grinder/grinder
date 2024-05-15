@@ -1,8 +1,24 @@
 const cafeId = window.location.pathname.substring(6);
 let url = '/get-cafeFeed/'+ cafeId;
 let containerName = 'feedContainer';
-
 document.addEventListener('DOMContentLoaded', function() {
+
+  document.getElementById("show_menu_button").addEventListener("click", function() {
+    // Ajax 요청을 보냅니다.
+    console.log("일단 눌림");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/cafe/"+cafeId+"/menu", true);
+    xhr.onload = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // 요청이 완료되면 메뉴를 불러옵니다.
+        var menuCard = xhr.responseText;
+        // 메뉴를 불러온 후에 menuContainer 안에 넣습니다.
+        document.getElementById("feedContainer").innerHTML = menuCard;
+      }
+    };
+    xhr.send();
+  });
+
   let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
   xhr.open('GET', '/get-header', true); // 요청을 초기화합니다.
 
@@ -28,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   xhr.send(); // 요청을 서버로 보냅니다.
 
-  //페이지 로드할때 북마크 여부 검증하여 버튼 이미지 결정
+
   fetch(`/api/bookmark/${cafeId}`)
   .then(response => {
     console.log(response);
@@ -38,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     throw new Error('Network response was not ok.');
   })
   .then(data => {
+    // 책갈피 상태에 따라 UI 업데이트
     if (data === true) {
       document.getElementById('bookmark_fill').style.display = 'block';
       document.getElementById('bookmark_null').style.display = 'none';
@@ -51,18 +68,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // 예상치 못한 에러가 발생한 경우
     alert('예상치 못한 에러가 발생했습니다.');
   });
+
 });
 
-function alarmTab() {
-  const alarm = document.querySelector('.header_alarm');
-  let alarm_box = document.querySelector('.header_alarm_box');
+// function alarmTab() {
+//   const alarm = document.querySelector('.header_alarm');
+//   let alarm_box = document.querySelector('.header_alarm_box');
+//
+//   alarm.addEventListener('click', () => {
+//     if (alarm_box) {
+//       alarm_box.classList.toggle('alarm_active');
+//     }
+//   });
+// }
 
-  alarm.addEventListener('click', () => {
-    if (alarm_box) {
-      alarm_box.classList.toggle('alarm_active');
-    }
-  });
-}
+
 function addBookmark() {
   fetch(`/api/bookmark/${cafeId}`, {
     method: 'POST',
@@ -85,6 +105,7 @@ function addBookmark() {
     alert('예상치 못한 에러가 발생했습니다.');
   });
 }
+
 function deleteBookmark() {
   fetch(`/api/bookmark/${cafeId}`, {
     method: 'DELETE',
@@ -143,7 +164,6 @@ const sellerApplyBtn = document.getElementById('seller_apply_button');
 sellerApplyBtn.addEventListener('click', () => {
     window.location.href = '/cafe/seller_apply/' + cafeId;
 })
-
 
 
 //피드조회

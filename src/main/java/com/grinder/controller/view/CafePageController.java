@@ -6,10 +6,14 @@ import com.grinder.domain.dto.FeedDTO.FeedResponseDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.Menu;
 import com.grinder.service.CafeRegisterService;
+import com.grinder.domain.dto.MenuDTO;
+import com.grinder.domain.entity.Menu;
 import com.grinder.service.CafeService;
 import com.grinder.service.FeedService;
 import com.grinder.service.MenuService;
 import java.util.List;
+
+import com.grinder.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +35,7 @@ public class CafePageController {
     private final MenuService menuService;
     private final FeedService feedService;
     private final CafeRegisterService cafeRegisterService;
+    private final MenuService menuService;
 
     @GetMapping("/newcafe")
     public String getAddCafeForm(){
@@ -54,16 +59,7 @@ public class CafePageController {
         return "cafeInfo";
     }
 
-    @GetMapping("/{cafeId}/menu")
-    public String getCafeMenu(Model model, @PathVariable("cafeId") String cafeId) {
-        CafeResponseDTO cafeInfo = cafeService.getCafeInfo(cafeId);
-        List<Menu> menuList = menuService.findAllMenusByCafeId(cafeId);
-        model.addAttribute("cafeInfo", cafeInfo);
-        model.addAttribute("menuList", menuList);
-        return "components/menuCard";
-    }
-
-    @GetMapping("/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable("cafeId") String cafeId, Model model) {
+    @GetMapping("/seller_apply/{cafeId}") String applyCafeSeller(@PathVariable String cafeId, Model model) {
         model.addAttribute("cafeId", cafeId);
         return "sellerApplicationForm";
     }

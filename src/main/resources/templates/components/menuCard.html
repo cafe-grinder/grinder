@@ -1,26 +1,41 @@
-<article th:fragment="menucards" class="menu_card_container">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/menuCard.css">
+</head>
+<body>
+
+<!-- 여기부터 위로 제거 -->
+<article th:each="menu : ${menuList}" class="menu_card_container" th:fragment="cafeInfoMenuCard">
     <div class="menu_card_wrap">
-        <h1 class="menu_card_name">아메리카노</h1>
+        <h1 class="menu_card_name" th:text="${menu.menuName}">아메리카노</h1>
         <ul>
-            <li>예상 가격: \ 4500</li>
-            <li>수정 일자: 2024-03-25</li>
+            <li th:text="|예상 가격: ${menu.menuPrice}|">예상 가격: \ 4500</li>
+            <li th:text="|수정 일자: ${menu.menuUpdate}|">수정 일자: 2024-03-25</li>
         </ul>
         <br>
         <div class="menu_card_detail_title">
-            <img class="menu_card_bulb" src="/img/icon/bulb.png" alt="">
+            <img class="menu_card_bulb" src="/img/icon/bulb.png" alt="메뉴 상세보기 아이콘">
             <div class="menu_card_detail">메뉴 상세보기</div>
         </div>
         <hr>
         <div class="menu_card_detail_list">
             <ul>
-                <li class="menu_card_detail_volume">용량: 410ml</li>
-                <li class="menu_card_detail_details">설명: 아아가 싸악 내려줘</li>
+                <li>용량: 410ml</li>
+                <li th:text="|설명 : ${menu.menuDetails}|">설명: 아아가 싸악 내려줘</li>
             </ul>
             <ul>
-                <li class="menu_card_detail_allergy">알러지 재료: 없음</li>
-                <li class="menu_card_detail_limit">판매 유형: 상시</li>
+                <li th:text="|알러지 재료 : ${menu.menuAllergy}|">알러지 재료: 없음</li>
+                <li th:text="|판매 유형 : ${menu.menuIsLimited}|">판매 유형: 상시</li>
             </ul>
         </div>
     </div>
-    <img class="menu_card_img" src="/img/not_use/starbucks_icedamericano.jpg" alt="">
+    <img class="menu_card_img" th:if="${menu.menuImage == null}" src="/img/feed-default-img-gray.png" alt="">
+    <img class="menu_card_img" th:if="${menu.menuImage != null}" th:src="${menu.menuImage}" alt="">
 </article>
+<!-- 여기부터 아래로 제거 -->
+</body>
+</html>

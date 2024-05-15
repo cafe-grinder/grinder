@@ -1,12 +1,9 @@
 package com.grinder.service.implement;
 
-import static com.grinder.domain.dto.CafeRegisterDTO.*;
-
 import com.grinder.domain.dto.CafeDTO;
 import com.grinder.domain.dto.CafeDTO.CafeResponseDTO;
 import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.CafeRegister;
-import com.grinder.domain.entity.CafeSummary;
 import com.grinder.exception.AlreadyExistException;
 import com.grinder.repository.CafeRegisterRepository;
 import com.grinder.repository.CafeRepository;
@@ -87,5 +84,10 @@ public class CafeServiceImpl implements CafeService {
     @Override
     public Slice<CafeDTO.findAllWithImageAndTagResponse> searchCafes(String query, Pageable pageable) {
         return cafeQueryRepository.searchCafes(query, pageable);
+    }
+
+    @Override
+    public List<CafeDTO.findAllWithImageAndTagResponse> weekTop3Cafe() {
+        return cafeQueryRepository.findTop3CafesReferencedThisWeek();
     }
 }

@@ -5,6 +5,6 @@ import com.grinder.domain.entity.Menu;
 import java.util.List;
 
 public interface MenuService {
-    List<Menu> findAllMenusByCafeId(String cafeId);
+    List<MenuDTO.findAllMenuResponse> findAllMenusByCafeId(String cafeId);
     boolean saveMyCafeMenu(MenuDTO.saveMenuRequest request);
 }

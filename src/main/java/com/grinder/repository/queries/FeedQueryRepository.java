@@ -4,7 +4,9 @@ import com.grinder.domain.dto.CommentDTO;
 import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -18,11 +20,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 
 @Repository
 public class FeedQueryRepository {
-    //TODO : 마이페이지 피드 쿼리(해당 멤버 작성 피드만), 카페 피드 쿼리(해당 카페 피드만)
-
     private final JPAQueryFactory queryFactory;
 
     public FeedQueryRepository(EntityManager entityManager) {
@@ -50,6 +52,34 @@ public class FeedQueryRepository {
                 .fetchOne();
 
         return Optional.ofNullable(feedDTO);
+    }
+
+    /**
+     * @param email : 로그인한 회원의 email
+     * @param feedId : 가져오려는 feed의 ID
+     * @return : 해당 feed의 ID를 통해 feed를 가져오고 email에 맞춘 데이터를 반환합니다.
+     */
+    public List<FeedDTO.FeedWithImageResponseDTO> findFeedWithImage(String email, String feedId) {
+
+        QFeed feed = QFeed.feed;
+        QHeart heart = QHeart.heart;
+        QComment comment = QComment.comment;
+        QComment subComment = QComment.comment;
+        QMember member = QMember.member;
+        QCafe cafe = QCafe.cafe;
+        QTag tag = QTag.tag;
+        QImage image = QImage.image;
+
+        List<Feed> feeds = queryFactory
+                .selectFrom(feed)
+                .leftJoin(feed.member, member)
+                .leftJoin(feed.cafe, cafe)
+                .where(feed.isVisible.isTrue())
+                .where(feed.feedId.eq(feedId))
+                .orderBy(feed.updatedAt.desc())
+                .fetch();
+
+        return FindCommentInfo(feeds,email,Pageable.ofSize(1),tag,image,comment,subComment,heart).getContent();
     }
 
     /**
@@ -92,30 +122,70 @@ public class FeedQueryRepository {
     }
 
     /**
-     *
-     * @param email : 접속 유저
-     * @return : (조건)
-     * - 내가 작성한 피드는 제외
-     * - 내가 블랙리스트에 추가한 사람이 작성한 피드는 제외
-     * 1. 내가 북마크한 카페에 동일하게 북마크를 한 사람이 좋아요를 누른 피드
-     * 2. 내가 좋아요를 누른 피드에 동일하게 좋아요를 누른 사람이 좋아요를 누른 다른 피드
-     * 3. 내가 북마크한 카페에 최근 피드 중 좋아요가 많이 눌린 피드
-     *
-     * rank 칼럼 순 (보류)
+     * TODO : 점수별로 feed 슬라이스(유저가 follow한 사람 중 최신 피드이면서 rank 기존 랭크에 +5,
+     *                          feed 테이블의 rank가 높은 순에서 유저가 blacklist에 추가된 사람은 제외한 피드,
+     *                          최근 2개월 내 게시물 중 rank가 높은 순은 기존 랭크에 +10
+     *                          작성일 기준으로 7일로 나누어 나눈 값만큼 rank에서 뺄셈
+     *                          이중 rank가 높은 순으로 슬라이스)
+     *                          내가 작성한 피드는 제외, 블랙리스트 피드 제외
      */
     public Slice<FeedDTO.FeedWithImageResponseDTO> RecommendFeedWithImage(String email, Pageable pageable) {
         QFeed feed = QFeed.feed;
         QHeart heart = QHeart.heart;
         QComment comment = QComment.comment;
         QComment subComment = QComment.comment;
+        QFollow follow = QFollow.follow;
         QMember member = QMember.member;
         QBlacklist blacklist = QBlacklist.blacklist;
-        QBookmark bookmark = QBookmark.bookmark;
-        QCafe cafe = QCafe.cafe;
         QTag tag = QTag.tag;
         QImage image = QImage.image;
 
-        return null;
+        LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(2);
+        LocalDateTime now = LocalDateTime.now();
+
+        DateTimeTemplate<LocalDateTime> nowTemplate = Expressions.dateTimeTemplate(LocalDateTime.class, "CURRENT_TIMESTAMP");
+        DateTimeTemplate<LocalDateTime> createdAtTemplate = Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", feed.createdAt);
+
+        NumberExpression<Integer> daysSinceCreated = Expressions.numberTemplate(Integer.class,
+                "DATEDIFF(day, {0}, {1})", createdAtTemplate, nowTemplate);
+        NumberExpression<Integer> weeksSinceCreated = daysSinceCreated.divide(7);
+
+
+        NumberExpression<Integer> calculatedRank = feed.rank
+                .add(new CaseBuilder()
+                        .when(feed.createdAt.goe(twoMonthsAgo)).then(10)
+                        .otherwise(0))
+                .add(new CaseBuilder()
+                        .when(follow.following.memberId.isNotNull()).then(5)
+                        .otherwise(0))
+                .subtract(weeksSinceCreated);
+
+        BooleanExpression isNotBlacklisted = blacklist.blockedMember.isNull();
+        BooleanExpression isVisible = feed.isVisible.eq(true);
+        BooleanExpression isNotCurrentUser = feed.member.email.ne(email);
+        BooleanExpression isFollowed = follow.following.email.eq(email);
+
+        List<Tuple> tuples = queryFactory
+                .select(feed, calculatedRank)
+                .from(feed)
+                .leftJoin(feed.member, member)
+                .leftJoin(follow).on(follow.following.memberId.eq(feed.member.memberId)
+                        .and(isFollowed))
+                .leftJoin(blacklist).on(blacklist.blockedMember.memberId.eq(feed.member.memberId)
+                        .and(blacklist.member.email.eq(email)))
+                .where(isVisible
+                        .and(isNotCurrentUser)
+                        .and(isNotBlacklisted))
+                .orderBy(calculatedRank.desc())
+                .limit(pageable.getPageSize())
+                .offset(pageable.getOffset() + 1)
+                .fetch();
+
+        List<Feed> feeds = tuples.stream()
+                .map(tuple -> tuple.get(feed))
+                .collect(Collectors.toList());
+
+        return FindCommentInfo(feeds,email,pageable,tag,image,comment,subComment,heart);
     }
 
     /**
@@ -168,7 +238,7 @@ public class FeedQueryRepository {
                         .or(feed.member.nickname.containsIgnoreCase(query)))
                 .orderBy(feed.updatedAt.desc(), feed.content.asc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
+                .limit(pageable.getPageSize() + 2)
                 .fetch();
 
         return FindCommentInfo(feeds,email,pageable,tag,image,comment,subComment,heart);
@@ -188,13 +258,11 @@ public class FeedQueryRepository {
         QComment subComment = QComment.comment;
         QHeart heart = QHeart.heart;
         QMember member = QMember.member;
-        QCafe cafe = QCafe.cafe;
 
         // 먼저, 피드에 대한 기본 쿼리를 수행
         List<Feed> feeds = queryFactory
                 .selectFrom(feed)
                 .leftJoin(feed.member, member)
-                .leftJoin(feed.cafe, cafe)
                 .where(feed.isVisible.isTrue(), feed.member.email.eq(writerEmail))
                 .orderBy(feed.updatedAt.desc())
                 .offset(pageable.getOffset())
@@ -253,7 +321,7 @@ public class FeedQueryRepository {
 
             List<CommentDTO.ParentCommentResponseDTO> parentComments = queryFactory
                     .selectFrom(comment)
-                    .where(comment.feed.eq(result), comment.parentComment.isNull())
+                    .where(comment.isVisible.isTrue(), comment.feed.eq(result), comment.parentComment.isNull())
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize() + 1)
                     .fetch()
@@ -261,7 +329,7 @@ public class FeedQueryRepository {
                     .map(parent -> {
                         List<CommentDTO.ChildCommentResponseDTO> childComments = queryFactory
                                 .selectFrom(subComment)
-                                .where(subComment.parentComment.eq(parent))
+                                .where(subComment.isVisible.isTrue(), subComment.parentComment.eq(parent))
                                 .fetch()
                                 .stream()
                                 .map(chComment -> {
