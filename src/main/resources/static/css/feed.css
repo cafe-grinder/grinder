@@ -63,7 +63,8 @@
 
 .feed_writer_profile_img,
 .feed_comment_profile_img {
-    width: 71px;
+    width: 70px;
+    height: 70px;
 }
 
 .feed_cafe_address {
@@ -106,6 +107,9 @@
 .feed_writer_profile_img img,
 .feed_comment_profile_img img {
     object-fit: contain;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
 }
 
 .feed_review_info {

@@ -1,22 +1,6 @@
-<!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-
-
-<!--<p th:if="${followMembers.isEmpty()}" class="myPage_title" >등록된 정보가 없습니다.</p>-->
-<!--<p th:unless="${followMembers.isEmpty()}" class="myPage_title" th:text="${title}"></p>-->
-
-<div th:fragment="followList(title)">
+<div th:fragment="followList(title)" th:if="${followMembers.size() != 0}">
     <button th:if="${title == 'follower'}" class="follower_more">더보기</button>
     <button th:if="${title == 'following'}" class="following_more">더보기</button>
-    <input type="hidden" th:if="${title == 'search'}" th:value="${hasNext}" id="member_hasNext">
     <article class="followerList" th:each="member : ${followMembers}">
         <div class="followerList_follower">
             <img th:if="${member.followImage} == null" src="/img/basic-user.png">
@@ -25,17 +9,14 @@
             <span class="followerList_role" th:switch="${member.followRole}">
                 <img th:case="'인증회원'" src="/img/icon/award-fill.png"/>
                 <img th:case="'판매자'" src="/img/icon/check-fill.png"/>
+                <img th:case="'관리자'" src="/img/icon/award-fill.png"/>
             </span>
             <button th:if="${title == 'following'}"
                     th:follwing="${member.followEmail}"
                     onclick="unfollow(this.getAttribute('follwing'),event)">팔로우 해제</button>
             <button class="move_follow"
-                    th:onclick="'window.location.href=\'' + @{/mypage/{id}(id=${member.followMemberId})} + '\''">이동하기</button>
+                    th:onclick="|window.location.href='@{/mypage/{id}(id=${member.followMemberId})}'|">이동하기</button>
         </div>
     </article>
 </div>
-
-
-</body>
-</html>
 

@@ -348,7 +348,13 @@ public class FeedQueryRepository {
                                             .where(heart.contentType.eq(ContentType.COMMENT), heart.contentId.eq(chComment.getCommentId()))
                                             .fetchOne();
 
-                                    return new CommentDTO.ChildCommentResponseDTO(chComment, isHeart, heartNum);
+                                    String memberImage = queryFactory
+                                            .select(image.imageUrl)
+                                            .from(image)
+                                            .where(image.contentType.eq(ContentType.MEMBER), image.contentId.eq(chComment.getMember().getMemberId()))
+                                            .fetchOne();
+
+                                    return new CommentDTO.ChildCommentResponseDTO(chComment, isHeart, heartNum, memberImage);
                                 })
                                 .collect(Collectors.toList());
 
@@ -363,7 +369,14 @@ public class FeedQueryRepository {
                                 .from(heart)
                                 .where(heart.contentType.eq(ContentType.COMMENT), heart.contentId.eq(parent.getCommentId()))
                                 .fetchOne();
-                        return new CommentDTO.ParentCommentResponseDTO(parent, childComments, isHeart, heartNum);
+
+                        String memberImage = queryFactory
+                                .select(image.imageUrl)
+                                .from(image)
+                                .where(image.contentType.eq(ContentType.MEMBER), image.contentId.eq(parent.getMember().getMemberId()))
+                                .fetchOne();
+
+                        return new CommentDTO.ParentCommentResponseDTO(parent, childComments, isHeart, heartNum, memberImage);
                     })
                     .collect(Collectors.toList());
 
@@ -378,7 +391,13 @@ public class FeedQueryRepository {
                     .where(heart.contentType.eq(ContentType.FEED), heart.contentId.eq(result.getFeedId()))
                     .fetchOne();
 
-            return new FeedDTO.FeedWithImageResponseDTO(result, tagNames, parentComments, imageUrls, isHeart, heartNum);
+            String memberImage = queryFactory
+                    .select(image.imageUrl)
+                    .from(image)
+                    .where(image.contentType.eq(ContentType.MEMBER), image.contentId.eq(result.getMember().getMemberId()))
+                    .fetchOne();
+
+            return new FeedDTO.FeedWithImageResponseDTO(result, tagNames, parentComments, imageUrls, isHeart, heartNum, memberImage);
         }).collect(Collectors.toList());
 
         boolean hasNext = list.size() > pageable.getPageSize();
