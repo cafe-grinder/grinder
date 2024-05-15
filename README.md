@@ -447,7 +447,7 @@
 | checkNickname   | GET     | /api/member/nickname/check           | 닉네임 중복 확인           |
 | verificationEmail| GET     | /api/member/email/verifications      | 이메일 인증                |
 | checkEmail      | GET     | /api/member/email/check              | 이메일 중복 확인           |
-| searchMemberByNicknameAndRole | GET | /admin/api/member/search?nickname=&role= | 닉네임과 역할로 회원 검색   |
+| searchMemberByNicknameAndRole | GET | /admin/api/member/search | 닉네임과 역할로 회원 검색   |
 | deleteMember    | DELETE  | /admin/api/member/{memberId}         | 회원 삭제                  |
 
 ### 📁 Feed
@@ -558,7 +558,7 @@
 ### 📁 Report
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
 |-----------------|---------|-------------------------------|----------------------------|
-| searchReportByContentAndType | GET | /admin/api/report/search?keyword=&contentType= | 내용과 타입으로 신고 검색 |
+| searchReportByContentAndType | GET | /admin/api/report/search | 내용과 타입으로 신고 검색 |
 | deleteReport    | DELETE  | /admin/api/report/{reportId}  | 신고 삭제                  |
 | deleteContent   | DELETE  | /admin/api/report/{reportId}/accepted | 신고된 내용 삭제       |
 
