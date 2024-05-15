@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="/css/feed.css">
     <!--menu css-->
     <link rel="stylesheet" href="/css/menuCard.css">
+    <!--alan css-->
+    <link rel="stylesheet" href="/css/alan_message.css">
     <!-- css-->
 </head>
 <body>
@@ -25,7 +27,7 @@
 <section class="cafe_info_banner">
     <div class="cafe_info_background">
 <!--TODO: th:src 태그 붙은곳 default 이미지 설정하기-->
-        <img class="cafe_info_background_img" src="/img/background_one.png" alt="">
+        <img class="cafe_info_background_img" alt="">
         <div class="cafe_info_database">
             <div class="cafe_info_data">
                 <img class="cafe_info_logo" src="/img/default-cafe-logo.png" alt="">
@@ -70,10 +72,13 @@
 </article>
 <div class="cafe_info_line"></div>
 
-<div id="feedContainer" style="display: none"></div>
+<div id="feedContainer"></div>
+<div class="modal-backdrop" id="modalBackdrop"></div>
+<div id="alanContainer"></div>
 
 <footer th:replace="components/footer :: footers"></footer>
 
+<script src="/js/header.js"></script>
 <script src="/js/cafeInfo.js"></script>
 </body>
 </html>

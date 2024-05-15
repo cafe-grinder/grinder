@@ -19,25 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/cafe")
+@RequestMapping("/api/cafe")
 @RequiredArgsConstructor
 public class CafeController {
 
     private final CafeService cafeService;
     private final CafeRegisterService cafeRegisterService;
-
-    @PostMapping("/admin/{registerId}")
-    public ResponseEntity<SuccessResult> addCafe(@PathVariable String registerId) {
-        cafeService.saveCafe(registerId);
-        cafeRegisterService.deleteCafeRegister(registerId);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Add new cafe", "새로운 카페정보가 등록되었습니다."));
-    }
-
-    @GetMapping("/admin")
-    public ResponseEntity<Slice<CafeDTO.CafeSearchByAdminDTO>> searchCafeByAdmin(@RequestParam String keyword,@PageableDefault(size = 5) Pageable pageable) {
-        Slice<CafeDTO.CafeSearchByAdminDTO> cafeSlice = cafeService.searchCafeByAdmin(keyword, pageable);
-        return ResponseEntity.ok(cafeSlice);
-    }
 
     @GetMapping("/search-cafe")
     public ResponseEntity<List<CafeResponseDTO>> searchCafes(@RequestParam String query) {
@@ -56,5 +43,4 @@ public class CafeController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
 }

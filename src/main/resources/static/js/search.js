@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 location.href = url
             }
 
+
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
             console.error('The request failed!');

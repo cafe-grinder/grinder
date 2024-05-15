@@ -56,6 +56,47 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+function logout() {
+    let url = '/api/logout';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'POST',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = "/";
+
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                window.location.href = "/";
+            });
+}
+
+function reissue() {
+    let url = '/api/reissue';
+
+    // 기본 요청 설정
+    let fetchOptions = {
+        method: 'GET',
+    };
+
+    // AJAX 요청 예시
+    fetch(url, fetchOptions)
+            .then(data => {
+                console.log('Success:', data);
+                window.location.href = "/";
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                window.location.href = "/";
+            });
+}
+
 function alarmTab() {
     if (document.querySelector('.header_alarm')) {
         const alarm = document.querySelector('.header_alarm');
@@ -72,47 +113,6 @@ function alarmTab() {
             let modal = document.getElementById('alanModal');
             getAlanMessage('/get-alan');
         });
-    }
-
-    function logout() {
-        let url = '/api/logout';
-
-        // 기본 요청 설정
-        let fetchOptions = {
-            method: 'POST',
-        };
-
-        // AJAX 요청 예시
-        fetch(url, fetchOptions)
-            .then(data => {
-                console.log('Success:', data);
-                window.location.href = "/";
-
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                window.location.href = "/";
-            });
-    }
-
-    function reissue() {
-        let url = '/api/reissue';
-
-        // 기본 요청 설정
-        let fetchOptions = {
-            method: 'GET',
-        };
-
-        // AJAX 요청 예시
-        fetch(url, fetchOptions)
-            .then(data => {
-                console.log('Success:', data);
-                window.location.href = "/";
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-                window.location.href = "/";
-            });
     }
 
     function getAlanMessage(url) {
