@@ -1,10 +1,29 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.CafeRegister;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@NoArgsConstructor
 public class CafeRegisterDTO {
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    public static class CafeRegisterRequestDTO {
+
+        private String name;
+        private String address;
+        private String phoneNum;
+
+        public CafeRegisterRequestDTO(CafeRegister cafeRegister) {
+            this.name = cafeRegister.getName();
+            this.address = cafeRegister.getAddress();
+            this.phoneNum = cafeRegister.getPhoneNum();
+        }
+    }
 
     @Getter
     @Setter
