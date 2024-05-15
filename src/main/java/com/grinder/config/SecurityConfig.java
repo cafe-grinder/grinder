@@ -2,6 +2,8 @@ package com.grinder.config;
 
 import com.grinder.repository.MemberRepository;
 import com.grinder.repository.RefreshRepository;
+import com.grinder.security.CustomAuthenticationEntryPoint;
+import com.grinder.security.handler.CustomAccessDeniedHandler;
 import com.grinder.security.service.CustomOAuth2MemberService;
 import com.grinder.security.service.MemberDetailsService;
 import com.grinder.security.filter.APILoginFilter;
@@ -50,6 +52,8 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final RedisUtil redisUtil;
     private final CustomOAuth2MemberService customOAuth2MemberService;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
 
     @Bean
@@ -112,7 +116,11 @@ public class SecurityConfig {
                        .requestMatchers("/feed/newfeed").hasAnyRole("인증회원", "일반회원")
                         .anyRequest().permitAll())
                 .csrf(csrf->csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling((exceptionConfig) ->
+                        exceptionConfig.authenticationEntryPoint(customAuthenticationEntryPoint).accessDeniedHandler(customAccessDeniedHandler)
+                );
+
         http.logout(log -> log.deleteCookies());
 
         //cors 설정
