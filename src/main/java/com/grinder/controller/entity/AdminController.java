@@ -53,17 +53,13 @@ public class AdminController {
     }
 
     @GetMapping("/comment/{comment_id}")
-    public ResponseEntity<CommentDTO.FindCommentDTO> findCommentForAdmin(@PathVariable String comment_id, Authentication authentication) {
+    public ResponseEntity<CommentDTO.FindCommentDTO> findCommentForAdmin(@PathVariable String comment_id) {
         CommentDTO.FindCommentDTO commentDTO = commentService.findCommentForAdmin(comment_id);
-
         return ResponseEntity.ok(commentDTO);
     }
 
     @GetMapping("/feed/{feed_id}")
-    public ResponseEntity<FeedDTO.FindFeedDTO> findFeedForAdmin(@PathVariable String feed_id, Authentication authentication) {
-        if(!authentication.getAuthorities().contains("ADMIN")) {
-            throw new PermissionDeniedDataAccessException("관리자 권한이 필요합니다", null);
-        }
+    public ResponseEntity<FeedDTO.FindFeedDTO> findFeedForAdmin(@PathVariable String feed_id) {
         FeedDTO.FindFeedDTO feedDTO = feedService.findFeedForAdmin(feed_id);
         return ResponseEntity.ok(feedDTO);
     }
