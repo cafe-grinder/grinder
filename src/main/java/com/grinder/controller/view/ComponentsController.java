@@ -256,7 +256,7 @@ public class ComponentsController {
         if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
             throw new NoMoreContentException("존재하지 않음");
         }
-        model.addAttribute("feedList", slice);
+        model.addAttribute("feedSlice", slice.getContent());
         return "components/feed";
     }
 
