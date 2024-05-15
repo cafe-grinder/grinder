@@ -4,6 +4,7 @@ import com.grinder.domain.dto.CafeDTO;
 import com.grinder.domain.dto.FeedDTO;
 import com.grinder.domain.entity.*;
 import com.grinder.domain.enums.ContentType;
+import com.grinder.domain.enums.TagName;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -77,8 +78,8 @@ public class CafeQueryRepository {
                 .fetch();
 
         List<CafeDTO.findAllWithImageAndTagResponse> cafeList = list.stream().map(result -> {
-            List<Tag> tagNames = queryFactory
-                    .select(tag)
+            List<TagName> tagNames = queryFactory
+                    .select(tag.tagName)
                     .from(tag)
                     .join(tag.feed, feed)
                     .where(feed.cafe.cafeId.eq(result.getCafeId()))
@@ -127,8 +128,8 @@ public class CafeQueryRepository {
      */
     private List<CafeDTO.findAllWithImageAndTagResponse> findTopTag(List<CafeDTO.findAllWithImageResponse> list, QTag tag, QFeed feed) {
         return list.stream().map(result -> {
-            List<Tag> tagNames = queryFactory
-                    .select(tag)
+            List<TagName> tagNames = queryFactory
+                    .select(tag.tagName)
                     .from(feed)
                     .join(tag.feed, feed)
                     .where(feed.cafe.cafeId.eq(result.getCafeId()))
