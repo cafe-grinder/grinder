@@ -1,6 +1,6 @@
 package com.grinder.controller.entity;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.grinder.domain.dto.CafeRegisterDTO;
 import com.grinder.domain.entity.CafeRegister;
 import com.grinder.domain.entity.Member;
 import com.grinder.service.implement.CafeRegisterServiceImpl;
@@ -11,25 +11,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.SliceImpl;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.mockito.Mockito.*;
-import static com.grinder.domain.dto.CafeRegisterDTO.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-class CafeRegisterControllerTest {
-
+class AdminControllerTest {
     @InjectMocks
     AdminController adminController;
 
@@ -47,11 +43,11 @@ class CafeRegisterControllerTest {
     @DisplayName("신규 장소 등록신청 삭제")
     @Test
     void testDenyCafeRegister() throws Exception{
-        List<FindCafeRegisterDTO> registerDTOList = new ArrayList<>();
+        List<CafeRegisterDTO.FindCafeRegisterDTO> registerDTOList = new ArrayList<>();
         String cafeRegisterId = "";
         for (int i = 0; i < 3; i++) {
             cafeRegisterId = UUID.randomUUID().toString();
-            registerDTOList.add(new FindCafeRegisterDTO(CafeRegister.builder().registerId(cafeRegisterId).member(new Member()).phoneNum("01012345678").build()));
+            registerDTOList.add(new CafeRegisterDTO.FindCafeRegisterDTO(CafeRegister.builder().registerId(cafeRegisterId).member(new Member()).phoneNum("01012345678").build()));
         }
 
 
