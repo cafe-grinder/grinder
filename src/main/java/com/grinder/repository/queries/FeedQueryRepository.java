@@ -253,7 +253,7 @@ public class FeedQueryRepository {
 
             List<CommentDTO.ParentCommentResponseDTO> parentComments = queryFactory
                     .selectFrom(comment)
-                    .where(comment.feed.eq(result), comment.parentComment.isNull())
+                    .where(comment.isVisible.isTrue(), comment.feed.eq(result), comment.parentComment.isNull())
                     .offset(pageable.getOffset())
                     .limit(pageable.getPageSize() + 1)
                     .fetch()
@@ -261,7 +261,7 @@ public class FeedQueryRepository {
                     .map(parent -> {
                         List<CommentDTO.ChildCommentResponseDTO> childComments = queryFactory
                                 .selectFrom(subComment)
-                                .where(subComment.parentComment.eq(parent))
+                                .where(subComment.isVisible.isTrue(), subComment.parentComment.eq(parent))
                                 .fetch()
                                 .stream()
                                 .map(chComment -> {
