@@ -140,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', async () => {
             const input = document.querySelector('.newfeed_input');
             const keyword = input.value;
-            console.log(`Searching for cafes with keyword: ${keyword}`);
             const cafes = await searchCafes(keyword);
             displayCafes(cafes);
         });
@@ -177,8 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
             input.value = cafe.name;
             cafeListContainer.innerHTML = ''; // 선택 후 카페 목록 지우기
             cafeListContainer.style.display = 'none';
-            console.log('선택된 카페:', cafe);
-            console.log('선택된 카페:', cafeId);
         }
     }
 
@@ -213,7 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.newfeed_tag_init').forEach(tagName => {
         tagNameList.push(tagName.value);
     });
-    console.log(tagNameList);
     function NewFeedClickEvent() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
@@ -240,7 +236,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         target.classList.add('newfeed_tag_name_active');
                     }
                 }
-                console.log(tagNameList);
             }
 
             // 이미지 첨부
@@ -320,12 +315,6 @@ async function addFeed(content, cafeId, tagNameList, grade, imageList) {
 
 // 피드 수정
 async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList) {
-    console.log("feedId: " + feedId);
-    console.log("content: " + content);
-    console.log("cafeId: " + cafeId);
-    console.log("tagNameList: " + tagNameList);
-    console.log("grade: " + grade);
-    console.log("imageList: " + imageList);
     try {
         let formData = new FormData();
         formData.append('feedId', feedId);
