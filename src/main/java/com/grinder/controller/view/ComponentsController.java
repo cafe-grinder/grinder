@@ -198,18 +198,25 @@ public class ComponentsController {
     }*/
 
     @GetMapping("get-feed")
-    public String getFeed2(
+
+    public String getFeed(
             Model model,
             @PageableDefault(size = 4) Pageable pageable
     ) {
         // 멤버
         String email = getEmail();
-        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
-        model.addAttribute("feedMember", member);
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice;
+        if (email != null && !email.equals("anonymousUser")) {
+            MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+            feedSlice = feedService.RecommendFeedWithImage(email, pageable);
+            model.addAttribute("feedSlice", feedSlice);
+            model.addAttribute("feedMember", member);
 
-        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.RecommendFeedWithImage(email, pageable);
-        model.addAttribute("feedSlice", feedSlice);
-
+        } else  {
+            model.addAttribute("feedMember", null);
+            feedSlice = feedService.RecommendFeedWithImage("", pageable);
+            model.addAttribute("feedSlice", feedSlice);
+        }
         if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {
             throw new NoMoreContentException("존재하지 않음");
         }
@@ -250,7 +257,7 @@ public class ComponentsController {
         if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
             throw new NoMoreContentException("존재하지 않음");
         }
-        model.addAttribute("feedList", slice);
+        model.addAttribute("feedSlice", slice.getContent());
         return "components/feed";
     }
 
@@ -265,7 +272,7 @@ public class ComponentsController {
         if (!slice.hasNext() && slice.getNumberOfElements() == 0) {
             throw new NoMoreContentException("존재하지 않음");
         }
-        model.addAttribute("feedList", slice);
+        model.addAttribute("feedSlice", slice);
         return "components/feed";
     }
 
@@ -280,6 +287,13 @@ public class ComponentsController {
             throw new NoMoreContentException("존재하지 않음");
         }
         return "components/followerList :: followList(title='search')";
+    }
+
+    @GetMapping("/get-main-card")
+    public String getMainCafeCard(Model model) {
+        List<CafeDTO.findAllWithImageAndTagResponse> cafeSlice =  cafeService.weekTop3Cafe();
+        model.addAttribute("cafeSlice", cafeSlice);
+        return "components/cafeCard :: cafeCards";
     }
 
     private String getEmail() {

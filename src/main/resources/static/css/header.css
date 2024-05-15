@@ -94,7 +94,7 @@ header .header_bar .header_btn .header_login .header_alarm {
     width: 24px;
     background: url("../img/icon/Bell.png") no-repeat center;
     background-size: contain;
-    text-indent: -9999px;
+    color: transparent;
     cursor : pointer;
     border: 0;
     margin-left: 10px;

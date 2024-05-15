@@ -163,7 +163,7 @@ public class FeedQueryRepository {
         BooleanExpression isNotBlacklisted = blacklist.blockedMember.isNull();
         BooleanExpression isVisible = feed.isVisible.eq(true);
         BooleanExpression isNotCurrentUser = feed.member.email.ne(email);
-        BooleanExpression isFollowed = follow.member.email.eq(email);
+        BooleanExpression isFollowed = follow.following.email.eq(email);
 
         List<Tuple> tuples = queryFactory
                 .select(feed, calculatedRank)
@@ -178,7 +178,7 @@ public class FeedQueryRepository {
                         .and(isNotBlacklisted))
                 .orderBy(calculatedRank.desc())
                 .limit(pageable.getPageSize())
-                .offset(pageable.getOffset()+1)
+                .offset(pageable.getOffset() + 1)
                 .fetch();
 
         List<Feed> feeds = tuples.stream()
@@ -238,7 +238,7 @@ public class FeedQueryRepository {
                         .or(feed.member.nickname.containsIgnoreCase(query)))
                 .orderBy(feed.updatedAt.desc(), feed.content.asc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize() + 1)
+                .limit(pageable.getPageSize() + 2)
                 .fetch();
 
         return FindCommentInfo(feeds,email,pageable,tag,image,comment,subComment,heart);
@@ -258,13 +258,11 @@ public class FeedQueryRepository {
         QComment subComment = QComment.comment;
         QHeart heart = QHeart.heart;
         QMember member = QMember.member;
-        QCafe cafe = QCafe.cafe;
 
         // 먼저, 피드에 대한 기본 쿼리를 수행
         List<Feed> feeds = queryFactory
                 .selectFrom(feed)
                 .leftJoin(feed.member, member)
-                .leftJoin(feed.cafe, cafe)
                 .where(feed.isVisible.isTrue(), feed.member.email.eq(writerEmail))
                 .orderBy(feed.updatedAt.desc())
                 .offset(pageable.getOffset())
