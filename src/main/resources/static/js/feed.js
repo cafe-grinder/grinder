@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 비회원일 때 피드 클릭
             if (target.classList.contains('feed_img_non_member')) {
                 if (confirm("로그인이 필요한 서비스입니다.\n로그인 하시겠습니까?")) {
-                    window.open('/page/login', '_blank');
+                    window.open('/page/login');
                 }
             }
 

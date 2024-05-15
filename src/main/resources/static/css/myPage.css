@@ -63,13 +63,20 @@
 .mypage_menu .mypage_menu_list li {
     display: flex;
     align-items: center;
-    width: 310px;
+    width: 100%;
     height: 70px;
     border-radius: 15px;
 }
 
+.mypage_menu_list_btn:hover {
+    background-color: #f0f0f0;
+}
+
 .mypage_menu .mypage_menu_list li button {
-    font-family: GodoM;
+    text-align: left;
+    width: 100%;
+    padding-left: 30px;
+    font-family: 'GodoM', sans-serif;
     font-size: 20px;
 }
 
