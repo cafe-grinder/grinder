@@ -20,4 +20,6 @@ public interface ReportService {
     void deleteAllReportByContentId(Report report);
 
     Slice<FindReportDTO> searchReportByContentAndType(String keyword, String contentType, Pageable pageable);
+
+    boolean addReport(String contentId, String email);
 }

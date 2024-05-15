@@ -16,6 +16,7 @@
     <!-- 회원 화면 -->
     <article class="feed_container" th:if="${feedMember} != null" th:each="feed: ${feedSlice}"><!-- 반복문 -->
         <input class="feed_feed_id" type="hidden" th:value="${feed.feedId}">
+        <input class="feed_feed_email" type="hidden" th:value="${feed.memberEmail}">
         <div class="feed_review_info feed_space_between">
             <div class="feed_space_between">
                 <div class="feed_writer_profile_img">
@@ -80,6 +81,7 @@
             </div>
             <div class="feed_parent_comment_area" th:each="parentComment: ${feed.parentCommentList}"><!--반복문-->
                 <input class="feed_parent_comment_id" type="hidden" th:value="${parentComment.commentId}">
+                <input class="feed_parent_comment_email" type="hidden" th:value="${parentComment.email}">
                 <div class="feed_space_between">
                     <div class="feed_comment_profile_img">
                         <img src="/img/not_use/basic_profile_img.png"
@@ -133,8 +135,8 @@
                             <summary>답글</summary>
                             <div class="feed_child_comment_area"
                                  th:each="childComment: ${parentComment.childCommentList}"><!--반복문-->
-                                <input class="feed_child_comment_id" type="hidden"
-                                       th:value="${childComment.commentId}">
+                                <input class="feed_child_comment_id" type="hidden" th:value="${childComment.commentId}">
+                                <input class="feed_child_comment_Email" type="hidden" th:value="${childComment.email}">
                                 <div class="feed_space_between">
                                     <div class="feed_comment_profile_img">
                                         <img src="/img/not_use/basic_profile_img.png"

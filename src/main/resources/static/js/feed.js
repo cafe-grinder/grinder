@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (xhr.status >= 200 && xhr.status < 300) {
             // 요청이 성공적으로 완료되면 실행됩니다.
             document.getElementById('feedContainer').innerHTML = xhr.responseText; // 응답을 headerContainer에 삽입
-            if (document.querySelectorAll('.feed_container').length == 0) {
-                document.getElementById('feedContainer').innerHTML = `<div class="no_cafe_container"> <p class="no_cafe_message">관련 피드가 존재하지 않습니다.</p></div>`
-            }
+            // if (document.querySelectorAll('.feed_container').length == 0) {
+            //     document.getElementById('feedContainer').innerHTML = `<div class="no_cafe_container"> <p class="no_cafe_message">관련 피드가 존재하지 않습니다.</p></div>`
+            // }
             FeedClickEvent(); // 클릭 이벤트 함수 호출
         } else {
             // 서버에서 4xx, 5xx 응답을 반환하면 오류 처리를 합니다.
@@ -294,6 +294,56 @@ document.addEventListener('DOMContentLoaded', function() {
                 };
                 xhr.send(); // 요청을 서버로 보냅니다.
             }
+
+            //댓글 신고
+            if (target.classList.contains('feed_comment_report_btn')) {
+                let commentId;
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentId = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_id').value;
+                } else {
+                    commentId = target.closest('.feed_child_comment_area').querySelector('.feed_child_comment_id').value;
+                }
+                await addDate(commentId,'/api/report/');
+            }
+
+            //댓글 작성자 팔로우
+            if (target.classList.contains('feed_comment_follow_btn')) {
+                let commentEmail;
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentEmail = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_email').value;
+                } else {
+                    commentEmail = target.closest('.feed_child_comment_area').querySelector('.feed_child_comment_Email').value;
+                }
+                await addDate(commentEmail, '/api/follow/')
+            }
+            //댓글 작성자 차단
+            if (target.classList.contains('feed_comment_black_btn')) {
+                let commentEmail;
+                if (target.classList.contains('feed_parent_comment')) {
+                    commentEmail = target.closest('.feed_parent_comment_area').querySelector('.feed_parent_comment_email').value;
+                } else {
+                    commentEmail = target.closest('.feed_child_comment_area').querySelector('.feed_child_comment_Email').value;
+                }
+                await addDate(commentEmail, '/api/blacklist/')
+            }
+
+            //피드 신고 버튼 클릭 시
+            if (target.classList.contains('feed_report_btn')) {
+                const feedId = target.closest('.feed_container').querySelector('.feed_feed_id').value;
+                await addDate(feedId, '/api/report/');
+            }
+
+            //피드 팔로우 버튼 클릭 시
+            if (target.classList.contains('feed_follow_btn')) {
+                const feedEmail = target.closest('.feed_container').querySelector('.feed_feed_email').value;
+                await addDate(feedEmail, '/api/follow/');
+            }
+
+            //피드 차단 버튼 클릭 시
+            if (target.classList.contains('feed_black_btn')) {
+                const feedEmail = target.closest('.feed_container').querySelector('.feed_feed_email').value;
+                await addDate(feedEmail, '/api/blacklist/');
+            }
         });
     }
 });
@@ -449,5 +499,30 @@ async function updateComment(feedId, commentId, updatedContent) {
         }
     } catch (error) {
         console.error('댓글 수정 중 오류가 발생했습니다:', error);
+    }
+}
+
+async function addDate(id, url) {
+    console.log(url + id);
+    try {
+        const response = await fetch(url + id , {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            console.log(result.message);
+            alert(result.message);
+        } else {
+            // 실패했을 때의 처리
+            console.error('실패했습니다.');
+            const result = await response.json();
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error('오류가 발생했습니다:', error);
     }
 }

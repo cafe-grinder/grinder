@@ -2,13 +2,16 @@ package com.grinder.service.implement;
 
 import com.grinder.domain.entity.Comment;
 import com.grinder.domain.entity.Feed;
+import com.grinder.domain.entity.Member;
 import com.grinder.domain.entity.Report;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.exception.ContentTypeException;
+import com.grinder.repository.CommentRepository;
 import com.grinder.repository.ReportRepository;
 import com.grinder.repository.queries.ReportQueryRepository;
 import com.grinder.service.CommentService;
 import com.grinder.service.FeedService;
+import com.grinder.service.MemberService;
 import com.grinder.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +33,8 @@ public class ReportServiceImpl implements ReportService {
     private final CommentService commentService;
     private final FeedService feedService;
     private final ReportQueryRepository reportQueryRepository;
+    private final CommentRepository commentRepository;
+    private final MemberService memberService;
 
     @Override
     public List<FindReportDTO> findAllReports() {
@@ -108,5 +113,25 @@ public class ReportServiceImpl implements ReportService {
                 throw new ContentTypeException("신고된 컨텐츠의 타입이 잘못되었습니다");
             }
         }).toList(), reportSlice.getPageable(), reportSlice.hasNext());
+    }
+
+    @Override
+    public boolean addReport(String contentId, String email) {
+        try {
+            Member member = memberService.findMemberByEmail(email);
+            Report.ReportBuilder builder = Report.builder()
+                    .contentId(contentId)
+                    .member(member);
+
+            if (commentRepository.existsById(contentId)) {
+                builder.contentType(ContentType.COMMENT);
+            } else builder.contentType(ContentType.FEED);
+
+
+            reportRepository.save(builder.build());
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 }
