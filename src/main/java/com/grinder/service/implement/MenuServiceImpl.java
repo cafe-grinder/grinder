@@ -6,11 +6,14 @@ import com.grinder.domain.entity.Menu;
 import com.grinder.domain.enums.ContentType;
 import com.grinder.domain.enums.MenuType;
 import com.grinder.repository.CafeRepository;
+import com.grinder.repository.ImageRepository;
 import com.grinder.repository.MenuRepository;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import com.grinder.repository.queries.MenuQueryRepository;
+import com.grinder.service.ImageService;
 import com.grinder.service.MenuService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +26,14 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final AwsS3ServiceImpl s3Service;
     private final CafeRepository cafeRepository;
+    private final ImageService imageService;
 
-    public List<Menu> findAllMenusByCafeId(String cafeId) {
-        return menuRepository.findAllByCafe_CafeId(cafeId);
+    public List<MenuDTO.findAllMenuResponse> findAllMenusByCafeId(String cafeId) {
+        List<Menu> menuList = menuRepository.findAllByCafe_CafeId(cafeId);
+        List<MenuDTO.findAllMenuResponse> dtoList = menuList.stream()
+                .map(menu -> new MenuDTO.findAllMenuResponse(menu,imageService.findImageUrlByContentId(menu.getMenuId()))) // 변환 생성자 호출
+                .collect(Collectors.toList());
+        return dtoList;
     }
     @Override
     @Transactional

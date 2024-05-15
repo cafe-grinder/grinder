@@ -2,9 +2,13 @@ package com.grinder.controller.view;
 
 import com.grinder.domain.dto.CafeDTO.CafeResponseDTO;
 import com.grinder.domain.dto.FeedDTO.FeedResponseDTO;
+import com.grinder.domain.dto.MenuDTO;
+import com.grinder.domain.entity.Menu;
 import com.grinder.service.CafeService;
 import com.grinder.service.FeedService;
 import java.util.List;
+
+import com.grinder.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CafePageController {
     private final CafeService cafeService;
     private final FeedService feedService;
+    private final MenuService menuService;
 
     @GetMapping("/{cafeId}")
     public String getCafeInfo(Model model, @PathVariable("cafeId") String cafeId) {
@@ -32,9 +37,13 @@ public class CafePageController {
         return "addCafeForm";
     }
 
-    //TODO: 앨런AI 요약 GET 작성 필요
+    @GetMapping("/{cafeId}/menu")
+    public String getCafeMenu(Model model, @PathVariable("cafeId") String cafeId) {
+        List<MenuDTO.findAllMenuResponse> menuList = menuService.findAllMenusByCafeId(cafeId);
+        model.addAttribute("menuList", menuList);
+        return "components/menuCard :: cafeInfoMenuCard";
+    }
 
-    //TODO: 카페 메뉴 GET 작성 필요
 
     @GetMapping("/{cafeId}/feed")
     public String getCafeFeed(Model model, @PathVariable String cafeId) {
