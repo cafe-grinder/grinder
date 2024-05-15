@@ -1,8 +1,24 @@
 const cafeId = window.location.pathname.substring(6);
 let url = '/get-cafeFeed/'+ cafeId;
 let containerName = 'feedContainer';
-
 document.addEventListener('DOMContentLoaded', function() {
+
+  document.getElementById("show_menu_button").addEventListener("click", function() {
+    // Ajax 요청을 보냅니다.
+    console.log("일단 눌림");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/cafe/"+cafeId+"/menu", true);
+    xhr.onload = function() {
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        // 요청이 완료되면 메뉴를 불러옵니다.
+        var menuCard = xhr.responseText;
+        // 메뉴를 불러온 후에 menuContainer 안에 넣습니다.
+        document.getElementById("feedContainer").innerHTML = menuCard;
+      }
+    };
+    xhr.send();
+  });
+
   let xhr = new XMLHttpRequest(); // XMLHttpRequest 객체 생성
   xhr.open('GET', '/get-header', true); // 요청을 초기화합니다.
 
@@ -55,16 +71,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-function alarmTab() {
-  const alarm = document.querySelector('.header_alarm');
-  let alarm_box = document.querySelector('.header_alarm_box');
-
-  alarm.addEventListener('click', () => {
-    if (alarm_box) {
-      alarm_box.classList.toggle('alarm_active');
-    }
-  });
-}
+// function alarmTab() {
+//   const alarm = document.querySelector('.header_alarm');
+//   let alarm_box = document.querySelector('.header_alarm_box');
+//
+//   alarm.addEventListener('click', () => {
+//     if (alarm_box) {
+//       alarm_box.classList.toggle('alarm_active');
+//     }
+//   });
+// }
 
 
 function addBookmark() {
