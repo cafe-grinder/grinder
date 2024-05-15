@@ -18,10 +18,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class NewFeedController {
-    private final MemberService memberService;
-    private final CafeService cafeService;
     private final FeedService feedService;
-    private final CommentService commentService;
     private final ImageService imageService;
     private final TagService tagService;
 
