@@ -203,11 +203,11 @@ public class ComponentsController {
             @PageableDefault(size = 4) Pageable pageable
     ) {
         // 멤버
-        String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
+        String email = getEmail();
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
 
-        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.findRecentFeedWithImage(email, pageable);
+        Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice = feedService.RecommendFeedWithImage(email, pageable);
         model.addAttribute("feedSlice", feedSlice);
 
         if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {

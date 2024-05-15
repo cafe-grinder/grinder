@@ -8,9 +8,8 @@
 .cafe_info_background .cafe_info_background_img {
     width: 1400px;
     height: 200px;
-    background-color: rgba(0,169,7);
-    opacity: 0.4;
     border-radius: 0 0 15px 15px;
+    background: url("../img/footer-background.png") no-repeat center;
 }
 
 .cafe_info_background .cafe_info_database {

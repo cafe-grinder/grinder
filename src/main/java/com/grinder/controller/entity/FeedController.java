@@ -10,10 +10,12 @@ import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -24,12 +26,10 @@ public class FeedController {
 
     @PostMapping("/newfeed")
     public ResponseEntity<SuccessResult> addFeed(
-            Authentication authentication,
             @ModelAttribute FeedDTO.FeedRequestDTO request,
             @RequestPart(value = "imageList", required = false) List<MultipartFile> imageList
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        String memberEmail = getEmail();
         Feed feed = feedService.saveFeed(request, memberEmail, imageList);
 
         if (feed != null) {
@@ -41,13 +41,11 @@ public class FeedController {
 
     @PutMapping("/{feed_id}")
     public ResponseEntity<SuccessResult> updateFeed(
-            Authentication authentication,
             @PathVariable String feed_id,
             @ModelAttribute FeedDTO.FeedRequestDTO request,
             @RequestPart(value = "imageList", required = false) List<MultipartFile> imageList
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        String memberEmail = getEmail();
         Feed feed = feedService.findFeed(feed_id);
         if (memberEmail.equals(feed.getMember().getEmail())) {
             feed = feedService.updateFeed(feed_id, request, imageList);
@@ -63,11 +61,9 @@ public class FeedController {
 
     @DeleteMapping("/{feed_id}")
     public ResponseEntity<SuccessResult> deleteFeed(
-            Authentication authentication,
             @PathVariable String feed_id
     ) {
-        // String memberEmail = authentication.getName();
-        String memberEmail = "test@test.com";  // TODO : 테스트용. 나중에 지우기!
+        String memberEmail = getEmail();
         Feed feed = feedService.findFeed(feed_id);
         if (memberEmail.equals(feed.getMember().getEmail())) {
             feedService.deleteFeed(feed_id);
@@ -79,5 +75,10 @@ public class FeedController {
         } else {    // 403에러 (회원 불일치)
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    }
+
+    private String getEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return  Optional.ofNullable(authentication.getName()).orElse(null);
     }
 }
