@@ -33,6 +33,7 @@ public class CommentDTO {
         private List<CommentDTO.ChildCommentResponseDTO> childCommentList;
         private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
         private int heartNum;       // 해당 댓글의 좋아요 수
+        private String memberImage;
 
         public ParentCommentResponseDTO(Comment comment) {
             this.commentId = comment.getCommentId();
@@ -47,7 +48,7 @@ public class CommentDTO {
             this.heartNum = 0;
         }
 
-        public ParentCommentResponseDTO(Comment comment, List<CommentDTO.ChildCommentResponseDTO> childCommentList, Boolean isHeart, Long heartNum) {
+        public ParentCommentResponseDTO(Comment comment, List<CommentDTO.ChildCommentResponseDTO> childCommentList, Boolean isHeart, Long heartNum, String memberImage) {
             this.commentId = comment.getCommentId();
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
@@ -59,6 +60,7 @@ public class CommentDTO {
             this.childCommentList = childCommentList;
             this.isHeart = isHeart;
             this.heartNum = Math.toIntExact(heartNum);
+            this.memberImage = memberImage;
         }
     }
 
@@ -74,6 +76,7 @@ public class CommentDTO {
         private String nickname;
         private String email;
         private String memberId;
+        private String memberImage;
         private String feedId;
         private String parentCommentId;
         private boolean isHeart;    // 사용자가 댓글을 좋아요 했는지 여부
@@ -93,7 +96,7 @@ public class CommentDTO {
             this.heartNum = 0;
         }
 
-        public ChildCommentResponseDTO(Comment comment, Boolean isHeart, Long heartNum) {
+        public ChildCommentResponseDTO(Comment comment, Boolean isHeart, Long heartNum, String memberImage) {
             this.commentId = comment.getCommentId();
             this.content = comment.getContent();
             this.createdAt = comment.getCreatedAt();
@@ -105,6 +108,7 @@ public class CommentDTO {
             this.parentCommentId = comment.getParentComment().getCommentId();
             this.isHeart = isHeart;
             this.heartNum = Math.toIntExact(heartNum);
+            this.memberImage = memberImage;
         }
     }
 

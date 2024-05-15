@@ -21,8 +21,8 @@
         <div class="feed_review_info feed_space_between">
             <div class="feed_space_between">
                 <div class="feed_writer_profile_img">
-                    <img src="/img/not_use/basic_profile_img.png"
-                         alt="피드 작성자 프로필 이미지">
+                    <img th:if="${feed.memberImage == null}" src="/img/not_use/basic_profile_img.png" alt="피드 작성자 프로필 이미지">
+                    <img th:if="${feed.memberImage != null}" th:src="${feed.memberImage}" alt="피드 작성자 프로필 이미지">
                 </div>
                 <div class="feed_writer_info">
                     <span class="feed_cafe_name" th:text="${feed.cafe.name}"></span>
@@ -85,8 +85,8 @@
                 <input class="feed_parent_comment_email" type="hidden" th:value="${parentComment.email}">
                 <div class="feed_space_between">
                     <div class="feed_comment_profile_img">
-                        <img src="/img/not_use/basic_profile_img.png"
-                             alt="댓글 작성자 프로필 이미지">
+                        <img th:if="${parentComment.memberImage == null}" src="/img/not_use/basic_profile_img.png" alt="댓글 작성자 프로필 이미지">
+                        <img th:if="${parentComment.memberImage != null}" th:src="${parentComment.memberImage}" alt="댓글 작성자 프로필 이미지">
                     </div>
                     <div class="feed_parent_comment_info">
                         <div class="feed_space_between">
@@ -140,8 +140,8 @@
                                 <input class="feed_child_comment_Email" type="hidden" th:value="${childComment.email}">
                                 <div class="feed_space_between">
                                     <div class="feed_comment_profile_img">
-                                        <img src="/img/not_use/basic_profile_img.png"
-                                             alt="댓글 작성자 프로필 이미지">
+                                        <img th:if="${childComment.memberImage == null}" src="/img/not_use/basic_profile_img.png" alt="댓글 작성자 프로필 이미지">
+                                        <img th:if="${childComment.memberImage != null}" th:src="${childComment.memberImage}" alt="댓글 작성자 프로필 이미지">
                                     </div>
                                     <div class="feed_child_comment_info feed_space_between">
                                         <div class="feed_writer_comment">

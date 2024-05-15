@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeedDTO {
+
+
     @Data
     @Builder
     @AllArgsConstructor
@@ -141,11 +143,13 @@ public class FeedDTO {
     @Data
     @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class FeedWithImageResponseDTO {
+
+
         private String feedId;
         private String memberNickname;
         private String memberEmail;
+        private String memberImage;
         private CafeDTO.CafeResponseDTO cafe;
         private String content;
         private Boolean isVisible;
@@ -159,10 +163,11 @@ public class FeedDTO {
         private int heartNum;       // 해당 댓글의 좋아요 수
 
 
-        public FeedWithImageResponseDTO(Feed feed, List<Tag> tagNameList ,List<CommentDTO.ParentCommentResponseDTO> parentCommentList, List<String> imageUrls, Boolean isHeart, Long heartNum) {
+        public FeedWithImageResponseDTO(Feed feed, List<Tag> tagNameList ,List<CommentDTO.ParentCommentResponseDTO> parentCommentList, List<String> imageUrls, Boolean isHeart, Long heartNum, String memberImage) {
             this.feedId = feed.getFeedId();
             this.memberNickname = feed.getMember().getNickname();
             this.memberEmail = feed.getMember().getEmail();
+            this.memberImage = memberImage;
             this.cafe = feed.getCafe() == null? new CafeDTO.CafeResponseDTO() :  new CafeDTO.CafeResponseDTO(feed.getCafe());
             this.content = feed.getContent();
             this.isVisible = feed.getIsVisible();

@@ -1,8 +1,12 @@
 package com.grinder.controller.view;
 
 import com.grinder.domain.dto.CafeDTO.CafeResponseDTO;
+import com.grinder.domain.dto.FeedDTO;
+import com.grinder.domain.dto.MenuDTO;
 import com.grinder.service.CafeService;
 
+import com.grinder.service.FeedService;
+import com.grinder.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +14,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/cafe")
 @RequiredArgsConstructor
 public class CafePageController {
     private final CafeService cafeService;
+    private final MenuService menuService;
+    private final FeedService feedService;
 
     @GetMapping("/newcafe")
     public String getAddCafeForm(){
@@ -33,4 +41,15 @@ public class CafePageController {
         return "sellerApplicationForm";
     }
 
+    @GetMapping("/add")
+    public String addCafeInfo(){
+        return "addCafeForm";
+    }
+
+    @GetMapping("/{cafeId}/menu")
+    public String getCafeMenu(Model model, @PathVariable("cafeId") String cafeId) {
+        List<MenuDTO.findAllMenuResponse> menuList = menuService.findAllMenusByCafeId(cafeId);
+        model.addAttribute("menuList", menuList);
+        return "components/menuCard :: cafeInfoMenuCard";
+    }
 }
