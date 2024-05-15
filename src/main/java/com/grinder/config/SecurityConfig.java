@@ -71,6 +71,7 @@ public class SecurityConfig {
                 .passwordEncoder(passwordEncoder());
         // AuthenticationManager 빌드
         AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
+        
         // 설정 저장 필수
         http.authenticationManager(authenticationManager);
         //oauth2
