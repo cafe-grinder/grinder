@@ -28,6 +28,7 @@ const addCafeBtn = document.getElementById('more_cafe_button');
 const memberSelect = document.getElementById('member_role');
 const reportSelect = document.getElementById('report_content_type');
 
+//사업자등록증 확인을 위한 모달창
 const modal = document.getElementById('modal');
 
 // 처음 페이지 접근 시 목록 불러오기
@@ -42,59 +43,14 @@ document.addEventListener('DOMContentLoaded', () => {
     loadApplyList(applyPageNum);
 
     loadCafeList(cafePageNum);
-});
 
-// 검색 시 목록을 새로 불러옴
-memberForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    memberTableBody.innerHTML = '';
-    memberPageNum = 0;
-    loadMemberList(memberPageNum);
-});
-reportForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    reportTableBody.innerHTML = '';
-    reportPageNum = 0;
-    loadReportList(reportPageNum);
-});
-cafeForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    cafeTableBody.innerHTML = '';
-    cafePageNum = 0;
-    loadCafeList(cafePageNum);
-})
+    adminClickEvent();
 
-// 회원 권한으로 목록 조회
-memberSelect.addEventListener('change', () => {
-    memberTableBody.innerHTML = '';
-    memberPageNum = 0;
-    loadMemberList(memberPageNum);
-})
+    adminChangeEvent();
 
-// 콘텐츠 타입으로 신고목록 조회
-reportSelect.addEventListener('change', () => {
-    reportTableBody.innerHTML = '';
-    reportPageNum = 0;
-    loadReportList(reportPageNum);
-})
+    adminSubmitEvent();
 
-// 더보기 버튼 클릭시 다음 페이지를 불러옴
-addMemberBtn.addEventListener('click', () => {
-    loadMemberList(++memberPageNum);
 });
-addReportBtn.addEventListener('click', () => {
-    loadReportList(++reportPageNum);
-});
-addRegisterBtn.addEventListener('click', () => {
-    loadRegisterList(++registerPageNum);
-})
-addApplyBtn.addEventListener('click', () => {
-    loadApplyList(++applyPageNum);
-})
-addCafeBtn.addEventListener('click', () => {
-    loadCafeList(++cafePageNum);
-})
-
 
 // 목록 불러오기 함수
 function loadMemberList(memberPageNum) {
@@ -112,7 +68,12 @@ function loadMemberList(memberPageNum) {
         return response.json();
     })
             .then(data => {
-                renderMemberList(data.content);
+                if (data.empty) {
+                    addMemberBtn.classList.add('display_none')
+                } else {
+                    addMemberBtn.classList.remove('display_none');
+                    renderMemberList(data.content);
+                }
             })
             .catch(error => {
                 console.error('The request failed', error);
@@ -134,7 +95,12 @@ function loadReportList(reportPageNum) {
                 return response.json();
             })
             .then(data => {
-                renderReportList(data.content);
+                if (data.empty) {
+                    addReportBtn.classList.add('display_none')
+                } else {
+                    addReportBtn.classList.remove('display_none');
+                    renderReportList(data.content);
+                }
             })
             .catch(error => {
                 console.error('The request failed', error);
@@ -152,7 +118,12 @@ function loadRegisterList(registerPageNum) {
                 return response.json();
             })
             .then(data => {
-                renderRegisterList(data.content);
+                if (data.empty) {
+                    addRegisterBtn.classList.add('display_none')
+                } else {
+                    addRegisterBtn.classList.remove('display_none');
+                    renderRegisterList(data.content);
+                }
             })
             .catch(error => {
                 console.error('The request failed', error);
@@ -170,7 +141,12 @@ function loadApplyList(applyPageNum) {
                 return response.json();
             })
             .then(data => {
-                renderApplyList(data.content);
+                if (data.empty) {
+                    addApplyBtn.classList.add('display_none')
+                } else {
+                    addApplyBtn.classList.remove('display_none');
+                    renderApplyList(data.content);
+                }
             })
             .catch(error => {
                 console.error('The request failed', error)
@@ -189,7 +165,12 @@ function loadCafeList(cafePageNum) {
                 return response.json();
             })
             .then(data => {
-                renderCafeList(data.content);
+                if (data.empty) {
+                    addCafeBtn.classList.add('display_none')
+                } else {
+                    addCafeBtn.classList.remove('display_none');
+                    renderCafeList(data.content);
+                }
             })
             .catch(error => {
                 console.error('The request failed', error);
@@ -220,63 +201,6 @@ function renderMemberList(memberList) {
                  <td class="admin_list_blank"></td>
                  <td class="admin_list_button_container"> <button class="admin_list_button member_delete_button" data-member-id="${member.memberId}">정지</button> <button class="admin_list_button member_recover_button" data-member-id="${member.memberId}">해제</button> </td>`;
         memberTableBody.appendChild(row);
-
-        // 회원 권한을 변경하면 수정
-        let select = row.querySelector('.change_role');
-        select.addEventListener('change', () => {
-            let memberId = select.dataset.memberId;
-            let url = '/admin/api/member/' + memberId + '/role'
-            fetch(url, {
-                method: 'PUT'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    }).catch(error => {
-                console.error('Error:', error);
-            })
-        });
-
-        // 정지 버튼 누르면 회원 삭제
-        let deleteMember = row.querySelector('.member_delete_button');
-        deleteMember.addEventListener('click', () => {
-            let memberId = deleteMember.dataset.memberId;
-            let url = '/admin/api/member/'+ memberId
-            fetch(url, {
-                method: 'DELETE'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    }).catch(error => {
-                console.error('Error:', error);
-            })
-        })
-
-        // 해제 버튼 누르면 회원 정보 복구
-        let recoverMember = row.querySelector('.member_recover_button');
-        recoverMember.addEventListener('click', () => {
-            let memberId = recoverMember.dataset.memberId;
-            let url = '/admin/api/member/'+ memberId + '/recovery'
-            fetch(url, {
-                method: 'PUT'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    }).catch(error => {
-                console.error('Error:', error);
-            })
-        })
     })
 }
 function renderReportList(reportList) {
@@ -292,44 +216,6 @@ function renderReportList(reportList) {
                  <td class="admin_list_blank"></td>
                  <td class="admin_list_button_container"> <button class="admin_list_button report_accept_button" data-report-id="${report.reportId}">신고 처리</button> <button class="admin_list_button report_delete_button" data-report-id="${report.reportId}">요청 삭제</button> </td>`;
         reportTableBody.appendChild(row);
-
-        // 신고 처리 버튼 누르면 해당 컨텐츠 삭제 + 같은 컨텐츠 신고 내역 모두 삭제
-        let reportAccept = row.querySelector('.report_accept_button');
-        reportAccept.addEventListener('click', () => {
-            let reportId = reportAccept.dataset.reportId;
-            let url = '/admin/api/report/' + reportId + '/accepted'
-            fetch(url, {
-                method: 'DELETE'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    }).catch(error => {
-                console.error('Error:', error);
-            })
-        })
-
-        // 해당 신고 요청 삭제
-        let reportDelete = row.querySelector('.report_delete_button');
-        reportDelete.addEventListener('click', () => {
-            let reportId = reportDelete.dataset.reportId;
-            let url = '/admin/api/report/' + reportId
-            fetch(url, {
-                method: 'DELETE'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    }).catch(error => {
-                console.error('Error:', error);
-            })
-        })
     })
 }
 function renderRegisterList(registerList) {
@@ -347,40 +233,6 @@ function renderRegisterList(registerList) {
                 <td class="admin_list_blank"></td>
                 <td class="admin_list_button_container"> <button class="admin_list_button register_accept_button" data-register-id="${register.registerId}">등록</button> <button class="admin_list_button register_delete_button" data-register-id="${register.registerId}">삭제</button> </td>`;
         registerTableBody.appendChild(row);
-
-        // 신규 장소 등록 + 신청 내역 삭제
-        let registerAccept = row.querySelector('.register_accept_button');
-        registerAccept.addEventListener('click', () => {
-            let registerId = registerAccept.dataset.registerId;
-            let url = '/admin/api/cafe/' + registerId
-            fetch(url, {
-                method: 'POST'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    })
-        })
-
-        // 신규 장소 신청 삭제
-        let registerDelete = row.querySelector('.register_delete_button');
-        registerDelete.addEventListener('click', () => {
-            let registerId = registerDelete.dataset.registerId;
-            let url = '/admin/api/cafe_register/' + registerId
-            fetch(url, {
-                method: 'DELETE'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    })
-        })
     })
 }
 function renderApplyList(applyList) {
@@ -396,46 +248,10 @@ function renderApplyList(applyList) {
                 <td>|</td>
                 <td class="admin_list_data">${apply.phoneNum}</td>
                 <td>|</td>
-                <td class="admin_list_data"><button class="reg_image_button">사업자등록증</button></td>
+                <td class="admin_list_data"><button class="reg_image_button" data-apply-image="${apply.regImageUrl}">사업자등록증</button></td>
                 <td class="admin_list_blank"></td>
                 <td class="admin_list_button_container"> <button class="admin_list_button apply_accept_button" data-apply-id="${apply.applyId}">등록</button> <button class="admin_list_button apply_delete_button" data-apply-id="${apply.applyId}">삭제</button> </td>`;
         applyTableBody.appendChild(row);
-
-        // 판매자 정보 저장 + 신청 내역 삭제
-        let applyAccept = row.querySelector('.apply_accept_button');
-        applyAccept.addEventListener('click', () => {
-            let applyId = applyAccept.dataset.applyId;
-            let url = '/admin/api/seller_info/' + applyId
-            fetch(url, {
-                method: 'POST'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    })
-
-        })
-
-        // 판매자 신청 삭제
-        let applyDelete = row.querySelector('.apply_delete_button');
-        applyDelete.addEventListener('click', () => {
-            let applyId = applyDelete.dataset.applyId;
-            let url = '/admin/api/seller_apply/' + applyId
-            fetch(url, {
-                method: 'DELETE'
-            })
-                    .then(response => {
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data.code)
-                        alert(data.message)
-                    })
-        })
-
         // 신청시 제출한 사업자등록증 확인
         let regImageBtn = row.querySelector('.reg_image_button');
         regImageBtn.addEventListener('click', () => {
@@ -464,27 +280,233 @@ function renderCafeList(cafeList) {
     })
 }
 
-//토큰 재발급
-function reissue() {
-    let url = '/api/reissue';
-
-    // 기본 요청 설정
-    let fetchOptions = {
-        method: 'GET',
-    };
-
-    // AJAX 요청 예시
-    fetch(url, fetchOptions)
-            .then(response => {
-                return response.json();
+function adminClickEvent() {
+    document.addEventListener('click', (event) => {
+        const target = event.target;
+        // 판매자 정보 저장 + 신청 내역 삭제
+        if (target.classList.contains('apply_accept_button')) {
+            const applyAccept = target.closest('.admin_list_button_container').querySelector('.apply_accept_button');
+            let applyId = applyAccept.dataset.applyId;
+            let url = '/admin/api/seller_info/' + applyId
+            fetch(url, {
+                method: 'POST'
             })
-            .then(data => {
-                window.location.href = "/admin";
-                console.log('Success:', data);
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        }
+        // 판매자 신청 삭제
+        if (target.classList.contains('apply_delete_button')) {
+            const applyDelete = target.closest('.admin_list_button_container').querySelector('.apply_delete_button');
+            let applyId = applyDelete.dataset.applyId;
+            let url = '/admin/api/seller_apply/' + applyId
+            fetch(url, {
+                method: 'DELETE'
             })
-            .catch((error) => {
-                window.location.href = "/";
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        }
+        // 신규 장소 등록 + 신청 내역 삭제
+        if (target.classList.contains('register_accept_button')) {
+            const registerAccept = target.closest('.admin_list_button_container').querySelector('.register_accept_button')
+            let registerId = registerAccept.dataset.registerId;
+            let url = '/admin/api/cafe/' + registerId
+            fetch(url, {
+                method: 'POST'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        }
+        // 신규 장소 신청 삭제
+        if (target.classList.contains('register_delete_button')) {
+            const registerDelete = target.closest('.admin_list_button_container').querySelector('.register_delete_button')
+            let registerId = registerDelete.dataset.registerId;
+            let url = '/admin/api/cafe_register/' + registerId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    })
+        }
+        // 신고 처리 버튼 누르면 해당 컨텐츠 삭제 + 같은 컨텐츠 신고 내역 모두 삭제
+        if (target.classList.contains('report_accept_button')) {
+            const reportAccept = target.closest('.admin_list_button_container').querySelector('.report_accept_button')
+            let reportId = reportAccept.dataset.reportId;
+            let url = '/admin/api/report/' + reportId + '/accepted'
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    }).catch(error => {
                 console.error('Error:', error);
-            });
+            })
+        }
+        // 해당 신고 요청 삭제
+        if (target.classList.contains('report_delete_button')) {
+            const reportDelete = target.closest('.admin_list_button_container').querySelector('.report_delete_button')
+            let reportId = reportDelete.dataset.reportId;
+            let url = '/admin/api/report/' + reportId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
+        }
+        // 정지 버튼 누르면 회원 삭제
+        if (target.classList.contains('member_delete_button')) {
+            const deleteMember = target.closest('.admin_list_button_container').querySelector('.member_delete_button')
+            let memberId = deleteMember.dataset.memberId;
+            let url = '/admin/api/member/'+ memberId
+            fetch(url, {
+                method: 'DELETE'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
+        }
+        // 해제 버튼 누르면 회원 정보 복구
+        if (target.classList.contains('member_recover_button')) {
+            const recoveryMember = target.closest('.admin_list_button_container').querySelector('.member_recover_button')
+            let memberId = recoveryMember.dataset.memberId;
+            let url = '/admin/api/member/'+ memberId + '/recovery'
+            fetch(url, {
+                method: 'PUT'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
+        }
+        // 더보기 버튼 클릭시 다음 페이지를 불러옴
+        switch (target) {
+            case addMemberBtn:
+                loadMemberList(++memberPageNum);
+                break;
+
+            case addReportBtn:
+                loadReportList(++reportPageNum);
+                break;
+
+            case addRegisterBtn:
+                loadRegisterList(++registerPageNum);
+                break;
+
+            case addApplyBtn:
+                loadApplyList(++applyPageNum);
+                break;
+
+            case addCafeBtn:
+                loadCafeList(++cafePageNum);
+                break;
+        }
+    })
 }
+
+function adminChangeEvent() {
+    document.addEventListener('change', (event) => {
+        const target = event.target;
+        // 회원 권한을 변경하면 수정
+        if (target.classList.contains('change_role')) {
+            const selectRole = target.closest('.admin_list_data').querySelector('.change_role')
+            let memberId = selectRole.dataset.memberId;
+            let url = '/admin/api/member/' + memberId + '/role'
+            fetch(url, {
+                method: 'PUT'
+            })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data.code)
+                        alert(data.message)
+                    }).catch(error => {
+                console.error('Error:', error);
+            })
+        }
+        // 회원 권한으로 목록 조회
+        if (target == memberSelect) {
+            memberTableBody.innerHTML = '';
+            memberPageNum = 0;
+            loadMemberList(memberPageNum);
+        }
+        // 콘텐츠 타입으로 신고목록 조회
+        if (target == reportSelect) {
+            reportTableBody.innerHTML = '';
+            reportPageNum = 0;
+            loadReportList(reportPageNum);
+        }
+    })
+}
+
+//검색시 목록을 새로 불러옴
+function adminSubmitEvent() {
+    document.addEventListener('submit', (event) => {
+        const target = event.target;
+
+        if (target == memberForm) {
+            event.preventDefault();
+            memberTableBody.innerHTML = '';
+            memberPageNum = 0;
+            loadMemberList(memberPageNum);
+        }
+
+        if (target == reportForm) {
+            event.preventDefault();
+            reportTableBody.innerHTML = '';
+            reportPageNum = 0;
+            loadReportList(reportPageNum);
+        }
+
+        if (target == cafeForm) {
+            event.preventDefault();
+            cafeTableBody.innerHTML = '';
+            cafePageNum = 0;
+            loadCafeList(cafePageNum);
+        }
+
+    })
+}
+
 
