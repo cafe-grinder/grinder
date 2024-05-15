@@ -101,14 +101,14 @@ public class SecurityConfig {
         //Swagger UI
         http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/v3/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**").permitAll()
-                        .requestMatchers("**/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("관리자")
                         .requestMatchers("/mypage/**", "/api/report/**", "/cafe/**", "/page/change/memberInfo/**", "/cafe/add",
                                 "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
                                 "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
                                 "/api/follower", "/api/follow/**", "/heart", "/api/image", "/api/member/update",
-                                "/api/report/", "/api/seller_apply").hasAnyRole("SELLER", "VERIFIED_MEMBER", "MEMBER")
-                        .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("SELLER")
-                        .requestMatchers("/feed/newfeed").hasAnyRole("VERIFIED_MEMBER", "MEMBER")
+                                "/api/report/", "/api/seller_apply").hasAnyRole("판매자", "인증회원", "일반회원")
+                        .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("판매자")
+                        .requestMatchers("/feed/newfeed").hasAnyRole("인증회원", "일반회원")
                         .anyRequest().permitAll())
                 .csrf(csrf->csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -146,7 +146,7 @@ public class SecurityConfig {
     @Bean
     public RoleHierarchy roleHierarchy() {
         RoleHierarchyImpl roleHierarchy = new RoleHierarchyImpl();
-        String hierarchy = "ROLE_ADMIN > ROLE_SELLER\nROLE_SELLER > ROLE_VERIFIED_MEMBER\nROLE_VERIFIED_MEMBER > ROLE_MEMBER";
+        String hierarchy = "ROLE_관리자 > ROLE_판매자\nROLE_판매자 > ROLE_인증회원\nROLE_인증회원 > ROLE_일반회원";
         roleHierarchy.setHierarchy(hierarchy);
         return roleHierarchy;
     }
