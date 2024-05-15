@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("api/cafe")
+@RequestMapping("/api/cafe")
 @RequiredArgsConstructor
 public class CafeController {
 

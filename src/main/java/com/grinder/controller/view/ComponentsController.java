@@ -200,7 +200,7 @@ public class ComponentsController {
     @GetMapping("get-feed")
     public String getFeed2(
             Model model,
-            @PageableDefault(size = 5) Pageable pageable
+            @PageableDefault(size = 4) Pageable pageable
     ) {
         // 멤버
         String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
