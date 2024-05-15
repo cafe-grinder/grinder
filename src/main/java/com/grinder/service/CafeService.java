@@ -22,4 +22,6 @@ public interface CafeService {
     CafeResponseDTO getCafeInfo(String cafeId);
 
     Slice<CafeDTO.findAllWithImageAndTagResponse> searchCafes(String query, Pageable pageable);
+
+    List<CafeDTO.findAllWithImageAndTagResponse> weekTop3Cafe();
 }
