@@ -13,7 +13,7 @@
 <main class="main-container">
     <article>
         <img src="/img/logo_img.png" alt="grinder-logo">
-        <form action="" method="post">
+        <form action="javascript:void(0);">
             <label for="cafe-name">카페명</label>
             <input type="text" placeholder="카페명을 입력해주세요" id="cafe-name" class="input-group" autofocus required>
 
@@ -46,52 +46,51 @@
                 <input type="text" pattern="\d{3,4}" title="3~4자리의 숫자를 입력해주세요" required>
                 <input type="text" pattern="\d{4}" title="4자리의 숫자를 입력해주세요" required>
             </div>
-            <div class="day-container">
-                <span id="first-span">영업시간</span>
-                <div class="day-box" id="mon">
-                    <span>월요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-                <div class="day-box" id="tue">
-                    <span>화요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-                <div class="day-box" id="wed">
-                    <span>수요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-                <div class="day-box" id="thu">
-                    <span>목요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-                <div class="day-box" id="fri">
-                    <span>금요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-                <div class="day-box" id="sat">
-                    <span>토요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-                <div class="day-box" id="sun">
-                    <span>일요일</span>
-                    <input type="time" class="open-time" placeholder="영업 시작 시간">
-                    <input type="time" class="close-time" placeholder="영업 마감 시간">
-                    <span>휴무일</span><input type="checkbox" class="closed-checkbox">
-                </div>
-            </div>
-            <button id="cafe-btn" type="submit" onclick="registerCafe()">카페 등록</button>
+<!--            <div class="day-container">-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">월요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="monday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="monday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="monday_holiday" checked>-->
+<!--                </div>-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">화요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="tuesday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="tuesday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="tuesday_holiday">-->
+<!--                </div>-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">수요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="wednesday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="wednesday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="wednesday_holiday">-->
+<!--                </div>-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">목요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="thursday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="thursday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="thursday_holiday">-->
+<!--                </div>-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">금요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="friday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="friday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="friday_holiday">-->
+<!--                </div>-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">토요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="saturday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="saturday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="saturday_holiday">-->
+<!--                </div>-->
+<!--                <div class="day-box">-->
+<!--                    <span class="day">일요일</span>-->
+<!--                    <input type="time" class="cafe_open" name="sunday_open" placeholder="영업 시작 시간">-->
+<!--                    <input type="time" class="cafe_close" name="sunday_close" placeholder="영업 마감 시간">-->
+<!--                    <span class="cafe_dayoff">휴무일</span><input type="checkbox" class="cafe_dayoff_checkbox" name="sunday_holiday" checked>-->
+<!--                </div>-->
+<!--            </div>-->
+            <button id="cafe-btn" type="button">카페 등록</button>
         </form>
     </article>
 </main>

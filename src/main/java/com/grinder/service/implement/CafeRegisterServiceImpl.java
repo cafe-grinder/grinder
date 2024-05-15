@@ -1,11 +1,11 @@
 package com.grinder.service.implement;
 
-import com.grinder.domain.dto.CafeRegisterDTO;
-import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.CafeRegister;
+import com.grinder.domain.entity.Member;
 import com.grinder.repository.CafeRegisterRepository;
 import com.grinder.repository.CafeRepository;
 import com.grinder.service.CafeRegisterService;
+import com.grinder.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +14,6 @@ import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static com.grinder.domain.dto.CafeRegisterDTO.*;
@@ -22,10 +21,8 @@ import static com.grinder.domain.dto.CafeRegisterDTO.*;
 @Service
 @RequiredArgsConstructor
 public class CafeRegisterServiceImpl implements CafeRegisterService {
-
+    private final MemberService memberService;
     private final CafeRegisterRepository cafeRegisterRepository;
-
-    private final CafeRepository cafeRepository;
 
     @Override
     public Slice<FindCafeRegisterDTO> FindAllCafeRegisters(Pageable pageable) {
@@ -45,11 +42,16 @@ public class CafeRegisterServiceImpl implements CafeRegisterService {
 
     @Override
     @Transactional
-    public void registerCafe(CafeRegisterDTO.SaveCafeRegisterDTO cafeRegisterDTO) {
-        Cafe cafe = Cafe.builder()
-            .name(cafeRegisterDTO.getName())
-            .address(cafeRegisterDTO.getAddress())
-            .phoneNum(cafeRegisterDTO.getPhoneNum())
+    public String saveCafeRegister(String memberEmail, CafeRegisterRequestDTO request) {
+        Member member = memberService.findMemberByEmail(memberEmail);
+
+        CafeRegister result = CafeRegister.builder()
+            .member(member)
+            .name(request.getName())
+            .address(request.getAddress())
+            .phoneNum(request.getPhoneNum())
             .build();
+
+        return result.getRegisterId();
     }
 }

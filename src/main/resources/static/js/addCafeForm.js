@@ -1,4 +1,4 @@
-function registerCafe() {
+document.getElementById("cafe-btn").addEventListener("click", function (){
   const cafeName = document.getElementById("cafe-name").value;
   const address = document.getElementById("address").value;
   const selectValue = document.getElementById("contact").value;
@@ -6,33 +6,33 @@ function registerCafe() {
   const input2Value = document.querySelector(".contact-box input:nth-of-type(2)").value;
   const phoneNum = selectValue + input1Value + input2Value;
 
-  let openingHoursData = [];
-  const dayContainers = document.querySelectorAll('.day-box');
-
-  dayContainers.forEach(dayContainer => {
-    const day = dayContainer.querySelector('span').textContent.trim();
-    const openTime = dayContainer.querySelector('.open-time').value.trim();
-    const closeTime = dayContainer.querySelector('.close-time').value.trim();
-    const isHoliday = dayContainer.querySelector('.closed-checkbox').checked;
-
-    const dayData = {
-      day: day,
-      openTime: openTime,
-      closeTime: closeTime,
-      isHoliday: isHoliday
-    };
-
-    openingHoursData.push(dayData);
-  });
-
+  // const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+  // let openingHoursData = [];
+  //
+  // days.forEach(day => {
+  //   let openTime = document.querySelector(`input[name="${day}_open"]`).value;
+  //   let closeTime = document.querySelector(`input[name="${day}_close"]`).value;
+  //   let isHoliday = document.querySelector(`input[name="${day}_holiday"]`).checked;
+  //
+  //   if (!isHoliday && (!validateTime(openTime) || !validateTime(closeTime) || !openTime >= closeTime)) {
+  //     alert(`${day.charAt(0).toUpperCase() + day.slice(1)} 올바르지 않은 형식입니다.`);
+  //     return; // 오류 발생 시 함수 종료
+  //   }
+  //
+  //   openingHoursData.push({
+  //     day: day,
+  //     openTime: openTime,
+  //     closeTime: closeTime,
+  //     isHoliday: isHoliday
+  //   });
+  // });
   const requestData = {
     "name": cafeName,
     "address": address,
     "phoneNum": phoneNum,
   };
-
-  // CafePageController.saveAddCafeForm
-  fetch('/cafe/newcafe', {
+  // CafeRegisterController.addCafeRegister
+  fetch('/api/cafe_register/newcafe', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -40,37 +40,42 @@ function registerCafe() {
     body: JSON.stringify(requestData)
   })
   .then(response => {
-    console.log(response);
     if (response.ok) {
-      alert("카페정보가 등록되었습니다.")
+      alert("신규 장소 신청이 등록되었습니다.")
+      return response.json();
     } else {
-      alert("카페정보 등록에 실패했습니다.")
+      console.log(response);
+      alert("신규 장소 신청에 실패했습니다.")
+      throw new Error('카페정보 등록 실패');
     }
   })
+  // .then(data => {
+  //   const secondUrl = `/api/cafe_register/${data.message}/opening_hours`;
+  //   // OpeningHoursController.addOpeningHours
+  //   return fetch(secondUrl, {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(openingHoursData)
+  //   });
+  // })
+  // .then(response => response.json())
+  // .then(data => {
+  //   console.log('Success:', data);
+  // })
+  // // .then(response => {
+  // //   console.log(response);
+  // //   if (response.ok) {
+  // //     alert("운영시간이 등록되었습니다.")
+  // //   } else {
+  // //     alert("운영시간 등록에 실패했습니다.")
+  // //   }
+  // // })
   .catch(error => {
     console.error('Error:', error);
   });
-
-  // OpeningHoursController.saveNewOpeningHours
-  fetch('/cafe/newcafe/openinghours', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(openingHoursData)
-  })
-  .then(response => {
-    console.log(response);
-    if (response.ok) {
-      alert("운영시간이 등록되었습니다.")
-    } else {
-      alert("운영시간 등록에 실패했습니다.")
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
-}
+});
 
 document.querySelectorAll('.closed-checkbox').forEach(function(checkbox) {
   checkbox.addEventListener('change', function() {
@@ -93,3 +98,7 @@ function manageInputs(day) {
   }
 }
 
+function validateTime(time) {
+  const regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+  return regex.test(time);
+}
