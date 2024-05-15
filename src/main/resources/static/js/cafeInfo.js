@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   xhr.send(); // 요청을 서버로 보냅니다.
 
-
+  //페이지 로드할때 북마크 여부 검증하여 버튼 이미지 결정
   fetch(`/api/bookmark/${cafeId}`)
   .then(response => {
     console.log(response);
@@ -51,7 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 예상치 못한 에러가 발생한 경우
     alert('예상치 못한 에러가 발생했습니다.');
   });
-
 });
 
 function alarmTab() {
@@ -64,8 +63,6 @@ function alarmTab() {
     }
   });
 }
-
-
 function addBookmark() {
   fetch(`/api/bookmark/${cafeId}`, {
     method: 'POST',
@@ -88,7 +85,6 @@ function addBookmark() {
     alert('예상치 못한 에러가 발생했습니다.');
   });
 }
-
 function deleteBookmark() {
   fetch(`/api/bookmark/${cafeId}`, {
     method: 'DELETE',
@@ -147,6 +143,7 @@ const sellerApplyBtn = document.getElementById('seller_apply_button');
 sellerApplyBtn.addEventListener('click', () => {
     window.location.href = '/cafe/seller_apply/' + cafeId;
 })
+
 
 
 //피드조회

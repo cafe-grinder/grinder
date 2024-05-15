@@ -1,6 +1,7 @@
 package com.grinder.domain.dto;
 
 import com.grinder.domain.entity.CafeRegister;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 

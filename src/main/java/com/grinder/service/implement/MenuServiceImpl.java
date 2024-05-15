@@ -24,6 +24,7 @@ public class MenuServiceImpl implements MenuService {
     private final AwsS3ServiceImpl s3Service;
     private final CafeRepository cafeRepository;
 
+    @Override
     public List<Menu> findAllMenusByCafeId(String cafeId) {
         return menuRepository.findAllByCafe_CafeId(cafeId);
     }

@@ -36,6 +36,7 @@
                     <div class="cafe_information">
                         <address th:text="${cafeInfo.address}" id="cafe-address">주소 : </address>
                     </div>
+<!--TODO: 운영시간 어디다 넣을지 고민하기-->
                     <div class="cafe_info_score">평균 평점 :
                         <img th:if="${cafeInfo.averageGrade >= 1}" src="/img/icon/star-fill.png" alt="">
                         <img th:if="${cafeInfo.averageGrade >= 2}" src="/img/icon/star-fill.png" alt="">

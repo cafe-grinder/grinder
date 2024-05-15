@@ -1,5 +1,7 @@
 package com.grinder.service.implement;
 
+import com.grinder.domain.dto.CafeRegisterDTO;
+import com.grinder.domain.entity.Cafe;
 import com.grinder.domain.entity.CafeRegister;
 import com.grinder.repository.CafeRegisterRepository;
 import com.grinder.repository.CafeRepository;
@@ -33,6 +35,7 @@ public class CafeRegisterServiceImpl implements CafeRegisterService {
 
         return registerDTOSlice;
     }
+
     @Override
     @Transactional
     public void deleteCafeRegister(String registerId) {
@@ -40,4 +43,13 @@ public class CafeRegisterServiceImpl implements CafeRegisterService {
         cafeRegisterRepository.delete(cafeRegister);
     }
 
+    @Override
+    @Transactional
+    public void registerCafe(CafeRegisterDTO.SaveCafeRegisterDTO cafeRegisterDTO) {
+        Cafe cafe = Cafe.builder()
+            .name(cafeRegisterDTO.getName())
+            .address(cafeRegisterDTO.getAddress())
+            .phoneNum(cafeRegisterDTO.getPhoneNum())
+            .build();
+    }
 }
