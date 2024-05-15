@@ -8,6 +8,8 @@
 </head>
 <body>
 <article class="newfeed_article">
+    <input class="newfeed_member_id" type="hidden" th:value="${member.memberId}">
+
     <div class="newfeed_align_center">
         <img class="newfeed_logo_img" src="/img/logo_img.png" alt="grinder_logo">
     </div>
@@ -39,15 +41,16 @@
     </section>
 
     <section class="newfeed_cafe_name_area">
+        <input class="newfeed_cafe_id" type="hidden" th:value="${newfeed.cafe != null}? ${newfeed.cafe.cafeId} : ''">
         <h2 class="newfeed_head_text">카페명</h2>
         <div class="newfeed_input_box">
             <img src="/img/icon/search.png" alt="magnifier_img">
-            <input class="newfeed_input" type="text" placeholder="카페명 찾기">
+            <input class="newfeed_input" type="text" placeholder="카페명 찾기" th:value="${newfeed.cafe != null}? ${newfeed.cafe.name} : ''">
             <div class="newfeed_cafe_list" id="cafe-list"></div>
         </div>
     </section>
 
-    <input class="newfeed_grade_init" type="hidden" th:value="${newfeed.grade}">
+    <input class="newfeed_grade_init" type="hidden" th:value="${newfeed.feedId} != null? ${newfeed.grade} : 0">
     <section class="newfeed_grad_area">
         <h2 class="newfeed_head_text">평점</h2>
         <div class="newfeed_star_grad">

@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function InitNewFeed() {
         // 이미지 초기화
-        /*imageUrlList.forEach(imageUrl => {
+        imageUrlList.forEach(imageUrl => {
             addImageUrlToImageList(imageUrl);
         });
         function addImageUrlToImageList(imageUrl) {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     reader.readAsDataURL(blob);
                 })
                 .catch(error => console.error('Error fetching image:', error));
-        }*/
+        }
 
         // 평점 초기화
         const stars = document.querySelectorAll('.star');
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    let cafeId = '';
+    let cafeId = document.querySelector('.newfeed_cafe_id').value;
     function CafeSelectEvent() {
         const input = document.querySelector('.newfeed_input');
         const cafeListContainer = document.querySelector('.newfeed_cafe_list');
@@ -250,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 등록하기 버튼 클릭
             if (target.classList.contains('newfeed_create_btn')) {
-                if (cafeId !== '' && grade === 0) {
+                if (cafeId !== '' && grade < 1) {
                     alert('평점을 선택해주세요.');
                     return
                 }
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 수정하기 버튼 클릭
             if (target.classList.contains('newfeed_update_btn')) {
-                if (cafeId !== '' && grade === 0) {
+                if (cafeId !== '' && grade < 1) {
                     alert('평점을 선택해주세요.');
                     return
                 }
@@ -310,7 +310,8 @@ async function addFeed(content, cafeId, tagNameList, grade, imageList) {
         if (response.ok) {
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
-            location.replace('/');
+            let memberId = document.querySelector('.newfeed_member_id').value;
+            location.replace(`/mypage/${memberId}`);
         } else {
             // 실패했을 때의 처리
             console.error('피드 등록에 실패했습니다.');
@@ -343,7 +344,8 @@ async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList
         if (response.ok) {
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
-            location.replace('/');
+            let memberId = document.querySelector('.newfeed_member_id').value;
+            location.replace(`/mypage/${memberId}`);
         } else {
             // 실패했을 때의 처리
             console.error('피드 수정에 실패했습니다.');
