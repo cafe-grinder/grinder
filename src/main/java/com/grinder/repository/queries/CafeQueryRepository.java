@@ -109,18 +109,41 @@ public class CafeQueryRepository {
         LocalDateTime startOfWeek = now.with(DayOfWeek.MONDAY).withHour(0).withMinute(0).withSecond(0).withNano(0);
         LocalDateTime endOfWeek = startOfWeek.plusWeeks(1).minusNanos(1);
 
-        List<CafeDTO.findAllWithImageResponse> topCafes = queryFactory
-                .select(Projections.constructor(CafeDTO.findAllWithImageResponse.class, cafe, image.imageUrl))
+        List<CafeDTO.findAllWithImageResponse> list = queryFactory
+                .select(cafe)
                 .from(feed)
                 .join(feed.cafe, cafe)
-                .leftJoin(image).on(image.contentId.eq(cafe.cafeId))
                 .where(feed.createdAt.between(startOfWeek, endOfWeek))
                 .groupBy(cafe.cafeId)
-                .orderBy(cafe.count().desc())
+                .orderBy(cafe.cafeId.desc())
                 .limit(3)
-                .fetch();
+                .fetch()
+                .stream().map(data -> {
+                    String imageUrl = queryFactory
+                            .select(image.imageUrl)
+                            .from(image)
+                            .leftJoin(image).on(image.contentId.eq(data.getCafeId()))
+                            .where(image.contentType.eq(ContentType.CAFE), image.contentId.eq(data.getCafeId()))
+                            .fetchFirst();
 
-        return findTopTag(topCafes, tag, feed);
+                    return new CafeDTO.findAllWithImageResponse(data, imageUrl);
+                }).toList();
+
+        List<CafeDTO.findAllWithImageAndTagResponse> cafeList = list.stream().map(result -> {
+            List<TagName> tagNames = queryFactory
+                    .select(tag.tagName)
+                    .from(tag)
+                    .join(tag.feed, feed)
+                    .where(feed.cafe.cafeId.eq(result.getCafeId()))
+                    .groupBy(tag.tagName)
+                    .orderBy(tag.count().desc())
+                    .limit(2)
+                    .fetch();
+
+            return new CafeDTO.findAllWithImageAndTagResponse(result, tagNames);
+        }).toList();
+
+        return cafeList;
     }
 
     /**

@@ -103,7 +103,7 @@ public class ImageServiceImpl implements ImageService{
     @Transactional
     public boolean deleteProfile(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException("존재하지 않는 회원입니다."));
-        Image image = imageRepository.findByContentTypeAndContentId(ContentType.CAFE, member.getMemberId())
+        Image image = imageRepository.findByContentTypeAndContentId(ContentType.MEMBER, member.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException("이미 존재하지 않습니다."));
         try {
             awsS3Service.deleteFile(image.getImageUrl());

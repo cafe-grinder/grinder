@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function InitNewFeed() {
         // 이미지 초기화
-        /*imageUrlList.forEach(imageUrl => {
+        imageUrlList.forEach(imageUrl => {
             addImageUrlToImageList(imageUrl);
         });
         function addImageUrlToImageList(imageUrl) {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     reader.readAsDataURL(blob);
                 })
                 .catch(error => console.error('Error fetching image:', error));
-        }*/
+        }
 
         // 평점 초기화
         const stars = document.querySelectorAll('.star');
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    let cafeId = '';
+    let cafeId = document.querySelector('.newfeed_cafe_id').value;
     function CafeSelectEvent() {
         const input = document.querySelector('.newfeed_input');
         const cafeListContainer = document.querySelector('.newfeed_cafe_list');
@@ -185,10 +185,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         stars.forEach(star => {
             star.addEventListener('click', () => {
-                /*if (cafeId === '') {
+                if (cafeId === '') {
                     alert("카페를 선택해주세요.");
                     return;
-                }*/
+                }
                 grade = parseInt(star.getAttribute('data-value'));
                 highlightStars(grade);
             });
@@ -214,12 +214,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.addEventListener('click', async function(event) {
             const target = event.target;
 
+            if (!target.classList.contains('newfeed_input')) {
+                const cafeListContainer = document.querySelector('.newfeed_cafe_list');
+                cafeListContainer.style.display = 'none';
+            }
+
             // 태그 클릭
             if (target.classList.contains('newfeed_tag_name')) {
-                /*if (cafeId === '') {
+                if (cafeId === '') {
                     alert("카페를 선택해주세요.");
                     return;
-                }*/
+                }
                 if (target.classList.contains('newfeed_tag_name_active')) {
                     // 선택 해제
                     const index = tagNameList.indexOf(target.value);
@@ -245,9 +250,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 등록하기 버튼 클릭
             if (target.classList.contains('newfeed_create_btn')) {
-                /*if (cafeId !== '' && grade === 0) {
+                if (cafeId !== '' && grade < 1) {
                     alert('평점을 선택해주세요.');
-                }*/
+                    return
+                }
 
                 let content = document.querySelector('.newfeed_content').value;
 
@@ -262,8 +268,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 수정하기 버튼 클릭
             if (target.classList.contains('newfeed_update_btn')) {
-                if (cafeId !== '' && grade === 0) {
+                if (cafeId !== '' && grade < 1) {
                     alert('평점을 선택해주세요.');
+                    return
                 }
 
                 const feedId = new URLSearchParams(window.location.search).get('feedId');
@@ -303,7 +310,8 @@ async function addFeed(content, cafeId, tagNameList, grade, imageList) {
         if (response.ok) {
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
-            location.replace('/');
+            let memberId = document.querySelector('.newfeed_member_id').value;
+            location.replace(`/mypage/${memberId}`);
         } else {
             // 실패했을 때의 처리
             console.error('피드 등록에 실패했습니다.');
@@ -336,7 +344,8 @@ async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList
         if (response.ok) {
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
-            location.replace('/');
+            let memberId = document.querySelector('.newfeed_member_id').value;
+            location.replace(`/mypage/${memberId}`);
         } else {
             // 실패했을 때의 처리
             console.error('피드 수정에 실패했습니다.');
@@ -348,20 +357,15 @@ async function updateFeed(feedId, content, cafeId, tagNameList, grade, imageList
 
 async function searchCafes(keyword) {
     try {
-        if (keyword.length > 2) { // 최소 3글자가 입력되었을 때 요청 실행
-            const response = await fetch(`/api/cafe/search-cafe?query=${encodeURIComponent(keyword)}`);
-            if (response.ok) {
-                const cafes = await response.json();
-                return cafes;
-            } else if (response.status === 204) {
-                console.warn('No cafes found.');
-                return [];
-            } else {
-                console.error('카페 검색에 실패했습니다.');
-                return [];
-            }
+        const response = await fetch(`/api/cafe/search-cafe?query=${encodeURIComponent(keyword)}`);
+        if (response.ok) {
+            const cafes = await response.json();
+            return cafes;
+        } else if (response.status === 204) {
+            console.warn('No cafes found.');
+            return [];
         } else {
-            console.warn('검색어는 최소 3글자 이상이어야 합니다.');
+            console.error('카페 검색에 실패했습니다.');
             return [];
         }
     } catch (error) {

@@ -25,7 +25,7 @@
 <div class="mypage_banner">
     <input id="memberEmail" th:value="${myPageMember.email}" type="hidden">
     <img th:if="${myPageMember.image} == null" src="/img/basic-user.png">
-    <img th:if="${myPageMember.image} != null" src="${member.image}">
+    <img th:if="${myPageMember.image} != null" th:src="${myPageMember.image}">
     <a th:if="${connectEmail == myPageMember.email}" th:href="@{/myImage}"></a>
     <p><span th:text="${myPageMember.nickname}">강아지</span>님</p>
     <div th:switch="${myPageMember.role}">
@@ -53,18 +53,18 @@
     <ul class="mypage_menu_list">
         <li class="mypage_menu_user">
             <img th:if="${myPageMember.image} == null" src="/img/basic-user-img.png">
-            <img th:if="${myPageMember.image} != null" src="${member.image}">
+            <img th:if="${myPageMember.image} != null" th:src="${myPageMember.image}">
             <p th:text="${myPageMember.nickname} + ' (' + ${myPageMember.email} + ')'">강아지</p>
         </li>
         <li class="mypage_menu_list_line"></li>
-        <li><button id="view_follower">😀 팔로워 보기</button></li>
-        <li><button id="view_following">😁 팔로잉 보기</button></li>
-        <li><button th:onclick="|window.location.href='@{/page/change/memberInfo/{member_id}(member_id=${myPageMember.memberId})}'|">😜 회원 정보 변경</button></li>
-        <li><button id="view_bookmark">😍 북마크 보기</button></li>
-        <li><button id="view_blacklist">😡 차단목록 보기</button></li>
-        <li th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
-        <li th:if="${myPageMember.role} == '관리자'" id="view_admin_page"><button onclick="window.location.href='/admin'">😎 관리자 페이지</button></li>
-        <li><button th:onclick="logout()">🙋‍♂️ 로그아웃</button></li>
+        <li class="mypage_menu_list_btn"><button id="view_follower">😀 팔로워 보기</button></li>
+        <li class="mypage_menu_list_btn"><button id="view_following">😁 팔로잉 보기</button></li>
+        <li class="mypage_menu_list_btn"><button th:onclick="|window.location.href='@{/page/change/memberInfo/{member_id}(member_id=${myPageMember.memberId})}'|">😜 회원 정보 변경</button></li>
+        <li class="mypage_menu_list_btn"><button id="view_bookmark">😍 북마크 보기</button></li>
+        <li class="mypage_menu_list_btn"><button id="view_blacklist">😡 차단목록 보기</button></li>
+        <li class="mypage_menu_list_btn" th:if="${myPageMember.role} == '판매자'" id="view_mycafelist"><button>️🤗 카페 정보 변경</button></li>
+        <li class="mypage_menu_list_btn" th:if="${myPageMember.role} == '관리자'" id="view_admin_page"><button onclick="window.location.href='/admin'">😎 관리자 페이지</button></li>
+        <li class="mypage_menu_list_btn"><button th:onclick="logout()">🙋‍♂️ 로그아웃</button></li>
     </ul>
     <button class="mypage_menu_button"></button>
 </div>

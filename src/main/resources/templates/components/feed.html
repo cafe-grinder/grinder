@@ -4,7 +4,8 @@
     <div class="feed_container_non_member" th:if="${feedMember} == null">
         <ul class="feed_img_list_non_member">
             <li th:each="feed: ${feedSlice}"><!-- 반복문 -->
-                <img class="feed_img_non_member" src="/img/feed-default-img-gray.png" alt="피드 첨부 이미지">
+                <img class="feed_img_non_member" th:if="${feed.imageUrls.size()} >= 1" th:src="${feed.imageUrls[0]}">
+                <img class="feed_img_non_member" th:if="${feed.imageUrls.size()} == 0" src="/img/feed-default-img-gray.png">
                 <div class="feed_like_info_non_member">
                     <img src="/img/icon/suit-heart.png" alt="좋아요">
                     <span th:text="${feed.heartNum}"></span>
@@ -16,11 +17,12 @@
     <!-- 회원 화면 -->
     <article class="feed_container" th:if="${feedMember} != null" th:each="feed: ${feedSlice}"><!-- 반복문 -->
         <input class="feed_feed_id" type="hidden" th:value="${feed.feedId}">
+        <input class="feed_feed_email" type="hidden" th:value="${feed.memberEmail}">
         <div class="feed_review_info feed_space_between">
             <div class="feed_space_between">
                 <div class="feed_writer_profile_img">
-                    <img src="/img/not_use/basic_profile_img.png"
-                         alt="피드 작성자 프로필 이미지">
+                    <img th:if="${feed.memberImage == null}" src="/img/not_use/basic_profile_img.png" alt="피드 작성자 프로필 이미지">
+                    <img th:if="${feed.memberImage != null}" th:src="${feed.memberImage}" alt="피드 작성자 프로필 이미지">
                 </div>
                 <div class="feed_writer_info">
                     <span class="feed_cafe_name" th:text="${feed.cafe.name}"></span>
@@ -80,10 +82,11 @@
             </div>
             <div class="feed_parent_comment_area" th:each="parentComment: ${feed.parentCommentList}"><!--반복문-->
                 <input class="feed_parent_comment_id" type="hidden" th:value="${parentComment.commentId}">
+                <input class="feed_parent_comment_email" type="hidden" th:value="${parentComment.email}">
                 <div class="feed_space_between">
                     <div class="feed_comment_profile_img">
-                        <img src="/img/not_use/basic_profile_img.png"
-                             alt="댓글 작성자 프로필 이미지">
+                        <img th:if="${parentComment.memberImage == null}" src="/img/not_use/basic_profile_img.png" alt="댓글 작성자 프로필 이미지">
+                        <img th:if="${parentComment.memberImage != null}" th:src="${parentComment.memberImage}" alt="댓글 작성자 프로필 이미지">
                     </div>
                     <div class="feed_parent_comment_info">
                         <div class="feed_space_between">
@@ -133,12 +136,12 @@
                             <summary>답글</summary>
                             <div class="feed_child_comment_area"
                                  th:each="childComment: ${parentComment.childCommentList}"><!--반복문-->
-                                <input class="feed_child_comment_id" type="hidden"
-                                       th:value="${childComment.commentId}">
+                                <input class="feed_child_comment_id" type="hidden" th:value="${childComment.commentId}">
+                                <input class="feed_child_comment_Email" type="hidden" th:value="${childComment.email}">
                                 <div class="feed_space_between">
                                     <div class="feed_comment_profile_img">
-                                        <img src="/img/not_use/basic_profile_img.png"
-                                             alt="댓글 작성자 프로필 이미지">
+                                        <img th:if="${childComment.memberImage == null}" src="/img/not_use/basic_profile_img.png" alt="댓글 작성자 프로필 이미지">
+                                        <img th:if="${childComment.memberImage != null}" th:src="${childComment.memberImage}" alt="댓글 작성자 프로필 이미지">
                                     </div>
                                     <div class="feed_child_comment_info feed_space_between">
                                         <div class="feed_writer_comment">

@@ -38,9 +38,8 @@ public class FollowQueryRepository {
                                 image.imageUrl))
                 .from(follow)
                 .join(follow.member, member)
-                .leftJoin(image).on(image.contentType.eq(ContentType.MEMBER)
-                        .and(image.contentId.eq(follow.member.memberId)))
-                .where(member.email.eq(email).and(follow.following.isDeleted.isFalse()))
+                .leftJoin(image).on(image.contentId.eq(follow.following.memberId))
+                .where(follow.member.email.eq(email).and(follow.following.isDeleted.isFalse()))
                 .limit(limit)
                 .offset(offset)
                 .fetch();
