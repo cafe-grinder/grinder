@@ -23,7 +23,7 @@ public class CafeSummaryDTO {
         public CafeSummaryResponse(Cafe cafe, CafeSummary summary) {
             cafeName = cafe.getName();
             cafeAddress = cafe.getAddress();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy:MM:dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
             updateTime = summary.getUpdatedAt().format(formatter);
             this.summary = summary.getSummary();
         }

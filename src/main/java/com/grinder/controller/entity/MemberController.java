@@ -31,7 +31,7 @@ public class MemberController {
     @PutMapping("/update")
     public ResponseEntity<SuccessResult> updateMember(@RequestBody MemberDTO.MemberUpdateRequestDto request) {
         if (memberService.updateMember(request))
-            return ResponseEntity.ok(new SuccessResult("Add Success", "추가되었습니다."));
+            return ResponseEntity.ok(new SuccessResult("Add Success", "변경되었습니다."));
         else throw new IllegalArgumentException("예상치 못한 에러가 발생했습니다.");
     }
 

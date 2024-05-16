@@ -66,6 +66,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
 
+            // 피드 이미지 클릭
+            if (target.classList.contains('feed_img')) {
+                let modalContainer = document.querySelector(".feed_modal_container");
+                let modal = document.querySelector(".feed_modal");
+                modal.innerHTML = `<img src="${target.src}" class="feed_modal_content">`
+                modalContainer.style.display = "block";
+            }
+
+            if (target.classList.contains('feed_modal_container')) {
+                document.querySelector(".feed_modal_container").style.display = "none";
+            }
+
             // 댓글 보기 버튼 클릭
             if (target.classList.contains('feed_comment_view_btn')) {
                 const commentContainer = target.closest('.feed_container').querySelector('.feed_comment_container');
@@ -125,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 await saveComment(content, parentCommentId, feedId);
                 commentTextarea.value = '';
+                await loadingComment(feedId, target);
             }
 
             // 댓글 삭제 버튼 클릭
@@ -487,5 +500,25 @@ async function addDate(id, url) {
         }
     } catch (error) {
         console.error('오류가 발생했습니다:', error);
+    }
+}
+
+async function loadingComment(feedId, target) {
+    try {
+        const response = await fetch(`/get-feed-comment/${feedId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.text(); // 응답 데이터를 텍스트로 변환
+            target.closest('.feed_update').innerHTML = data; // 데이터를 feed_update에 삽입
+        } else {
+            console.error('댓글 불러오기 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 불러오기 중 오류가 발생했습니다:', error);
     }
 }

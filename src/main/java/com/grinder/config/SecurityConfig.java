@@ -112,7 +112,7 @@ public class SecurityConfig {
                                "/myImage", "/myCafeImage/**", "/api/blacklist/**", "/api/bookmark", "/api/cafe/**",
                                "/api/cafe_register/**", "/api/cafe_summary/", "/comment/**", "/feed/**", "/api/following",
                                "/api/follower", "/api/follow/**", "/heart", "/api/image", "/api/member/update",
-                               "/api/report/", "/api/seller_apply").hasAnyRole("판매자", "인증회원", "일반회원")
+                               "/api/report/", "/api/seller_apply", "/search").hasAnyRole("판매자", "인증회원", "일반회원")
                        .requestMatchers("/api/seller_info/**", "/api/myMenu/", "/api/menu").hasRole("판매자")
                        .requestMatchers("/feed/newfeed").hasAnyRole("인증회원", "일반회원")
                         .anyRequest().permitAll())

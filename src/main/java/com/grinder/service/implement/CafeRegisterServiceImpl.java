@@ -52,6 +52,7 @@ public class CafeRegisterServiceImpl implements CafeRegisterService {
             .phoneNum(request.getPhoneNum())
             .build();
 
-        return result.getRegisterId();
+
+        return cafeRegisterRepository.save(result).getRegisterId();
     }
 }

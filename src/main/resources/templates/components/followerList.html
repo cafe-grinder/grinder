@@ -4,7 +4,7 @@
     <article class="followerList" th:each="member : ${followMembers}">
         <div class="followerList_follower">
             <img th:if="${member.followImage} == null" src="/img/basic-user.png">
-            <img th:if="${member.followImage} != null" th:src="${member.image}">
+            <img th:if="${member.followImage} != null" th:src="${member.followImage}">
             <p th:text="${member.followNickname} + ' (' + ${member.followEmail} + ')'">강아지 (aaa@aaa.com)</p>
             <span class="followerList_role" th:switch="${member.followRole}">
                 <img th:case="'인증회원'" src="/img/icon/award-fill.png"/>
@@ -13,7 +13,7 @@
             </span>
             <button th:if="${title == 'following'}"
                     th:follwing="${member.followEmail}"
-                    onclick="unfollow(this.getAttribute('follwing'),event)">팔로우 해제</button>
+                    onclick="unfollow(this.getAttribute('follwing'))">팔로우 해제</button>
             <button class="move_follow"
                     th:onclick="|window.location.href='@{/mypage/{id}(id=${member.followMemberId})}'|">이동하기</button>
         </div>

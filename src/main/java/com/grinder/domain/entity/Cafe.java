@@ -21,7 +21,7 @@ public class Cafe extends BaseEntity {
     @Column(name = "name", nullable = false, unique = true, length = 50)
     private String name;
 
-    @Column(name = "address", nullable = false, unique = true, length = 100)
+    @Column(name = "address", nullable = false, length = 100)
     private String address;
 
     @Column(name = "phone_num", nullable = false, length = 11)
@@ -30,7 +30,7 @@ public class Cafe extends BaseEntity {
     @Column(name = "average_grade", nullable = false)
     private Integer averageGrade;
 
-    @Column(name = "reg_image_url", length = 36)
+    @Column(name = "reg_image_url")
     private String regImageUrl;
 
     @PrePersist

@@ -41,6 +41,7 @@ public class ComponentsController {
     private final MessageService messageService;
     private final AnalysisTagService analysisTagService;
     private final CafeService cafeService;
+    private final ImageService imageService;
 
 
     @GetMapping("/get-header")
@@ -51,6 +52,8 @@ public class ComponentsController {
         if (email != null && !email.equals("anonymousUser")) {
             member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
             checkMessage = messageService.existNonCheckMessage(email);
+            String imageUrl = imageService.findImageUrlByContentId(member.getMemberId());
+            model.addAttribute("memberImageUrl", imageUrl);
         }
         List<Message> message = messageService.findAllByEmail(email);
         model.addAttribute("AlanMessages", message);
@@ -294,6 +297,16 @@ public class ComponentsController {
         List<CafeDTO.findAllWithImageAndTagResponse> cafeSlice =  cafeService.weekTop3Cafe();
         model.addAttribute("cafeSlice", cafeSlice);
         return "components/cafeCard :: cafeCards";
+    }
+
+    @GetMapping("/get-feed-comment/{feedId}")
+    public String getFeedComment(@PathVariable("feedId")String feedId, Model model) {
+        String email = getEmail();
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+        List<FeedDTO.FeedWithImageResponseDTO> list = feedService.findFeedForComment(email, feedId);
+        model.addAttribute("feedOne", list);
+        return "components/comment :: comment_update";
     }
 
     private String getEmail() {

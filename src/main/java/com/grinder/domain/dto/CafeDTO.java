@@ -125,7 +125,9 @@ public class CafeDTO {
         public findAllWithImageAndTagResponse(findAllWithImageResponse cafe, List<TagName> tagList) {
             cafeId = cafe.getCafeId();
             cafeName = cafe.getCafeName();
-            cafeAddress = cafe.getCafeAddress().split(" ")[0] + " " + cafe.getCafeAddress().split(" ")[1];
+            if (cafe.getCafeAddress().contains(" ")) {
+                cafeAddress = cafe.getCafeAddress().split(" ")[0] + " " + cafe.getCafeAddress().split(" ")[1];
+            } else cafeAddress = cafe.getCafeAddress();
             cafePhoneNum = cafe.getCafePhoneNum();
             averageGrade = cafe.getAverageGrade();
             cafeImageUrl = cafe.cafeImageUrl;

@@ -17,6 +17,7 @@
     width: 78px;
     height: 78px;
     margin: 0 0 0 27px;
+    border-radius: 50%;
 }
 
 .followerList .followerList_follower p {

@@ -4,6 +4,7 @@ import com.grinder.domain.dto.HeartDTO;
 import com.grinder.domain.dto.SuccessResult;
 import com.grinder.domain.entity.Heart;
 import com.grinder.service.HeartService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -40,8 +42,8 @@ public class HeartController {
             @RequestBody HeartDTO.HeartRequestDTO request
     ) {
         String memberEmail = getEmail();
-        Heart heart = heartService.findHeart(memberEmail, request);
-        if (memberEmail.equals(heart.getMember().getEmail())) {
+        List<Heart> heart = heartService.findHeart(memberEmail, request);
+        if (memberEmail.equals(heart.get(0).getMember().getEmail())) {
             heartService.deleteHeart(memberEmail, request);
             if (!heartService.isHeart(memberEmail, request)) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResult("Delete Success", "추천 해제했습니다."));

@@ -106,9 +106,15 @@ button {
     max-height: 800px;
     border:none;
     border-radius: 30px;
+    margin: 0;
+    padding: 0;
 }
 .reg_modal img {
     display: block;
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    object-fit: contain;
 }
 .reg_modal .modal_button {
     width: 80px;
@@ -122,4 +128,8 @@ button {
     left: 50%;
     bottom: 5%;
     transform: translateX(-50%);
+}
+
+.display_none {
+    display: none;
 }
