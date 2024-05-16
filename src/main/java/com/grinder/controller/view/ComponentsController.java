@@ -296,6 +296,16 @@ public class ComponentsController {
         return "components/cafeCard :: cafeCards";
     }
 
+    @GetMapping("/get-feed-comment/{feedId}")
+    public String getFeedComment(@PathVariable("feedId")String feedId, Model model) {
+        String email = getEmail();
+        MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
+        model.addAttribute("feedMember", member);
+        List<FeedDTO.FeedWithImageResponseDTO> list = feedService.findFeedForComment(email, feedId);
+        model.addAttribute("feedOne", list);
+        return "components/comment :: comment_update";
+    }
+
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  Optional.ofNullable(authentication.getName()).orElse(null);
