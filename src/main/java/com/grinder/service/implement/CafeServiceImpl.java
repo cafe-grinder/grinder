@@ -40,11 +40,6 @@ public class CafeServiceImpl implements CafeService {
             throw new AlreadyExistException("이미 등록된 카페 이름입니다.");
         }
 
-        Optional<Cafe> registeredCafeHasAddress = cafeRepository.findByAddress(register.getAddress());
-        if (registeredCafeHasAddress.isPresent()) {
-            throw new AlreadyExistException("이미 등록된 주소입니다.");
-        }
-
         Cafe cafe = Cafe.builder().name(register.getName()).address(register.getAddress()).phoneNum(register.getPhoneNum()).build();
 
         cafeRepository.save(cafe);

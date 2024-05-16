@@ -14,13 +14,14 @@
 }
 
 .feed_img_non_member {
+    background: rgba(0,0,0, 0.6);   /* 밝기 40% */
+    filter: brightness(0.4);
     max-width: 100%;
     width: 330px;
     height: 330px;
     object-fit: cover;
     border-radius: 15px;
     cursor: pointer;
-    filter: brightness(0.4);    /* 밝기 40% */
     transition: transform 0.1s ease;
     box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25);
 }
