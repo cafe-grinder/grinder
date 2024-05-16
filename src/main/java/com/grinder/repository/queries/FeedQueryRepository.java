@@ -322,8 +322,6 @@ public class FeedQueryRepository {
             List<CommentDTO.ParentCommentResponseDTO> parentComments = queryFactory
                     .selectFrom(comment)
                     .where(comment.isVisible.isTrue(), comment.feed.eq(result), comment.parentComment.isNull())
-                    .offset(pageable.getOffset())
-                    .limit(pageable.getPageSize() + 1)
                     .fetch()
                     .stream()
                     .map(parent -> {

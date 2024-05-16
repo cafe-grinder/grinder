@@ -144,4 +144,9 @@ public class FeedServiceImpl implements FeedService {
     public Slice<FeedDTO.FeedWithImageResponseDTO> RecommendFeedWithImage(String email, Pageable pageable) {
         return feedQueryRepository.RecommendFeedWithImage(email, pageable);
     }
+
+    @Override
+    public List<FeedDTO.FeedWithImageResponseDTO> findFeedForComment(String email,String feedId) {
+        return feedQueryRepository.findFeedWithImage(email, feedId);
+    }
 }

@@ -34,12 +34,12 @@ public class HeartServiceImpl implements HeartService {
     @Override
     @Transactional
     public void deleteHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
-        heartRepository.deleteByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
+        heartRepository.deleteAllByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
 
     @Override
-    public Heart findHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
-        return heartRepository.findByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
+    public List<Heart> findHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
+        return heartRepository.findAllByMember_EmailAndContentIdAndContentType(memberEmail, request.getContentId(), ContentType.valueOf(request.getContentType()));
     }
 
     @Override
@@ -49,7 +49,7 @@ public class HeartServiceImpl implements HeartService {
 
     @Override
     public boolean isHeart(String memberEmail, HeartDTO.HeartRequestDTO request) {
-        Heart heart = findHeart(memberEmail, request);
-        return heart != null;
+        List<Heart> heart = findHeart(memberEmail, request);
+        return !heart.isEmpty();
     }
 }

@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public interface HeartRepository extends JpaRepository<Heart, String> {
-    void deleteByMember_EmailAndContentIdAndContentType(String memberEmail, String contentId, ContentType contentType);
-    Heart findByMember_EmailAndContentIdAndContentType(String memberEmail, String contentId, ContentType contentType);
+    void deleteAllByMember_EmailAndContentIdAndContentType(String memberEmail, String contentId, ContentType contentType);
+    List<Heart> findAllByMember_EmailAndContentIdAndContentType(String memberEmail, String contentId, ContentType contentType);
     List<Heart> findByContentIdAndContentType(String contentId, ContentType contentType);
     Long countByContentTypeAndContentId(ContentType contentType, String ContentId);
 }

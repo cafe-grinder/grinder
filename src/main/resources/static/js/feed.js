@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 await saveComment(content, parentCommentId, feedId);
                 commentTextarea.value = '';
+                await loadingComment(feedId, target);
             }
 
             // 댓글 삭제 버튼 클릭
@@ -450,8 +451,6 @@ async function saveComment(content, parentCommentId, feedId) {
         if (response.ok) {
             const result = await response.json();
             console.log(result.message); // 성공 메시지 출력
-
-            // 성공적으로 댓글이 저장된 후에 필요한 추가 작업 수행 가능
         } else {
             // 실패했을 때의 처리
             console.error('댓글 저장에 실패했습니다.');
@@ -532,5 +531,26 @@ async function addDate(id, url) {
         }
     } catch (error) {
         console.error('오류가 발생했습니다:', error);
+    }
+}
+
+
+async function loadingComment(feedId, target) {
+    try {
+        const response = await fetch(`/get-feed-comment/${feedId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+
+        if (response.ok) {
+            const data = await response.text(); // 응답 데이터를 텍스트로 변환
+            target.closest('.feed_update').innerHTML = data; // 데이터를 feed_update에 삽입
+        } else {
+            console.error('댓글 불러오기 실패했습니다.');
+        }
+    } catch (error) {
+        console.error('댓글 불러오기 중 오류가 발생했습니다:', error);
     }
 }
