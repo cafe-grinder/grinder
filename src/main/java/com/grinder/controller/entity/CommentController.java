@@ -74,16 +74,6 @@ public class CommentController {
         }
     }
 
-    @GetMapping("/admin/{comment_id}")
-    public ResponseEntity<CommentDTO.FindCommentDTO> findCommentForAdmin(@PathVariable String comment_id, Authentication authentication) {
-        if(!authentication.getAuthorities().contains("ADMIN")) {
-            throw new PermissionDeniedDataAccessException("관리자 권한이 필요합니다", null);
-        }
-        CommentDTO.FindCommentDTO commentDTO = commentService.findCommentForAdmin(comment_id);
-
-        return ResponseEntity.ok(commentDTO);
-    }
-
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return  Optional.ofNullable(authentication.getName()).orElse(null);
