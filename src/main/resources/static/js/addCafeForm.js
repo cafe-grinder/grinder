@@ -41,7 +41,8 @@ document.getElementById("cafe-btn").addEventListener("click", function (){
   })
   .then(response => {
     if (response.ok) {
-      alert("신규 장소 신청이 등록되었습니다.")
+      alert("신규 장소 신청이 등록되었습니다.");
+      location.href="/";
       return response.json();
     } else {
       console.log(response);
@@ -74,6 +75,7 @@ document.getElementById("cafe-btn").addEventListener("click", function (){
   // // })
   .catch(error => {
     console.error('Error:', error);
+    location.href="/";
   });
 });
 
