@@ -16,6 +16,36 @@
 
 ### 시연 영상 
 
+### 😀 로그인 회원가입
+![로그인_회원가입](https://github.com/cafe-grinder/grinder/assets/139758405/99c11a60-b468-4a9f-90e8-99ab012b2bf9)
+
+
+### 😁 태그 분석(앨런)
+![앨런_태그분석](https://github.com/cafe-grinder/grinder/assets/139758405/d1346c6f-1a94-4772-84eb-849b388c0b22)
+
+
+### 😃댓글 작성, 수정 및 기본 기능
+![댓글_피드_기본_기능](https://github.com/cafe-grinder/grinder/assets/139758405/904470da-da51-46f2-9b85-e57dc1743336)
+
+
+### 😋피드 작성, 수정, 삭제
+![피드_작성_수정_삭제](https://github.com/cafe-grinder/grinder/assets/139758405/c5d4c371-601e-4442-8608-dc2b91192459)
+
+
+### 😊마이페이지
+![마이페이지](https://github.com/cafe-grinder/grinder/assets/139758405/b85e75be-16e8-48bc-8ed8-719c172ec828)
+
+
+### 😎카페 관리자 페이지
+![내카페수정](https://github.com/cafe-grinder/grinder/assets/139758405/52323900-5510-4353-98fb-57b6a6b1b334)
+
+
+### 😗카페정보페이지
+![카페정보페이지](https://github.com/cafe-grinder/grinder/assets/139758405/92b1e6cb-69c9-4450-b6df-42de24ca394f)
+
+
+### 🤗검색기능 및 관리자 페이지
+![검색기능_관리자페이지](https://github.com/cafe-grinder/grinder/assets/139758405/34f8ce60-1d71-4fd5-a854-ae57fb12dc86)
 
 
 ## 💫 Team Members
