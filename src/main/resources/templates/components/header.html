@@ -21,7 +21,8 @@
             <ul th:if="${headerMember} != null" class="header_login">
                 <li><strong th:text="${headerMember.nickname}"></strong>님! 안녕하세요.</li>
                 <button class="header_alarm">alarm</button>
-                <button class="header_profile" th:onclick="|window.location.href='@{/mypage/{member_id}(member_id=${headerMember.memberId})}'|">myPage</button>
+                <button th:if="${memberImageUrl == null}" class="header_profile" th:onclick="|window.location.href='@{/mypage/{member_id}(member_id=${headerMember.memberId})}'|">myPage</button>
+                <img th:if="${memberImageUrl != null}" class="header_profile_member" th:src="${memberImageUrl}" th:onclick="|window.location.href='@{/mypage/{member_id}(member_id=${headerMember.memberId})}'|">
             </ul>
         </div>
     </nav>

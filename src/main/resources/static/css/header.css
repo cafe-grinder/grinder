@@ -115,6 +115,16 @@ header .header_bar .header_btn .header_login .header_profile {
     margin-left: 15px;
 }
 
+header .header_bar .header_btn .header_login .header_profile_member {
+    height: 42px;
+    width: 42px;
+    object-fit: contain;
+    cursor : pointer;
+    border: 0;
+    border-radius: 50%;
+    margin-left: 15px;
+}
+
 /*알림창*/
 .header_alarm_box {
     position: absolute;

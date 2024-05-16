@@ -41,6 +41,7 @@ public class ComponentsController {
     private final MessageService messageService;
     private final AnalysisTagService analysisTagService;
     private final CafeService cafeService;
+    private final ImageService imageService;
 
 
     @GetMapping("/get-header")
@@ -51,6 +52,8 @@ public class ComponentsController {
         if (email != null && !email.equals("anonymousUser")) {
             member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
             checkMessage = messageService.existNonCheckMessage(email);
+            String imageUrl = imageService.findImageUrlByContentId(member.getMemberId());
+            model.addAttribute("memberImageUrl", imageUrl);
         }
         List<Message> message = messageService.findAllByEmail(email);
         model.addAttribute("AlanMessages", message);
