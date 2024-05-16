@@ -294,6 +294,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         await saveComment(content, parentCommentId, feedId);
         commentTextarea.value = '';
+        await loadingComment(feedId, target);
       }
 
       // 댓글 삭제 버튼 클릭
@@ -551,5 +552,25 @@ async function updateComment(feedId, commentId, updatedContent) {
     }
   } catch (error) {
     console.error('댓글 수정 중 오류가 발생했습니다:', error);
+  }
+}
+
+async function loadingComment(feedId, target) {
+  try {
+    const response = await fetch(`/get-feed-comment/${feedId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    });
+
+    if (response.ok) {
+      const data = await response.text(); // 응답 데이터를 텍스트로 변환
+      target.closest('.feed_update').innerHTML = data; // 데이터를 feed_update에 삽입
+    } else {
+      console.error('댓글 불러오기 실패했습니다.');
+    }
+  } catch (error) {
+    console.error('댓글 불러오기 중 오류가 발생했습니다:', error);
   }
 }
