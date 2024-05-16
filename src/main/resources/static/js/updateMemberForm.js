@@ -89,17 +89,14 @@ updateButton.addEventListener('click',function (){
                 },
                 body: JSON.stringify(requestData)
             }).then(response => {
-                if (response.status === 201) {
-                    window.location.href='/';
-                    return response.json();
+                if (response.status === 200) {
+                    alert('정보 변경이 성공적으로 완료되었습니다!');
+                    location.href="/";
                 } else {
                     return response.json().then(data => {
                         throw new Error(data.message); // 서버에서 보낸 오류 메시지를 이용해 Error 객체 생성
                     });
                 }
-            }).then(data => {
-                alert('정보 변경이 성공적으로 완료되었습니다!'); // 성공 메시지를 표시합니다.
-                location.href="/page/login";
             }).catch(error => {
                 alert(error.message);
 
