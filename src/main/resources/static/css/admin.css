@@ -111,6 +111,10 @@ button {
 }
 .reg_modal img {
     display: block;
+    width: 80%;
+    height: 80%;
+    margin: 0 auto;
+    object-fit: contain;
 }
 .reg_modal .modal_button {
     width: 80px;
