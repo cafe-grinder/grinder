@@ -41,6 +41,7 @@ applyFrom.addEventListener('submit', (e) => {
             })
             .then(data => {
                 alert(data.message)
+               location.href="/cafe/"+cafeId;
             })
             .catch(error => {
                 console.error('The request failed', error)
