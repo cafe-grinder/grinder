@@ -58,7 +58,7 @@ public class ExControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoSuchElementException.class)
     public ErrorResult NoSuchElementExceptionExHandle(NoSuchElementException e, Model model) {
-        log.error("[exceptionHandle] LoginRequiredExHandle", e);
+        log.error("[exceptionHandle] NoSuchElementExHandle", e);
         return new ErrorResult("실패", e.getMessage());
     }
 
@@ -67,13 +67,6 @@ public class ExControllerAdvice {
     public ErrorResult entityNotFoundExHandle(EntityNotFoundException e) {
         log.error("[exceptionHandle] entityNotFoundExHandle", e);
         return new ErrorResult("no_entity", e.getMessage());
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(AlreadyExistException.class)
-    public ErrorResult alreadyExistExHandle(AlreadyExistException e) {
-        log.error("[exceptionHandle] alreadyExistExHandle", e);
-        return new ErrorResult("already_exist", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -69,7 +69,7 @@ public class CafeQueryRepository {
         List<CafeDTO.findAllWithImageResponse> list = queryFactory.select(Projections.constructor
                         (CafeDTO.findAllWithImageResponse.class, cafe, image.imageUrl))
                 .from(cafe)
-                .leftJoin(image).on(cafe.cafeId.eq(image.contentId))
+                .leftJoin(image).on(image.contentType.eq(ContentType.CAFE), cafe.cafeId.eq(image.contentId))
                 .where(cafe.name.containsIgnoreCase(query)
                         .or(cafe.address.containsIgnoreCase(query)))
                 .orderBy(cafe.name.asc())
@@ -122,7 +122,7 @@ public class CafeQueryRepository {
                     String imageUrl = queryFactory
                             .select(image.imageUrl)
                             .from(image)
-                            .leftJoin(image).on(image.contentId.eq(data.getCafeId()))
+                            .leftJoin(image).on(image.contentType.eq(ContentType.CAFE), image.contentId.eq(data.getCafeId()))
                             .where(image.contentType.eq(ContentType.CAFE), image.contentId.eq(data.getCafeId()))
                             .fetchFirst();
 

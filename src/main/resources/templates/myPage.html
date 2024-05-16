@@ -33,8 +33,8 @@
         <img th:case="'판매자'" src="/img/icon/check-fill.png"/>
         <img th:case="*" src=""/>
     </div>
-    <button th:if="${isFollow == false}" class="add_follow">팔로우</button>
-    <button th:if="${isFollow == true}" class="add_follow">팔로우 취소</button>
+    <button th:if="${isFollow == false && connectEmail != myPageMember.email}" class="add_follow">팔로우</button>
+    <button th:if="${isFollow == true && connectEmail != myPageMember.email}" class="add_follow">팔로우 취소</button>
 </div>
 
 <div class="mypage_banner_line"></div>
