@@ -98,6 +98,8 @@ input {
     border: #8A8A8A 1px solid;
     height: 30px;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .image_name {
