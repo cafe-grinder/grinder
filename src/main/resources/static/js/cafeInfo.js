@@ -2,6 +2,21 @@ const cafeId = window.location.pathname.substring(6);
 let url = '/get-cafeFeed/'+ cafeId;
 let containerName = 'feedContainer';
 document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById("show_ai_button").addEventListener("click", function() {
+    console.log("AI요약 보기");
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/cafe/"+cafeId+"/cafe_summary", true);
+    xhr.onload = function() {
+      console.log(xhr.responseText);
+      if (xhr.readyState == 4 && xhr.status == 200) {
+        var summary = xhr.responseText;
+        document.getElementById("feedContainer").innerHTML = summary;
+      } else {
+        document.getElementById("feedContainer").innerHTML = "앨런이 분석중입니다. 빠른 시일 내에 업데이트할게요!";
+      }
+    };
+    xhr.send();
+  });
 
   document.getElementById("show_menu_button").addEventListener("click", function() {
     // Ajax 요청을 보냅니다.
