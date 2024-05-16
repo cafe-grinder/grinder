@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="/css/common.css">
+  <link rel="stylesheet" href="/css/cafeSummary.css">
+</head>
+<body>
+
+<article class="cafe_summary_container" th:fragment="cafeSummary">
+  <h1 class="cafe_summary_title" th:text="${summary.cafeName} + '에 대해 앨런이 요약해드릴게요!'"></h1>
+  <div class="cafe_summary_wrap">
+    <div class="upper">
+      <img class="upper_img" src="/img/Alan.png" alt="">
+      <div class="upper_text">
+        <h2>실시간 검색앨런 (Alan)</h2>
+        <p id="cafe_summary_date" th:text="${summary.updateTime} + ' 기준 정보입니다'"></p>
+      </div>
+    </div>
+    <hr>
+    <p class="lower" th:text="${summary.summary}"></p>
+  </div>
+</article>
+
+</body>
+</html>

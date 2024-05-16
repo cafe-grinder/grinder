@@ -1,0 +1,65 @@
+.cafe_summary_container {
+  width: 1400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.cafe_summary_title {
+  font-family: 'GodoB', sans-serif;
+  font-weight: 600;
+  font-size: 36px;
+  color: #2E2E2E;
+  margin: 30px 0 30px 0;
+}
+
+.cafe_summary_wrap {
+  display: inline-block;
+  border: 1px solid #D9D9D9;
+  border-radius: 15px;
+  padding: 20px;
+}
+
+.cafe_summary_wrap h2 {
+  font-family: 'GodoB', sans-serif;
+  font-weight: 600;
+  font-size: 32px;
+  color: #2E2E2E;
+  margin-bottom: 20px;
+}
+
+.cafe_summary_wrap .upper{
+  display: flex;
+  flex-direction: row;
+}
+
+.cafe_summary_wrap .upper_img {
+  display: inline-block;
+  height: 136px;
+  border-radius: 30px;
+  margin-right: 20px;
+}
+
+.cafe_summary_wrap .upper_text {
+  display: flex;
+  flex-direction: column;
+}
+
+#cafe_summary_date {
+  font-family: 'GodoB', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #C3C3C3;
+}
+
+.cafe_summary_wrap hr {
+  margin: 30px 0 30px 0;
+  opacity: 50%;
+}
+
+.cafe_summary_wrap .lower {
+  font-family: 'GodoM', sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  color: #2E2E2E;
+  margin: 10px;
+}
