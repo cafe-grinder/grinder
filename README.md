@@ -567,6 +567,7 @@
 ### 📁 Cafe Register
 | 🏷NAME          | ⚙METHOD | 📎URL                         | 📖DESCRIPTION              |
 |-----------------|---------|-------------------------------|----------------------------|
+| addCafeRegister | POST | /api/cafe_register/newcafe      | 신규 카페 등록 작성    |
 | findAllCafeRegisters | GET | /admin/api/cafe_register      | 모든 카페 등록 정보 조회    |
 | denyCafeRegister | DELETE | /admin/api/cafe_register/{registerId} | 카페 등록 거부           |
 
