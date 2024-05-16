@@ -5,6 +5,7 @@
 }
 
 .mypage_banner >img {
+    border-radius: 50%;
     width: 150px;
     height: 150px;
 }
@@ -97,6 +98,9 @@
 
 .mypage_menu .mypage_menu_list .mypage_menu_user img {
     margin: 20px 20px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
 }
 
 .mypage_menu .mypage_menu_list .mypage_menu_user p {

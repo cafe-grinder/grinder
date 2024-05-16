@@ -151,7 +151,7 @@ public class ComponentsController {
     /*@GetMapping("/get-feed")
     public String getFeed(Model model) {
         // 멤버
-        String email = "test@test.com"; // TODO: 테스트용. 나중에 수정하기!
+        String email = getEmail(); // TODO: 테스트용. 나중에 수정하기!
         MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
         model.addAttribute("feedMember", member);
 

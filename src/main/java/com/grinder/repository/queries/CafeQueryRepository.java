@@ -123,6 +123,7 @@ public class CafeQueryRepository {
                             .select(image.imageUrl)
                             .from(image)
                             .leftJoin(image).on(image.contentId.eq(data.getCafeId()))
+                            .where(image.contentType.eq(ContentType.CAFE), image.contentId.eq(data.getCafeId()))
                             .fetchFirst();
 
                     return new CafeDTO.findAllWithImageResponse(data, imageUrl);

@@ -79,33 +79,35 @@ document.addEventListener('DOMContentLoaded', function() {
             fetchContent('/get-mycafe', 'myPageMenuContainer');
         });
     }
+
+    // 공통 함수로 비동기 요청 및 내용 업데이트 처리
+    function fetchContent(url, containerId) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                document.getElementById(containerId).innerHTML = xhr.responseText;
+            } else { // TODO : 403 에러 처리 필요
+                console.error('The request failed with status:', xhr.status);
+                document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
+                if(xhr.status === 401 || xhr.status === 403) {
+                    reissue();
+                }
+            }
+        };
+
+        xhr.onerror = function () {
+            console.error('The request failed due to a network error!');
+            document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
+        };
+
+        xhr.send();
+    }
 });
 }
 
-// 공통 함수로 비동기 요청 및 내용 업데이트 처리
-function fetchContent(url, containerId) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
 
-    xhr.onload = function () {
-        if (xhr.status >= 200 && xhr.status < 300) {
-            document.getElementById(containerId).innerHTML = xhr.responseText;
-        } else { // TODO : 403 에러 처리 필요
-            console.error('The request failed with status:', xhr.status);
-            document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
-            if(xhr.status === 401 || xhr.status === 403) {
-                reissue();
-            }
-        }
-    };
-
-    xhr.onerror = function () {
-        console.error('The request failed due to a network error!');
-        document.querySelector('.myPage_title').innerHTML = '문제가 발생했습니다.';
-    };
-
-    xhr.send();
-}
 
 // 팔로워 추가 더보기
 function MoreFollowContent(url, insertTag) {

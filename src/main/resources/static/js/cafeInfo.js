@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
         var menuCard = xhr.responseText;
         // 메뉴를 불러온 후에 menuContainer 안에 넣습니다.
         document.getElementById("feedContainer").innerHTML = menuCard;
+      } else {
+        document.getElementById("feedContainer").innerHTML = "메뉴가 존재하지 않습니다.";
       }
     };
     xhr.send();
@@ -71,18 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-// function alarmTab() {
-//   const alarm = document.querySelector('.header_alarm');
-//   let alarm_box = document.querySelector('.header_alarm_box');
-//
-//   alarm.addEventListener('click', () => {
-//     if (alarm_box) {
-//       alarm_box.classList.toggle('alarm_active');
-//     }
-//   });
-// }
-
-
 function addBookmark() {
   fetch(`/api/bookmark/${cafeId}`, {
     method: 'POST',
@@ -129,11 +119,36 @@ function deleteBookmark() {
   });
 }
 
+const showAiBtn = document.getElementById('show_ai_button');
+const showMenuBtn = document.getElementById('show_menu_button');
 const showFeedBtn = document.getElementById('show_feed_button');
-showFeedBtn.addEventListener('click', () => {
-  if(document.getElementById('feedContainer').style.display === 'none')
-    document.getElementById('feedContainer').style.display = 'block';
+showAiBtn.addEventListener('click', () => {
+  if(document.getElementById('aiContainer').style.display === 'none') {
+    const containers = document.getElementsByClassName('container');
+    for (let i = 0; i < containers.length; i++) {
+      containers[i].style.display = 'none';
+    }
+    document.getElementById('aiContainer').style.display = 'block';
+  }
 })
+showMenuBtn.addEventListener('click', () => {
+  if(document.getElementById('menuContainer').style.display === 'none') {
+    const containers = document.getElementsByClassName('container');
+    for (let i = 0; i < containers.length; i++) {
+      containers[i].style.display = 'none';
+    }
+    document.getElementById('menuContainer').style.display = 'block';
+  }
+})
+// showFeedBtn.addEventListener('click', () => {
+//   if(document.getElementById('feedContainer').style.display === 'none') {
+//     const containers = document.getElementsByClassName('container');
+//     for (let i = 0; i < containers.length; i++) {
+//       containers[i].style.display = 'none';
+//     }
+//     document.getElementById('feedContainer').style.display = 'block';
+//   }
+// })
 
 const sellerApplyBtn = document.getElementById('seller_apply_button');
 sellerApplyBtn.addEventListener('click', () => {
