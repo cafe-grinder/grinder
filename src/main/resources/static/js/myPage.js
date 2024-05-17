@@ -5,16 +5,18 @@ let nextPage = 0;
 
 document.addEventListener('DOMContentLoaded', function() {
     //팔로우 취소 버튼
-    followButton.addEventListener('click', function () {
-        let method = 'GET';
-        let url = '/api/follow/' + memberEmail;
-        if (followButton.innerText === "팔로우") {
-            method = 'POST';
-        } else if (followButton.innerText === "팔로우 취소") {
-            method = 'DELETE';
-        }
-        MemberPageFollow(method, url);
-    });
+    if (followButton) {
+        followButton.addEventListener('click', function () {
+            let method = 'GET';
+            let url = '/api/follow/' + memberEmail;
+            if (followButton.innerText === "팔로우") {
+                method = 'POST';
+            } else if (followButton.innerText === "팔로우 취소") {
+                method = 'DELETE';
+            }
+            MemberPageFollow(method, url);
+        });
+    }
 });
 
 

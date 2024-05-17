@@ -122,10 +122,9 @@ public class FeedQueryRepository {
     }
 
     /**
-     * TODO : 점수별로 feed 슬라이스(유저가 follow한 사람 중 최신 피드이면서 rank 기존 랭크에 +5,
-     *                          feed 테이블의 rank가 높은 순에서 유저가 blacklist에 추가된 사람은 제외한 피드,
-     *                          최근 2개월 내 게시물 중 rank가 높은 순은 기존 랭크에 +10
-     *                          작성일 기준으로 7일로 나누어 나눈 값만큼 rank에서 뺄셈
+     * TODO : 점수별로 feed 슬라이스(유저가 follow한 사람 중 최신 피드면  기존 랭크 +5,
+     *                          최근 2개월 내 게시물은 랭크 +3
+     *                          작성일 기준으로 7일로 나누어 나눈 값만큼 -
      *                          이중 rank가 높은 순으로 슬라이스)
      *                          내가 작성한 피드는 제외, 블랙리스트 피드 제외
      */
@@ -141,7 +140,6 @@ public class FeedQueryRepository {
         QImage image = QImage.image;
 
         LocalDateTime twoMonthsAgo = LocalDateTime.now().minusMonths(2);
-        LocalDateTime now = LocalDateTime.now();
 
         DateTimeTemplate<LocalDateTime> nowTemplate = Expressions.dateTimeTemplate(LocalDateTime.class, "CURRENT_TIMESTAMP");
         DateTimeTemplate<LocalDateTime> createdAtTemplate = Expressions.dateTimeTemplate(LocalDateTime.class, "{0}", feed.createdAt);
@@ -153,7 +151,7 @@ public class FeedQueryRepository {
 
         NumberExpression<Integer> calculatedRank = feed.rank
                 .add(new CaseBuilder()
-                        .when(feed.createdAt.goe(twoMonthsAgo)).then(10)
+                        .when(feed.createdAt.goe(twoMonthsAgo)).then(3)
                         .otherwise(0))
                 .add(new CaseBuilder()
                         .when(follow.following.memberId.isNotNull()).then(5)
