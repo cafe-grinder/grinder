@@ -1,6 +1,7 @@
 package com.grinder.repository.queries;
 
 import com.grinder.domain.entity.QImage;
+import com.grinder.domain.enums.ContentType;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
@@ -21,7 +22,7 @@ public class ImageQueryRepository {
         String url = queryFactory
                 .select(image.imageUrl)
                 .from(image)
-                .where(image.contentId.eq(contentId))
+                .where(image.contentType.eq(ContentType.CAFE), image.contentId.eq(contentId))
                 .fetchOne();
 
         return url;
