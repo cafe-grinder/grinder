@@ -70,7 +70,7 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
         cookie.setMaxAge(24*60*60);
         //cookie.setSecure(true);
         cookie.setPath("/");
-        cookie.setHttpOnly(false);
+        cookie.setHttpOnly(true);
 
         return cookie;
     }
