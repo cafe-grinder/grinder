@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface SchedulerService {
 
-    public void CalAverage();
+    void performCalAverageTask();
 
     void updateAverageGradeForCafes(int dayOfWeek);
 
@@ -18,6 +18,8 @@ public interface SchedulerService {
     @Scheduled(cron = "0 0 1 * * ?", zone = "Asia/Seoul")
     void recommendAlan();
 
+    void performRecommendAlanTask();
+
     void recommendCafeForMembers(int dayOfMonth);
 
     void updateRanks(int dayOfMonth);
@@ -25,12 +27,11 @@ public interface SchedulerService {
     @Scheduled(cron = "0 0 2 * * ?", zone = "Asia/Seoul")
     void updateRank();
 
+    void performUpdateRankTask();
+
     void executeWithRetry(Runnable task, String taskName);
 
     List<String> getLogList();
 
     void clearLogList();
-
-    @Scheduled(cron = "0 0 3 * * ?", zone = "Asia/Seoul")
-    void runLogJob();
 }
