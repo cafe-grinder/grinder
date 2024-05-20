@@ -98,6 +98,7 @@ public class CafeQueryRepository {
 
     /**
      * @return : 메인 페이지에서 사용될 일주내 가장 참조가 많이 된 카페 3개를 반환합니다.
+     * (피드에서 데이터를 참조하므로, feed에 참조되지 않은 cafe는 나오지 않는다)
      */
     public List<CafeDTO.findAllWithImageAndTagResponse> findTop3CafesReferencedThisWeek() {
         QCafe cafe = QCafe.cafe;
@@ -144,24 +145,5 @@ public class CafeQueryRepository {
         }).toList();
 
         return cafeList;
-    }
-
-    /**
-     * @return : 검색한 리스트에서 가장 많이 참조된 태그 2개를 반환합니다.
-     */
-    private List<CafeDTO.findAllWithImageAndTagResponse> findTopTag(List<CafeDTO.findAllWithImageResponse> list, QTag tag, QFeed feed) {
-        return list.stream().map(result -> {
-            List<TagName> tagNames = queryFactory
-                    .select(tag.tagName)
-                    .from(feed)
-                    .join(tag.feed, feed)
-                    .where(feed.cafe.cafeId.eq(result.getCafeId()))
-                    .groupBy(tag.tagName)
-                    .orderBy(tag.count().desc())
-                    .limit(2)
-                    .fetch();
-
-            return new CafeDTO.findAllWithImageAndTagResponse(result, tagNames);
-        }).toList();
     }
 }

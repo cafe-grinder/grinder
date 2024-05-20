@@ -83,45 +83,6 @@ public class FeedQueryRepository {
     }
 
     /**
-     * @return
-     */
-    public Slice<FeedDTO.FeedWithImageResponseDTO> RecommendFeedWithImageForAno(Pageable pageable) {
-        QFeed feed = QFeed.feed;
-        QImage image = QImage.image;
-        QHeart heart = QHeart.heart;
-        QMember member = QMember.member;
-        QCafe cafe = QCafe.cafe;
-
-        List<Feed> feeds = queryFactory
-                .selectFrom(feed)
-                .leftJoin(feed.member, member)
-                .leftJoin(feed.cafe, cafe)
-                .where(feed.isVisible.isTrue())
-                .orderBy(feed.updatedAt.desc())
-                .offset(pageable.getOffset())
-                .limit(4)
-                .fetch();
-
-        List<FeedDTO.FeedWithImageResponseDTO> content = feeds.stream().map(result -> {
-            Long heartNum = queryFactory
-                    .select(heart.count())
-                    .from(heart)
-                    .where(heart.contentType.eq(ContentType.FEED), heart.contentId.eq(result.getFeedId()))
-                    .fetchOne();
-
-            List<String> imageUrls = queryFactory
-                    .select(image.imageUrl)
-                    .from(image)
-                    .where(image.contentType.eq(ContentType.FEED).and(image.contentId.eq(result.getFeedId())))
-                    .fetch();
-
-            return new FeedDTO.FeedWithImageResponseDTO(result, imageUrls, heartNum);
-        }).toList();
-
-        return new SliceImpl<>(content, pageable, false);
-    }
-
-    /**
      * TODO : 점수별로 feed 슬라이스(유저가 follow한 사람 중 최신 피드면  기존 랭크 +5,
      *                          최근 2개월 내 게시물은 랭크 +3
      *                          작성일 기준으로 7일로 나누어 나눈 값만큼 -
@@ -399,22 +360,5 @@ public class FeedQueryRepository {
         boolean hasNext = list.size() > pageable.getPageSize();
         List<FeedDTO.FeedWithImageResponseDTO> content = hasNext ? list.subList(0, pageable.getPageSize()) : list;
         return new SliceImpl<>(content, pageable, hasNext);
-    }
-
-    List<Cafe> findRecentPopularCafeByFeedCount(int num) {
-        QFeed feed = QFeed.feed;
-        QCafe cafe = QCafe.cafe;
-
-        List<Cafe> results = queryFactory
-                .select(cafe)
-                .from(cafe)
-                .leftJoin(feed.cafe, cafe)
-                .where(feed.createdAt.after(LocalDateTime.now().minusDays(60)))
-                .groupBy(cafe.cafeId)
-                .orderBy(feed.cafe.cafeId.count().desc())
-                .limit(num)
-                .fetch();
-
-        return results;
     }
 }
