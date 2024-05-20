@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Entity
 @Getter
 @NoArgsConstructor
-public class SchedulerLog {
+public class SchedulerLog extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -33,11 +33,10 @@ public class AnalysisTagQueryRepository {
                 .from(tag)
                 .leftJoin(tag.feed, feed) // 좋아요 누른 피드와 연결된 태그
                 .leftJoin(heart).on(heart.contentId.eq(feed.feedId).and(heart.member.email.eq(email)))
-                .leftJoin(cafe, feed.cafe) // 북마크한 카페와 연결된 태그
-                .leftJoin(cafe).on(bookmark.cafe.eq(cafe))
+                .leftJoin(feed.cafe, cafe) // 북마크한 카페와 연결된 태그
                 .leftJoin(bookmark).on(bookmark.cafe.eq(cafe).and(bookmark.member.email.eq(email)))
                 .groupBy(tag.tagName)
-                .orderBy(tag.count().sum().desc())
+                .orderBy(tag.tagName.count().desc())
                 .limit(5)
                 .fetch();
 
