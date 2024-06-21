@@ -11,7 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "feed", indexes = {
-        @Index(name = "idx_cafe_id", columnList = "cafe_id")
+        @Index(name = "idx_cafe_id", columnList = "cafe_id"),
+        @Index(name = "idx_visible_updatedAt_feedId", columnList = "is_visible, updated_at, feed_id")
 })
 @Getter
 @Builder

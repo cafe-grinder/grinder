@@ -39,7 +39,6 @@ public class APILoginSuccessHandler implements AuthenticationSuccessHandler {
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        log.info(String.valueOf(authentication.getPrincipal().getClass()));
         String email = null;
         if(authentication.getPrincipal() instanceof CustomOauth2Member){
             CustomOauth2Member customOauth2Member = (CustomOauth2Member) authentication.getPrincipal();

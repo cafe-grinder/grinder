@@ -43,12 +43,8 @@ public class TokenCheckFilter extends OncePerRequestFilter {
                 return;
             }
 
-            log.info("Token Check Filter...................");
-            log.info("JWTUtil: " + jwtUtil);
-
             try {
                 Map<String, Object> map = validateAccessToken(header);
-                log.info(map.toString());
                 String email = (String) map.get("email");
                 UserDetails userDetails = memberDetailsService.loadUserByUsername(email);
 
