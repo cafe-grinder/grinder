@@ -10,8 +10,4 @@ import org.springframework.test.context.ActiveProfiles;
 @ActiveProfiles("test")
 class GrinderApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
 }
