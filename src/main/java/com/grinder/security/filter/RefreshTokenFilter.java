@@ -42,11 +42,9 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
         // 토큰 갱신 경로 아닐 경우
         if(!path.equals(refreshPath)){
-            log.info("skip refresh token filter---------");
             filterChain.doFilter(request,response);
             return;
         }
-        log.info("Refresh Token Filter.........run...........1");
         String refreshToken = null;
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies){
@@ -56,15 +54,12 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
             }
         }
 
-        log.info("refreshToken: "+refreshToken);
-
         Map<String,Object> refreshClaims = null;
 
         try{
             // accessToken은 무조건 새로 발행
             // refreshToken은 만료일이 얼마 남지 않은 경우에 새로 발행
             refreshClaims = checkRefreshToken(refreshToken, request, response);
-            log.info(refreshClaims.toString());
 
             Integer exp = (Integer) refreshClaims.get("exp");
 
@@ -74,24 +69,14 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
             long gapTime = (expTime.getTime()-current.getTime());
 
-            log.info("-------------------------------------");
-            log.info("current: "+current);
-            log.info("expTime: "+expTime);
-            log.info("gap: "+gapTime);
-
             String email = jwtUtil.getEmail(refreshToken);
             Map<String, Object> mid = Map.of("email", email);
-            log.info("email: "+mid);
             //이 상태 도달 시 무조건 accessToken은 새로 생성
             String accessToken = jwtUtil.generateToken(mid,1);
             //refreshToken이 3일도 안남았을때
             if(gapTime < (1000*60*60*24*3)){
-                log.info("new Refresh Token required.....");
                 refreshToken = jwtUtil.generateToken(mid,24*7);
             }
-            log.info("Refresh Token result.......");
-            log.info("nowAccessToken : "+accessToken);
-            log.info("refreshToken : "+refreshToken);
 
             sendToken(accessToken,refreshToken,response);
 
@@ -144,7 +129,7 @@ public class RefreshTokenFilter extends OncePerRequestFilter {
 
         // accessToken blacklist에 추가
         String accessToken = cutOffBearer(getAccess(request, response));
-        redisUtil.setBlackList(accessToken,"accessToken",60);
+//        redisUtil.setBlackList(accessToken,"accessToken",60);
 
         //Refresh 토큰 Cookie 값 0
         Cookie reCookie = new Cookie("refresh", null);

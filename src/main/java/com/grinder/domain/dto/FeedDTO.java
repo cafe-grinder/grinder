@@ -144,8 +144,6 @@ public class FeedDTO {
     @Builder
     @AllArgsConstructor
     public static class FeedWithImageResponseDTO {
-
-
         private String feedId;
         private String memberNickname;
         private String memberEmail;

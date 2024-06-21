@@ -59,9 +59,9 @@ public class JWTUtil {
                 .parseClaimsJws(token)
                 .getBody();
         // blacklist에 있는 token(로그아웃한 token)인지 확인
-        if(redisUtil.hasKeyBlackList(token)){
-            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BLACKLISTED);
-        }
+//        if(redisUtil.hasKeyBlackList(token)){
+//            throw new AccessTokenException(AccessTokenException.TOKEN_ERROR.BLACKLISTED);
+//        }
         return claim;
     }
     public String getEmail(String token) {

@@ -32,7 +32,7 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 	implementation 'org.slf4j:jcl-over-slf4j:1.7.36'
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'
@@ -77,6 +77,11 @@ dependencies {
 
 	//batch
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
+
+	//elasticsearch
+	implementation 'org.springframework.data:spring-data-elasticsearch'
+
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
 }
 
 tasks.named('test') {

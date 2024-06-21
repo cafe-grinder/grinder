@@ -34,18 +34,14 @@ public class ComponentsController {
     private final BookmarkService bookmarkService;
     private final SellerInfoService sellerInfoService;
     private final FeedService feedService;
-    private final CommentService commentService;
-    private final HeartService heartService;
-    private final TagService tagService;
     private final MyMenuService myMenuService;
     private final MessageService messageService;
-    private final AnalysisTagService analysisTagService;
     private final CafeService cafeService;
     private final ImageService imageService;
 
 
     @GetMapping("/get-header")
-    public String getHeader(Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String getHeader(Model model) {
         String email = getEmail();
         MemberDTO.FindMemberDTO member = null;
         boolean checkMessage = false;
@@ -201,23 +197,22 @@ public class ComponentsController {
     }*/
 
     @GetMapping("get-feed")
-
     public String getFeed(
             Model model,
-            @PageableDefault(size = 4) Pageable pageable
+            @PageableDefault(size = 20) Pageable pageable
     ) {
         // 멤버
         String email = getEmail();
         Slice<FeedDTO.FeedWithImageResponseDTO> feedSlice;
         if (email != null && !email.equals("anonymousUser")) {
             MemberDTO.FindMemberDTO member = new MemberDTO.FindMemberDTO(memberService.findMemberByEmail(email));
-            feedSlice = feedService.RecommendFeedWithImage(email, pageable);
+            feedSlice = feedService.findRecentFeedWithImage(email, pageable);
             model.addAttribute("feedSlice", feedSlice);
             model.addAttribute("feedMember", member);
 
         } else  {
             model.addAttribute("feedMember", null);
-            feedSlice = feedService.RecommendFeedWithImage("", pageable);
+            feedSlice = feedService.findRecentFeedWithImage("", pageable);
             model.addAttribute("feedSlice", feedSlice);
         }
         if (!feedSlice.hasNext() && feedSlice.getNumberOfElements() == 0) {

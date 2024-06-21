@@ -68,7 +68,6 @@ public class APILogoutFilter extends GenericFilterBean {
 
             throw new RefreshTokenException(RefreshTokenException.ErrorCase.BAD_ACCESS);
         }
-        log.info("refreshToken: "+refresh);
 
         //expired check
 //        try {
@@ -103,7 +102,7 @@ public class APILogoutFilter extends GenericFilterBean {
 
         // accessToken blacklist에 추가
         String accessToken = cutOffBearer(getAccess(request, response));
-        redisUtil.setBlackList(accessToken,"accessToken",60);
+//        redisUtil.setBlackList(accessToken,"accessToken",60);
 
         //Refresh 토큰 Cookie 값 0
         Cookie reCookie = new Cookie("refresh", null);

@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "comment")
+@Table(name = "comment", indexes = {
+        @Index(name = "idx_feed_id", columnList = "feed_id"), @Index(name = "idx_parent_comment_id", columnList = "parent_comment_id")
+})
 @Getter
 @Builder
 @NoArgsConstructor

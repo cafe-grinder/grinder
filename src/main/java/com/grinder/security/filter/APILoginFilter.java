@@ -24,14 +24,10 @@ public class APILoginFilter extends AbstractAuthenticationProcessingFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException, IOException, ServletException{
-        log.info("APILoginFilter------------------------------");
-
         if(request.getMethod().equalsIgnoreCase("GET")){
-            log.info("GET METHOD NOT SUPPORT");
             return null;
         }
         Map<String, String> jsonData = parseRequestJSON(request);
-        log.info("-----------------------------------APILoginFilter---------------------");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 jsonData.get("email"),jsonData.get("password"));
 
